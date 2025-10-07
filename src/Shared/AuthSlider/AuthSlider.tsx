@@ -6,6 +6,7 @@ import { Autoplay, Pagination } from "swiper/modules";
 import auth1 from "../../assets/images/auth-slider2.jpeg";
 import auth2 from "../../assets/images/auth-slider3.jpeg";
 import auth3 from "../../assets/images/auth-slider4.jpeg";
+import auth4 from "../../assets/images/video.mp4";
 
 // Import Swiper styles
 import "swiper/css";
@@ -79,7 +80,8 @@ const AuthSlider: React.FC = () => {
             className="absolute inset-0 w-full h-full object-cover"
           >
             <source
-              src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+              // src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+              src={auth4}
               type="video/mp4"
             />
             Your browser does not support the video tag.
