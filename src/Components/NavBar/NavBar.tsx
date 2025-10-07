@@ -66,10 +66,24 @@ export default function NavBar() {
           </Link>
 
           <Link
-            to="/blogs"
+            to="/login"
             className="relative group hover:text-amber-800 transition duration-200"
           >
             login
+            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-amber-800 transition-all duration-300 group-hover:w-full"></span>
+          </Link>
+          <Link
+            to="/register"
+            className="relative group hover:text-amber-800 transition duration-200"
+          >
+            Register
+            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-amber-800 transition-all duration-300 group-hover:w-full"></span>
+          </Link>
+          <Link
+            to="/login"
+            className="relative group hover:text-amber-800 transition duration-200"
+          >
+            logout
             <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-amber-800 transition-all duration-300 group-hover:w-full"></span>
           </Link>
         </nav>
