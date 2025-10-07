@@ -1,117 +1,139 @@
-import { FaShoppingCart } from "react-icons/fa";
-import logo from "../../assets/react.svg";
+import { FaHeart, FaShoppingBag, FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import logo from "../../assets/react.svg";
+import { useState } from "react";
 
 export default function NavBar() {
+  const [darkMode, setDarkMode] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  //====> handling dark mode
+  const toggleDarkMode = () => {
+    const newMode = !darkMode;
+    setDarkMode(newMode);
+
+    if (newMode) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  };
+  const toggleMenu = () => setMenuOpen(!menuOpen);
+
   return (
-    <>
-      <nav className="sticky top-0 z-50  bg-white border-gray-200 dark:bg-gray-900 pb-5 dark:text-white">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 dark:bg-gray-800 pb-5 dark:text-white">
+    <header className="bg-white shadow-sm sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <Link to="/" className="flex items-center space-x-3">
+          <img src={logo} alt="Jewelry Logo" className="h-10 w-10" />
+          <span className="text-2xl font-semibold tracking-wide text-gray-800">
+            Jewelry
+          </span>
+        </Link>
+
+        <nav className="hidden md:flex items-center space-x-8 text-gray-700 font-medium">
           <Link
             to="/"
-            className="flex items-center space-x-3 rtl:space-x-reverse"
+            className="relative group hover:text-amber-600 transition duration-200"
           >
-            <img src={logo} className="h-8" alt="Logo" />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap">
-              Logo
+            Home
+            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-amber-600 transition-all duration-300 group-hover:w-full"></span>
+          </Link>
+
+          <Link
+            to="/products"
+            className="relative group hover:text-amber-800 transition duration-200"
+          >
+            Shop
+            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-amber-800 transition-all duration-300 group-hover:w-full"></span>
+          </Link>
+
+          <Link
+            to="/about"
+            className="relative group hover:text-amber-800 transition duration-200"
+          >
+            About Us
+            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-amber-800 transition-all duration-300 group-hover:w-full"></span>
+          </Link>
+
+          <Link
+            to="/contact"
+            className="relative group hover:text-amber-800 transition duration-200"
+          >
+            Contact Us
+            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-amber-800 transition-all duration-300 group-hover:w-full"></span>
+          </Link>
+
+          <Link
+            to="/blogs"
+            className="relative group hover:text-amber-800 transition duration-200"
+          >
+            login
+            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-amber-800 transition-all duration-300 group-hover:w-full"></span>
+          </Link>
+        </nav>
+
+        <div className="flex items-center space-x-5 text-gray-700 text-xl">
+          <button
+            type="button"
+            onClick={toggleDarkMode}
+            className="text-2xl text-[#8B5E35] dark:text-amber-800  transition cursor-pointer"
+          >
+            <i
+              className={`fa-solid ${
+                darkMode ? "fa-sun" : "fa-moon"
+              } transition-transform duration-300`}
+            />
+          </button>{" "}
+          <Link to="/cart" className="relative">
+            <FaHeart className="cursor-pointer hover:text-amber-800 transition" />
+            <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold px-[6px] py-[1px] rounded-full">
+              2
             </span>
           </Link>
+          <Link to="/cart" className="relative">
+            <FaShoppingBag className="cursor-pointer hover:text-amber-800 transition" />
+            <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold px-[6px] py-[1px] rounded-full">
+              2
+            </span>
+          </Link>
+          <Link to="/profile">
+            <FaUser className="cursor-pointer hover:text-amber-600 transition" />
+          </Link>
           <button
-            data-collapse-toggle="navbar-default"
-            type="button"
-            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-            aria-controls="navbar-default"
-            aria-expanded="false"
+            onClick={toggleMenu}
+            className="md:hidden text-2xl hover:text-amber-600"
           >
-            <span className="sr-only">Open main menu</span>
-            <svg
-              className="w-5 h-5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 17 14"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M1 1h15M1 7h15M1 13h15"
-              />
-            </svg>
+            {menuOpen ? "✕" : "☰"}
           </button>
-          <div className="hidden w-full md:block md:w-auto" id="navbar-default">
-            <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white md:dark:bg-gray-800 dark:border-gray-900">
-              <li>
-                <Link
-                  to="/home"
-                  className="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
-                  aria-current="page"
-                >
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/products"
-                  className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  Products
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/about"
-                  className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/contacts"
-                  className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  Contacts
-                </Link>
-              </li>
-              <li>
-                <span className="cursor-pointer block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                  Logout
-                </span>
-              </li>
-              <li className="relative">
-                <Link
-                  to="/cart"
-                  className="group relative inline-flex items-center justify-center text-2xl text-[#8B5E35] dark:text-yellow-400 transition-transform duration-200 hover:scale-110"
-                >
-                  <FaShoppingCart />
-                  <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-semibold px-1.5 py-[1px] rounded-full shadow-md group-hover:scale-110 transition-transform">
-                    {2}
-                  </span>
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  to="/login"
-                  className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  Login
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/register"
-                  className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  Register
-                </Link>
-              </li>
-            </ul>
-          </div>
         </div>
-      </nav>
-    </>
+      </div>
+
+      <div className="md:hidden flex justify-between px-6 py-3 border-t text-gray-700">
+        <Link to="/" className="font-semibold">
+          Jewelry
+        </Link>
+      </div>
+      {menuOpen && (
+        <div className="md:hidden bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 border-t border-gray-200 dark:border-gray-700 flex flex-col space-y-3 px-6 py-4">
+          <Link to="/" onClick={toggleMenu}>
+            Home
+          </Link>
+          <Link to="/products" onClick={toggleMenu}>
+            Shop
+          </Link>
+          <Link to="/about" onClick={toggleMenu}>
+            About Us
+          </Link>
+          <Link to="/contact" onClick={toggleMenu}>
+            Contact Us
+          </Link>
+          <Link to="/login" onClick={toggleMenu}>
+            Login
+          </Link>
+        </div>
+      )}
+    </header>
   );
 }
