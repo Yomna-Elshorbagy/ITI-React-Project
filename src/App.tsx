@@ -4,6 +4,8 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 import ProtectedRoutes from "./Shared/ProtectedRoutes/ProtectedRoutes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
