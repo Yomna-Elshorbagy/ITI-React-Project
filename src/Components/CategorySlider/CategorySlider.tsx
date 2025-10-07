@@ -2,17 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Slider from "react-slick";
 import LoaderPage from "../../Shared/LoaderPage/LoaderPage";
+import type { Category } from "../../Types/Category";
 
 export default function CategorySlider() {
-  type Category = {
-    _id: string;
-    name: string;
-    image: {
-      secure_url: string;
-      public_id: string;
-    };
-  };
-
   var settings = {
     dots: true,
     infinite: true,
