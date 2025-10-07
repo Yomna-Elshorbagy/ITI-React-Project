@@ -129,7 +129,7 @@ export default function Register() {
         <div className="w-full md:w-1/2 bg-[#f9f9f9] max-h-screen overflow-y-auto py-5 flex items-start dark:bg-gray-900 pb-5 dark:text-white">
           <div className="w-full px-5 md:px-0 md:w-[75%] mx-auto h-ful">
             <h1 className="text-[1.75rem] sm:text-[2rem] text-[#090f41] dark:text-white animate-pulse">
-              Create an Account
+              Sign Up
             </h1>
             <p className="text-gray-500 dark:text-gray-400 mb-5">
               Welcome in our Store

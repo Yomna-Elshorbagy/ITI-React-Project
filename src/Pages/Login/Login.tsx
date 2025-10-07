@@ -7,6 +7,7 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { useMutation } from "@tanstack/react-query";
 
 const MySwal = withReactContent(Swal);
 
@@ -33,33 +34,23 @@ export default function Register() {
   });
   type RegisterFormData = z.infer<typeof registerSchema>;
 
-  const { register, handleSubmit, formState, watch } =
-    useForm<RegisterFormData>({
-      resolver: zodResolver(registerSchema),
-      mode: "onSubmit",
-    });
+  const { register, handleSubmit, formState } = useForm<RegisterFormData>({
+    resolver: zodResolver(registerSchema),
+    mode: "onSubmit",
+  });
 
-  const onSubmit: SubmitHandler<RegisterFormData> = async (data) => {
-    setIsLoading(true);
-    setAPIError("");
-    setSuccess("");
-
-    try {
+  const { mutate: login } = useMutation({
+    mutationFn: async (data: RegisterFormData) => {
       const res = await axios.post(
         "https://iti-react-backend.vercel.app/auth/login",
-        {
-          email: data.email,
-          password: data.password,
-        }
+        data
       );
-
-      if (res.data?.message === "logIn Successfully") {
-        setSuccess("login successfully! Redirecting to home...");
-        //==> save token for handling it
-        const token = res.data.accessToken;
-        // ya yamona => save in state and in localstorage
-        localStorage.setItem("accessToken", token);
-
+      return res.data;
+    },
+    onSuccess: (data) => {
+      if (data?.message === "logIn Successfully") {
+        localStorage.setItem("accessToken", data.accessToken);
+        setSuccess("Login Successful!");
         MySwal.fire({
           title: "✅ Login Successful!",
           text: "Redirecting to home in 3 seconds...",
@@ -67,44 +58,38 @@ export default function Register() {
           timer: 3000,
           timerProgressBar: true,
           showConfirmButton: false,
-          willClose: () => {
-            navigate("/home");
-          },
+          willClose: () => navigate("/home"),
         });
       } else {
-        const msg = res.data?.message || "Unexpected response";
-        setAPIError(msg);
-
+        setAPIError(data?.message || "Unexpected response");
         MySwal.fire({
           title: "❌ Login Failed",
-          text: msg,
+          text: data?.message || "Unexpected response",
           icon: "error",
           confirmButtonColor: "#8B5E35",
         });
       }
-    } catch (error:any) {
-      console.log("Error:", error);
-
-      let errorMsg = "Network error. Please try again.";
-      if (error.response) {
-        const { status, data } = error.response;
-        if (status === 422)
-          errorMsg = "Validation error: " + (data?.message || "");
-        else if (status === 409) errorMsg = "Email already exists.";
-        else errorMsg = data?.message || "Server error";
-      }
-
+    },
+    onError: (error: any) => {
+      console.error(error);
+      setIsLoading(false);
+      const errorMsg =
+        error.response?.data?.message || "Network or server error.";
       setAPIError(errorMsg);
-
       MySwal.fire({
         title: "❌ Login Failed",
         text: errorMsg,
         icon: "error",
         confirmButtonColor: "#8B5E35",
       });
-    } finally {
-      setIsLoading(false);
-    }
+    },
+  });
+
+  const onSubmit: SubmitHandler<RegisterFormData> = async (formData) => {
+    setIsLoading(true);
+    setAPIError("");
+    setSuccess("");
+    login(formData);
   };
 
   return (
@@ -116,8 +101,6 @@ export default function Register() {
             <h1 className="text-[1.75rem] sm:text-[2rem] text-[#090f41] animate-pulse">
               Log in
             </h1>
-            <p className="text-gray-500 mb-5">Create a new account</p>
-
             <form onSubmit={handleSubmit(onSubmit)} className="text-[#090f41]">
               {/* API Success & Error Alerts */}
               {apiError && (
