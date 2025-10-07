@@ -20,6 +20,7 @@ import NotFound from "./Components/NotFound/NotFound";
 import Category from "./Pages/Category/Category";
 import Login from "./Pages/Login/Login";
 import Register from "./Pages/Register/Register";
+import ForgetPassword from "./Pages/ForgetPassword/ForgetPassword";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
       {
         path: "category",
         element: <Category />,
+      },
+         {
+        path: "forgetPass",
+        element: <ForgetPassword />,
       },
       {
         path: "about",
