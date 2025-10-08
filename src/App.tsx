@@ -1,11 +1,9 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Provider } from "react-redux";
 
 import ProtectedRoutes from "./Shared/ProtectedRoutes/ProtectedRoutes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -23,6 +21,7 @@ import Category from "./Pages/Category/Category";
 import Login from "./Pages/Login/Login";
 import Register from "./Pages/Register/Register";
 import ForgetPassword from "./Pages/ForgetPassword/ForgetPassword";
+import { store } from "./Store/store";
 
 const router = createBrowserRouter([
   {
@@ -55,7 +54,7 @@ const router = createBrowserRouter([
         path: "category",
         element: <Category />,
       },
-         {
+      {
         path: "forgetPass",
         element: <ForgetPassword />,
       },
@@ -80,8 +79,10 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-        <Toaster />
+        <Provider store={store}>
+          <RouterProvider router={router} />
+          <Toaster />
+        </Provider>
       </QueryClientProvider>
     </>
   );
