@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import AuthSlider from "../../Shared/AuthSlider/AuthSlider";
+import { useAppDispatch } from "../../Hooks/reduxHooks";
+import { insertUserToken } from "../../Store/Slices/AuthSlice";
 
 const MySwal = withReactContent(Swal);
 
@@ -37,6 +39,7 @@ type PasswordFormData = z.infer<typeof passwordSchema>;
 
 export default function ForgetPassword() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [step, setStep] = useState(0);
   const [otp, setOtp] = useState("");
   const [email, setEmail] = useState("");
@@ -59,10 +62,12 @@ export default function ForgetPassword() {
   const sendCode: SubmitHandler<EmailFormData> = async (data) => {
     setEmail(data.email);
     setLoading(true);
+
     try {
-      await axios.put("https://iti-react-backend.vercel.app/auth/forgetPass", {
+      await axios.put("iti-react-backend.vercel.app/auth/forgetPass", {
         email: data.email,
       });
+      setOtp("");
       setStep(1);
       MySwal.fire({
         title: "✅ OTP Sent!",
@@ -71,12 +76,24 @@ export default function ForgetPassword() {
         confirmButtonColor: "#8B5E35",
       });
     } catch (err: any) {
-      MySwal.fire({
-        title: "❌ Error",
-        text: err.response?.data?.message || "Failed to send OTP",
-        icon: "error",
-        confirmButtonColor: "#8B5E35",
-      });
+      const msg = err.response?.data?.message;
+
+      if (msg?.toLowerCase().includes("you already has otp")) {
+        setStep(1);
+        MySwal.fire({
+          title: "ℹ️ OTP Already Sent",
+          text: "Please check your email for the existing OTP.",
+          icon: "info",
+          confirmButtonColor: "#8B5E35",
+        });
+      } else {
+        MySwal.fire({
+          title: "❌ Error",
+          text: msg || "Failed to send OTP",
+          icon: "error",
+          confirmButtonColor: "#8B5E35",
+        });
+      }
     } finally {
       setLoading(false);
     }
@@ -98,11 +115,21 @@ export default function ForgetPassword() {
   const resetPassword: SubmitHandler<PasswordFormData> = async (data) => {
     setLoading(true);
     try {
-      await axios.put("https://iti-react-backend.vercel.app/auth/changePass", {
-        email,
-        otp,
-        newPass: data.newPassword,
-      });
+      const response = await axios.put(
+        "iti-react-backend.vercel.app/auth/changePass",
+        {
+          email,
+          otp,
+          newPass: data.newPassword,
+        }
+      );
+      const token = response.data?.accessToken;
+      console.log(response);
+      console.log(token);
+      
+      if (token) {
+        dispatch(insertUserToken(token));
+      }
       MySwal.fire({
         title: "✅ Password Reset Successful!",
         text: "Redirecting to home...",
@@ -170,7 +197,7 @@ export default function ForgetPassword() {
           </div>
 
           <div className="mt-5">
-            {/* Step 0: Send Code */}
+            {/* ===> step 0: Send Code */}
             {step === 0 && (
               <form onSubmit={handleEmailSubmit(sendCode)}>
                 <div className="mb-4">
@@ -195,7 +222,7 @@ export default function ForgetPassword() {
               </form>
             )}
 
-            {/* Step 1: Verify OTP */}
+            {/* ===> Step 1: Verify OTP */}
             {step === 1 && (
               <div>
                 <div className="mb-4 text-center">
@@ -213,12 +240,37 @@ export default function ForgetPassword() {
                         value={otp[index] || ""}
                         onChange={(e) => {
                           const value = e.target.value.replace(/\D/, "");
+                          if (!value) return;
+
                           const newOtp =
                             otp.substring(0, index) +
                             value +
                             otp.substring(index + 1);
                           setOtp(newOtp);
+
+                          const nextInput = document.getElementById(
+                            `otp-${index + 1}`
+                          );
+                          if (nextInput)
+                            (nextInput as HTMLInputElement).focus();
                         }}
+                        onPaste={(e) => {
+                          e.preventDefault();
+                          const pasteData = e.clipboardData
+                            .getData("text")
+                            .trim();
+                          if (/^\d{6}$/.test(pasteData)) {
+                            setOtp(pasteData);
+                          } else {
+                            MySwal.fire({
+                              title: "⚠️ Invalid OTP format",
+                              text: "Please paste a 6-digit code",
+                              icon: "warning",
+                              confirmButtonColor: "#8B5E35",
+                            });
+                          }
+                        }}
+                        id={`otp-${index}`}
                         className="w-10 h-10 border border-gray-400 rounded text-center text-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
                       />
                     ))}
@@ -242,7 +294,7 @@ export default function ForgetPassword() {
               </div>
             )}
 
-            {/* Step 2: Reset Password */}
+            {/* ===> Step 2: Reset Password */}
             {step === 2 && (
               <form onSubmit={handlePasswordSubmit(resetPassword)}>
                 <div className="mb-4">
@@ -294,7 +346,7 @@ export default function ForgetPassword() {
         </div>
       </div>
 
-      {/* Right Side */}
+      {/* ===> right side slider*/}
       <div className="hidden md:block md:w-1/2 bg-yellow-100">
         <AuthSlider />
       </div>

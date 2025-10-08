@@ -21,8 +21,6 @@ export default function Register() {
   const [apiError, setAPIError] = useState("");
   const [success, setSuccess] = useState("");
 
-  //===> auth context
-
   //===> implement validation using zod
   const passPattern = /^[A-Z][A-Za-z0-9]{5,20}$/;
   const registerSchema = z.object({
