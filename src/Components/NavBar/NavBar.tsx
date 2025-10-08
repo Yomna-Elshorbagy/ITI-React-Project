@@ -100,7 +100,7 @@ export default function NavBar() {
               } transition-transform duration-300`}
             />
           </button>{" "}
-          <Link to="/cart" className="relative">
+          <Link to="/wishlist" className="relative" >
             <FaHeart className="cursor-pointer hover:text-amber-600 transition text-white" />
             <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold px-[6px] py-[1px] rounded-full">
               2

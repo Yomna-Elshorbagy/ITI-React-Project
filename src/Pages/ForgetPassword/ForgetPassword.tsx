@@ -64,7 +64,7 @@ export default function ForgetPassword() {
     setLoading(true);
 
     try {
-      await axios.put("iti-react-backend.vercel.app/auth/forgetPass", {
+      await axios.put("https://iti-react-backend.vercel.app/auth/forgetPass", {
         email: data.email,
       });
       setOtp("");
@@ -116,7 +116,7 @@ export default function ForgetPassword() {
     setLoading(true);
     try {
       const response = await axios.put(
-        "iti-react-backend.vercel.app/auth/changePass",
+        "https://iti-react-backend.vercel.app/auth/changePass",
         {
           email,
           otp,
