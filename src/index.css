@@ -5,3 +5,38 @@
 @source "../node_modules/flowbite";
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --sage-50:  #F5F5F0;
+  --sage-100: #F5EFE6;
+  --sage-200: #F6F5F2;
+  --sage-300: #E8EAE6;
+  --sage-400: #DAD7CD;
+  --sage-500: #A3B18A;
+  --sage-600: #588157;
+  --sage-700: #3A5A40;
+  --sage-800: #344E41;
+
+  --mist-100: #dde5b6;
+  --mist-200: #f0ead2;
+  --mist-300: #cfe1b9;
+
+  --color-primary: #588157;
+  --color-primary-hover: #3A5A40;
+  --color-secondary: #A3B18A;
+  --color-accent: #dde5b6;
+  --color-bg: #F5F5F0;
+  --color-surface: #F5EFE6;
+  --color-border: #E8EAE6;
+  --color-text: #344E41;
+  --color-text-muted: #3A5A40;
+  --color-success: #6BA368;
+  --color-warning: #EADCA6;
+  --color-error: #C97C5D;
+  --color-info: #CFE1B9;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
