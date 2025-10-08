@@ -8,11 +8,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useMutation } from "@tanstack/react-query";
+import { useAppDispatch } from "../../Hooks/reduxHooks";
+import { insertUserToken } from "../../Store/Slices/AuthSlice";
 
 const MySwal = withReactContent(Swal);
 
 export default function Register() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setAPIError] = useState("");
@@ -49,7 +52,8 @@ export default function Register() {
     },
     onSuccess: (data) => {
       if (data?.message === "logIn Successfully") {
-        localStorage.setItem("accessToken", data.accessToken);
+        // localStorage.setItem("accessToken", data.accessToken);
+        dispatch(insertUserToken(data.accessToken));
         setSuccess("Login Successful!");
         MySwal.fire({
           title: "✅ Login Successful!",
