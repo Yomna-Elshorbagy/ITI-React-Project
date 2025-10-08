@@ -1,0 +1,122 @@
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+import type { RootState } from "../store";
+import type { CartState } from "../../Types/CartState";
+
+// =============> Initial State <===============
+const initialState: CartState = {
+  noOfCartItems: 0,
+  noOfCartProducts: 0,
+  products: [],
+  totalPrice: 0,
+  loading: false,
+  error: null,
+};
+
+// =============> Async Thunks <=============
+export const getUserCart = createAsyncThunk<any, void, { state: RootState }>(
+  "cart/getUserCart",
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const token = getState().auth.token;
+      const res = await axios.get("https://iti-react-backend.vercel.app/cart", {
+        headers: {
+          authentication: `bearer ${token}`,
+        },
+      });
+      return res.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+export const addProductToCart = createAsyncThunk<
+  any,
+  string,
+  { state: RootState }
+>("cart/addProductToCart", async (productId, { getState, rejectWithValue }) => {
+  try {
+    const token = getState().auth.token;
+    const res = await axios.post(
+      "https://iti-react-backend.vercel.app/cart",
+      { productId },
+      { headers: { authentication: `bearer ${token}` } }
+    );
+    return res.data;
+  } catch (error: any) {
+    return rejectWithValue(error.response?.data || error.message);
+  }
+});
+
+export const updateCart = createAsyncThunk<
+  any,
+  { id: string; newCount: number },
+  { state: RootState }
+>("cart/updateCart", async ({ id, newCount }, { getState, rejectWithValue }) => {
+  try {
+    const token = getState().auth.token;
+    const res = await axios.put(
+      `https://iti-react-backend.vercel.app/cart/${id}`,
+      { quantity: newCount },
+      { headers: { authentication: `bearer ${token}` } }
+    );
+    return res.data;
+  } catch (error: any) {
+    return rejectWithValue(error.response?.data || error.message);
+  }
+});
+
+// ============> Slice <===============
+const cartSlice = createSlice({
+  name: "cart",
+  initialState,
+  reducers: {
+    clearCart: (state) => {
+      state.noOfCartItems = 0;
+      state.noOfCartProducts = 0;
+      state.products = [];
+      state.totalPrice = 0;
+    },
+  },
+  extraReducers: (builder) => {
+    // =====> getUserCart <=====
+    builder.addCase(getUserCart.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getUserCart.fulfilled, (state, action) => {
+      state.loading = false;
+      state.noOfCartItems = action.payload.noOfCartItems;
+      state.noOfCartProducts = action.payload.noOfProducts;
+      state.products = action.payload.data.products;
+      state.totalPrice = action.payload.data.totalPrice;
+    });
+    builder.addCase(getUserCart.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+    });
+
+    // =====> addProductToCart <=====
+    builder.addCase(addProductToCart.fulfilled, (state, action) => {
+      if (action.payload.data) {
+        state.noOfCartItems = action.payload.noOfCartItems;
+        state.noOfCartProducts = action.payload.noOfProducts;
+        state.products = action.payload.data.products;
+        state.totalPrice = action.payload.data.totalPrice;
+      }
+    });
+
+    // =====> updateCart <=====
+    builder.addCase(updateCart.fulfilled, (state, action) => {
+      if (action.payload.data) {
+        state.noOfCartItems = action.payload.noOfCartItems;
+        state.noOfCartProducts = action.payload.noOfProducts;
+        state.products = action.payload.data.products;
+        state.totalPrice = action.payload.data.totalPrice;
+      }
+    });
+  },
+});
+
+export const { clearCart } = cartSlice.actions;
+export default cartSlice.reducer;
