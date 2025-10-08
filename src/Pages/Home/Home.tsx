@@ -1,5 +1,15 @@
 import React from "react";
+import Slider from "../../Components/HomeSlider/Slider";
+import CategorySlider from "../../Components/CategorySlider/CategorySlider";
 
-export default function Home() {
-  return <div>Home</div>;
-}
+
+const Home: React.FC = () => {
+
+  return ( <>
+      <Slider />
+      <CategorySlider/>
+    </>
+  );
+};
+
+export default Home;
