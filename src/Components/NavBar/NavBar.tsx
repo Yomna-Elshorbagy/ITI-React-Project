@@ -1,11 +1,24 @@
-import { FaHeart, FaShoppingBag, FaUser } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import {
+  FaHeart,
+  FaShoppingBag,
+  FaUser,
+  FaSignOutAlt,
+  FaSignInAlt,
+  FaUserPlus,
+} from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/react.svg";
 import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../Hooks/reduxHooks";
+import { clearUserToken } from "../../Store/Slices/AuthSlice";
 
 export default function NavBar() {
   const [darkMode, setDarkMode] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const token = useAppSelector((state) => state.auth.token);
 
   //====> handling dark mode
   const toggleDarkMode = () => {
@@ -21,6 +34,12 @@ export default function NavBar() {
     }
   };
   const toggleMenu = () => setMenuOpen(!menuOpen);
+
+  //====> handel logout
+  const handleLogout = () => {
+    dispatch(clearUserToken());
+    navigate("/login");
+  };
 
   return (
     <header className="bg-teal-900 shadow-sm sticky top-0 z-50">
@@ -64,57 +83,75 @@ export default function NavBar() {
             Contact Us
             <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-amber-800 transition-all duration-300 group-hover:w-full"></span>
           </Link>
-
-          <Link
-            to="/login"
-            className="relative group hover:text-amber-600 transition duration-200"
-          >
-            login
-            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-amber-800 transition-all duration-300 group-hover:w-full"></span>
-          </Link>
-          <Link
-            to="/register"
-            className="relative group hover:text-amber-600 transition duration-200"
-          >
-            Register
-            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-amber-800 transition-all duration-300 group-hover:w-full"></span>
-          </Link>
-          <Link
-            to="/login"
-            className="relative group hover:text-amber-600 transition duration-200"
-          >
-            logout
-            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-amber-800 transition-all duration-300 group-hover:w-full"></span>
-          </Link>
         </nav>
-
-        <div className="flex items-center space-x-5 text-gray-700 text-xl">
+        <div className="flex items-center justify-between space-x-6 text-xl text-gray-700 w-auto">
           <button
             type="button"
             onClick={toggleDarkMode}
-            className="text-2xl text-[#8B5E35] dark:text-amber-600  transition cursor-pointer"
+            className="text-2xl text-[#8B5E35] dark:text-amber-600 transition cursor-pointer"
           >
             <i
               className={`fa-solid ${
                 darkMode ? "fa-sun" : "fa-moon"
               } transition-transform duration-300`}
             />
-          </button>{" "}
-          <Link to="/wishlist" className="relative" >
-            <FaHeart className="cursor-pointer hover:text-amber-600 transition text-white" />
-            <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold px-[6px] py-[1px] rounded-full">
-              2
-            </span>
-          </Link>
-          <Link to="/cart" className="relative">
-            <FaShoppingBag className="cursor-pointer hover:text-amber-600 transition text-white" />
-            <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold px-[6px] py-[1px] rounded-full">
-              2
-            </span>
-          </Link>
-          <Link to="/profile">
-            <FaUser className="cursor-pointer hover:text-amber-600 transition text-white" />
-          </Link>
+          </button>
+
+          {token && (
+            <div className="flex items-center space-x-5">
+              <Link to="/wishlist" className="relative">
+                <FaHeart className="cursor-pointer hover:text-amber-600 transition text-white" />
+                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold px-[6px] py-[1px] rounded-full">
+                  2
+                </span>
+              </Link>
+
+              <Link to="/cart" className="relative">
+                <FaShoppingBag className="cursor-pointer hover:text-amber-600 transition text-white" />
+                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold px-[6px] py-[1px] rounded-full">
+                  2
+                </span>
+              </Link>
+
+              <Link to="/profile">
+                <FaUser className="cursor-pointer hover:text-amber-600 transition text-white" />
+              </Link>
+            </div>
+          )}
+
+          <div className="flex items-center space-x-4 ml-6">
+            {token ? (
+              <button
+                onClick={handleLogout}
+                className="text-red-700 hover:text-red-900 transition flex items-center"
+                title="Logout"
+              >
+                <FaSignOutAlt className="text-2xl" />
+                <span className="hidden md:inline text-base ml-1">Logout</span>
+              </button>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="text-amber-400 hover:text-amber-600 transition flex items-center gap-1"
+                  title="Login"
+                >
+                  <FaSignInAlt className="text-2xl" />
+                  <span className="hidden md:inline text-base">Login</span>
+                </Link>
+
+                <Link
+                  to="/register"
+                  className="text-amber-400 hover:text-amber-600 transition flex items-center gap-1"
+                  title="Register"
+                >
+                  <FaUserPlus className="text-2xl" />
+                  <span className="hidden md:inline text-base">Register</span>
+                </Link>
+              </>
+            )}
+          </div>
+
           <button
             onClick={toggleMenu}
             className="md:hidden text-2xl hover:text-amber-600 text-white"
@@ -138,9 +175,25 @@ export default function NavBar() {
           <Link to="/contact" onClick={toggleMenu}>
             Contact Us
           </Link>
-          <Link to="/login" onClick={toggleMenu}>
-            Login
-          </Link>
+          {!token ? (
+            <>
+              <Link to="/login" onClick={toggleMenu}>
+                Login
+              </Link>
+              <Link to="/register" onClick={toggleMenu}>
+                Register
+              </Link>
+            </>
+          ) : (
+            <button
+              onClick={() => {
+                handleLogout();
+                toggleMenu();
+              }}
+            >
+              Logout
+            </button>
+          )}
         </div>
       )}
     </header>
