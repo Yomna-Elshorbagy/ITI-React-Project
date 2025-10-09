@@ -4,9 +4,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import LoaderPage from "../../Shared/LoaderPage/LoaderPage";
 import { useQuery } from "@tanstack/react-query";
-import type { Product } from "../../Types/Prooduct";
+import type { Product, RelatedProduct } from "../../Types/Prooduct";
+import { Card } from "flowbite-react";
 
-// Fetch Product Details
 const fetchProductDetails = async (id: string): Promise<Product> => {
   const { data } = await axios.get(
     `https://iti-react-backend.vercel.app/products/${id}`
@@ -14,7 +14,6 @@ const fetchProductDetails = async (id: string): Promise<Product> => {
   return data.data;
 };
 
-// Fetch Related Products
 const fetchRelatedProducts = async (
   categoryId: string
 ): Promise<RelatedProduct[]> => {
@@ -27,41 +26,34 @@ const fetchRelatedProducts = async (
 export default function ProductDetails() {
   const { id } = useParams<{ id: string }>();
 
-  // Query to fetch product details
   const {
     data: productData,
     isLoading: productLoading,
     error: productError,
   } = useQuery(["productDetails", id], () => fetchProductDetails(id!), {
-    enabled: !!id, // Ensure that the ID is available before fetching
-    onError: (error) => {
-      // Fixed typo here
-      console.error("Error fetching product details:", error);
-    },
+    enabled: !!id,
+    onError: (error: any) => {},
   });
 
-  // Query to fetch related products only after productData is available
   const {
     data: relatedProductsData,
     isLoading: relatedLoading,
     error: relatedError,
   } = useQuery(
-    ["relatedProducts", productData?.category._id], // Ensure the productData is available before fetching related products
+    ["relatedProducts", productData?.category._id],
     () => fetchRelatedProducts(productData?.category._id!),
     {
-      enabled: !!productData?.category._id, // Only enable this query when category ID is available
+      enabled: !!productData?.category._id,
       onError: (error) => {
         console.error("Error fetching related products:", error);
       },
     }
   );
 
-  // Return loader if either product or related products are loading
   if (productLoading || relatedLoading) {
     return <LoaderPage />;
   }
 
-  // Return error message if there was an error fetching either
   if (productError || relatedError) {
     return <div>Error occurred while fetching data.</div>;
   }
@@ -94,7 +86,6 @@ export default function ProductDetails() {
             </div>
           </section>
 
-          {/* Related Products Section */}
           <section>
             <h2 className="text-2xl text-gray-600 my-8">Related Products:</h2>
             {relatedProductsData ? (
