@@ -1,54 +1,22 @@
-import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import LoaderPage from "../../Shared/LoaderPage/LoaderPage";
-import { useQuery } from "@tanstack/react-query";
-import type { Product, RelatedProduct } from "../../Types/Prooduct";
 import { Card } from "flowbite-react";
-
-const fetchProductDetails = async (id: string): Promise<Product> => {
-  const { data } = await axios.get(
-    `https://iti-react-backend.vercel.app/products/${id}`
-  );
-  return data.data;
-};
-
-const fetchRelatedProducts = async (
-  categoryId: string
-): Promise<RelatedProduct[]> => {
-  const { data } = await axios.get(
-    `https://ecommerce.routemisr.com/api/v1/products?category[in]=${categoryId}`
-  );
-  return data.data;
-};
+import { useProduct } from "../../Hooks/useProduct";
+import { useRelatedProducts } from "../../Hooks/useRelatedProducts";
+import type { RelatedProduct } from "../../Types/Prooduct";
 
 export default function ProductDetails() {
   const { id } = useParams<{ id: string }>();
 
-  const {
-    data: productData,
-    isLoading: productLoading,
-    error: productError,
-  } = useQuery(["productDetails", id], () => fetchProductDetails(id!), {
-    enabled: !!id,
-    onError: (error: any) => {},
-  });
+  const { data: productData, isLoading: productLoading, error: productError } = useProduct(id);
 
   const {
     data: relatedProductsData,
     isLoading: relatedLoading,
     error: relatedError,
-  } = useQuery(
-    ["relatedProducts", productData?.category._id],
-    () => fetchRelatedProducts(productData?.category._id!),
-    {
-      enabled: !!productData?.category._id,
-      onError: (error) => {
-        console.error("Error fetching related products:", error);
-      },
-    }
-  );
+  } = useRelatedProducts(productData?.category._id);
 
   if (productLoading || relatedLoading) {
     return <LoaderPage />;
@@ -90,9 +58,17 @@ export default function ProductDetails() {
             <h2 className="text-2xl text-gray-600 my-8">Related Products:</h2>
             {relatedProductsData ? (
               <Swiper slidesPerView={6} spaceBetween={15}>
-                {relatedProductsData.map((product) => (
+                {relatedProductsData.map((product: RelatedProduct) => (
                   <SwiperSlide key={product.id}>
-                    <Card productInfo={product} />
+                    <Card imgAlt={product.title} imgSrc={product.image || product.images?.[0]}>
+                      <h5 className="text-xl font-semibold tracking-tight text-gray-900">
+                        {product.title}
+                      </h5>
+                      <div className="mt-2 flex items-center justify-between">
+                        <span className="text-sm text-gray-500">{product.category.name}</span>
+                        <span className="text-base font-medium">{product.price} L.E</span>
+                      </div>
+                    </Card>
                   </SwiperSlide>
                 ))}
               </Swiper>
