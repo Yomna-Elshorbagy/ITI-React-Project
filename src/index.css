@@ -39,4 +39,17 @@
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
+  
+}
+
+@keyframes goldFlow {             /*@key frames define an animation sequence in css */
+  0% {
+    background-position: 0% 50%; /* the background gradiant moves from the left 0% - center vertically x y*/
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }

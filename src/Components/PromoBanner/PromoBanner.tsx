@@ -1,4 +1,5 @@
 import React from "react";
+import ShopNowBtn from "../ShopNowBtn/ShopNowBtn";
 
 const PromoBanner: React.FC = () => {
   return (
@@ -25,12 +26,12 @@ const PromoBanner: React.FC = () => {
 
         {/* Right text */}
         <div className="w-full md:w-1/2 text-center md:text-left mt-8 md:mt-0 md:pl-10">
-          <h2 className="text-[#F5B041] uppercase tracking-widest font-semibold text-lg md:text-2xl mb-2">
+          <h2 className="text-[#d4a762] uppercase tracking-widest font-semibold text-lg md:text-2xl mb-2">
             Festival Sale Offers
           </h2>
 
           <h2
-            className="font-['Playfair_Display'] text-2xl md:text-4xl font-semibold text-[#1F1F1F] leading-snug mb-4"
+            className="font-['Playfair_Display'] text-2xl md:text-4xl font-semibold  leading-snug mb-4"
             style={{ lineHeight: "1.3" }}
           >
             Upto 25% Off All Jewelry Favorites - Shop Your Favorites!
@@ -41,9 +42,7 @@ const PromoBanner: React.FC = () => {
             accusantium doloremque laudantium, totam rem aperiam.
           </p>
 
-          <button className="bg-[#F5B041] text-[#1F1F1F] font-semibold py-2 px-5 rounded-sm hover:bg-[#e8a63a] transition">
-            SHOP NOW
-          </button>
+          <ShopNowBtn/>
         </div>
       </div>
 
