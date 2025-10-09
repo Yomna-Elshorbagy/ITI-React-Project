@@ -51,12 +51,12 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <section className="bg-gray-50 py-16">
+    <section className="bg-[#0B1D39] py-16">
       <div className="max-w-6xl mx-auto px-6 text-center">
-        <p className="text-amber-500 font-semibold tracking-wide uppercase mb-2">
+       {/* <p className="text-amber-500 font-semibold tracking-wide uppercase mb-2">
           LOOK 👀 for our Family 💗
-        </p>
-        <h2 className="text-4xl font-serif text-gray-800 mb-12">
+        </p> */}
+        <h2 className="text-4xl font-serif text-white mb-12">
           What Our Clients Say
         </h2>
 
@@ -70,11 +70,11 @@ export default function Testimonials() {
             breakpoints={{
               768: { slidesPerView: 2 },
             }}
-            className="pb-16"
+            className="pb-16 bg-[#0B1D39]"
           >
             {testimonials.map((t) => (
               <SwiperSlide key={t.id}>
-                <div className="bg-white shadow-md rounded-2xl p-8 text-left relative overflow-hidden mx-2">
+                <div className="bg-white shadow-md p-8 text-left relative overflow-hidden mx-2">
                   <div className="flex items-center gap-1 mb-3">
                     {[...Array(5)].map((_, i) => (
                       <FaStar key={i} className="text-amber-400" />
