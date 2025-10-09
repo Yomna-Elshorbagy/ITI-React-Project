@@ -1,5 +1,6 @@
 import React from "react";
 import Testimonials from "../../Components/Testimonials/Testimonials";
+import AboutQr from "../../Components/AboutQr/AboutQr";
 
 const About: React.FC = () => {
   return (<>
@@ -28,6 +29,7 @@ const About: React.FC = () => {
       </div>
     </section>
     <Testimonials/>
+    <AboutQr/>
     </>
   );
 };
