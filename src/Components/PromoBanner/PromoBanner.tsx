@@ -4,13 +4,12 @@ const PromoBanner: React.FC = () => {
   return (
     <section className="w-full">
       {/* Top ribbon */}
-      <div className="bg-[#163D3C]  text-white text-sm md:text-base py-2 md:py-4 flex justify-center items-center gap-12">
+      <div className="bg-[#163D3C]  text-white text-sm md:text-base py-2 md:py-4 flex justify-center items-center md-gap-12 gap-8">
       <img src="src/assets/images/flower.jpg" alt="flower" className="w-4 h-4" />
-       <span>Upto 25% Off All Jewelry</span>
+       <span className="text-lg md:text-xl">Upto 25% Off All Jewelry</span>
         <img src="src/assets/images/flower.jpg" alt="flower" className="w-4 h-4" />
-        <span>Shop Your Favorites!</span>
+        <span className="text-lg md:text-xl">Shop Your Favorites!</span>
         <img src="src/assets/images/flower.jpg" alt="flower" className="w-4 h-4" />
-        
       </div>
 
       {/* Main content */}
@@ -49,11 +48,11 @@ const PromoBanner: React.FC = () => {
       </div>
 
       {/* Bottom ribbon */}
-      <div className="bg-[#163D3C] text-white text-sm md:text-base py-2 md:py-4 flex justify-center items-center gap-12">
+      <div className="bg-[#163D3C] text-white text-sm md:text-base py-2 md:py-4 flex justify-center items-center md-gap-12 gap-8">
         <img src="src/assets/images/flower.jpg" alt="flower" className="w-4 h-4" />
-       <span>Upto 25% Off All Jewelry</span>
+       <span className="text-lg md:text-xl">Upto 25% Off All Jewelry</span>
         <img src="src/assets/images/flower.jpg" alt="flower" className="w-4 h-4" />
-        <span>Shop Your Favorites!</span>
+        <span className="text-lg md:text-xl">Shop Your Favorites!</span>
         <img src="src/assets/images/flower.jpg" alt="flower" className="w-4 h-4" />
         
       </div>

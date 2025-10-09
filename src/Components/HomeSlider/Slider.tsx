@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link} from "react-router-dom";
 
 const Slider: React.FC = () => {
   // images array
@@ -57,18 +58,23 @@ const Slider: React.FC = () => {
     <p className="text-emerald-950 mb-4">
       From legendary diamonds to extraordinary gemstones, Everyday is Embued with poetry. 
     </p>
-    <button className="bg-teal-900 hover:bg-emerald-700 text-white font-medium px-6 py-2 rounded-md transition">
+    <Link to="/products">
+    <button className="bg-teal-900 cursor-pointer hover:bg-emerald-700 text-white font-medium px-6 py-2 rounded-md transition">
       Discover our collection
     </button>
+    </Link>
+   
   </div>
 
 </div>
 {/* The button (hidden on medium+ screens, shown on small) */}
+<Link to="/products">
   <button
-    className="absolute md:hidden bottom-[10%] left-1/2 transform -translate-x-1/2  bg-teal-900 hover:bg-emerald-700 text-white px-3 py-2 rounded-lg text-small "
+    className="absolute cursor-pointer md:hidden bottom-[10%] left-1/2 transform -translate-x-1/2  bg-teal-900 hover:bg-emerald-700 text-white px-4 py-2 text-small "
   >
-    Discover Our Collection
+    Shop Now
   </button>
+  </Link>
 
       {/* Previous button */}
       <button
