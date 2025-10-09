@@ -4,10 +4,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Provider } from "react-redux";
-
-import ProtectedRoutes from "./Shared/ProtectedRoutes/ProtectedRoutes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
 import { Toaster } from "react-hot-toast";
 import Layout from "./Components/Layout/layout";
 import Home from "./Pages/Home/Home";

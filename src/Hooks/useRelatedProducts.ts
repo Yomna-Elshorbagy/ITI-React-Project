@@ -9,7 +9,7 @@ type UseRelatedResult = {
 };
 
 export function useRelatedProducts(
-  productId: string | undefined
+  categoryId: string | undefined
 ): UseRelatedResult {
   const query = useQuery<
     RelatedProduct[],
@@ -17,20 +17,20 @@ export function useRelatedProducts(
     RelatedProduct[],
     [string, string | undefined]
   >({
-    queryKey: ["relatedProducts", productId],
+    queryKey: ["relatedProducts", categoryId],
     queryFn: async () => {
       try {
         const response = await axios.get(
-          `https://iti-react-backend.vercel.app/products//products/related/${productId}`
+          `https://iti-react-backend.vercel.app/products?category=${categoryId}`
         );
         console.log("[API] GET related products", response.data);
-        return (response.data as { data: RelatedProduct[] }).data;
+        return (response.data as { message: string; Products: RelatedProduct[] }).Products;
       } catch (err) {
         console.error("[API] related products error", err);
         throw err;
       }
     },
-    enabled: Boolean(productId),
+    enabled: Boolean(categoryId),
   });
 
   return {

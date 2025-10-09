@@ -17,7 +17,7 @@ export function useProduct(productId: string | undefined): UseProductResult {
           `https://iti-react-backend.vercel.app/products/${productId}`
         );
         console.log("[API] GET product details", response.data);
-        return (response.data as { data: Product }).data;
+        return (response.data as { message: string; data: Product }).data;
       } catch (err) {
         console.error("[API] product details error", err);
         throw err;
