@@ -5,7 +5,7 @@ import { FaPen } from "react-icons/fa";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import LoaderPage from "../../Shared/LoaderPage/LoaderPage";
-
+import profileImage from "../../assets/images/fourthPerson.webp";
 const MySwal = withReactContent(Swal);
 
 export default function UserProfile() {
@@ -29,9 +29,12 @@ export default function UserProfile() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["userProfile"],
     queryFn: async () => {
-      const response = await axios.get("https://iti-react-backend.vercel.app/user/profile", {
-        headers: { authentication: `bearer ${token}` },
-      });
+      const response = await axios.get(
+        "https://iti-react-backend.vercel.app/user/profile",
+        {
+          headers: { authentication: `bearer ${token}` },
+        }
+      );
       return response.data.data;
     },
     enabled: !!token,
@@ -137,10 +140,7 @@ export default function UserProfile() {
           <div className="flex flex-col items-center mb-8">
             <div className="relative w-28 h-28">
               <img
-                src={
-                  preview ||
-                  "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?auto=format&fit=crop&w=300&q=80"
-                }
+                src={preview || profileImage}
                 alt="Profile"
                 className="w-full h-full rounded-full object-cover"
               />

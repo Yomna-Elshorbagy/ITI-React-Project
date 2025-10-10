@@ -51,6 +51,7 @@ const About: React.FC = () => {
       </section>
 
       <Testimonials />
+      <AboutQr/>
     </>
   );
 };
