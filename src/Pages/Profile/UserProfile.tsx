@@ -29,10 +29,10 @@ export default function UserProfile() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["userProfile"],
     queryFn: async () => {
-      const response = await axios.get("http://localhost:3000/user/profile", {
+      const response = await axios.get("https://iti-react-backend.vercel.app/user/profile", {
         headers: { authentication: `bearer ${token}` },
       });
-      return response.data.message;
+      return response.data.data;
     },
     enabled: !!token,
   });
@@ -79,7 +79,7 @@ export default function UserProfile() {
       if (imageFile) formDataToSend.append("image", imageFile);
 
       const res = await axios.put(
-        "http://localhost:3000/user",
+        "https://iti-react-backend.vercel.app/user",
         formDataToSend,
         {
           headers: {
