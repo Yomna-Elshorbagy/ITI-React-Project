@@ -1,7 +1,317 @@
-import React from 'react'
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { FaPen } from "react-icons/fa";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import LoaderPage from "../../Shared/LoaderPage/LoaderPage";
+
+const MySwal = withReactContent(Swal);
 
 export default function UserProfile() {
+  const [activeTab, setActiveTab] = useState("Personal Information");
+  const [preview, setPreview] = useState<string | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [formData, setFormData] = useState({
+    userName: "",
+    email: "",
+    recoveryEmail: "",
+    mobileNumber: "",
+    gender: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+
+  const queryClient = useQueryClient();
+  const token = localStorage.getItem("accessToken");
+
+  // ===> 1️- fetch user profile dynamically
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["userProfile"],
+    queryFn: async () => {
+      const response = await axios.get("http://localhost:3000/user/profile", {
+        headers: { authentication: `bearer ${token}` },
+      });
+      return response.data.message;
+    },
+    enabled: !!token,
+  });
+
+  useEffect(() => {
+    if (data) {
+      setFormData({
+        userName: data.userName || "",
+        email: data.email || "",
+        recoveryEmail: data.recoveryEmail || "",
+        mobileNumber: data.mobileNumber || "",
+        gender: data.gender || "",
+        newPassword: "",
+        confirmPassword: "",
+      });
+      if (data.image?.secure_url) setPreview(data.image.secure_url);
+    }
+  }, [data]);
+
+  // ===> 2️- handle input change
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // ===> 3️- Handle image
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+      setPreview(URL.createObjectURL(file));
+    }
+  };
+
+  // ===> 4️- mutation for update
+  const mutation = useMutation({
+    mutationFn: async () => {
+      const formDataToSend = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        if (value) formDataToSend.append(key, value);
+      });
+      if (imageFile) formDataToSend.append("image", imageFile);
+
+      const res = await axios.put(
+        "http://localhost:3000/user",
+        formDataToSend,
+        {
+          headers: {
+            authentication: `bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      return res.data;
+    },
+    onSuccess: (data) => {
+      MySwal.fire({
+        icon: "success",
+        title: "Profile Updated",
+        text: "Your information was updated successfully!",
+      });
+      queryClient.invalidateQueries({ queryKey: ["userProfile"] });
+    },
+    onError: (error: any) => {
+      MySwal.fire({
+        icon: "error",
+        title: "Update Failed",
+        text: error.response?.data?.message || "Error updating profile",
+      });
+    },
+  });
+
+  // ===> 5️- handle submit
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    mutation.mutate();
+  };
+
+  const tabs = ["Personal Information", "My Orders"];
+
+  if (isLoading) {
+    return <LoaderPage />;
+  }
+
+  if (isError)
+    return <p className="text-center py-10">Error loading User Profile</p>;
+
   return (
-    <div>UserProfile</div>
-  )
+    <div className="min-h-screen bg-gray-50 py-10 px-5">
+      <div className="text-center mb-10">
+        <h2 className="text-3xl font-serif text-gray-800">My Account</h2>
+        <p className="text-gray-500 mt-2">
+          Home / <span className="text-gray-800">My Account</span>
+        </p>
+      </div>
+
+      <div className="max-w-5xl mx-auto bg-white shadow rounded-2xl p-8 flex flex-col md:flex-row gap-8">
+        {/* sidebar */}
+        <div className="flex flex-col w-full md:w-1/4 border-r border-gray-100">
+          <div className="flex flex-col items-center mb-8">
+            <div className="relative w-28 h-28">
+              <img
+                src={
+                  preview ||
+                  "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?auto=format&fit=crop&w=300&q=80"
+                }
+                alt="Profile"
+                className="w-full h-full rounded-full object-cover"
+              />
+
+              <input
+                type="file"
+                accept="image/*"
+                id="profile-upload"
+                onChange={handleImageChange}
+                className="hidden"
+              />
+
+              <label
+                htmlFor="profile-upload"
+                className="absolute bottom-1 right-1 bg-green-700 text-white p-2 rounded-full shadow hover:bg-green-900 cursor-pointer transition"
+              >
+                <FaPen size={14} />
+              </label>
+            </div>
+          </div>
+
+          {tabs.map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`text-left px-5 py-3 font-medium rounded-md mb-2 transition-colors ${
+                activeTab === tab
+                  ? "bg-green-700 text-white"
+                  : "bg-gray-50 hover:bg-gray-100 text-gray-700"
+              }`}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+
+        {/* main Content */}
+        <div className="flex-1">
+          {activeTab === "Personal Information" && (
+            <form
+              onSubmit={handleSubmit}
+              className="grid grid-cols-1 md:grid-cols-2 gap-5"
+            >
+              {/* username */}
+              <div className="md:col-span-2">
+                <label className="block text-gray-700 mb-1 font-medium">
+                  <i className="fa-solid fa-user"></i> Username *
+                </label>
+                <input
+                  type="text"
+                  name="userName"
+                  value={formData.userName}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-green-700"
+                />
+              </div>
+
+              {/* email */}
+              <div className="md:col-span-2">
+                <label className="block text-gray-700 mb-1 font-medium">
+                  <i className="fa-solid fa-envelope"></i> Email *
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  disabled
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-100 cursor-not-allowed"
+                />
+              </div>
+
+              {/* passwords */}
+              <div>
+                <label className="block text-gray-700 mb-1 font-medium">
+                  🔒 New Password
+                </label>
+                <input
+                  type="password"
+                  name="newPassword"
+                  placeholder="**********"
+                  value={formData.newPassword}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-green-700"
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-700 mb-1 font-medium">
+                  🔒 Confirm Password
+                </label>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  placeholder="**********"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-green-700"
+                />
+              </div>
+
+              {/* recovery email */}
+              <div className="md:col-span-2">
+                <label className="block text-gray-700 mb-1 font-medium">
+                  <i className="fa-solid fa-envelope"></i> Recovery Email
+                </label>
+                <input
+                  type="email"
+                  name="recoveryEmail"
+                  value={formData.recoveryEmail}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-green-700"
+                />
+              </div>
+
+              {/* mobile number */}
+              <div>
+                <label className="block text-gray-700 mb-1 font-medium">
+                  <i className="fa-solid fa-mobile"></i> Mobile Number
+                </label>
+                <input
+                  type="tel"
+                  name="mobileNumber"
+                  value={formData.mobileNumber}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-green-700"
+                />
+              </div>
+
+              {/* gender */}
+              <div>
+                <label className="block text-gray-700 mb-1 font-medium">
+                  <i className="fa-solid fa-person-half-dress"></i> Gender
+                </label>
+                <select
+                  name="gender"
+                  value={formData.gender}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-green-700"
+                >
+                  <option value=""> Select</option>
+                  <option value="female">Female</option>
+                  <option value="male">Male</option>
+                </select>
+              </div>
+
+              <div className="md:col-span-2 flex justify-end mt-4">
+                <button
+                  type="submit"
+                  disabled={mutation.isPending}
+                  className="bg-green-700 text-white px-6 py-2 rounded-md hover:bg-green-900 transition font-medium"
+                >
+                  {mutation.isPending ? (
+                    <>
+                      <i className="fa-solid fa-spinner fa-spin"></i> Saving...
+                    </>
+                  ) : (
+                    <>
+                      <i className="fa-solid fa-floppy-disk"></i> Save Changes
+                    </>
+                  )}{" "}
+                </button>
+              </div>
+            </form>
+          )}
+          {activeTab == "My Orders" && (
+            <div className="flex justify-center items-center h-full text-gray-400">
+              <p>Content for "{activeTab}" will appear here.</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 }

@@ -333,7 +333,6 @@ export default function Register() {
           </div>
         </div>
 
-        {/* Right Side - Auth Slider Placeholder */}
         <div className="hidden md:block h-screen w-1/2 bg-gray-200 flex items-center justify-center">
           <AuthSlider />
         </div>
