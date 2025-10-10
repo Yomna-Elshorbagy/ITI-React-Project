@@ -48,7 +48,7 @@ const InstagramGallery: React.FC = () => {
       </div>
 
       {/* Image Grid */}
-      <div className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-10"> {/*all the grids sitting in row in big screen and op top of each other in small screens */}
+      <div className="flex flex-col md:flex-row justify-center items-center  gap-6 md:gap-10"> {/*all the grids sitting in row in big screen and op top of each other in small screens */}
         {/* Left Side: 2x2 grid */}
         <div className="flex flex-col gap-4">
           {leftChunks.map((row, rowIndex) => (   //row index
@@ -58,7 +58,7 @@ const InstagramGallery: React.FC = () => {
                   key={i}
                   src={img}
                   alt={`Left ${rowIndex}-${i}`}
-                  className="w-24 h-28 md:w-32 md:h-36 object-cover"
+                  className="w-24 h-28 md:w-39 md:h-43 object-cover"
                   loading="lazy"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -74,7 +74,7 @@ const InstagramGallery: React.FC = () => {
         <motion.img
           src={centerImage}
           alt="Center"
-          className="w-48 h-60 md:w-72 md:h-80 object-cover"  //the center image is double that h and w
+          className="w-48 h-60 md:w-86 md:h-90 object-cover"  //the center image is double that h and w
           loading="lazy"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -91,7 +91,7 @@ const InstagramGallery: React.FC = () => {
                   key={i}
                   src={img}
                   alt={`Right ${rowIndex}-${i}`}
-                  className="w-24 h-28 md:w-32 md:h-36 object-cover"
+                  className="w-24 h-28 md:w-39 md:h-43 object-cover"
                   loading="lazy"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}

@@ -52,11 +52,11 @@ const testimonials = [
 export default function Testimonials() {
   return (
     <section className="bg-gray-50 py-16">
-      <div className="max-w-6xl mx-auto px-6 text-center">
+      <div className="max-w-7xl mx-auto px-10 md:px-24 text-center">
        {/* <p className="text-amber-500 font-semibold tracking-wide uppercase mb-2">
           LOOK 👀 for our Family 💗
         </p> */}
-        <h2 className="text-4xl font-serif mb-12">
+        <h2 className=" text-4xl md:text-3xl font-serif mb-12 text-[#d4a740] uppercase">
           What Our Clients Say
         </h2>
 
@@ -74,8 +74,8 @@ export default function Testimonials() {
           >
             {testimonials.map((t) => (
               <SwiperSlide key={t.id}>
-                <div className="bg-white shadow-md rounded-2xl p-8 text-left relative overflow-hidden mx-2">
-                  <div className="flex items-center gap-1 mb-3">
+                <div className="bg-white shadow-md rounded-2xl p-8 text-left relative overflow-hidden mx-2 md:mx-1">
+                  <div className="flex items-center gap-1 mb-3 ">
                     {[...Array(5)].map((_, i) => (
                       <FaStar key={i} className="text-amber-400" />
                     ))}
