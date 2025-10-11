@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link} from "react-router-dom";
+import ShopNowBtn from "../ShopNowBtn/ShopNowBtn";
 
 const Slider: React.FC = () => {
   // images array
@@ -58,25 +59,22 @@ const Slider: React.FC = () => {
     <p className="text-emerald-950 mb-4">
       From legendary diamonds to extraordinary gemstones, Everyday is Embued with poetry. 
     </p>
-    <Link to="/products">
-    <button className="bg-teal-900 cursor-pointer hover:bg-emerald-700 text-white font-medium px-6 py-2 rounded-md transition">
-      Discover our collection
-    </button>
-    </Link>
+    <ShopNowBtn/>
    
   </div>
 
 </div>
 {/* The button (hidden on medium+ screens, shown on small) */}
-<Link to="/products">
+{/*<Link to="/products">
   <button
     className="absolute cursor-pointer md:hidden bottom-[10%] left-1/2 transform -translate-x-1/2  bg-teal-900 hover:bg-emerald-700 text-white px-4 py-2 text-small "
   >
     Shop Now
   </button>
-  </Link>
-
+  </Link>*}
+  
       {/* Previous button */}
+
       <button
         onClick={prevSlide}
         className="absolute top-1/2 left-3 -translate-y-1/2 bg-black/40 text-white p-3 rounded-full hover:bg-black/70 transition"

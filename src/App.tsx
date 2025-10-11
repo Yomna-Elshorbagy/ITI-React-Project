@@ -19,6 +19,7 @@ import Login from "./Pages/Login/Login";
 import Register from "./Pages/Register/Register";
 import ForgetPassword from "./Pages/ForgetPassword/ForgetPassword";
 import { store } from "./Store/store";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const router = createBrowserRouter([
   {
@@ -75,12 +76,15 @@ function App() {
 
   return (
     <>
+      <GoogleOAuthProvider clientId="700704531343-884jrghj44cpak2fo1na231uudd889nj.apps.googleusercontent.com">
+
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
           <RouterProvider router={router} />
           <Toaster />
         </Provider>
       </QueryClientProvider>
+      </GoogleOAuthProvider>
     </>
   );
 }
