@@ -18,6 +18,17 @@ export default function ProductDetailsInfo({
   const dispatch = useAppDispatch();
   const [quantity, setQuantity] = useState(1);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [thumbnailScrollIndex, setThumbnailScrollIndex] = useState(0);
+
+  // Get all images (cover + sub images)
+  const allImages = [
+    product.imageCover,
+    ...product.subImages
+  ];
+
+  // Show only 4 thumbnails at a time with scrolling
+  const visibleThumbnails = allImages.slice(thumbnailScrollIndex, thumbnailScrollIndex + 4);
+  const hasMoreImages = allImages.length > 4;
 
   const { token } = useAppSelector((state) => state.auth);
   const { items: wishlistItems } = useAppSelector((state) => state.wishlist);
@@ -48,6 +59,52 @@ export default function ProductDetailsInfo({
   const handleQuantityChange = (newQuantity: number) => {
     if (newQuantity >= 1 && newQuantity <= product.stock) {
       setQuantity(newQuantity);
+    }
+  };
+
+  const handleThumbnailScroll = (direction: 'up' | 'down') => {
+    if (direction === 'up' && thumbnailScrollIndex > 0) {
+      setThumbnailScrollIndex(thumbnailScrollIndex - 1);
+    } else if (direction === 'down' && thumbnailScrollIndex < allImages.length - 4) {
+      setThumbnailScrollIndex(thumbnailScrollIndex + 1);
+    }
+  };
+
+  const handleSocialShare = (platform: string) => {
+    const productUrl = window.location.href;
+    const productTitle = product.title;
+    const productDescription = product.description;
+    const productImage = product.imageCover.secure_url;
+
+    let shareUrl = '';
+
+    switch (platform) {
+      case 'facebook':
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(productUrl)}`;
+        break;
+      case 'twitter':
+        shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(productUrl)}&text=${encodeURIComponent(productTitle)}`;
+        break;
+      case 'pinterest':
+        shareUrl = `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(productUrl)}&media=${encodeURIComponent(productImage)}&description=${encodeURIComponent(productDescription)}`;
+        break;
+      case 'whatsapp':
+        shareUrl = `https://wa.me/?text=${encodeURIComponent(`${productTitle} - ${productUrl}`)}`;
+        break;
+      case 'linkedin':
+        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(productUrl)}`;
+        break;
+      case 'instagram':
+        // Instagram doesn't support direct URL sharing, so we'll copy to clipboard
+        navigator.clipboard.writeText(`${productTitle} - ${productUrl}`);
+        alert('Product link copied to clipboard! You can paste it in your Instagram story or post.');
+        return;
+      default:
+        return;
+    }
+
+    if (shareUrl) {
+      window.open(shareUrl, '_blank', 'width=600,height=400');
     }
   };
 
@@ -89,39 +146,53 @@ export default function ProductDetailsInfo({
         {/* Main Image */}
         <div className={styles.mainImage}>
           <img
-            src={
-              selectedImageIndex === 0
-                ? product.imageCover.secure_url
-                : product.subImages[selectedImageIndex - 1]?.secure_url
-            }
+            src={allImages[selectedImageIndex]?.secure_url}
             alt={product.title}
           />
         </div>
 
         {/* Thumbnail Images */}
-        <div className={styles.thumbnailGrid}>
-          <button
-            onClick={() => setSelectedImageIndex(0)}
-            className={`${styles.thumbnailButton} ${
-              selectedImageIndex === 0 ? styles.active : ""
-            }`}
-          >
-            <img src={product.imageCover.secure_url} alt={product.title} />
-          </button>
-          {product.subImages.map((image, index) => (
+        <div className={styles.thumbnailContainer}>
+          {/* Scroll Up Button */}
+          {hasMoreImages && thumbnailScrollIndex > 0 && (
             <button
-              key={index}
-              onClick={() => setSelectedImageIndex(index + 1)}
-              className={`${styles.thumbnailButton} ${
-                selectedImageIndex === index + 1 ? styles.active : ""
-              }`}
+              onClick={() => handleThumbnailScroll('up')}
+              className={styles.scrollButton}
             >
-              <img
-                src={image.secure_url}
-                alt={`${product.title} ${index + 1}`}
-              />
+              <i className="fa-solid fa-chevron-up"></i>
             </button>
-          ))}
+          )}
+
+          {/* Thumbnail Grid */}
+          <div className={styles.thumbnailGrid}>
+            {visibleThumbnails.map((image, index) => {
+              const actualIndex = thumbnailScrollIndex + index;
+              return (
+                <button
+                  key={actualIndex}
+                  onClick={() => setSelectedImageIndex(actualIndex)}
+                  className={`${styles.thumbnailButton} ${
+                    selectedImageIndex === actualIndex ? styles.active : ""
+                  }`}
+                >
+                  <img
+                    src={image.secure_url}
+                    alt={`${product.title} ${actualIndex + 1}`}
+                  />
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Scroll Down Button */}
+          {hasMoreImages && thumbnailScrollIndex < allImages.length - 4 && (
+            <button
+              onClick={() => handleThumbnailScroll('down')}
+              className={styles.scrollButton}
+            >
+              <i className="fa-solid fa-chevron-down"></i>
+            </button>
+          )}
         </div>
       </div>
 
@@ -241,24 +312,48 @@ export default function ProductDetailsInfo({
         <div className={styles.socialShare}>
           <p className={styles.socialShareLabel}>Share this product:</p>
           <div className={styles.socialButtons}>
-            <button className={`${styles.socialButton} ${styles.facebook}`}>
+            <button 
+              className={`${styles.socialButton} ${styles.facebook}`}
+              onClick={() => handleSocialShare('facebook')}
+              title="Share on Facebook"
+            >
               <i className={`fa-brands fa-facebook-f ${styles.socialIcon}`}></i>
             </button>
-            <button className={`${styles.socialButton} ${styles.twitter}`}>
+            <button 
+              className={`${styles.socialButton} ${styles.twitter}`}
+              onClick={() => handleSocialShare('twitter')}
+              title="Share on Twitter"
+            >
               <i className={`fa-brands fa-twitter ${styles.socialIcon}`}></i>
             </button>
-            <button className={`${styles.socialButton} ${styles.pinterest}`}>
+            <button 
+              className={`${styles.socialButton} ${styles.pinterest}`}
+              onClick={() => handleSocialShare('pinterest')}
+              title="Share on Pinterest"
+            >
               <i className={`fa-brands fa-pinterest ${styles.socialIcon}`}></i>
             </button>
-            <button className={`${styles.socialButton} ${styles.whatsapp}`}>
+            <button 
+              className={`${styles.socialButton} ${styles.whatsapp}`}
+              onClick={() => handleSocialShare('whatsapp')}
+              title="Share on WhatsApp"
+            >
               <i className={`fa-brands fa-whatsapp ${styles.socialIcon}`}></i>
             </button>
-            <button className={`${styles.socialButton} ${styles.linkedin}`}>
+            <button 
+              className={`${styles.socialButton} ${styles.linkedin}`}
+              onClick={() => handleSocialShare('linkedin')}
+              title="Share on LinkedIn"
+            >
               <i
                 className={`fa-brands fa-linkedin-in ${styles.socialIcon}`}
               ></i>
             </button>
-            <button className={`${styles.socialButton} ${styles.instagram}`}>
+            <button 
+              className={`${styles.socialButton} ${styles.instagram}`}
+              onClick={() => handleSocialShare('instagram')}
+              title="Copy link for Instagram"
+            >
               <i className={`fa-brands fa-instagram ${styles.socialIcon}`}></i>
             </button>
           </div>

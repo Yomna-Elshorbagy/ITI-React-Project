@@ -13,7 +13,6 @@ export default function ProductDetails() {
   const {
     data: relatedProductsData,
     isLoading: relatedLoading,
-    error: relatedError,
   } = useRelatedProducts(productData?.category._id);
 
   if (productLoading) {
@@ -42,12 +41,17 @@ export default function ProductDetails() {
     );
   }
 
+  // Filter out the current product from related products
+  const filteredRelatedProducts = relatedProductsData?.filter(
+    (product) => product._id !== productData._id
+  ) || [];
+
   return (
     <>
       <title>{productData.title}</title>
       <ProductDetailsInfo product={productData} />
       <RelatedProducts 
-        relatedProducts={relatedProductsData || []} 
+        relatedProducts={filteredRelatedProducts} 
         isLoading={relatedLoading}
       />
     </>
