@@ -9,4 +9,7 @@ export type CartProduct = {
   };
   price: number;
   quantity: number;
+  category: null |{
+    name:string
+  }
 };

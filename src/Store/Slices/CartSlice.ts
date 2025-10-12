@@ -49,16 +49,56 @@ export const addProductToCart = createAsyncThunk<
   }
 });
 
-export const updateCart = createAsyncThunk<
+// export const updateCart = createAsyncThunk<
+//   any,
+//   { id: string; newCount: number },
+//   { state: RootState }
+// >("cart/updateCart", async ({ id, newCount }, { getState, rejectWithValue }) => {
+//   try {
+//     const token = getState().auth.token;
+//     const res = await axios.put(
+//       `https://iti-react-backend.vercel.app/cart/${id}`,
+//       { quantity: newCount },
+//       { headers: { authentication: `bearer ${token}` } }
+//     );
+//     return res.data;
+//   } catch (error: any) {
+//     return rejectWithValue(error.response?.data || error.message);
+//   }
+// });
+// Update quantity
+export const updateCartQuantity = createAsyncThunk<
   any,
   { id: string; newCount: number },
   { state: RootState }
->("cart/updateCart", async ({ id, newCount }, { getState, rejectWithValue }) => {
+>(
+  "cart/updateCartQuantity",
+  async ({ id, newCount }, { getState, rejectWithValue }) => {
+    try {
+      const token = getState().auth.token;
+      const res = await axios.put(
+        `https://iti-react-backend.vercel.app/cart/${id}`,
+        { quantity: newCount },
+        { headers: { authentication: `bearer ${token}` } }
+      );
+      return res.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+// delete single cart item
+export const deleteCartItem = createAsyncThunk<
+  any,
+  string,
+  { state: RootState }
+>("cart/deleteCartItem", async (id, { getState, rejectWithValue }) => {
   try {
     const token = getState().auth.token;
     const res = await axios.put(
-      `https://iti-react-backend.vercel.app/cart/${id}`,
-      { quantity: newCount },
+      `https://iti-react-backend.vercel.app/cart/deleteitem/${id}`,
+      {},
       { headers: { authentication: `bearer ${token}` } }
     );
     return res.data;
@@ -66,6 +106,24 @@ export const updateCart = createAsyncThunk<
     return rejectWithValue(error.response?.data || error.message);
   }
 });
+//  clearing cart
+export const clearCartApi = createAsyncThunk<any, void, { state: RootState }>(
+  "cart/clearCartApi",
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const token = getState().auth.token;
+      const res = await axios.delete(
+        "https://iti-react-backend.vercel.app/cart",
+        {
+          headers: { authentication: `bearer ${token}` },
+        }
+      );
+      return res.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
 
 // ============> Slice <===============
 const cartSlice = createSlice({
@@ -98,22 +156,48 @@ const cartSlice = createSlice({
 
     // =====> addProductToCart <=====
     builder.addCase(addProductToCart.fulfilled, (state, action) => {
-      if (action.payload.data) {
+      const cartData = action.payload.cart;
+      if (cartData) {
         state.noOfCartItems = action.payload.noOfCartItems;
         state.noOfCartProducts = action.payload.noOfProducts;
-        state.products = action.payload.data.products;
-        state.totalPrice = action.payload.data.totalPrice;
+        state.products = cartData.products;
+        state.totalPrice = cartData.totalPrice;
       }
     });
 
-    // =====> updateCart <=====
-    builder.addCase(updateCart.fulfilled, (state, action) => {
-      if (action.payload.data) {
+    // =====> updateCartQuantity <=====
+    builder.addCase(updateCartQuantity.fulfilled, (state, action) => {
+      const cartData = action.payload.data;
+      if (cartData) {
         state.noOfCartItems = action.payload.noOfCartItems;
         state.noOfCartProducts = action.payload.noOfProducts;
-        state.products = action.payload.data.products;
-        state.totalPrice = action.payload.data.totalPrice;
+        state.products = cartData.products;
+        state.totalPrice = cartData.totalPrice;
       }
+    });
+
+    // =====> deleteCartItem <=====
+    builder.addCase(deleteCartItem.fulfilled, (state, action) => {
+      const cartData = action.payload.data;
+      if (cartData) {
+        state.noOfCartItems = action.payload.noOfCartItems;
+        state.noOfCartProducts = action.payload.noOfProducts;
+        state.products = cartData.products;
+        state.totalPrice = cartData.totalPrice;
+      }
+    });
+    // =====> clearCart <=====
+    builder.addCase(clearCartApi.fulfilled, (state, action) => {
+      const cartData = action.payload.data;
+      if (cartData) {
+        state.noOfCartItems = 0;
+        state.noOfCartProducts = 0;
+        state.products = [];
+        state.totalPrice = 0;
+      }
+    });
+    builder.addCase(clearCartApi.rejected, (state, action) => {
+      state.error = action.payload as string;
     });
   },
 });
