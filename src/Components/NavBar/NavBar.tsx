@@ -19,6 +19,7 @@ export default function NavBar() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const token = useAppSelector((state) => state.auth.token);
+  const { noOfCartProducts } = useAppSelector((state) => state.cart);
 
   //====> handling dark mode
   const toggleDarkMode = () => {
@@ -109,7 +110,7 @@ export default function NavBar() {
               <Link to="/cart" className="relative">
                 <FaShoppingBag className="cursor-pointer hover:text-amber-600 transition text-white" />
                 <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold px-[6px] py-[1px] rounded-full">
-                  2
+                  {noOfCartProducts}
                 </span>
               </Link>
 
