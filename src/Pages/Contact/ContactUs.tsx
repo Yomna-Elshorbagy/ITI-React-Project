@@ -1,7 +1,68 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 
+
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
+
 export default function ContactUs() {
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    message: "",
+  });
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (data) => {
+      // const res = await axios.post(`${import.meta.env.ITI_API_URL}/contact`, data);
+      const res = await axios.post(`https://iti-react-backend.vercel.app/contact`, data);
+      return res.data;
+    },
+    onSuccess: (data) => {
+      MySwal.fire({
+        icon: "success",
+        title: "Message Sent!",
+        text: data.message || "Thank you for reaching out. We'll contact you soon.",
+        confirmButtonColor: "#14532d",
+      });
+      setFormData({ fullName: "", email: "", message: "" });
+    },
+    onError: (error) => {
+      MySwal.fire({
+        icon: "error",
+        title: "Oops!",
+        text:
+          error.response?.data?.message ||
+          "Something went wrong. Please try again later.",
+        confirmButtonColor: "#b91c1c",
+      });
+    },
+  });
+
+  const handleChange = (e:any) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e:any) => {
+    e.preventDefault();
+
+    if (!formData.fullName || !formData.email || !formData.message) {
+      MySwal.fire({
+        icon: "warning",
+        title: "Missing Fields",
+        text: "Please fill in all fields before submitting.",
+      });
+      return;
+    }
+
+    mutate(formData);
+  };
+
   return (
     <section className="bg-white dark:bg-gray-900 transition-colors duration-500 py-16 px-6 sm:px-10 lg:px-20">
       <div className="max-w-6xl mx-auto text-center mb-12">
@@ -60,13 +121,16 @@ export default function ContactUs() {
             Send Us a Message
           </h2>
 
-          <form className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label className="block text-gray-700 dark:text-gray-300 mb-2 font-medium">
                 Full Name
               </label>
               <input
                 type="text"
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleChange}
                 placeholder="Enter your name"
                 className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-white focus:ring-2 focus:ring-green-800 outline-none transition"
               />
@@ -78,6 +142,9 @@ export default function ContactUs() {
               </label>
               <input
                 type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
                 placeholder="Enter your email"
                 className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-white focus:ring-2 focus:ring-green-800 outline-none transition"
               />
@@ -88,6 +155,9 @@ export default function ContactUs() {
                 Message
               </label>
               <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
                 placeholder="Type your message..."
                 rows="5"
                 className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-white focus:ring-2 focus:ring-green-800 outline-none transition"
@@ -96,9 +166,14 @@ export default function ContactUs() {
 
             <button
               type="submit"
-              className="w-full py-3 bg-green-900 text-white font-medium rounded-md hover:bg-green-800 transition duration-300"
+              disabled={isPending}
+              className={`w-full py-3 font-medium rounded-md transition duration-300 ${
+                isPending
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-green-900 hover:bg-green-800 text-white"
+              }`}
             >
-              Send Message
+              {isPending ? "Sending..." : "Send Message"}
             </button>
           </form>
         </div>

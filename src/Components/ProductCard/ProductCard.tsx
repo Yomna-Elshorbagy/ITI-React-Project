@@ -1,6 +1,8 @@
 import React from "react";
 import cartIcon from "../../assets/svgs/cart.svg";
 import heartIcon from "../../assets/svgs/heart.svg";
+import { useAppDispatch } from "../../Hooks/reduxHooks";
+import { addProductToCart } from "../../Store/Slices/CartSlice";
 
 type Product = {
   _id: string;
@@ -27,7 +29,11 @@ const ProductCard: React.FC<Props> = ({
 
   const imgSrc = product.imageCover?.secure_url || fallback;
   const price = product.price ?? 0;
+  const dispatch = useAppDispatch();
 
+  const handleAddToCart = () => {
+    dispatch(addProductToCart(product._id));
+  };
   return (
     <article
       className="bg-white border rounded-xl overflow-hidden shadow-sm flex flex-col hover:shadow-lg transition-transform hover:-translate-y-1 hover:border-green-500"
@@ -62,7 +68,7 @@ const ProductCard: React.FC<Props> = ({
           <div className="text-xl font-bold text-green-600">{price} EGP</div>
           <div className="flex items-center gap-3">
             <button
-              onClick={() => onAddToCart(product._id)}
+              onClick={handleAddToCart}
               className="p-3 bg-green-600 text-white rounded-full hover:bg-green-700 transition"
               aria-label="Add to Cart"
             >
