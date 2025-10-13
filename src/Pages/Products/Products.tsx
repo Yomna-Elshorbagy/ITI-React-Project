@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import ProductCard from "../../Components/ProductCard/ProductCard";
-import PromoBanner from "../../components/PromoBanner/PromoBanner";
+import AccessoriesBanner from "../../Components/AccessoriesBanner/AccessoriesBanner";
 
 type Product = {
   _id: string;
@@ -136,7 +136,7 @@ const Products: React.FC = () => {
 
   return (
     <>
-      <PromoBanner />
+      <AccessoriesBanner />
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Title + Search + Sort */}
@@ -266,21 +266,39 @@ const Products: React.FC = () => {
             )}
 
             {/* Pagination */}
-            <div className="mt-8 flex items-center justify-center gap-4">
+            {/* Pagination */}
+            <div className="mt-10 flex items-center justify-center gap-2">
               <button
                 onClick={() => setPage((old) => Math.max(1, old - 1))}
                 disabled={page === 1 || isFetching}
-                className="px-4 py-2 border rounded-lg disabled:opacity-50"
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300
+      ${
+        page === 1 || isFetching
+          ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+          : "bg-white border border-gray-300 hover:bg-green-600 hover:text-white shadow-sm"
+      }`}
               >
-                Previous
+                ‹ Prev
               </button>
-              <span>Page {page}</span>
+
+              <div className="flex items-center gap-2">
+                {/* show current page */}
+                <span className="px-4 py-2 rounded-full bg-green-600 text-white font-semibold shadow">
+                  {page}
+                </span>
+              </div>
+
               <button
                 onClick={() => setPage((old) => old + 1)}
                 disabled={products.length < size || isFetching}
-                className="px-4 py-2 border rounded-lg disabled:opacity-50"
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300
+      ${
+        products.length < size || isFetching
+          ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+          : "bg-white border border-gray-300 hover:bg-green-600 hover:text-white shadow-sm"
+      }`}
               >
-                Next
+                Next ›
               </button>
             </div>
           </section>

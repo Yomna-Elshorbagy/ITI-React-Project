@@ -10,11 +10,16 @@ import LoaderPage from "../../Shared/LoaderPage/LoaderPage";
 import { motion } from "framer-motion";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const MySwal = withReactContent(Swal);
 
 export default function Cart() {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const handleShoppingClick = () => {
+    navigate("/products");
+  };
   const { products, totalPrice, loading } = useAppSelector(
     (state) => state.cart
   );
@@ -46,7 +51,10 @@ export default function Cart() {
           <p className="text-gray-500 dark:text-gray-400">
             Browse our latest collections and add items to your cart!
           </p>
-          <button className="mt-6 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition font-medium shadow-lg">
+          <button
+            onClick={handleShoppingClick}
+            className="mt-6 px-6 py-3 bg-green-800 text-white rounded-xl hover:bg-green-900 transition font-medium shadow-lg"
+          >
             Go Shopping
           </button>
         </motion.div>
@@ -262,7 +270,10 @@ export default function Cart() {
           Total: <span className="text-teal-700">{totalPrice} EGP</span>
         </span>
         <div className="flex flex-wrap gap-4">
-          <button className="px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-300 dark:hover:bg-gray-600 transition font-medium text-lg">
+          <button
+            onClick={handleShoppingClick}
+            className="px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-300 dark:hover:bg-gray-600 transition font-medium text-lg"
+          >
             <i className="fa-solid fa-cart-shopping"></i>{" "}
           </button>
           <button
