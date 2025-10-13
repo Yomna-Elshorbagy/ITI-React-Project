@@ -3,6 +3,7 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import ProductCard from "../../Components/ProductCard/ProductCard";
 import AccessoriesBanner from "../../Components/AccessoriesBanner/AccessoriesBanner";
+import { useSearchParams } from "react-router-dom";
 
 type Product = {
   _id: string;
@@ -25,14 +26,24 @@ const fetchProducts = async (page: number, size: number) => {
 };
 
 const Products: React.FC = () => {
+  
+const [searchParams] = useSearchParams();
+const initialCategory = searchParams.get("category") || "All";
+
   const [page, setPage] = useState(1);
   const [size] = useState(PAGE_SIZE);
   const [search, setSearch] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [selectedCategory, setSelectedCategory] =
+    useState<string>(initialCategory);
   const [sort, setSort] = useState<string>("az");
   const [stockFilter, setStockFilter] = useState<"all" | "in" | "out">("all");
   const [maxPrice, setMaxPrice] = useState<number>(0);
   const [priceRange, setPriceRange] = useState<number>(0);
+
+  React.useEffect(() => {
+    const cat = searchParams.get("category");
+    if (cat) setSelectedCategory(cat);
+  }, [searchParams]);
 
   const {
     data: products = [],
