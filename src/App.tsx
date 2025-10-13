@@ -21,6 +21,7 @@ import ForgetPassword from "./Pages/ForgetPassword/ForgetPassword";
 import { store } from "./Store/store";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import ContactUs from "./Pages/Contact/ContactUs";
+import AuthLayout from "./Components/AuthLayout/AuthLayout";
 
 const router = createBrowserRouter([
   {
@@ -31,8 +32,6 @@ const router = createBrowserRouter([
         path: "",
         element: <Home />,
       },
-      { path: "login", element: <Login /> },
-      { path: "register", element: <Register /> },
       {
         path: "home",
         element: <Home />,
@@ -53,10 +52,7 @@ const router = createBrowserRouter([
         path: "category",
         element: <Category />,
       },
-      {
-        path: "forgetPass",
-        element: <ForgetPassword />,
-      },
+
       {
         path: "about",
         element: <About />,
@@ -72,7 +68,19 @@ const router = createBrowserRouter([
       { path: "qr-login", element: <UserProfile /> },
       { path: "*", element: <NotFound /> },
     ],
-  }, //end Routes
+  },
+  {
+    path: "",
+    element: <AuthLayout />,
+    children: [
+      { path: "login", element: <Login /> },
+      { path: "register", element: <Register /> },
+      {
+        path: "forgetPass",
+        element: <ForgetPassword />,
+      },
+    ],
+  },
 ]);
 
 function App() {

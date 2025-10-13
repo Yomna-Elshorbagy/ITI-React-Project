@@ -166,7 +166,7 @@ export default function Register() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="bg-[#8B5E35] text-white py-3 px-6 rounded w-full hover:bg-[#734927] transition"
+                className="bg-[#8B5E35] hover:bg-[#734927] active:scale-95 transition-transform duration-200 text-white font-semibold py-3 rounded-lg shadow-lg hover:shadow-amber-200/30 disabled:opacity-60 disabled:cursor-not-allowed w-full"
               >
                 {isLoading ? (
                   <i className="fa-solid fa-spinner fa-spin"></i>
