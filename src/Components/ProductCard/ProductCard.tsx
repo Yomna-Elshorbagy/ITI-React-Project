@@ -28,19 +28,20 @@ const ProductCard: React.FC<Props> = ({
   const fallback = `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 
   const imgSrc = product.imageCover?.secure_url || fallback;
-  const price = product.price ?? 0;
+  const originalPrice = product.price ?? 0;
+  const discountedPrice = product.finalPrice ?? originalPrice;
+  const hasDiscount = product.finalPrice && product.finalPrice < originalPrice;
+
   const dispatch = useAppDispatch();
 
   const handleAddToCart = () => {
     dispatch(addProductToCart(product._id));
   };
+
   return (
-    <article
-      className="bg-white border rounded-xl overflow-hidden shadow-sm flex flex-col hover:shadow-lg transition-transform hover:-translate-y-1 hover:border-green-500"
-      style={{ maxWidth: "300px" }}
-    >
-      {/* Image area */}
-      <div style={{ paddingTop: "100%", position: "relative" }}>
+    <div className="group relative flex flex-col rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-lg transition-all duration-300">
+      {/* Image container */}
+      <div className="relative w-full aspect-[4/5] overflow-hidden">
         <img
           src={imgSrc}
           alt={product.title}
@@ -48,43 +49,61 @@ const ProductCard: React.FC<Props> = ({
             (e.currentTarget as HTMLImageElement).src = fallback;
             (e.currentTarget as HTMLImageElement).onerror = null;
           }}
-          className="absolute inset-0 w-full h-full object-cover"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
+
+        {/* Discount badge */}
+        {hasDiscount && (
+          <span className="absolute top-3 left-3 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow">
+            -
+            {Math.round(
+              ((originalPrice - discountedPrice) / originalPrice) * 100
+            )}
+            %
+          </span>
+        )}
+
+        {/* Action buttons - appear on hover */}
+        <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <button
+            onClick={() => onAddToWishlist(product._id)}
+            className="p-2.5 bg-white rounded-full shadow hover:bg-gray-100 transition"
+            aria-label="Add to Wishlist"
+          >
+            <img src={heartIcon} alt="Wishlist" className="w-5 h-5" />
+          </button>
+          <button
+            onClick={handleAddToCart}
+            className="p-2.5 bg-green-600 rounded-full shadow hover:bg-green-700 transition"
+            aria-label="Add to Cart"
+          >
+            <img src={cartIcon} alt="Cart" className="w-5 h-5 invert" />
+          </button>
+        </div>
       </div>
 
-      <div className="p-5 flex flex-col gap-4 flex-1">
-        <div>
-          <h3 className="text-base font-semibold line-clamp-2">
-            {product.title}
-          </h3>
-          {product.category?.name && (
-            <p className="text-sm text-gray-500 mt-1">
-              {product.category.name}
-            </p>
+      {/* Info section */}
+      <div className="p-4 flex flex-col gap-2 flex-1">
+        <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 min-h-[38px]">
+          {product.title}
+        </h3>
+
+        {product.category?.name && (
+          <p className="text-xs text-gray-500">{product.category.name}</p>
+        )}
+
+        <div className="mt-auto flex items-baseline gap-2">
+          <span className="text-lg font-bold text-green-600">
+            {discountedPrice.toFixed(2)} EGP
+          </span>
+          {hasDiscount && (
+            <span className="text-sm text-gray-400 line-through">
+              {originalPrice.toFixed(2)} EGP
+            </span>
           )}
         </div>
-
-        <div className="mt-auto flex items-center justify-between">
-          <div className="text-xl font-bold text-green-600">{price} EGP</div>
-          <div className="flex items-center gap-3">
-            <button
-              onClick={handleAddToCart}
-              className="p-3 bg-green-600 text-white rounded-full hover:bg-green-700 transition"
-              aria-label="Add to Cart"
-            >
-              <img src={cartIcon} alt="Cart" className="w-5 h-5 invert" />
-            </button>
-            <button
-              onClick={() => onAddToWishlist(product._id)}
-              className="p-3 border border-gray-300 rounded-full hover:border-green-600 hover:bg-green-50 transition"
-              aria-label="Add to Wishlist"
-            >
-              <img src={heartIcon} alt="Wishlist" className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
       </div>
-    </article>
+    </div>
   );
 };
 

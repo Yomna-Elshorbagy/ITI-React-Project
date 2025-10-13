@@ -6,11 +6,23 @@ const PromoBanner: React.FC = () => {
     <section className="w-full">
       {/* Top ribbon */}
       <div className="bg-[#1F5958]  text-white text-sm md:text-base py-2 md:py-4 flex justify-center items-center md-gap-12 gap-8">
-      <img src="src/assets/images/flowerr.png" alt="flower" className="w-4 h-4" />
-       <span className="text-lg md:text-xl">Upto 25% Off All Jewelry</span>
-        <img src="src/assets/images/flowerr.png" alt="flower" className="w-4 h-4" />
+        <img
+          src="src/assets/images/flowerr.png"
+          alt="flower"
+          className="w-4 h-4"
+        />
+        <span className="text-lg md:text-xl">Upto 25% Off All Jewelry</span>
+        <img
+          src="src/assets/images/flowerr.png"
+          alt="flower"
+          className="w-4 h-4"
+        />
         <span className="text-lg md:text-xl">Shop Your Favorites!</span>
-        <img src="src/assets/images/flowerr.png" alt="flower" className="w-4 h-4" />
+        <img
+          src="src/assets/images/flowerr.png"
+          alt="flower"
+          className="w-4 h-4"
+        />
       </div>
 
       {/* Main content */}
@@ -42,18 +54,29 @@ const PromoBanner: React.FC = () => {
             accusantium doloremque laudantium, totam rem aperiam.
           </p>
 
-          <ShopNowBtn/>
+          <ShopNowBtn />
         </div>
       </div>
 
       {/* Bottom ribbon */}
       <div className="bg-[#163D3C] text-white text-sm md:text-base py-2 md:py-4 flex justify-center items-center md-gap-12 gap-8">
-        <img src="src/assets/images/flowerr.png" alt="flower" className="w-4 h-4" />
-       <span className="text-lg md:text-xl">Upto 25% Off All Jewelry</span>
-        <img src="src/assets/images/flowerr.png" alt="flower" className="w-4 h-4" />
+        <img
+          src="src/assets/images/flowerr.png"
+          alt="flower"
+          className="w-4 h-4"
+        />
+        <span className="text-lg md:text-xl">Upto 25% Off All Jewelry</span>
+        <img
+          src="src/assets/images/flowerr.png"
+          alt="flower"
+          className="w-4 h-4"
+        />
         <span className="text-lg md:text-xl">Shop Your Favorites!</span>
-        <img src="src/assets/images/flowerr.png" alt="flower" className="w-4 h-4" />
-        
+        <img
+          src="src/assets/images/flowerr.png"
+          alt="flower"
+          className="w-4 h-4"
+        />
       </div>
     </section>
   );
