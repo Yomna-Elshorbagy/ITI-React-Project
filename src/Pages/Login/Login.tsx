@@ -98,7 +98,14 @@ export default function Register() {
     <section className="register">
       <div className="flex min-h-screen">
         {/* Left Side - Form */}
-        <div className="w-full md:w-1/2 bg-[#f9f9f9] max-h-screen overflow-y-auto py-16 flex items-center">
+        <div className=" relative w-full md:w-1/2 bg-[#f9f9f9] max-h-screen overflow-y-auto py-16 flex items-center">
+          <button
+            onClick={() => navigate("/")}
+            className="absolute top-6 left-6 bg-white shadow-md rounded-full p-3 hover:bg-amber-50 hover:scale-105 transition duration-200"
+            title="Back to Home"
+          >
+            <i className="fa-solid fa-arrow-left text-[#8B5E35] text-lg"></i>
+          </button>
           <div className="w-full px-5 md:px-0 md:w-[75%] mx-auto h-full">
             <h1 className="text-[1.75rem] sm:text-[2rem] text-[#090f41] animate-pulse">
               Log in
