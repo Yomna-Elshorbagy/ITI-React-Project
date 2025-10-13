@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { addProductToCart } from "../../Store/Slices/CartSlice";
 import {
   addToWishlist,
@@ -16,11 +17,11 @@ export default function ProductDetailsInfo({
   product,
 }: ProductDetailsInfoProps) {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [thumbnailScrollIndex, setThumbnailScrollIndex] = useState(0);
 
-  // Get all images (cover + sub images)
   const allImages = [product.imageCover, ...product.subImages];
 
   // Show only 4 thumbnails at a time with scrolling
@@ -357,6 +358,18 @@ export default function ProductDetailsInfo({
               <i className={`fa-brands fa-instagram ${styles.socialIcon}`}></i>
             </button>
           </div>
+        </div>
+
+        {/* Reviews Button */}
+        <div className={styles.reviewsSection}>
+          <button
+            onClick={() => navigate(`/reviews/${product._id}`)}
+            className={styles.reviewsButton}
+          >
+            <i className="fa-solid fa-star"></i>
+            <span>View Reviews & Ratings</span>
+            <i className="fa-solid fa-arrow-right"></i>
+          </button>
         </div>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import cartIcon from "../../assets/svgs/cart.svg";
 import heartIcon from "../../assets/svgs/heart.svg";
 import { useAppDispatch } from "../../Hooks/reduxHooks";
@@ -26,6 +27,7 @@ const ProductCard: React.FC<Props> = ({
   onAddToWishlist,
 }) => {
   const [hovered, setHovered] = useState(false);
+  const navigate = useNavigate();
 
   const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><rect fill='%23f3f4f6' width='100%' height='100%'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%239ca3af' font-size='20' font-family='Arial, Helvetica, sans-serif'>No Image</text></svg>`;
   const fallback = `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
@@ -43,14 +45,18 @@ const ProductCard: React.FC<Props> = ({
     dispatch(addProductToCart(product._id));
   };
 
+  const handleProductClick = () => {
+    navigate(`/productDetails/${product._id}`);
+  };
+
   return (
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="group relative flex flex-col rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-lg transition-all duration-300"
+      className="group relative flex flex-col rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer"
     >
       {/* Image container */}
-      <div className="relative w-full aspect-[4/5] overflow-hidden">
+      <div className="relative w-full aspect-[4/5] overflow-hidden" onClick={handleProductClick}>
         <img
           src={activeImg}
           alt={product.title}
@@ -96,14 +102,20 @@ const ProductCard: React.FC<Props> = ({
         {/* Action buttons - appear on hover */}
         <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <button
-            onClick={() => onAddToWishlist(product._id)}
+            onClick={(e) => {
+              e.stopPropagation();
+              onAddToWishlist(product._id);
+            }}
             className="p-2.5 bg-white rounded-full shadow hover:bg-gray-100 transition"
             aria-label="Add to Wishlist"
           >
             <img src={heartIcon} alt="Wishlist" className="w-5 h-5" />
           </button>
           <button
-            onClick={handleAddToCart}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleAddToCart();
+            }}
             className="p-2.5 bg-green-600 rounded-full shadow hover:bg-green-700 transition"
             aria-label="Add to Cart"
           >
@@ -114,7 +126,10 @@ const ProductCard: React.FC<Props> = ({
 
       {/* Info section */}
       <div className="p-4 flex flex-col gap-2 flex-1">
-        <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 min-h-[38px]">
+        <h3 
+          className="text-sm font-semibold text-gray-900 line-clamp-2 min-h-[38px] cursor-pointer hover:text-green-600 transition-colors"
+          onClick={handleProductClick}
+        >
           {product.title}
         </h3>
 
