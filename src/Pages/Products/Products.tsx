@@ -46,7 +46,7 @@ const Products: React.FC = () => {
     staleTime: 1000 * 60 * 2,
   });
 
-  // Get max price dynamically
+  // get max price dynamically
   React.useEffect(() => {
     if (products.length > 0) {
       const max = Math.max(...products.map((p) => p.price ?? 0));
@@ -55,7 +55,7 @@ const Products: React.FC = () => {
     }
   }, [products]);
 
-  // derive categories from data
+  // categories (capitalized)
   const categories = useMemo(() => {
     const names = products
       .map((p) => p.category?.name)
@@ -64,31 +64,34 @@ const Products: React.FC = () => {
     return ["All", ...Array.from(new Set(names))];
   }, [products]);
 
-  // local filtering + search + sorting
+  // filters, search & sort
   const filtered = useMemo(() => {
     let list = [...products];
 
-    // Search
+    // search
     list = list.filter((p) =>
       p.title.toLowerCase().includes(search.trim().toLowerCase())
     );
 
-    // Category
+    // category (case-insensitive fix ✅)
     if (selectedCategory !== "All") {
-      list = list.filter((p) => p.category?.name === selectedCategory);
+      list = list.filter(
+        (p) =>
+          p.category?.name?.toLowerCase() === selectedCategory.toLowerCase()
+      );
     }
 
-    // Stock filter
+    // stock
     if (stockFilter === "in") {
       list = list.filter((p) => p.inStock !== false);
     } else if (stockFilter === "out") {
       list = list.filter((p) => p.inStock === false);
     }
 
-    // Price filter
+    // price
     list = list.filter((p) => (p.price ?? 0) <= priceRange);
 
-    // Sorting
+    // sorting
     list.sort((a, b) => {
       const priceA = a.price ?? 0;
       const priceB = b.price ?? 0;
@@ -112,13 +115,8 @@ const Products: React.FC = () => {
     return list;
   }, [products, search, selectedCategory, sort, stockFilter, priceRange]);
 
-  const handleAddToCart = (id: string) => {
-    console.log("Add to cart:", id);
-  };
-
-  const handleAddToWishlist = (id: string) => {
-    console.log("Add to wishlist:", id);
-  };
+  const handleAddToCart = (id: string) => console.log("Add to cart:", id);
+  const handleAddToWishlist = (id: string) => console.log("Wishlist:", id);
 
   if (isLoading) {
     return (
@@ -141,13 +139,12 @@ const Products: React.FC = () => {
       <PromoBanner />
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
-          {/* ✅ Dynamic Title */}
-          <h1 className="text-2xl font-bold">
+        {/* Title + Search + Sort */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
+          <h1 className="text-2xl font-bold tracking-tight">
             {selectedCategory === "All" ? "All Products" : selectedCategory}
           </h1>
 
-          {/* Search + Sort */}
           <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
             <input
               type="search"
@@ -157,13 +154,12 @@ const Products: React.FC = () => {
                 setSearch(e.target.value);
                 setPage(1);
               }}
-              className="w-full sm:w-64 border rounded px-4 py-2 focus:outline-none focus:ring"
+              className="w-full sm:w-64 border rounded-lg px-4 py-2 shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
             />
-
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value)}
-              className="border rounded px-3 py-2"
+              className="border rounded-lg px-3 py-2 shadow-sm"
             >
               <option value="az">Sort: A → Z</option>
               <option value="za">Sort: Z → A</option>
@@ -174,12 +170,12 @@ const Products: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {/* Sidebar */}
+          {/* Filters Sidebar */}
           <aside className="md:col-span-1 hidden md:block">
-            <div className="sticky top-20 bg-white p-4 border rounded space-y-6">
+            <div className="sticky top-20 bg-white p-5 border rounded-xl shadow-sm space-y-6">
               {/* Category */}
               <div>
-                <h3 className="font-semibold mb-3">Category</h3>
+                <h3 className="font-semibold mb-3 text-lg">Category</h3>
                 <ul className="space-y-2">
                   {categories.map((cat) => (
                     <li key={cat}>
@@ -188,10 +184,10 @@ const Products: React.FC = () => {
                           setSelectedCategory(cat);
                           setPage(1);
                         }}
-                        className={`text-left w-full ${
+                        className={`w-full text-left rounded px-2 py-1 transition ${
                           selectedCategory === cat
-                            ? "text-blue-600 font-semibold"
-                            : "text-gray-700"
+                            ? "bg-blue-100 text-blue-700 font-semibold"
+                            : "hover:bg-gray-100 text-gray-700"
                         }`}
                       >
                         {cat}
@@ -201,62 +197,56 @@ const Products: React.FC = () => {
                 </ul>
               </div>
 
-              {/* Stock Filter */}
+              {/* Stock */}
               <div>
-                <h3 className="font-semibold mb-3">Availability</h3>
+                <h3 className="font-semibold mb-3 text-lg">Availability</h3>
                 <div className="space-y-2">
-                  <label className="flex items-center gap-2">
-                    <input
-                      type="radio"
-                      name="stock"
-                      value="all"
-                      checked={stockFilter === "all"}
-                      onChange={() => setStockFilter("all")}
-                    />
-                    <span>All</span>
-                  </label>
-                  <label className="flex items-center gap-2">
-                    <input
-                      type="radio"
-                      name="stock"
-                      value="in"
-                      checked={stockFilter === "in"}
-                      onChange={() => setStockFilter("in")}
-                    />
-                    <span>In Stock</span>
-                  </label>
-                  <label className="flex items-center gap-2">
-                    <input
-                      type="radio"
-                      name="stock"
-                      value="out"
-                      checked={stockFilter === "out"}
-                      onChange={() => setStockFilter("out")}
-                    />
-                    <span>Out of Stock</span>
-                  </label>
+                  {[
+                    { value: "all", label: "All" },
+                    { value: "in", label: "In Stock" },
+                    { value: "out", label: "Out of Stock" },
+                  ].map((opt) => (
+                    <label
+                      key={opt.value}
+                      className="flex items-center gap-2 cursor-pointer"
+                    >
+                      <input
+                        type="radio"
+                        name="stock"
+                        value={opt.value}
+                        checked={stockFilter === opt.value}
+                        onChange={() =>
+                          setStockFilter(opt.value as "all" | "in" | "out")
+                        }
+                      />
+                      <span>{opt.label}</span>
+                    </label>
+                  ))}
                 </div>
               </div>
 
-              {/* Price Filter */}
+              {/* Price */}
               <div>
-                <h3 className="font-semibold mb-3">Max Price</h3>
+                <h3 className="font-semibold mb-3 text-lg">Max Price</h3>
                 <input
                   type="range"
                   min={0}
                   max={maxPrice}
                   value={priceRange}
                   onChange={(e) => setPriceRange(Number(e.target.value))}
-                  className="w-full"
+                  className="w-full accent-blue-500"
                 />
                 <div className="text-sm mt-1 text-gray-600">
-                  Up to: <span className="font-semibold">{priceRange} EGP</span>
+                  Up to:{" "}
+                  <span className="font-semibold text-blue-600">
+                    {priceRange} EGP
+                  </span>
                 </div>
               </div>
             </div>
           </aside>
 
-          {/* Main grid */}
+          {/* Products Grid */}
           <section className="md:col-span-3">
             {filtered.length === 0 ? (
               <div className="py-20 text-center text-gray-500">
@@ -280,17 +270,15 @@ const Products: React.FC = () => {
               <button
                 onClick={() => setPage((old) => Math.max(1, old - 1))}
                 disabled={page === 1 || isFetching}
-                className="px-4 py-2 border rounded disabled:opacity-50"
+                className="px-4 py-2 border rounded-lg disabled:opacity-50"
               >
                 Previous
               </button>
-
               <span>Page {page}</span>
-
               <button
                 onClick={() => setPage((old) => old + 1)}
                 disabled={products.length < size || isFetching}
-                className="px-4 py-2 border rounded disabled:opacity-50"
+                className="px-4 py-2 border rounded-lg disabled:opacity-50"
               >
                 Next
               </button>
