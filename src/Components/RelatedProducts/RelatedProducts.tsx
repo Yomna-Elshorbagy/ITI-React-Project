@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
-import type { RelatedProduct } from "../../Types/Prooduct";
+import type { RelatedProduct } from "../../Types/RelatedProduct";
 import styles from "./RelatedProducts.module.css";
 
 interface RelatedProductsProps {
@@ -150,9 +150,6 @@ export default function RelatedProducts({
 
                 {/* Content */}
                 <div className={styles.content}>
-                  {/* Category */}
-                  <div className={styles.category}>{product.category.name}</div>
-
                   {/* Title */}
                   <h3 className={styles.productTitle}>{product.title}</h3>
 

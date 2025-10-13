@@ -11,6 +11,7 @@ import Home from "./Pages/Home/Home";
 import Products from "./Pages/Products/Products";
 import Cart from "./Pages/Cart/Cart";
 import ProductDetails from "./Pages/ProductDetails/ProductDetails";
+import Reviews from "./Pages/Reviews/Reviews";
 import About from "./Pages/About/About";
 import UserProfile from "./Pages/Profile/UserProfile";
 import NotFound from "./Components/NotFound/NotFound";
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
       {
         path: "productDetails/:id",
         element: <ProductDetails />,
+      },
+      {
+        path: "reviews/:id",
+        element: <Reviews />,
       },
       {
         path: "category",

@@ -18,6 +18,10 @@ export interface Product {
   }>;
   category: {
     _id: string;
+    name: string;
+  };
+  product: {
+    _id: string;
     id: string;
     name: string;
     image: {

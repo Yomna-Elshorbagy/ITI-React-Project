@@ -221,7 +221,6 @@ export default function ProductDetailsInfo({
           <h1 className={styles.productTitle}>{product.title}</h1>
           <p className={styles.categoryName}>{product.category.name}</p>
         </div>
-
         {/* Price */}
         <div className={styles.priceContainer}>
           <span className={styles.currentPrice}>${product.finalPrice}</span>
@@ -234,23 +233,19 @@ export default function ProductDetailsInfo({
             </span>
           )}
         </div>
-
         {/* Rating */}
         <div className={styles.ratingContainer}>
           <div className={styles.stars}>{renderStars(product.rate)}</div>
           <span className={styles.ratingText}>({product.rate}/5)</span>
         </div>
-
         {/* Description */}
         <div>
           <p className={styles.description}>{product.description}</p>
         </div>
-
         {/* Stock Information */}
         <div className={styles.stockInfo}>
           <span>In Stock:</span> {product.stock} items available
         </div>
-
         {/* Quantity Selector */}
         <div className={styles.quantitySelector}>
           <span className={styles.quantityLabel}>Quantity:</span>
@@ -281,7 +276,6 @@ export default function ProductDetailsInfo({
             </button>
           </div>
         </div>
-
         {/* Action Buttons */}
         <div className={styles.actionButtons}>
           <div className={styles.primaryButtons}>
@@ -308,7 +302,6 @@ export default function ProductDetailsInfo({
             </button>
           </div>
         </div>
-
         {/* Social Share */}
         <div className={styles.socialShare}>
           <p className={styles.socialShareLabel}>Share this product:</p>
@@ -359,7 +352,6 @@ export default function ProductDetailsInfo({
             </button>
           </div>
         </div>
-
         {/* Reviews Button */}
         <div className={styles.reviewsSection}>
           <button
@@ -370,7 +362,7 @@ export default function ProductDetailsInfo({
             <span>View Reviews & Ratings</span>
             <i className="fa-solid fa-arrow-right"></i>
           </button>
-        </div>
+        </div>{" "}
       </div>
     </div>
   );

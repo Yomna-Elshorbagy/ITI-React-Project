@@ -1,0 +1,370 @@
+/* Reviews.module.css */
+
+.reviewsContainer {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.header {
+    margin-bottom: 2rem;
+}
+
+.backButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 1rem;
+}
+
+.backButton:hover {
+    background-color: #f3f4f6;
+    border-color: #9ca3af;
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 1.5rem;
+}
+
+.productInfo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: #f9fafb;
+    border-radius: 0.75rem;
+    border: 1px solid #e5e7eb;
+}
+
+.productImage {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+}
+
+.productTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 0.25rem;
+}
+
+.productCategory {
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
+.addReviewSection {
+    margin-bottom: 2rem;
+}
+
+.addReviewButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #111827;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.addReviewButton:hover {
+    background-color: #1f2937;
+}
+
+.loginPrompt {
+    background-color: #fef3c7;
+    border: 1px solid #fbbf24;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.loginText {
+    color: #92400e;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.loginButton {
+    background-color: #fbbf24;
+    color: #111827;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.loginButton:hover {
+    background-color: #f59e0b;
+}
+
+.reviewForm {
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.formTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 1rem;
+}
+
+.formGroup {
+    margin-bottom: 1rem;
+}
+
+.formLabel {
+    display: block;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.starInputContainer {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.starInput {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.25rem;
+    transition: color 0.2s ease;
+}
+
+.starInput.filled {
+    color: #fbbf24;
+}
+
+.starInput.empty {
+    color: #d1d5db;
+}
+
+.commentInput {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 100px;
+}
+
+.commentInput:focus {
+    outline: none;
+    border-color: #111827;
+    box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.1);
+}
+
+.formActions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+.cancelButton {
+    padding: 0.75rem 1.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    background-color: #f9fafb;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cancelButton:hover {
+    background-color: #f3f4f6;
+}
+
+.submitButton {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    background-color: #111827;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-weight: 500;
+}
+
+.submitButton:hover:not(:disabled) {
+    background-color: #1f2937;
+}
+
+.submitButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.reviewsList {
+    margin-top: 2rem;
+}
+
+.reviewsTitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 1rem;
+}
+
+.noReviews {
+    text-align: center;
+    padding: 3rem;
+    color: #6b7280;
+}
+
+.noReviews i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #d1d5db;
+}
+
+.reviewsGrid {
+    display: grid;
+    gap: 1rem;
+}
+
+.reviewCard {
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    transition: box-shadow 0.2s ease;
+}
+
+.reviewCard:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.reviewHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.reviewUser {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.userAvatar {
+    width: 40px;
+    height: 40px;
+    background-color: #f3f4f6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+}
+
+.userName {
+    font-weight: 500;
+    color: #111827;
+    margin-bottom: 0.25rem;
+}
+
+.reviewDate {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.reviewActions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.deleteButton {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    background-color: #fef2f2;
+    color: #dc2626;
+}
+
+.deleteButton:hover {
+    background-color: #fecaca;
+}
+
+.reviewRating {
+    display: flex;
+    gap: 0.25rem;
+    margin-bottom: 0.75rem;
+}
+
+.star {
+    font-size: 1rem;
+}
+
+.star.filled {
+    color: #fbbf24;
+}
+
+.star.empty {
+    color: #d1d5db;
+}
+
+.reviewComment {
+    color: #374151;
+    line-height: 1.6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .reviewsContainer {
+        padding: 1rem 0.5rem;
+    }
+
+    .productInfo {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .formActions {
+        flex-direction: column;
+    }
+
+    .reviewHeader {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .reviewActions {
+        align-self: flex-end;
+    }
+}

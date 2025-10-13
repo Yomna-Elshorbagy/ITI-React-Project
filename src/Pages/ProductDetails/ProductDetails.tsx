@@ -13,7 +13,7 @@ export default function ProductDetails() {
   const {
     data: relatedProductsData,
     isLoading: relatedLoading,
-  } = useRelatedProducts(productData?.category._id);
+  } = useRelatedProducts(productData?._id);
 
   if (productLoading) {
     return <LoaderPage />;
