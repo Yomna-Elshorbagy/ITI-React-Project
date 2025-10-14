@@ -101,3 +101,27 @@ body {
   background-clip: text;
   color: transparent;
 }
+
+@layer utilities {
+  @media (min-width: 820px) and (max-width: 1100px) {
+    .custome-md-size {
+      width: 1rem; 
+      height: 1rem;
+    }
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.toast {
+  animation: fadeInUp 0.3s ease-out;
+}

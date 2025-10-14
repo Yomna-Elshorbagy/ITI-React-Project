@@ -4,6 +4,10 @@ import { useQuery } from "@tanstack/react-query";
 import ProductCard from "../../Components/ProductCard/ProductCard";
 import AccessoriesBanner from "../../Components/AccessoriesBanner/AccessoriesBanner";
 import { useSearchParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "../../Store/store"; 
+import { addToWishlist, removeFromWishlist } from "../../Store/Slices/WishlistSlice";
+import { useSelector } from "react-redux";
 
 type Product = {
   _id: string;
@@ -126,7 +130,19 @@ const Products: React.FC = () => {
   }, [products, search, selectedCategory, sort, stockFilter, priceRange]);
 
   const handleAddToCart = (id: string) => console.log("Add to cart:", id);
-  const handleAddToWishlist = (id: string) => console.log("Wishlist:", id);
+ //Wishlist
+  const dispatch = useDispatch<AppDispatch>();
+  const wishlist = useSelector((state: any) => state.wishlist.items);
+  const [showModal, setShowModal] = useState(false);
+  const handleAddToWishlist = async (id: string) => {
+  await dispatch(addToWishlist(id));
+  setShowModal(true);
+  setTimeout(() => setShowModal(false), 1500);
+};
+
+const handleRemoveFromWishlist = async (id: string) => {
+  await dispatch(removeFromWishlist(id));
+};
 
   if (isLoading) {
     return (
@@ -147,6 +163,14 @@ const Products: React.FC = () => {
   return (
     <>
       <AccessoriesBanner />
+      {/* wishlist Modal*/}
+   {showModal && (
+  <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50">
+    <div className="bg-[#2e5339]/90 font-serif text-[#d4a762] px-6 py-3 rounded-full shadow-lg text-sm font-medium animate-bounce">
+       Added to wishlist!
+    </div>
+  </div>
+   )}
 
       <div className="max-w-7xl mx-auto px-4 py-10">
         {/* Title + Search + Sort */}
@@ -277,6 +301,8 @@ const Products: React.FC = () => {
                     product={p}
                     onAddToCart={handleAddToCart}
                     onAddToWishlist={handleAddToWishlist}
+                    onRemoveFromWishlist={handleRemoveFromWishlist}
+                    isInWishlist={wishlist.some((item: any) => item._id === p._id)}
                   />
                 ))}
               </div>

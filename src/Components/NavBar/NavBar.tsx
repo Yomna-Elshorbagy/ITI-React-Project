@@ -8,17 +8,30 @@ import {
 } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/react.svg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../Hooks/reduxHooks";
 import { clearUserToken } from "../../Store/Slices/AuthSlice";
+import WishlistModal from "../WishlistModal/WishlistModal"; 
+import { fetchWishlist } from "../../Store/Slices/WishlistSlice"; 
 
 export default function NavBar() {
   const [darkMode, setDarkMode] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [wishlistOpen, setWishlistOpen] = useState(false);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const token = useAppSelector((state) => state.auth.token);
+  const { items } = useAppSelector((state) => state.wishlist);
+
+  // Fetch wishlist items when user logged in
+  useEffect(() => {
+    if (token) {
+      dispatch(fetchWishlist());
+    }
+  }, [dispatch, token]);
+
+
   const { noOfCartProducts } = useAppSelector((state) => state.cart);
 
   //====> handling dark mode
@@ -104,12 +117,19 @@ export default function NavBar() {
 
           {token && (
             <div className="flex items-center space-x-5">
-              <Link to="/wishlist" className="relative">
-                <FaHeart className="cursor-pointer hover:text-[color:var(--color-primary)] transition" />
-                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold px-[6px] py-[1px] rounded-full">
-                  2
-                </span>
-              </Link>
+              {/*  Open Wishlist Modal */}
+              <button
+                onClick={() => setWishlistOpen(true)}
+                className="relative"
+                title="Wishlist"
+              >
+                <FaHeart className="cursor-pointer hover:text-amber-600 transition text-[#d4a762]" />
+                {items.length > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold px-[6px] py-[1px] rounded-full">
+                    {items.length}
+                  </span>
+                )}
+              </button>
 
               <Link to="/cart" className="relative">
                 <FaShoppingBag className="cursor-pointer hover:text-[color:var(--color-primary)] transition" />
@@ -165,6 +185,16 @@ export default function NavBar() {
           </button>
         </div>
       </div>
+      
+      {/* Wishlist Modal */}
+     <WishlistModal
+    open={wishlistOpen}
+    onClose={() => setWishlistOpen(false)}
+    onAddToCart={(productId: string) => {
+    console.log("Add to cart:", productId);
+    // Later: dispatch(addToCart(productId))
+  }}
+/>
 
       {menuOpen && (
         <div className="md:hidden bg-[color:var(--color-surface)] dark:bg-gray-900 text-[color:var(--color-text)] dark:text-gray-200 border-t border-[color:var(--color-border)] dark:border-gray-700 flex flex-col space-y-3 px-6 py-4 animate-in fade-in slide-in-from-top-2 duration-200">

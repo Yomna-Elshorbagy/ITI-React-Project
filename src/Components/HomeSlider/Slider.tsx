@@ -5,11 +5,12 @@ import ShopNowBtn from "../ShopNowBtn/ShopNowBtn";
 const Slider: React.FC = () => {
   // images array
   const images: string[] = [
-    "src/assets/images/Slide1 (3).png",
-   "src/assets/images/Slide1 (4).png",
-   "src/assets/images/Slide1 (2).png",
-   "src/assets/images/Slide1 (5).png",
-   "src/assets/images/Slide1 (1).png",
+    "src/assets/images/sslider4.png",
+    "src/assets/images/sslider7.jpg",
+    //"src/assets/images/sslider1.jpg",
+    "src/assets/images/sslider5.jpg",
+   "src/assets/images/sslider3.jpg",
+ 
   ];
 
   const [current, setCurrent] = useState<number>(0);
@@ -32,7 +33,7 @@ const Slider: React.FC = () => {
   };
 
   return (
-    <div className="relative w-full h-[40vh] sm:h-[50vh] md:h-[60vh] lg:h-screen overflow-hidden">  {/*use max height in different screens to control the slider height*/}
+    <div className="relative w-full h-[40vh] sm:h-[50vh] md:h-[60vh] lg:h-[100vh] overflow-hidden">  {/*use max height in different screens to control the slider height*/}
       {/* Image container */}
       <div
         className="relative w-full h-full "
@@ -43,7 +44,7 @@ const Slider: React.FC = () => {
             src={src}
             alt={`Slide ${index + 1}`}
             
-            className={`absolute top-0 left-0 w-full h-full lg:object-cover object-contain transition-opacity duration-1000 ${
+           className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000 ${
               index === current ? "opacity-100" : "opacity-0"
             }`}
           />
@@ -56,7 +57,7 @@ const Slider: React.FC = () => {
     <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-2">
       KAYAN
     </h2>
-    <p className="text-emerald-950 mb-4">
+     <p className="text-grey-800 mb-4">
       From legendary diamonds to extraordinary gemstones, Everyday is Embued with poetry. 
     </p>
     <ShopNowBtn/>
@@ -65,6 +66,12 @@ const Slider: React.FC = () => {
 
 </div>
 {/* The button (hidden on medium+ screens, shown on small) */}
+<div className="md:hidden absolute bottom-[10%] left-1/2 transform -translate-x-1/2 items-center justify-center">
+  {/*<div className="bg-white/30 backdrop-blur-md rounded-lg shadow-lg p-6 sm:p-10 text-center max-w-md">*/}
+    <ShopNowBtn/>
+ {/*</div> */}
+
+</div>
 {/*<Link to="/products">
   <button
     className="absolute cursor-pointer md:hidden bottom-[10%] left-1/2 transform -translate-x-1/2  bg-teal-900 hover:bg-emerald-700 text-white px-4 py-2 text-small "

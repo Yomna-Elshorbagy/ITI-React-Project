@@ -58,7 +58,7 @@ const InstagramGallery: React.FC = () => {
                   key={i}
                   src={img}
                   alt={`Left ${rowIndex}-${i}`}
-                  className="w-24 h-28 md:w-39 md:h-43 object-cover"
+                  className="w-24 h-28 md:w-39 md:h-43 object-cover custome-md-size"
                   loading="lazy"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -74,7 +74,7 @@ const InstagramGallery: React.FC = () => {
         <motion.img
           src={centerImage}
           alt="Center"
-          className="w-48 h-60 md:w-86 md:h-90 object-cover"  //the center image is double that h and w
+          className="w-48 h-60 md:w-86 md:h-90 object-cover custome-md-size"  //the center image is double that h and w
           loading="lazy"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -91,7 +91,7 @@ const InstagramGallery: React.FC = () => {
                   key={i}
                   src={img}
                   alt={`Right ${rowIndex}-${i}`}
-                  className="w-24 h-28 md:w-39 md:h-43 object-cover"
+                  className="w-24 h-28 md:w-39 md:h-43 object-cover custome-md-size"
                   loading="lazy"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}

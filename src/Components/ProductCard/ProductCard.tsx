@@ -4,6 +4,8 @@ import cartIcon from "../../assets/svgs/cart.svg";
 import heartIcon from "../../assets/svgs/heart.svg";
 import { useAppDispatch } from "../../Hooks/reduxHooks";
 import { addProductToCart } from "../../Store/Slices/CartSlice";
+import toast from "react-hot-toast";
+import { useEffect } from "react";
 
 type Product = {
   _id: string;
@@ -19,13 +21,37 @@ interface Props {
   product: Product;
   onAddToCart: (id: string) => void;
   onAddToWishlist: (id: string) => void;
+  onRemoveFromWishlist: (id: string) => void;
+  isInWishlist: boolean;
 }
 
 const ProductCard: React.FC<Props> = ({
   product,
   onAddToCart,
   onAddToWishlist,
+  onRemoveFromWishlist,
+  isInWishlist,
 }) => {
+const [inWishlist, setInWishlist] = useState(isInWishlist);
+
+  // Sync local state with Redux on reload/modal open
+  useEffect(() => {
+    setInWishlist(isInWishlist);
+  }, [isInWishlist]);
+
+  const handleWishlistClick = () => {
+    if (inWishlist) {
+      setInWishlist(false); // optimistic toggle
+      onRemoveFromWishlist(product._id);
+       toast.success("Item removed from wishlist 🖤");
+    } else {
+      setInWishlist(true); // optimistic toggle
+      onAddToWishlist(product._id);
+      toast.success("Item added to wishlist 💚");
+    }
+  };
+
+
   const [hovered, setHovered] = useState(false);
   const navigate = useNavigate();
 
@@ -107,12 +133,16 @@ const ProductCard: React.FC<Props> = ({
           <button
             onClick={(e) => {
               e.stopPropagation();
-              onAddToWishlist(product._id);
+              handleWishlistClick()
             }}
-            className=" p-2.5 cursor-pointer bg-[color:var(--color-surface)] rounded-full shadow hover:bg-[color:var(--mist-100)] transition"
+            className={`p-2.5 cursor-pointer rounded-full shadow transition ${
+           inWishlist
+           ? "bg-green-900 border-green-900 text-white"
+           : "bg-[color:var(--color-surface)]  hover:bg-[color:var(--mist-100)]"
+            }`}
             aria-label="Add to Wishlist"
           >
-            <img src={heartIcon} alt="Wishlist" className="w-5 h-5" />
+            <img src={heartIcon} alt="Wishlist" className={`w-5 h-5 ${inWishlist ? "invert" : ""}`} />
           </button>
           <button
             onClick={(e) => {
