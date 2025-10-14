@@ -72,7 +72,7 @@ const ProductCard: React.FC<Props> = ({
 
         {/* Discount badge */}
         {hasDiscount && (
-          <span className="absolute top-3 left-3 bg-[color:var(--color-primary)] text-white text-xs font-bold px-2 py-1 rounded-full shadow">
+          <span className="absolute top-3 left-3 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow">
             -
             {Math.round(
               ((originalPrice - discountedPrice) / originalPrice) * 100
@@ -109,7 +109,7 @@ const ProductCard: React.FC<Props> = ({
               e.stopPropagation();
               onAddToWishlist(product._id);
             }}
-            className="p-2.5 bg-[color:var(--color-surface)] rounded-full shadow hover:bg-[color:var(--color-bg)] transition"
+            className=" p-2.5 cursor-pointer bg-[color:var(--color-surface)] rounded-full shadow hover:bg-[color:var(--mist-100)] transition"
             aria-label="Add to Wishlist"
           >
             <img src={heartIcon} alt="Wishlist" className="w-5 h-5" />
@@ -119,7 +119,7 @@ const ProductCard: React.FC<Props> = ({
               e.stopPropagation();
               handleAddToCart();
             }}
-            className="p-2.5 bg-[color:var(--color-primary)] rounded-full shadow hover:bg-[color:var(--color-primary-hover)] transition"
+            className="p-2.5 cursor-pointer  bg-[color:var(--color-primary)] rounded-full shadow hover:bg-[color:var(--color-primary-hover)] transition"
             aria-label="Add to Cart"
           >
             <img src={cartIcon} alt="Cart" className="w-5 h-5 invert" />
