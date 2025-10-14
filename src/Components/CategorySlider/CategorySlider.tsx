@@ -51,15 +51,15 @@ export default function CategorySlider() {
 
   return (
     <>
-      <div className="py-8 bg-gray-50 overflow-x-hidden md:px-33">
-        <h2 className="text-3xl font-bold text-center mb-6">
+      <div className="py-10 bg-[color:var(--color-bg)] overflow-x-hidden px-4 sm:px-6 lg:px-8">
+        <h2 className="text-3xl font-bold text-center mb-8 text-gradient">
           Shop Popular Categories
         </h2>
         <Slider {...settings}>
           {categories.map((category: Category) => (
             <div key={category._id} className="px-2 my-2">
               <div
-                className="bg-white rounded-lg shadow-md flex flex-col items-center p-4 h-90 cursor-pointer"
+                className="rounded-lg elevate-soft elevate-hover transition-all duration-300 flex flex-col items-center p-4 h-90 cursor-pointer bg-[color:var(--color-surface)] hover:-translate-y-1"
                 onClick={() =>
                   navigate(
                     `/products?category=${encodeURIComponent(category.name)}`
@@ -71,7 +71,7 @@ export default function CategorySlider() {
                   alt={category.name}
                   className="object-cover h-70 w-full rounded-md mb-3"
                 />
-                <p className="text-lg font-semibold text-center">
+                <p className="text-lg font-semibold text-center text-[color:var(--color-text)]">
                   {category.name}
                 </p>
               </div>

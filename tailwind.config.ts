@@ -22,10 +22,9 @@ export default {
     "./node_modules/flowbite/**/*.js",
     "./node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}",
   ],
+  darkMode: "class",
   theme: {
     extend: {},
   },
-  plugins: {
-    flowbite: {}, // ✅ this automatically loads flowbite/plugin
-  },
+  plugins: [require("flowbite/plugin")],
 };

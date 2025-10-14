@@ -43,53 +43,57 @@ export default function NavBar() {
   };
 
   return (
-    <header className="bg-teal-700 shadow-sm sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-6 py-2 flex items-center justify-between">
+    <header className="sticky top-0 z-50 border-b border-[color:var(--color-border)] bg-[color:var(--color-surface)]/80 dark:bg-gray-900/70 backdrop-blur glass dark:glass-dark">
+      <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
         <Link to="/" className="flex items-center space-x-3">
-          <img src={logo} alt="Jewelry Logo" className="h-10 w-10" />
-          <span className="text-2xl font-semibold tracking-wide text-white">
+          <img
+            src={logo}
+            alt="Jewelry Logo"
+            className="h-10 w-10 drop-shadow-sm"
+          />
+          <span className="text-2xl font-semibold tracking-wide text-[color:var(--color-text)] dark:text-white">
             KAYAN
           </span>
         </Link>
 
-        <nav className="hidden md:flex items-center space-x-8 text-white font-medium">
+        <nav className="hidden md:flex items-center space-x-8 font-medium text-[color:var(--color-text)] dark:text-gray-100">
           <Link
             to="/"
-            className="relative group hover:text-amber-600 transition duration-200"
+            className="relative group hover:text-[color:var(--color-primary)] transition duration-200"
           >
             Home
-            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-amber-600 transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[color:var(--color-primary)] transition-all duration-300 group-hover:w-full"></span>
           </Link>
 
           <Link
             to="/products"
-            className="relative group hover:text-amber-600 transition duration-200"
+            className="relative group hover:text-[color:var(--color-primary)] transition duration-200"
           >
             Shop
-            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-amber-800 transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[color:var(--color-primary-hover)] transition-all duration-300 group-hover:w-full"></span>
           </Link>
 
           <Link
             to="/about"
-            className="relative group hover:text-amber-600 transition duration-200"
+            className="relative group hover:text-[color:var(--color-primary)] transition duration-200"
           >
             About Us
-            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-amber-800 transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[color:var(--color-primary-hover)] transition-all duration-300 group-hover:w-full"></span>
           </Link>
 
           <Link
             to="/contact"
-            className="relative group hover:text-amber-600 transition duration-200"
+            className="relative group hover:text-[color:var(--color-primary)] transition duration-200"
           >
             Contact Us
-            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-amber-800 transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[color:var(--color-primary-hover)] transition-all duration-300 group-hover:w-full"></span>
           </Link>
         </nav>
-        <div className="flex items-center justify-between space-x-6 text-xl text-gray-700 w-auto">
+        <div className="flex items-center justify-between space-x-6 text-xl text-[color:var(--color-text)] dark:text-gray-200 w-auto">
           <button
             type="button"
             onClick={toggleDarkMode}
-            className="text-2xl text-[#8B5E35] dark:text-amber-600 transition cursor-pointer"
+            className="text-2xl text-[color:var(--color-primary)] dark:text-[color:var(--color-secondary)] transition cursor-pointer hover:scale-105 active:scale-95 duration-200"
           >
             <i
               className={`fa-solid ${
@@ -101,21 +105,21 @@ export default function NavBar() {
           {token && (
             <div className="flex items-center space-x-5">
               <Link to="/wishlist" className="relative">
-                <FaHeart className="cursor-pointer hover:text-amber-600 transition text-white" />
+                <FaHeart className="cursor-pointer hover:text-[color:var(--color-primary)] transition" />
                 <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold px-[6px] py-[1px] rounded-full">
                   2
                 </span>
               </Link>
 
               <Link to="/cart" className="relative">
-                <FaShoppingBag className="cursor-pointer hover:text-amber-600 transition text-white" />
+                <FaShoppingBag className="cursor-pointer hover:text-[color:var(--color-primary)] transition" />
                 <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold px-[6px] py-[1px] rounded-full">
                   {noOfCartProducts}
                 </span>
               </Link>
 
               <Link to="/profile">
-                <FaUser className="cursor-pointer hover:text-amber-600 transition text-white" />
+                <FaUser className="cursor-pointer hover:text-[color:var(--color-primary)] transition" />
               </Link>
             </div>
           )}
@@ -134,7 +138,7 @@ export default function NavBar() {
               <>
                 <Link
                   to="/login"
-                  className="text-amber-400 hover:text-amber-600 transition flex items-center gap-1"
+                  className="text-[color:var(--color-primary)] hover:text-[color:var(--color-primary-hover)] transition flex items-center gap-1"
                   title="Login"
                 >
                   <FaSignInAlt className="text-2xl" />
@@ -143,7 +147,7 @@ export default function NavBar() {
 
                 <Link
                   to="/register"
-                  className="text-amber-400 hover:text-amber-600 transition flex items-center gap-1"
+                  className="text-[color:var(--color-primary)] hover:text-[color:var(--color-primary-hover)] transition flex items-center gap-1"
                   title="Register"
                 >
                   <FaUserPlus className="text-2xl" />
@@ -155,7 +159,7 @@ export default function NavBar() {
 
           <button
             onClick={toggleMenu}
-            className="md:hidden text-2xl hover:text-amber-600 text-white"
+            className="md:hidden text-2xl hover:text-[color:var(--color-primary)]"
           >
             {menuOpen ? "✕" : "☰"}
           </button>
@@ -163,7 +167,7 @@ export default function NavBar() {
       </div>
 
       {menuOpen && (
-        <div className="md:hidden bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 border-t border-gray-200 dark:border-gray-700 flex flex-col space-y-3 px-6 py-4">
+        <div className="md:hidden bg-[color:var(--color-surface)] dark:bg-gray-900 text-[color:var(--color-text)] dark:text-gray-200 border-t border-[color:var(--color-border)] dark:border-gray-700 flex flex-col space-y-3 px-6 py-4 animate-in fade-in slide-in-from-top-2 duration-200">
           <Link to="/" onClick={toggleMenu}>
             Home
           </Link>

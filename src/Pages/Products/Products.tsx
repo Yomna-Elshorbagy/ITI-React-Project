@@ -26,9 +26,8 @@ const fetchProducts = async (page: number, size: number) => {
 };
 
 const Products: React.FC = () => {
-  
-const [searchParams] = useSearchParams();
-const initialCategory = searchParams.get("category") || "All";
+  const [searchParams] = useSearchParams();
+  const initialCategory = searchParams.get("category") || "All";
 
   const [page, setPage] = useState(1);
   const [size] = useState(PAGE_SIZE);
@@ -149,10 +148,10 @@ const initialCategory = searchParams.get("category") || "All";
     <>
       <AccessoriesBanner />
 
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-4 py-10">
         {/* Title + Search + Sort */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
-          <h1 className="text-2xl font-bold tracking-tight">
+          <h1 className="text-2xl font-bold tracking-tight text-[color:var(--color-text)]">
             {selectedCategory === "All" ? "All Products" : selectedCategory}
           </h1>
 
@@ -165,12 +164,12 @@ const initialCategory = searchParams.get("category") || "All";
                 setSearch(e.target.value);
                 setPage(1);
               }}
-              className="w-full sm:w-64 border rounded-lg px-4 py-2 shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
+              className="w-full sm:w-64 border border-[color:var(--color-border)] rounded-lg px-4 py-2 shadow-sm bg-[color:var(--color-surface)] text-[color:var(--color-text)] placeholder:text-[color:var(--color-text-muted)] focus:outline-none focus:ring-2 focus:ring-[color:var(--color-primary)]/30"
             />
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value)}
-              className="border rounded-lg px-3 py-2 shadow-sm"
+              className="border border-[color:var(--color-border)] rounded-lg px-3 py-2 shadow-sm bg-[color:var(--color-surface)] text-[color:var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[color:var(--color-primary)]/30"
             >
               <option value="az">Sort: A → Z</option>
               <option value="za">Sort: Z → A</option>
@@ -183,10 +182,12 @@ const initialCategory = searchParams.get("category") || "All";
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {/* Filters Sidebar */}
           <aside className="md:col-span-1 hidden md:block">
-            <div className="sticky top-20 bg-white p-5 border rounded-xl shadow-sm space-y-6">
+            <div className="sticky top-20 p-5 border border-[color:var(--color-border)] rounded-xl shadow-sm space-y-6 bg-[color:var(--color-surface)]/80 backdrop-blur elevate-soft">
               {/* Category */}
               <div>
-                <h3 className="font-semibold mb-3 text-lg">Category</h3>
+                <h3 className="font-semibold mb-3 text-lg text-[color:var(--color-text)]">
+                  Category
+                </h3>
                 <ul className="space-y-2">
                   {categories.map((cat) => (
                     <li key={cat}>
@@ -195,10 +196,10 @@ const initialCategory = searchParams.get("category") || "All";
                           setSelectedCategory(cat);
                           setPage(1);
                         }}
-                        className={`w-full text-left rounded px-2 py-1 transition ${
+                        className={`w-full text-left rounded-md px-3 py-2 transition border ${
                           selectedCategory === cat
-                            ? "bg-blue-100 text-blue-700 font-semibold"
-                            : "hover:bg-gray-100 text-gray-700"
+                            ? "bg-[color:var(--color-accent)]/40 border-[color:var(--color-primary)]/30 text-[color:var(--color-text)] font-semibold"
+                            : "border-transparent hover:bg-[color:var(--color-bg)] text-[color:var(--color-text)]"
                         }`}
                       >
                         {cat}
@@ -210,7 +211,9 @@ const initialCategory = searchParams.get("category") || "All";
 
               {/* Stock */}
               <div>
-                <h3 className="font-semibold mb-3 text-lg">Availability</h3>
+                <h3 className="font-semibold mb-3 text-lg text-[color:var(--color-text)]">
+                  Availability
+                </h3>
                 <div className="space-y-2">
                   {[
                     { value: "all", label: "All" },
@@ -219,7 +222,7 @@ const initialCategory = searchParams.get("category") || "All";
                   ].map((opt) => (
                     <label
                       key={opt.value}
-                      className="flex items-center gap-2 cursor-pointer"
+                      className="flex items-center gap-2 cursor-pointer text-[color:var(--color-text)]"
                     >
                       <input
                         type="radio"
@@ -229,6 +232,7 @@ const initialCategory = searchParams.get("category") || "All";
                         onChange={() =>
                           setStockFilter(opt.value as "all" | "in" | "out")
                         }
+                        className="accent-[color:var(--color-primary)]"
                       />
                       <span>{opt.label}</span>
                     </label>
@@ -238,18 +242,20 @@ const initialCategory = searchParams.get("category") || "All";
 
               {/* Price */}
               <div>
-                <h3 className="font-semibold mb-3 text-lg">Max Price</h3>
+                <h3 className="font-semibold mb-3 text-lg text-[color:var(--color-text)]">
+                  Max Price
+                </h3>
                 <input
                   type="range"
                   min={0}
                   max={maxPrice}
                   value={priceRange}
                   onChange={(e) => setPriceRange(Number(e.target.value))}
-                  className="w-full accent-blue-500"
+                  className="w-full accent-[color:var(--color-primary)]"
                 />
-                <div className="text-sm mt-1 text-gray-600">
+                <div className="text-sm mt-1 text-[color:var(--color-text-muted)]">
                   Up to:{" "}
-                  <span className="font-semibold text-blue-600">
+                  <span className="font-semibold text-[color:var(--color-primary)]">
                     {priceRange} EGP
                   </span>
                 </div>
@@ -282,19 +288,18 @@ const initialCategory = searchParams.get("category") || "All";
               <button
                 onClick={() => setPage((old) => Math.max(1, old - 1))}
                 disabled={page === 1 || isFetching}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300
-      ${
-        page === 1 || isFetching
-          ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-          : "bg-white border border-gray-300 hover:bg-green-600 hover:text-white shadow-sm"
-      }`}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                  page === 1 || isFetching
+                    ? "bg-[color:var(--color-border)] text-gray-400 cursor-not-allowed"
+                    : "bg-[color:var(--color-surface)] border border-[color:var(--color-border)] hover:bg-[color:var(--color-primary)] hover:text-white shadow-sm"
+                }`}
               >
                 ‹ Prev
               </button>
 
               <div className="flex items-center gap-2">
                 {/* show current page */}
-                <span className="px-4 py-2 rounded-full bg-green-600 text-white font-semibold shadow">
+                <span className="px-4 py-2 rounded-full bg-[color:var(--color-primary)] text-white font-semibold shadow">
                   {page}
                 </span>
               </div>
@@ -302,12 +307,11 @@ const initialCategory = searchParams.get("category") || "All";
               <button
                 onClick={() => setPage((old) => old + 1)}
                 disabled={products.length < size || isFetching}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300
-      ${
-        products.length < size || isFetching
-          ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-          : "bg-white border border-gray-300 hover:bg-green-600 hover:text-white shadow-sm"
-      }`}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                  products.length < size || isFetching
+                    ? "bg-[color:var(--color-border)] text-gray-400 cursor-not-allowed"
+                    : "bg-[color:var(--color-surface)] border border-[color:var(--color-border)] hover:bg-[color:var(--color-primary)] hover:text-white shadow-sm"
+                }`}
               >
                 Next ›
               </button>

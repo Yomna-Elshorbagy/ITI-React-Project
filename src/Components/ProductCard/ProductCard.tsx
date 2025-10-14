@@ -53,10 +53,13 @@ const ProductCard: React.FC<Props> = ({
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="group relative flex flex-col rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer"
+      className="group relative flex flex-col rounded-2xl overflow-hidden bg-[color:var(--color-surface)] shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer elevate-soft hover:-translate-y-1"
     >
       {/* Image container */}
-      <div className="relative w-full aspect-[4/5] overflow-hidden" onClick={handleProductClick}>
+      <div
+        className="relative w-full aspect-[4/5] overflow-hidden"
+        onClick={handleProductClick}
+      >
         <img
           src={activeImg}
           alt={product.title}
@@ -69,7 +72,7 @@ const ProductCard: React.FC<Props> = ({
 
         {/* Discount badge */}
         {hasDiscount && (
-          <span className="absolute top-3 left-3 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow">
+          <span className="absolute top-3 left-3 bg-[color:var(--color-primary)] text-white text-xs font-bold px-2 py-1 rounded-full shadow">
             -
             {Math.round(
               ((originalPrice - discountedPrice) / originalPrice) * 100
@@ -106,7 +109,7 @@ const ProductCard: React.FC<Props> = ({
               e.stopPropagation();
               onAddToWishlist(product._id);
             }}
-            className="p-2.5 bg-white rounded-full shadow hover:bg-gray-100 transition"
+            className="p-2.5 bg-[color:var(--color-surface)] rounded-full shadow hover:bg-[color:var(--color-bg)] transition"
             aria-label="Add to Wishlist"
           >
             <img src={heartIcon} alt="Wishlist" className="w-5 h-5" />
@@ -116,7 +119,7 @@ const ProductCard: React.FC<Props> = ({
               e.stopPropagation();
               handleAddToCart();
             }}
-            className="p-2.5 bg-green-600 rounded-full shadow hover:bg-green-700 transition"
+            className="p-2.5 bg-[color:var(--color-primary)] rounded-full shadow hover:bg-[color:var(--color-primary-hover)] transition"
             aria-label="Add to Cart"
           >
             <img src={cartIcon} alt="Cart" className="w-5 h-5 invert" />
@@ -126,19 +129,21 @@ const ProductCard: React.FC<Props> = ({
 
       {/* Info section */}
       <div className="p-4 flex flex-col gap-2 flex-1">
-        <h3 
-          className="text-sm font-semibold text-gray-900 line-clamp-2 min-h-[38px] cursor-pointer hover:text-green-600 transition-colors"
+        <h3
+          className="text-sm font-semibold text-[color:var(--color-text)] line-clamp-2 min-h-[38px] cursor-pointer hover:text-[color:var(--color-primary)] transition-colors"
           onClick={handleProductClick}
         >
           {product.title}
         </h3>
 
         {product.category?.name && (
-          <p className="text-xs text-gray-500">{product.category.name}</p>
+          <p className="text-xs text-[color:var(--color-text-muted)]">
+            {product.category.name}
+          </p>
         )}
 
         <div className="mt-auto flex items-baseline gap-2">
-          <span className="text-lg font-bold text-green-600">
+          <span className="text-lg font-bold text-[color:var(--color-primary)]">
             {discountedPrice.toFixed(2)} EGP
           </span>
           {hasDiscount && (
