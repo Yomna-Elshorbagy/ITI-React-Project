@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import LoaderPage from "../../Shared/LoaderPage/LoaderPage";
 import profileImage from "../../assets/images/fourthPerson.webp";
+import UserOrders from "../../Components/UserOrder/UserOrder";
 const MySwal = withReactContent(Swal);
 
 export default function UserProfile() {
@@ -307,7 +308,7 @@ export default function UserProfile() {
           )}
           {activeTab == "My Orders" && (
             <div className="flex justify-center items-center h-full text-gray-400">
-              <p>Content for "{activeTab}" will appear here.</p>
+              <UserOrders/>
             </div>
           )}
         </div>
