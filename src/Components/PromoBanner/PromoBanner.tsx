@@ -3,21 +3,21 @@ import ShopNowBtn from "../ShopNowBtn/ShopNowBtn";
 
 const PromoBanner: React.FC = () => {
   return (
-    <section className="w-full">
+    <section className="w-full py-[padding:var(--global-padding)]">  {/* bg-[#FbFaF8]*/}
       {/* Top ribbon */}
-      <div className="bg-[#1F5958]  text-white text-sm md:text-base py-2 md:py-4 flex justify-center items-center md-gap-12 gap-8">
+      <div className="bg-[#1F5958]  text-white text-sm md:text-base py-2 md:py-4 flex justify-center items-center md-gap-12 gap-8"> {/*bg-[#1F5958] */}
         <img
           src="src/assets/images/flowerr.png"
           alt="flower"
           className="w-4 h-4"
         />
-        <span className="text-lg md:text-xl">Upto 25% Off All Jewelry</span>
+        <span className="text-lg md:text-xl font-['Playfair_Display']">Upto 25% Off All Jewelry</span>
         <img
           src="src/assets/images/flowerr.png"
           alt="flower"
           className="w-4 h-4"
         />
-        <span className="text-lg md:text-xl">Shop Your Favorites!</span>
+        <span className="text-lg md:text-xl font-['Playfair_Display']">Shop Your Favorites!</span>
         <img
           src="src/assets/images/flowerr.png"
           alt="flower"
@@ -26,19 +26,20 @@ const PromoBanner: React.FC = () => {
       </div>
 
       {/* Main content */}
-      <div className="flex w-full flex-col md:flex-row items-center justify-center bg-[#F9F8F6] px-6 md:px-23 py-10 md:py-8">
+      <div className="flex w-full flex-col md:flex-row items-center justify-center px-6 md:px-23 py-10 md:py-8">
         {/* Left image */}
         <div className="w-full md:w-1/2 flex justify-center">
           <img
-            src="src/assets/images/2ed section home page.jpg"
+           src="src/assets/images/2ed section home page.jpg"
+            //src= "src/assets/images/sslider4.png"
             alt="Jewelry Promo"
             className="w-full md:w-[85%] h-auto object-cover"
           />
         </div>
 
         {/* Right text */}
-        <div className="w-full md:w-1/2 text-center md:text-left mt-8 md:mt-0 md:pl-10">
-          <h2 className="text-[#d4a762] uppercase tracking-widest font-semibold text-lg md:text-2xl mb-2">
+        <div className="font-['Playfair_Display'] w-full md:w-1/2 text-center md:text-left mt-8 md:mt-0 md:pl-10">
+          <h2 className="text-[var(--color-header)] uppercase tracking-widest font-semibold text-lg md:text-2xl mb-2">
             Festival Sale Offers
           </h2>
 
@@ -49,9 +50,8 @@ const PromoBanner: React.FC = () => {
             Upto 25% Off All Jewelry Favorites - Shop Your Favorites!
           </h2>
 
-          <p className="text-gray-600 text-sm md:text-base mb-6 font-['Poppins'] max-w-md mx-auto md:mx-0">
-            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-            accusantium doloremque laudantium, totam rem aperiam.
+          <p className="text-gray-600 text-sm md:text-base mb-6 font-['Playfair_Display'] tracking-widest  max-w-md mx-auto md:mx-0">
+            Elevate your everyday style with exceptional craftsmanship and exclusive savings on our signature designs.
           </p>
 
           <ShopNowBtn />
@@ -65,13 +65,13 @@ const PromoBanner: React.FC = () => {
           alt="flower"
           className="w-4 h-4"
         />
-        <span className="text-lg md:text-xl">Upto 25% Off All Jewelry</span>
+        <span className="text-lg md:text-xl font-['Playfair_Display']">Upto 25% Off All Jewelry</span>
         <img
           src="src/assets/images/flowerr.png"
           alt="flower"
           className="w-4 h-4"
         />
-        <span className="text-lg md:text-xl">Shop Your Favorites!</span>
+        <span className="text-lg md:text-xl font-['Playfair_Display']">Shop Your Favorites!</span>
         <img
           src="src/assets/images/flowerr.png"
           alt="flower"

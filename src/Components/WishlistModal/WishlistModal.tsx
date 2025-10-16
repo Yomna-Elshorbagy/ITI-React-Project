@@ -94,7 +94,7 @@ export default function WishlistModal({ open, onClose, onAddToCart }: any) {
             leaveFrom="scale-100 opacity-100"
             leaveTo="scale-95 opacity-0"
           >
-            <Dialog.Panel className="relative w-full max-w-3xl rounded-2xl bg-white/90 py-6 p-x-2 shadow-xl">
+            <Dialog.Panel className="relative w-full max-w-3xl rounded-2xl bg-white/90 dark:bg-black/90 py-6 p-x-2 shadow-xl">
               <div className="px-6 py-2 h-[85vh]">
                 <button
                   onClick={handleClear}
@@ -111,19 +111,18 @@ export default function WishlistModal({ open, onClose, onAddToCart }: any) {
                   ✕
                 </button>
 
-                <Dialog.Title className="text-3xl font-serif text-gray-900 mb-4 text-center">
+                <Dialog.Title className="text-3xl font-serif text-gray-900 mb-4 text-center dark:text-[#dad7cd]">
                   My Wishlist
                 </Dialog.Title>
 
-                {loading && <p className="text-center">Loading...</p>}
-                {error && (
-                  <p className="text-center text-red-500">
-                    Failed to load wishlist.
-                  </p>
-                )}
+                {loading ? (
+                <p className="text-center">Loading...</p>
+                ) : error ? (
+                <p className="text-center text-red-500">Failed to load wishlist.</p>
+               ) : null}
 
                 {!loading && items.length === 0 ? (
-                  <p className="text-center text-gray-500">
+                  <p className="text-center text-gray-500 dark:text-[#dad7cd]">
                     Your wishlist is empty.
                   </p>
                 ) : (
@@ -152,10 +151,10 @@ export default function WishlistModal({ open, onClose, onAddToCart }: any) {
                              }}
                             />
                             <div className="p-3 text-center">
-                              <h3 className="text-sm font-semibold text-gray-800 truncate">
+                              <h3 className="text-sm font-semibold text-gray-800 truncate dark:text-[#dad7cd]">
                                 {product.title}
                               </h3>
-                              <p className="text-sm text-gray-600">
+                              <p className="text-sm text-gray-600 dark:text-[#dad7cd]">
                                 {product.finalPrice} EGP
                               </p>
                               <button

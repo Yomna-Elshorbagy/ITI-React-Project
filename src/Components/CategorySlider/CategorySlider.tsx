@@ -51,8 +51,8 @@ export default function CategorySlider() {
 
   return (
     <>
-      <div className="py-10 bg-[color:var(--color-bg)] overflow-x-hidden px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-center mb-8 text-gradient">
+      <div className="py-[padding:var(--global-padding)] bg-[color:var(--color-bg)] overflow-x-hidden px-4 sm:px-6 lg:px-8">  {/*text-3xl font-bold text-gradient*/}
+        <h2 className="font-['Playfair_Display'] text-[var(--color-header)] uppercase tracking-widest font-semibold text-lg md:text-2xl text-center mb-8 ">
           Shop Popular Categories
         </h2>
         <Slider {...settings}>
@@ -71,7 +71,7 @@ export default function CategorySlider() {
                   alt={category.name}
                   className="object-cover h-70 w-full rounded-md mb-3"
                 />
-                <p className="text-lg font-semibold text-center text-[color:var(--color-text)]">
+                <p className="font-['Playfair_Display'] uppercase text-lg font-semibold text-center text-[color:var(--color-text)]">
                   {category.name}
                 </p>
               </div>

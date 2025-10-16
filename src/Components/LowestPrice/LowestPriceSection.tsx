@@ -81,12 +81,13 @@ export default function LowestPriceSection() {
   };
 
   return (
-    <section className="py-12 px-6 bg-gray-50 relative">
+    <section className="py-[padding:var(--global-padding)] px-6 relative">
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-gray-800">
+        {/*<h2 className="text-2xl font-bold text-gray-800">
           Lowest Price Products
-        </h2>
-        <p className="text-gray-500 mt-2">Grab the best deals right now!</p>
+        </h2>*/}
+
+        <p className="font-['Playfair_Display'] text-[var(--color-header)] uppercase tracking-widest font-semibold text-lg md:text-2xl mt-2"> Grab Our best deals!</p>  {/*text-gray-500 */}
       </div>
 
       <div className="relative w-[75%] m-auto">
