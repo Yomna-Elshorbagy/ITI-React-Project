@@ -6,7 +6,16 @@ import {
   FaSignInAlt,
   FaUserPlus,
 } from "react-icons/fa";
-import { Heart, ShoppingBag, User, LogOut, LogIn, UserPlus, Moon, Sun } from "lucide-react";
+import {
+  Heart,
+  ShoppingBag,
+  User,
+  LogOut,
+  LogIn,
+  UserPlus,
+  Moon,
+  Sun,
+} from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/react.svg";
 import { useState, useEffect } from "react";
@@ -56,19 +65,21 @@ export default function NavBar() {
   };
 
   return (
-    <header className="sticky top-0 z-50  bg-[#E8DFD3]/80 dark:bg-gray-900/70 dark:glass-dark">  {/*border-b border-[color:var(--color-border)] backdrop-blur  glass  bg-[color:var(--color-surface)]/80 */}
+    <header className="sticky top-0 z-50  bg-[#E8DFD3]/80 dark:bg-gray-900/70 dark:glass-dark">
+      {" "}
+      {/*border-b border-[color:var(--color-border)] backdrop-blur  glass  bg-[color:var(--color-surface)]/80 */}
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         <Link to="/" className="flex items-center md:ml-15 ">
-      {/*<div className="h-1 w-40"> */}
+          {/*<div className="h-1 w-40"> */}
           <img
             src="src/assets/images/KAYAN logo.png"
             alt="Jewelry Logo"
             className="h-full w-17 drop-shadow-sm"
           />
-         {/* <span className="text-2xl font-semibold tracking-wide text-[color:var(--color-text)] dark:text-white">
+          {/* <span className="text-2xl font-semibold tracking-wide text-[color:var(--color-text)] dark:text-white">
             KAYAN
-          </span> */} 
-         {/*</div> */} 
+          </span> */}
+          {/*</div> */}
         </Link>
 
         <nav className="hidden md:flex items-center space-x-10 font-[Libre-Franklin] tracking-[0.12rem] text-[1.1rem] uppercase dark:text-gray-100">
@@ -177,7 +188,9 @@ export default function NavBar() {
                   title="Register"
                 >
                   <UserPlus className="text-2xl" />
-                  <span className="hidden md:inline text-base">Register</span>
+                  <span className="absolute left-8 opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300 text-sm whitespace-nowrap">
+                    Register
+                  </span>
                 </Link>
               </>
             )}
@@ -191,7 +204,6 @@ export default function NavBar() {
           </button>
         </div>
       </div>
-
       {/* Wishlist Modal */}
       <WishlistModal
         open={wishlistOpen}
@@ -201,7 +213,6 @@ export default function NavBar() {
           // Later: dispatch(addToCart(productId))
         }}
       />
-
       {menuOpen && (
         <div className="md:hidden bg-[color:var(--color-surface)] dark:bg-gray-900 text-[color:var(--color-text)] dark:text-gray-200 border-t border-[color:var(--color-border)] dark:border-gray-700 flex flex-col space-y-3 px-6 py-4 animate-in fade-in slide-in-from-top-2 duration-200">
           <Link to="/" onClick={toggleMenu}>
