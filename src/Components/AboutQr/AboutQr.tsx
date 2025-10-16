@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import img1 from "../../assets/images/auth-slider1.jpeg";
-type QrResponse = {
-  qrCode: string;
-};
+import type { QrResponse } from "../../Types/QrResponse";
+
 
 export default function AboutQr() {
   const [qrCode, setQrCode] = useState<string | null>(null);
@@ -24,7 +23,7 @@ export default function AboutQr() {
   }, []);
 
   return (
-    <section className="container mx-auto px-30 py-16 flex flex-col lg:flex-row items-center justify-between gap-16">
+    <section className="container dark:bg-gray-800 mx-auto px-30 py-16 flex flex-col lg:flex-row items-center justify-between gap-16">
       <div className="flex-1 flex justify-center">
         <div className="relative group w-100 h-100 rounded-2xl overflow-hidden shadow-xl transition-all duration-500 hover:shadow-2xl hover:scale-105">
           <img
@@ -37,8 +36,8 @@ export default function AboutQr() {
       </div>
 
       <div className="flex-1 flex flex-col items-start text-left  w-100 ">
-        <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-6">
-          About <span className="text-green-900">Kayan Accessories</span>
+        <h1 className="text-4xl font-bold text-gray-800  dark:text-white mb-6">
+          About <span className="text-[var(--color-primary)]">Kayan Accessories</span>
         </h1>
 
         <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed w-100">
@@ -49,7 +48,7 @@ export default function AboutQr() {
 
         <div className="flex flex-col items-center lg:items-start">
           <h2 className="text-lg font-semibold mb-3 text-gray-700 dark:text-gray-200">
-            Scan to Visit <span className="text-green-900">Kayan</span>
+            Scan to Visit <span className="text-[var(--color-primary)]">Kayan</span>
           </h2>
 
           {qrCode ? (

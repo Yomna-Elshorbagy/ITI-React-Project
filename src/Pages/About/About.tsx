@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Testimonials from "../../Components/Testimonials/Testimonials";
 import AboutQr from "../../Components/AboutQr/AboutQr";
+import AboutAcess from "../../Components/AboutAccess/AboutAcess";
 
 const About: React.FC = () => {
   const fullText =
@@ -8,19 +9,19 @@ const About: React.FC = () => {
 
   const [displayedText, setDisplayedText] = useState("");
 
- useEffect(() => {
-  let index = 0;
-  const interval = setInterval(() => {
-    setDisplayedText(fullText.slice(0, index + 1));
-    index++;
+  useEffect(() => {
+    let index = 0;
+    const interval = setInterval(() => {
+      setDisplayedText(fullText.slice(0, index + 1));
+      index++;
 
-    if (index === fullText.length) {
-      clearInterval(interval);
-    }
-  }, 50);
+      if (index === fullText.length) {
+        clearInterval(interval);
+      }
+    }, 50);
 
-  return () => clearInterval(interval);
-}, []);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <>
@@ -44,14 +45,14 @@ const About: React.FC = () => {
 
             <p className="text-gray-800 font-medium leading-relaxed font-semibold whitespace-pre-wrap">
               {displayedText}
-             {/*<span className="animate-pulse text-[#0B1D39]">|</span> */} 
+              {/*<span className="animate-pulse text-[#0B1D39]">|</span> */}
             </p>
           </div>
         </div>
       </section>
-
+      <AboutAcess />
+      <AboutQr />
       <Testimonials />
-      <AboutQr/>
     </>
   );
 };

@@ -36,6 +36,22 @@
   --color-info: #cfe1b9;
 }
 
+.dark {
+  --color-primary: #a3b18a;
+  --color-primary-hover: #dde5b6;
+  --color-secondary: #f0ead2;
+  --color-accent: #344e41;
+  --color-bg: #1a1a1a;
+  --color-surface: #2a2a2a;
+  --color-border: #3a3a3a;
+  --color-text: #f5f5f0;
+  --color-text-muted: #a3b18a;
+  --color-success: #6ba368;
+  --color-warning: #eadca6;
+  --color-error: #c97c5d;
+  --color-info: #cfe1b9;
+}
+
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
@@ -100,28 +116,4 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-}
-
-@layer utilities {
-  @media (min-width: 820px) and (max-width: 1100px) {
-    .custome-md-size {
-      width: 1rem; 
-      height: 1rem;
-    }
-  }
-}
-
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, 20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
-}
-
-.toast {
-  animation: fadeInUp 0.3s ease-out;
 }

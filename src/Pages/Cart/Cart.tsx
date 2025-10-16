@@ -42,7 +42,7 @@ export default function Cart() {
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className={`${styles.title} text-center`}
+          className={`${styles.title} text-center dark:text-white`}
         >
           🛒 Your Shopping Cart
         </motion.h1>
@@ -106,7 +106,7 @@ export default function Cart() {
   return (
     <div className={styles.container}>
       <div className={styles.hero}>
-        <h1 className={styles.title}>🛍️ Your Cart</h1>
+        <h1 className={`${styles.title}`}>🛍️ Your Cart</h1>
         <p className={styles.subtitle}>Manage your items before checkout</p>
       </div>
 
@@ -247,13 +247,13 @@ export default function Cart() {
           <div className="mt-3 flex gap-2">
             <button
               onClick={handleShoppingClick}
-              className="px-4 py-2 rounded-md border"
+              className="px-4 py-2 rounded-md border cursor-pointer"
             >
               Continue shopping
             </button>
             <button
               onClick={handleClearCart}
-              className="px-4 py-2 rounded-md bg-red-600 text-white"
+              className="px-4 py-2 rounded-md bg-red-600 text-white cursor-pointer"
             >
               Clear cart
             </button>
