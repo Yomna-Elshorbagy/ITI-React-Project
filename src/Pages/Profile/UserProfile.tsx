@@ -28,15 +28,15 @@ export default function UserProfile() {
     return <p className="text-center py-10">Error loading User Profile</p>;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10 px-5">
+    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 py-10 px-5">
       <div className="text-center mb-10">
-        <h2 className="text-3xl font-serif text-gray-800">My Account</h2>
-        <p className="text-gray-500 mt-2">
+        <h2 className="text-3xl font-serif text-gray-900 tracking-tight">My Account</h2>
+        <p className="text-gray-500 mt-2 text-sm">
           Home / <span className="text-gray-800">My Account</span>
         </p>
       </div>
 
-      <div className="max-w-5xl mx-auto bg-white shadow rounded-2xl p-8 flex flex-col md:flex-row gap-8">
+      <div className="max-w-5xl mx-auto bg-white/90 backdrop-blur rounded-2xl p-6 md:p-8 shadow-[0_10px_30px_rgba(0,0,0,0.06)] flex flex-col md:flex-row gap-8 border border-gray-100">
         {/* sidebar */}
         <div className="flex flex-col w-full md:w-1/4 border-r border-gray-100">
           <div className="flex flex-col items-center mb-8">
@@ -57,7 +57,7 @@ export default function UserProfile() {
 
               <label
                 htmlFor="profile-upload"
-                className="absolute bottom-1 right-1 bg-green-700 text-white p-2 rounded-full shadow hover:bg-green-900 cursor-pointer transition"
+                className="absolute bottom-1 right-1 bg-green-700 text-white p-2 rounded-full shadow hover:bg-green-800 cursor-pointer transition-colors"
               >
                 <FaPen size={14} />
               </label>
@@ -70,7 +70,7 @@ export default function UserProfile() {
               onClick={() => setActiveTab(tab)}
               className={`text-left px-5 py-3 font-medium rounded-md mb-2 transition-colors ${
                 activeTab === tab
-                  ? "bg-green-700 text-white"
+                  ? "bg-green-700 text-white shadow"
                   : "bg-gray-50 hover:bg-gray-100 text-gray-700"
               }`}
             >
@@ -96,7 +96,7 @@ export default function UserProfile() {
                   name="userName"
                   value={formData.userName}
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-green-700"
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-700 focus:border-green-700"
                 />
               </div>
 
@@ -110,7 +110,7 @@ export default function UserProfile() {
                   name="email"
                   value={formData.email}
                   disabled
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-100 cursor-not-allowed"
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-100 cursor-not-allowed"
                 />
               </div>
 
@@ -125,7 +125,7 @@ export default function UserProfile() {
                   placeholder="**********"
                   value={formData.newPassword}
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-green-700"
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-700"
                 />
               </div>
 
@@ -139,7 +139,7 @@ export default function UserProfile() {
                   placeholder="**********"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-green-700"
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-700"
                 />
               </div>
 
@@ -153,7 +153,7 @@ export default function UserProfile() {
                   name="recoveryEmail"
                   value={formData.recoveryEmail}
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-green-700"
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-700"
                 />
               </div>
 
@@ -167,7 +167,7 @@ export default function UserProfile() {
                   name="mobileNumber"
                   value={formData.mobileNumber}
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-green-700"
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-700"
                 />
               </div>
 
@@ -180,7 +180,7 @@ export default function UserProfile() {
                   name="gender"
                   value={formData.gender}
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-green-700"
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-700"
                 >
                   <option value=""> Select</option>
                   <option value="female">Female</option>
@@ -188,11 +188,11 @@ export default function UserProfile() {
                 </select>
               </div>
 
-              <div className="md:col-span-2 flex justify-end mt-4">
+              <div className="md:col-span-2 flex justify-end mt-6">
                 <button
                   type="submit"
                   disabled={mutation.isPending}
-                  className="bg-green-700 text-white px-6 py-2 rounded-md hover:bg-green-900 transition font-medium"
+                  className="bg-green-700 text-white px-6 py-2 rounded-lg hover:bg-green-800 transition font-medium shadow"
                 >
                   {mutation.isPending ? (
                     <>
@@ -208,8 +208,8 @@ export default function UserProfile() {
             </form>
           )}
           {activeTab == "My Orders" && (
-            <div className="flex justify-center items-center h-full text-gray-400">
-              <UserOrders/>
+            <div className="h-full">
+              <UserOrders />
             </div>
           )}
         </div>

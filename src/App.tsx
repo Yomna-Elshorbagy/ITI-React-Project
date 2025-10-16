@@ -18,6 +18,7 @@ import NotFound from "./Components/NotFound/NotFound";
 import Category from "./Pages/Category/Category";
 import Login from "./Pages/Login/Login";
 import Register from "./Pages/Register/Register";
+import Checkout from "./Pages/Checkout/Checkout";
 import ForgetPassword from "./Pages/ForgetPassword/ForgetPassword";
 import { store } from "./Store/store";
 import { GoogleOAuthProvider } from "@react-oauth/google";
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
       {
         path: "cart",
         element: <Cart />,
+      },
+      {
+        path: "checkout",
+        element: <Checkout />,
       },
       {
         path: "productDetails/:id",

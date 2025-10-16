@@ -26,6 +26,14 @@ export const getUserCart = createAsyncThunk<any, void, { state: RootState }>(
       });
       return res.data;
     } catch (error: any) {
+      if (error?.response?.status === 404) {
+        // No cart found for user yet – treat as empty cart
+        return {
+          noOfCartItems: 0,
+          noOfProducts: 0,
+          data: { products: [], totalPrice: 0 },
+        };
+      }
       return rejectWithValue(error.response?.data || error.message);
     }
   }
