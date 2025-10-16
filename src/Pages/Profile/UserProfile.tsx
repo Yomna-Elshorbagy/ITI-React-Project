@@ -1,122 +1,23 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 import { FaPen } from "react-icons/fa";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
 import LoaderPage from "../../Shared/LoaderPage/LoaderPage";
 import profileImage from "../../assets/images/fourthPerson.webp";
 import UserOrders from "../../Components/UserOrder/UserOrder";
-const MySwal = withReactContent(Swal);
+import { useUserProfile } from "../../Hooks/useUserProfile";
 
 export default function UserProfile() {
   const [activeTab, setActiveTab] = useState("Personal Information");
-  const [preview, setPreview] = useState<string | null>(null);
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [formData, setFormData] = useState({
-    userName: "",
-    email: "",
-    recoveryEmail: "",
-    mobileNumber: "",
-    gender: "",
-    newPassword: "",
-    confirmPassword: "",
-  });
-
-  const queryClient = useQueryClient();
-  const token = localStorage.getItem("accessToken");
-
-  // ===> 1️- fetch user profile dynamically
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["userProfile"],
-    queryFn: async () => {
-      const response = await axios.get(
-        "https://iti-react-backend.vercel.app/user/profile",
-        {
-          headers: { authentication: `bearer ${token}` },
-        }
-      );
-      return response.data.data;
-    },
-    enabled: !!token,
-  });
-
-  useEffect(() => {
-    if (data) {
-      setFormData({
-        userName: data.userName || "",
-        email: data.email || "",
-        recoveryEmail: data.recoveryEmail || "",
-        mobileNumber: data.mobileNumber || "",
-        gender: data.gender || "",
-        newPassword: "",
-        confirmPassword: "",
-      });
-      if (data.image?.secure_url) setPreview(data.image.secure_url);
-    }
-  }, [data]);
-
-  // ===> 2️- handle input change
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  // ===> 3️- Handle image
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setImageFile(file);
-      setPreview(URL.createObjectURL(file));
-    }
-  };
-
-  // ===> 4️- mutation for update
-  const mutation = useMutation({
-    mutationFn: async () => {
-      const formDataToSend = new FormData();
-      Object.entries(formData).forEach(([key, value]) => {
-        if (value) formDataToSend.append(key, value);
-      });
-      if (imageFile) formDataToSend.append("image", imageFile);
-
-      const res = await axios.put(
-        "https://iti-react-backend.vercel.app/user",
-        formDataToSend,
-        {
-          headers: {
-            authentication: `bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      return res.data;
-    },
-    onSuccess: (data) => {
-      MySwal.fire({
-        icon: "success",
-        title: "Profile Updated",
-        text: "Your information was updated successfully!",
-      });
-      queryClient.invalidateQueries({ queryKey: ["userProfile"] });
-    },
-    onError: (error: any) => {
-      MySwal.fire({
-        icon: "error",
-        title: "Update Failed",
-        text: error.response?.data?.message || "Error updating profile",
-      });
-    },
-  });
-
-  // ===> 5️- handle submit
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    mutation.mutate();
-  };
-
+  const {
+    formData,
+    handleChange,
+    handleImageChange,
+    handleSubmit,
+    preview,
+    mutation,
+    isLoading,
+    isError,
+  } = useUserProfile();
+ 
   const tabs = ["Personal Information", "My Orders"];
 
   if (isLoading) {
