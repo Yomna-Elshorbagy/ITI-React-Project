@@ -81,7 +81,7 @@ export default function LowestPriceSection() {
   };
 
   return (
-    <section className="py-[padding:var(--global-padding)] px-6 relative">
+    <section className="py-[padding:var(--global-padding)] px-3 relative">
       <div className="text-center mb-8">
         {/*<h2 className="text-2xl font-bold text-gray-800">
           Lowest Price Products

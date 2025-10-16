@@ -51,7 +51,7 @@ export default function CategorySlider() {
 
   return (
     <>
-      <div className="py-[padding:var(--global-padding)] bg-[color:var(--color-bg)] overflow-x-hidden px-4 sm:px-6 lg:px-8">  {/*text-3xl font-bold text-gradient*/}
+      <div className="py-[padding:var(--global-padding)] bg-[color:var(--color-bg)] overflow-x-hidden px-4 sm:px-6 lg:px-27">  {/*text-3xl font-bold text-gradient*/}
         <h2 className="font-['Playfair_Display'] text-[var(--color-header)] uppercase tracking-widest font-semibold text-lg md:text-2xl text-center mb-8 ">
           Shop Popular Categories
         </h2>

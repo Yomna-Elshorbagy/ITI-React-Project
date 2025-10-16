@@ -6,6 +6,7 @@ import {
   FaSignInAlt,
   FaUserPlus,
 } from "react-icons/fa";
+import { Heart, ShoppingBag, User, LogOut, LogIn, UserPlus, Moon, Sun } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/react.svg";
 import { useState, useEffect } from "react";
@@ -56,23 +57,25 @@ export default function NavBar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[color:var(--color-border)] bg-[color:var(--color-surface)]/80 dark:bg-gray-900/70 backdrop-blur glass dark:glass-dark">
-      <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
-        <Link to="/" className="flex items-center space-x-3">
+    <header className="sticky top-0 z-50  bg-[#E8DFD3]/80 dark:bg-gray-900/70 dark:glass-dark">  {/*border-b border-[color:var(--color-border)] backdrop-blur  glass  bg-[color:var(--color-surface)]/80 */}
+      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+        <Link to="/" className="flex items-center md:ml-15 ">
+      {/*<div className="h-1 w-40"> */}
           <img
-            src={logo}
+            src="src/assets/images/KAYAN logo.png"
             alt="Jewelry Logo"
-            className="h-10 w-10 drop-shadow-sm"
+            className="h-full w-17 drop-shadow-sm"
           />
-          <span className="text-2xl font-semibold tracking-wide text-[color:var(--color-text)] dark:text-white">
+         {/* <span className="text-2xl font-semibold tracking-wide text-[color:var(--color-text)] dark:text-white">
             KAYAN
-          </span>
+          </span> */} 
+         {/*</div> */} 
         </Link>
 
-        <nav className="hidden md:flex items-center space-x-8 font-medium text-[color:var(--color-text)] dark:text-gray-100">
+        <nav className="hidden md:flex items-center space-x-10 font-[Libre-Franklin] tracking-[0.12rem] text-[1.1rem] uppercase dark:text-gray-100">
           <Link
             to="/"
-            className="relative group hover:text-[color:var(--color-primary)] transition duration-200"
+            className="relative group hover:text-[#A08965] transition duration-200"
           >
             Home
             <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[color:var(--color-primary)] transition-all duration-300 group-hover:w-full"></span>
@@ -80,7 +83,7 @@ export default function NavBar() {
 
           <Link
             to="/products"
-            className="relative group hover:text-[color:var(--color-primary)] transition duration-200"
+            className="relative group hover:text-[color:var(--color-navbarText)] transition duration-200"
           >
             Shop
             <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[color:var(--color-primary-hover)] transition-all duration-300 group-hover:w-full"></span>
@@ -88,7 +91,7 @@ export default function NavBar() {
 
           <Link
             to="/about"
-            className="relative group hover:text-[color:var(--color-primary)] transition duration-200"
+            className="relative group hover:text-[color:var(--color-navbarText)] transition duration-200"
           >
             About Us
             <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[color:var(--color-primary-hover)] transition-all duration-300 group-hover:w-full"></span>
@@ -96,7 +99,7 @@ export default function NavBar() {
 
           <Link
             to="/contact"
-            className="relative group hover:text-[color:var(--color-primary)] transition duration-200"
+            className="relative group hover:text-[color:var(--color-navbarText)] transition duration-200"
           >
             Contact Us
             <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[color:var(--color-primary-hover)] transition-all duration-300 group-hover:w-full"></span>
@@ -106,7 +109,7 @@ export default function NavBar() {
           <button
             type="button"
             onClick={toggleDarkMode}
-            className="text-2xl text-[color:var(--color-primary)] dark:text-[color:var(--color-secondary)] transition cursor-pointer hover:scale-105 active:scale-95 duration-200"
+            className="text-2xl mr-3 text-[color:var(--color-iconHover)] dark:text-[color:var(--color-secondary)] transition cursor-pointer hover:scale-105 active:scale-95 duration-200"
           >
             <i
               className={`fa-solid ${
@@ -123,7 +126,7 @@ export default function NavBar() {
                 className="relative"
                 title="Wishlist"
               >
-                <FaHeart className="cursor-pointer  transition hover:text-[color:var(--color-primary)]" />
+                <Heart className="cursor-pointer transition hover:text-[color:var(--color-iconHover)]" />
                 {items.length > 0 && (
                   <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold px-[6px] py-[1px] rounded-full">
                     {items.length}
@@ -132,14 +135,14 @@ export default function NavBar() {
               </button>
 
               <Link to="/cart" className="relative">
-                <FaShoppingBag className="cursor-pointer hover:text-[color:var(--color-primary)] transition" />
+                <ShoppingBag className="cursor-pointer hover:text-[color:var(--color-iconHover)] transition" />
                 <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold px-[6px] py-[1px] rounded-full">
                   {noOfCartProducts}
                 </span>
               </Link>
 
               <Link to="/profile">
-                <FaUser className="cursor-pointer hover:text-[color:var(--color-primary)] transition" />
+                <FaUser className="cursor-pointer hover:text-[color:var(--color-header)] transition" />
               </Link>
             </div>
           )}
@@ -148,11 +151,13 @@ export default function NavBar() {
             {token ? (
               <button
                 onClick={handleLogout}
-                className="text-red-700 hover:text-red-900 transition flex items-center"
+                className="group relative flex items-center text-red-700 hover:text-red-900 transition-all duration-300"
                 title="Logout"
               >
-                <FaSignOutAlt className="text-2xl" />
-                <span className="hidden md:inline text-base ml-1">Logout</span>
+                <LogOut className="text-2xl" />
+                <span className="absolute left-8 opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300 text-sm whitespace-nowrap">
+                  Logout
+                </span>
               </button>
             ) : (
               <>
@@ -167,10 +172,10 @@ export default function NavBar() {
 
                 <Link
                   to="/register"
-                  className="text-[color:var(--color-primary)] hover:text-[color:var(--color-primary-hover)] transition flex items-center gap-1"
+                  className="text-[color:var(--color-primary)] hover:text-[color:var(--color-iconHover)] transition flex items-center gap-1"
                   title="Register"
                 >
-                  <FaUserPlus className="text-2xl" />
+                  <UserPlus className="text-2xl" />
                   <span className="hidden md:inline text-base">Register</span>
                 </Link>
               </>

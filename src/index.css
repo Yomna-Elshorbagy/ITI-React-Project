@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "flowbite/src/themes/default";
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap');
 
 @plugin "flowbite/plugin";
 @source "../node_modules/flowbite";
@@ -38,6 +39,9 @@
   --global-margin: 1rem;
   --color-header: #d4a762;
   --font-header: 'Playfair Display';
+  --font-navbar: 'Cormorant Garamond';
+  --color-navbarText: #A08965;
+  --color-iconHover: #1F5958;
 }
 
 .dark {
@@ -121,8 +125,4 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-}
-
-.text-header{
-
 }

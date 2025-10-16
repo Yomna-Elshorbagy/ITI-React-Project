@@ -54,10 +54,10 @@ const Slider: React.FC = () => {
       {/* Overlay content box */}
 <div className="absolute inset-0 hidden md:flex items-center justify-center">
   <div className="bg-white/30 backdrop-blur-md rounded-lg shadow-lg p-6 sm:p-10 text-center max-w-md">
-    <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-2"> {/*text-gray-800 */}
+    <h2 className="text-2xl sm:text-3xl font-semibold font-[Libre-Franklin] text-[#2c1810] mb-2"> {/*text-gray-800 */}
       KAYAN
     </h2>
-     <p className="text-grey-800 mb-4 font-['Playfair_Display']">
+     <p className="text-grey-800 mb-4 font-['Playfair_Display'] tracking-widest ">  {/* */}
       From legendary diamonds to extraordinary gemstones, Everyday is Embued with poetry. 
     </p>
     <ShopNowBtn/>

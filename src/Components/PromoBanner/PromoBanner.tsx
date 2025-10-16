@@ -30,8 +30,8 @@ const PromoBanner: React.FC = () => {
         {/* Left image */}
         <div className="w-full md:w-1/2 flex justify-center">
           <img
-           src="src/assets/images/2ed section home page.jpg"
-            //src= "src/assets/images/sslider4.png"
+          // src="src/assets/images/2ed section home page.jpg"
+            src= "src/assets/images/promo.jpeg"
             alt="Jewelry Promo"
             className="w-full md:w-[85%] h-auto object-cover"
           />
