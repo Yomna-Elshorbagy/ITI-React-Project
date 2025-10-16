@@ -39,11 +39,11 @@ const About: React.FC = () => {
         {/* Overlay Box */}
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="bg-white/40 backdrop-blur-md p-6 sm:p-10 max-w-md text-center shadow-lg rounded-md">
-            <h1 className="md:text-3xl text-xl font-semibold text-[#0B1D39] mb-3">
+            <h1 className="font-['Playfair_Display'] text-[#0B1D39] uppercase font-bold text-lg md:text-3xl mb-3"> {/*  md:text-3xl text-xl*/}
               About Us
             </h1>
 
-            <p className="text-gray-800 font-medium leading-relaxed font-semibold whitespace-pre-wrap">
+            <p className="font-['Playfair_Display'] text-[#0B1D39]  font-semibold text-gray-800 font-medium  leading-relaxed whitespace-pre-wrap"> {/*  leading-relaxed font-semibold whitespace-pre-wrap */}
               {displayedText}
               {/*<span className="animate-pulse text-[#0B1D39]">|</span> */}
             </p>

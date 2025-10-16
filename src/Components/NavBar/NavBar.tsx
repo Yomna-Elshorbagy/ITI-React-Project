@@ -122,7 +122,7 @@ export default function NavBar() {
                 className="relative"
                 title="Wishlist"
               >
-                <FaHeart className="cursor-pointer hover:text-amber-600 transition text-[#d4a762]" />
+                <FaHeart className="cursor-pointer  transition hover:text-[color:var(--color-primary)]" />
                 {items.length > 0 && (
                   <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold px-[6px] py-[1px] rounded-full">
                     {items.length}

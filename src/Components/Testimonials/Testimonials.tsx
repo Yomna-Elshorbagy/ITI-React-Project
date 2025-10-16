@@ -51,12 +51,12 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <section className="bg-gray-50 py-16">
+    <section className=" py-[padding:var(--global-padding)]">
       <div className="max-w-7xl mx-auto px-10 md:px-24 text-center">
        {/* <p className="text-amber-500 font-semibold tracking-wide uppercase mb-2">
           LOOK 👀 for our Family 💗
         </p> */}
-        <h2 className=" text-4xl md:text-3xl font-serif mb-12 text-[#d4a740] uppercase">
+        <h2 className="font-['Playfair_Display'] text-[var(--color-header)] uppercase tracking-widest font-semibold text-lg md:text-2xl  mb-12 "> {/*text-4xl md:text-3xl font-serif text-[#d4a740] uppercase*/}
           What Our Clients Say
         </h2>
 

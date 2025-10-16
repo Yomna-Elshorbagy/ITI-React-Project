@@ -29,36 +29,36 @@ const InstagramGallery: React.FC = () => {
   const rightChunks = chunkImages(rightGrid);
 
   return (
-    <div className="bg-white py-12 px-4 text-center">
-      {/* Header */}
-      <div className="mb-10">
-        <p className="text-[#d4a762] font-semibold text-lg md:text-2xl tracking-widest uppercase mb-2">
+    <div className="bg-grey-50 px-4 text-center pb-10 pt-4">
+      {/* Header py-[padding:var(--global-padding)] */}
+      <div className="mb-10"> {/*className="mb-10" */}
+       {/*<p className="text-[#d4a762] font-semibold text-lg md:text-2xl tracking-widest uppercase mb-2">
           Follow Us
-        </p>
+        </p> */}
         <a
           href="https://www.instagram.com"
           target="_blank"   //open in a new page
           rel="noopener noreferrer"
-          className="hover:underline"
+          //className="hover:underline"
         >
-          <h2 className="text-2xl md:text-4xl font-serif font-medium">
+          <h2 className="text-[var(--color-header)] uppercase tracking-widest font-semibold text-lg md:text-2xl font-['Playfair_Display'] font-medium mb-8"> {/*font-serif uppercase text-2xl md:text-4xl */}
             Follow Us On Instagram
           </h2>
         </a>
       </div>
 
       {/* Image Grid */}
-      <div className="flex flex-col md:flex-row justify-center items-center  gap-6 md:gap-10"> {/*all the grids sitting in row in big screen and op top of each other in small screens */}
+      <div className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-10"> {/*all the grids sitting in row in big screen and op top of each other in small screens */}
         {/* Left Side: 2x2 grid */}
         <div className="flex flex-col gap-4">
           {leftChunks.map((row, rowIndex) => (   //row index
-            <div key={rowIndex} className="flex gap-4">
+            <div key={rowIndex} className="flex gap-4 items-center justify-end">
               {row.map((img, i) => (       //img and the index
                 <motion.img
                   key={i}
                   src={img}
                   alt={`Left ${rowIndex}-${i}`}
-                  className="w-24 h-28 md:w-39 md:h-43 object-cover custome-md-size"
+                  className="w-24 h-28 md:w-[42%] md:h-auto object-cover custome-md-size"
                   loading="lazy"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -74,7 +74,7 @@ const InstagramGallery: React.FC = () => {
         <motion.img
           src={centerImage}
           alt="Center"
-          className="w-48 h-60 md:w-86 md:h-90 object-cover custome-md-size"  //the center image is double that h and w
+          className="w-48 h-60 md:w-[25%] md:h-[80%] object-cover custome-md-size"  //the center image is double that h and w
           loading="lazy"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -91,7 +91,7 @@ const InstagramGallery: React.FC = () => {
                   key={i}
                   src={img}
                   alt={`Right ${rowIndex}-${i}`}
-                  className="w-24 h-28 md:w-39 md:h-43 object-cover custome-md-size"
+                  className="w-24 h-28 md:w-[42%] md:h-auto object-cover custome-md-size"
                   loading="lazy"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}

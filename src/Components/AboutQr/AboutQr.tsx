@@ -27,7 +27,8 @@ export default function AboutQr() {
       <div className="flex-1 flex justify-center">
         <div className="relative group w-100 h-100 rounded-2xl overflow-hidden shadow-xl transition-all duration-500 hover:shadow-2xl hover:scale-105">
           <img
-            src={img1}
+           src= "src/assets/images/aboutqr.png"
+           // src={img1}
             alt="Accessories Display"
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           />
@@ -36,19 +37,19 @@ export default function AboutQr() {
       </div>
 
       <div className="flex-1 flex flex-col items-start text-left  w-100 ">
-        <h1 className="text-4xl font-bold text-gray-800  dark:text-white mb-6">
-          About <span className="text-[var(--color-primary)]">Kayan Accessories</span>
+        <h1 className="text-4xl font-bold font-['Playfair_Display'] text-[#0B1D39]  dark:text-white mb-6">
+         {/*About <span className="text-[var(--color-primary)]">Kayan</span> */} 
+         Discover Our World in Your Hands
         </h1>
 
-        <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed w-100">
-          Welcome to <strong>Kayan Accessories</strong> — where beauty meets
-          craftsmanship. Our mission is to bring you elegant, timeless pieces
-          that add a touch of sophistication to your everyday look.
+        <p className="font-['Playfair_Display'] dark:text-gray-300 mb-4 leading-relaxed w-100">
+         {/* Welcome to <strong>Kayan Accessories</strong> — */}
+         Scan the QR code to explore our exclusive app — where timeless craftsmanship meets modern convenience. Shop, wishlist, and stay inspired wherever you are.
         </p>
 
         <div className="flex flex-col items-center lg:items-start">
-          <h2 className="text-lg font-semibold mb-3 text-gray-700 dark:text-gray-200">
-            Scan to Visit <span className="text-[var(--color-primary)]">Kayan</span>
+          <h2 className="font-['Playfair_Display'] text-lg font-semibold mb-3 text-gray-700 dark:text-gray-200">
+            Scan to Visit Kayan
           </h2>
 
           {qrCode ? (

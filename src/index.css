@@ -34,6 +34,10 @@
   --color-warning: #eadca6;
   --color-error: #c97c5d;
   --color-info: #cfe1b9;
+  --global-padding: 3.5rem;
+  --global-margin: 1rem;
+  --color-header: #d4a762;
+  --font-header: 'Playfair Display';
 }
 
 .dark {
@@ -50,6 +54,7 @@
   --color-warning: #eadca6;
   --color-error: #c97c5d;
   --color-info: #cfe1b9;
+
 }
 
 body {
@@ -116,4 +121,8 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+.text-header{
+
 }
