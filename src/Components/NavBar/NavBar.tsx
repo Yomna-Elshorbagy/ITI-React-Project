@@ -11,8 +11,8 @@ import logo from "../../assets/react.svg";
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../Hooks/reduxHooks";
 import { clearUserToken } from "../../Store/Slices/AuthSlice";
-import WishlistModal from "../WishlistModal/WishlistModal"; 
-import { fetchWishlist } from "../../Store/Slices/WishlistSlice"; 
+import WishlistModal from "../WishlistModal/WishlistModal";
+import { fetchWishlist } from "../../Store/Slices/WishlistSlice";
 
 export default function NavBar() {
   const [darkMode, setDarkMode] = useState(false);
@@ -30,7 +30,6 @@ export default function NavBar() {
       dispatch(fetchWishlist());
     }
   }, [dispatch, token]);
-
 
   const { noOfCartProducts } = useAppSelector((state) => state.cart);
 
@@ -148,30 +147,36 @@ export default function NavBar() {
             {token ? (
               <button
                 onClick={handleLogout}
-                className="text-red-700 hover:text-red-900 transition flex items-center"
+                className="group relative flex items-center text-red-700 hover:text-red-900 transition-all duration-300"
                 title="Logout"
               >
                 <FaSignOutAlt className="text-2xl" />
-                <span className="hidden md:inline text-base ml-1">Logout</span>
+                <span className="absolute left-8 opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300 text-sm whitespace-nowrap">
+                  Logout
+                </span>
               </button>
             ) : (
               <>
                 <Link
                   to="/login"
-                  className="text-[color:var(--color-primary)] hover:text-[color:var(--color-primary-hover)] transition flex items-center gap-1"
+                  className="group relative flex items-center text-[color:var(--color-primary)] hover:text-[color:var(--color-primary-hover)] transition-all duration-300"
                   title="Login"
                 >
                   <FaSignInAlt className="text-2xl" />
-                  <span className="hidden md:inline text-base">Login</span>
+                  <span className="absolute left-8 opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300 text-sm whitespace-nowrap">
+                    Login
+                  </span>
                 </Link>
 
                 <Link
                   to="/register"
-                  className="text-[color:var(--color-primary)] hover:text-[color:var(--color-primary-hover)] transition flex items-center gap-1"
+                  className="group relative flex items-center text-[color:var(--color-primary)] hover:text-[color:var(--color-primary-hover)] transition-all duration-300"
                   title="Register"
                 >
                   <FaUserPlus className="text-2xl" />
-                  <span className="hidden md:inline text-base">Register</span>
+                  <span className="absolute left-8 opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300 text-sm whitespace-nowrap">
+                    Register
+                  </span>
                 </Link>
               </>
             )}
@@ -185,16 +190,16 @@ export default function NavBar() {
           </button>
         </div>
       </div>
-      
+
       {/* Wishlist Modal */}
-     <WishlistModal
-    open={wishlistOpen}
-    onClose={() => setWishlistOpen(false)}
-    onAddToCart={(productId: string) => {
-    console.log("Add to cart:", productId);
-    // Later: dispatch(addToCart(productId))
-  }}
-/>
+      <WishlistModal
+        open={wishlistOpen}
+        onClose={() => setWishlistOpen(false)}
+        onAddToCart={(productId: string) => {
+          console.log("Add to cart:", productId);
+          // Later: dispatch(addToCart(productId))
+        }}
+      />
 
       {menuOpen && (
         <div className="md:hidden bg-[color:var(--color-surface)] dark:bg-gray-900 text-[color:var(--color-text)] dark:text-gray-200 border-t border-[color:var(--color-border)] dark:border-gray-700 flex flex-col space-y-3 px-6 py-4 animate-in fade-in slide-in-from-top-2 duration-200">
