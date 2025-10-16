@@ -17,34 +17,35 @@ export default function UserProfile() {
     isLoading,
     isError,
   } = useUserProfile();
- 
+
   const tabs = ["Personal Information", "My Orders"];
 
-  if (isLoading) {
-    return <LoaderPage />;
-  }
-
+  if (isLoading) return <LoaderPage />;
   if (isError)
     return <p className="text-center py-10">Error loading User Profile</p>;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10 px-5">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-10 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
+      {/* Header */}
       <div className="text-center mb-10">
-        <h2 className="text-3xl font-serif text-gray-800">My Account</h2>
-        <p className="text-gray-500 mt-2">
-          Home / <span className="text-gray-800">My Account</span>
+        <h2 className="text-3xl sm:text-4xl font-serif text-gray-800 dark:text-gray-100">
+          My Account
+        </h2>
+        <p className="text-gray-500 dark:text-gray-400 mt-2 text-sm sm:text-base">
+          Home / <span className="text-gray-800 dark:text-gray-200">My Account</span>
         </p>
       </div>
 
-      <div className="max-w-5xl mx-auto bg-white shadow rounded-2xl p-8 flex flex-col md:flex-row gap-8">
-        {/* sidebar */}
-        <div className="flex flex-col w-full md:w-1/4 border-r border-gray-100">
-          <div className="flex flex-col items-center mb-8">
-            <div className="relative w-28 h-28">
+      {/* Main Card */}
+      <div className="max-w-6xl mx-auto bg-white dark:bg-gray-800 shadow-md rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row gap-8 transition-colors duration-300">
+        {/* Sidebar */}
+        <aside className="flex flex-col w-full md:w-1/4 border-b md:border-b-0 md:border-r border-gray-100 dark:border-gray-700 pb-4 md:pb-0">
+          <div className="flex flex-col items-center mb-6">
+            <div className="relative w-28 h-28 sm:w-32 sm:h-32">
               <img
                 src={preview || profileImage}
                 alt="Profile"
-                className="w-full h-full rounded-full object-cover"
+                className="w-full h-full rounded-full object-cover border-4 border-gray-200 dark:border-gray-700"
               />
 
               <input
@@ -57,38 +58,41 @@ export default function UserProfile() {
 
               <label
                 htmlFor="profile-upload"
-                className="absolute bottom-1 right-1 bg-green-700 text-white p-2 rounded-full shadow hover:bg-green-900 cursor-pointer transition"
+                className="absolute bottom-1 right-1 bg-[var(--color-primary)] text-white p-2 rounded-full shadow hover:opacity-90 cursor-pointer transition"
               >
                 <FaPen size={14} />
               </label>
             </div>
           </div>
 
-          {tabs.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`text-left px-5 py-3 font-medium rounded-md mb-2 transition-colors ${
-                activeTab === tab
-                  ? "bg-green-700 text-white"
-                  : "bg-gray-50 hover:bg-gray-100 text-gray-700"
-              }`}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
+          {/* Tabs */}
+          <div className="flex flex-col">
+            {tabs.map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`text-left px-5 py-3 font-medium rounded-md mb-2 transition-colors ${
+                  activeTab === tab
+                    ? "bg-[var(--color-primary)] text-white"
+                    : "bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200"
+                }`}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+        </aside>
 
-        {/* main Content */}
-        <div className="flex-1">
+        {/* Main Content */}
+        <main className="flex-1">
           {activeTab === "Personal Information" && (
             <form
               onSubmit={handleSubmit}
-              className="grid grid-cols-1 md:grid-cols-2 gap-5"
+              className="grid grid-cols-1 sm:grid-cols-2 gap-5"
             >
-              {/* username */}
-              <div className="md:col-span-2">
-                <label className="block text-gray-700 mb-1 font-medium">
+              {/* Username */}
+              <div className="sm:col-span-2">
+                <label className="block text-gray-700 dark:text-gray-300 mb-1 font-medium">
                   <i className="fa-solid fa-user"></i> Username *
                 </label>
                 <input
@@ -96,13 +100,13 @@ export default function UserProfile() {
                   name="userName"
                   value={formData.userName}
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-green-700"
+                  className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-md px-3 py-2 focus:ring-2 focus:ring-[var(--color-primary)]"
                 />
               </div>
 
-              {/* email */}
-              <div className="md:col-span-2">
-                <label className="block text-gray-700 mb-1 font-medium">
+              {/* Email */}
+              <div className="sm:col-span-2">
+                <label className="block text-gray-700 dark:text-gray-300 mb-1 font-medium">
                   <i className="fa-solid fa-envelope"></i> Email *
                 </label>
                 <input
@@ -110,13 +114,13 @@ export default function UserProfile() {
                   name="email"
                   value={formData.email}
                   disabled
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-100 cursor-not-allowed"
+                  className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 rounded-md px-3 py-2 bg-gray-100 cursor-not-allowed"
                 />
               </div>
 
-              {/* passwords */}
+              {/* New Password */}
               <div>
-                <label className="block text-gray-700 mb-1 font-medium">
+                <label className="block text-gray-700 dark:text-gray-300 mb-1 font-medium">
                   🔒 New Password
                 </label>
                 <input
@@ -125,12 +129,13 @@ export default function UserProfile() {
                   placeholder="**********"
                   value={formData.newPassword}
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-green-700"
+                  className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-md px-3 py-2 focus:ring-2 focus:ring-[var(--color-primary)]"
                 />
               </div>
 
+              {/* Confirm Password */}
               <div>
-                <label className="block text-gray-700 mb-1 font-medium">
+                <label className="block text-gray-700 dark:text-gray-300 mb-1 font-medium">
                   🔒 Confirm Password
                 </label>
                 <input
@@ -139,13 +144,13 @@ export default function UserProfile() {
                   placeholder="**********"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-green-700"
+                  className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-md px-3 py-2 focus:ring-2 focus:ring-[var(--color-primary)]"
                 />
               </div>
 
-              {/* recovery email */}
-              <div className="md:col-span-2">
-                <label className="block text-gray-700 mb-1 font-medium">
+              {/* Recovery Email */}
+              <div className="sm:col-span-2">
+                <label className="block text-gray-700 dark:text-gray-300 mb-1 font-medium">
                   <i className="fa-solid fa-envelope"></i> Recovery Email
                 </label>
                 <input
@@ -153,13 +158,13 @@ export default function UserProfile() {
                   name="recoveryEmail"
                   value={formData.recoveryEmail}
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-green-700"
+                  className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-md px-3 py-2 focus:ring-2 focus:ring-[var(--color-primary)]"
                 />
               </div>
 
-              {/* mobile number */}
+              {/* Mobile Number */}
               <div>
-                <label className="block text-gray-700 mb-1 font-medium">
+                <label className="block text-gray-700 dark:text-gray-300 mb-1 font-medium">
                   <i className="fa-solid fa-mobile"></i> Mobile Number
                 </label>
                 <input
@@ -167,32 +172,31 @@ export default function UserProfile() {
                   name="mobileNumber"
                   value={formData.mobileNumber}
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-green-700"
+                  className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-md px-3 py-2 focus:ring-2 focus:ring-[var(--color-primary)]"
                 />
               </div>
 
-              {/* gender */}
               <div>
-                <label className="block text-gray-700 mb-1 font-medium">
+                <label className="block text-gray-700 dark:text-gray-300 mb-1 font-medium">
                   <i className="fa-solid fa-person-half-dress"></i> Gender
                 </label>
                 <select
                   name="gender"
                   value={formData.gender}
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-green-700"
+                  className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-md px-3 py-2 focus:ring-2 focus:ring-[var(--color-primary)]"
                 >
-                  <option value=""> Select</option>
+                  <option value="">Select</option>
                   <option value="female">Female</option>
                   <option value="male">Male</option>
                 </select>
               </div>
 
-              <div className="md:col-span-2 flex justify-end mt-4">
+              <div className="sm:col-span-2 flex justify-end mt-4">
                 <button
                   type="submit"
                   disabled={mutation.isPending}
-                  className="bg-green-700 text-white px-6 py-2 rounded-md hover:bg-green-900 transition font-medium"
+                  className="bg-[var(--color-primary)] text-white px-6 py-2 rounded-md hover:opacity-90 transition font-medium"
                 >
                   {mutation.isPending ? (
                     <>
@@ -202,17 +206,18 @@ export default function UserProfile() {
                     <>
                       <i className="fa-solid fa-floppy-disk"></i> Save Changes
                     </>
-                  )}{" "}
+                  )}
                 </button>
               </div>
             </form>
           )}
-          {activeTab == "My Orders" && (
-            <div className="flex justify-center items-center h-full text-gray-400">
-              <UserOrders/>
+
+          {activeTab === "My Orders" && (
+            <div className="flex justify-center items-center h-full text-gray-400 dark:text-gray-300">
+              <UserOrders />
             </div>
           )}
-        </div>
+        </main>
       </div>
     </div>
   );
