@@ -3,7 +3,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import AuthSlider from "../../Shared/AuthSlider/AuthSlider";
@@ -126,7 +126,7 @@ export default function ForgetPassword() {
       const token = response.data?.accessToken;
       console.log(response);
       console.log(token);
-      
+
       if (token) {
         dispatch(insertUserToken(token));
       }
@@ -296,54 +296,63 @@ export default function ForgetPassword() {
 
             {/* ===> Step 2: Reset Password */}
             {step === 2 && (
-              <form onSubmit={handlePasswordSubmit(resetPassword)}>
-                <div className="mb-4">
-                  <label>New Password</label>
-                  <div className="relative">
+              <>
+                <form onSubmit={handlePasswordSubmit(resetPassword)}>
+                  <div className="mb-4">
+                    <label>New Password</label>
+                    <div className="relative">
+                      <input
+                        type={isPasswordVisible ? "text" : "password"}
+                        {...registerPassword("newPassword")}
+                        className="w-full border rounded px-3 py-2"
+                      />
+                      <span
+                        className="absolute right-3 top-2 cursor-pointer"
+                        onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                      >
+                        {isPasswordVisible ? "🙈" : "👁️"}
+                      </span>
+                    </div>
+                    {passwordErrors.newPassword && (
+                      <p className="text-red-500">
+                        {passwordErrors.newPassword.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="mb-4">
+                    <label>Confirm Password</label>
                     <input
                       type={isPasswordVisible ? "text" : "password"}
-                      {...registerPassword("newPassword")}
+                      {...registerPassword("rePassword")}
                       className="w-full border rounded px-3 py-2"
                     />
-                    <span
-                      className="absolute right-3 top-2 cursor-pointer"
-                      onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-                    >
-                      {isPasswordVisible ? "🙈" : "👁️"}
-                    </span>
+                    {passwordErrors.rePassword && (
+                      <p className="text-red-500">
+                        {passwordErrors.rePassword.message}
+                      </p>
+                    )}
                   </div>
-                  {passwordErrors.newPassword && (
-                    <p className="text-red-500">
-                      {passwordErrors.newPassword.message}
-                    </p>
-                  )}
-                </div>
 
-                <div className="mb-4">
-                  <label>Confirm Password</label>
-                  <input
-                    type={isPasswordVisible ? "text" : "password"}
-                    {...registerPassword("rePassword")}
-                    className="w-full border rounded px-3 py-2"
-                  />
-                  {passwordErrors.rePassword && (
-                    <p className="text-red-500">
-                      {passwordErrors.rePassword.message}
-                    </p>
-                  )}
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="bg-[#8B5E35] text-white px-4 py-2 rounded"
-                >
-                  {loading ? "Resetting..." : "Reset Password"}
-                </button>
-              </form>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="bg-[#8B5E35] text-white px-4 py-2 rounded"
+                  >
+                    {loading ? "Resetting..." : "Reset Password"}
+                  </button>
+                </form>
+              </>
             )}
           </div>
         </div>
+
+        <p className="pb-10 pt-10 text-center text-gray-500">
+          Are you want to login?{" "}
+          <Link to="/login" className="underline text-[#8B5E35]">
+            Login
+          </Link>
+        </p>
       </div>
 
       {/* ===> right side slider*/}

@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
-
-
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -18,7 +16,6 @@ export default function ContactUs() {
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (data) => {
-      // const res = await axios.post(`${import.meta.env.ITI_API_URL}/contact`, data);
       const res = await axios.post(`https://iti-react-backend.vercel.app/contact`, data);
       return res.data;
     },
@@ -27,7 +24,7 @@ export default function ContactUs() {
         icon: "success",
         title: "Message Sent!",
         text: data.message || "Thank you for reaching out. We'll contact you soon.",
-        confirmButtonColor: "#14532d",
+        confirmButtonColor: "var(--color-primary)",
       });
       setFormData({ fullName: "", email: "", message: "" });
     },
@@ -43,12 +40,12 @@ export default function ContactUs() {
     },
   });
 
-  const handleChange = (e:any) => {
+  const handleChange = (e: any) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e:any) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
 
     if (!formData.fullName || !formData.email || !formData.message) {
@@ -67,7 +64,7 @@ export default function ContactUs() {
     <section className="bg-white dark:bg-gray-900 transition-colors duration-500 py-16 px-6 sm:px-10 lg:px-20">
       <div className="max-w-6xl mx-auto text-center mb-12">
         <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-4">
-          Get in <span className="text-green-900">Touch</span>
+          Get in <span className="text-[var(--color-primary)]">Touch</span>
         </h1>
         <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
           We’d love to hear from you! Whether you have a question about our
@@ -83,21 +80,21 @@ export default function ContactUs() {
 
           <div className="space-y-6">
             <div className="flex items-center gap-4">
-              <FaPhoneAlt className="text-green-900 text-xl" />
+              <FaPhoneAlt className="text-[var(--color-primary)] text-xl" />
               <p className="text-gray-700 dark:text-gray-300">
                 +20 123 456 7890
               </p>
             </div>
 
             <div className="flex items-center gap-4">
-              <FaEnvelope className="text-green-900 text-xl" />
+              <FaEnvelope className="text-[var(--color-primary)] text-xl" />
               <p className="text-gray-700 dark:text-gray-300">
                 support@kayanaccessories.com
               </p>
             </div>
 
             <div className="flex items-center gap-4">
-              <FaMapMarkerAlt className="text-green-900 text-xl" />
+              <FaMapMarkerAlt className="text-[var(--color-primary)] text-xl" />
               <p className="text-gray-700 dark:text-gray-300">
                 Makram Ebeid, Nasr City, Cairo, Egypt
               </p>
@@ -132,7 +129,7 @@ export default function ContactUs() {
                 value={formData.fullName}
                 onChange={handleChange}
                 placeholder="Enter your name"
-                className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-white focus:ring-2 focus:ring-green-800 outline-none transition"
+                className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-white focus:ring-2 focus:ring-[var(--color-primary)] outline-none transition"
               />
             </div>
 
@@ -146,7 +143,7 @@ export default function ContactUs() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Enter your email"
-                className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-white focus:ring-2 focus:ring-green-800 outline-none transition"
+                className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-white focus:ring-2 focus:ring-[var(--color-primary)] outline-none transition"
               />
             </div>
 
@@ -159,8 +156,8 @@ export default function ContactUs() {
                 value={formData.message}
                 onChange={handleChange}
                 placeholder="Type your message..."
-                rows="5"
-                className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-white focus:ring-2 focus:ring-green-800 outline-none transition"
+                rows={5}
+                className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-white focus:ring-2 focus:ring-[var(--color-primary)] outline-none transition"
               ></textarea>
             </div>
 
@@ -170,7 +167,7 @@ export default function ContactUs() {
               className={`w-full py-3 font-medium rounded-md transition duration-300 ${
                 isPending
                   ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-green-900 hover:bg-green-800 text-white"
+                  : "bg-[var(--color-primary)] hover:opacity-90 text-white"
               }`}
             >
               {isPending ? "Sending..." : "Send Message"}
