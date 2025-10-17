@@ -39,6 +39,7 @@ const Products: React.FC = () => {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] =
     useState<string>(initialCategory);
+  const discountFilter = searchParams.get("filter");
   const [sort, setSort] = useState<string>("az");
   const [stockFilter, setStockFilter] = useState<"all" | "in" | "out">("all");
   const [maxPrice, setMaxPrice] = useState<number>(0);
@@ -100,6 +101,13 @@ const Products: React.FC = () => {
 
     list = list.filter((p) => (p.price ?? 0) <= priceRange);
 
+   //discount filter
+    if (discountFilter === "discounted") {
+    list = list.filter(
+      (p) => p.finalPrice && p.price && p.finalPrice < p.price
+    );
+  }
+
     list.sort((a, b) => {
       const priceA = a.price ?? 0;
       const priceB = b.price ?? 0;
@@ -121,7 +129,7 @@ const Products: React.FC = () => {
     });
 
     return list;
-  }, [products, search, selectedCategory, sort, stockFilter, priceRange]);
+  }, [products, search, selectedCategory, sort, stockFilter, priceRange, discountFilter]);
 
   const dispatch = useDispatch();
   const wishlist = useSelector((state: any) => state.wishlist.items);

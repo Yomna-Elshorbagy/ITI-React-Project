@@ -7,6 +7,10 @@ import ProductCard from "../../Components/ProductCard/ProductCard";
 import LoaderPage from "../../Shared/LoaderPage/LoaderPage";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import type { AppDispatch } from "../../Store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { addToWishlist, removeFromWishlist } from "../../Store/Slices/WishlistSlice";
+
 
 const fetchLowestPriceProducts = async () => {
   try {
@@ -44,6 +48,23 @@ export default function LowestPriceSection() {
     queryKey: ["lowestPriceProducts"],
     queryFn: fetchLowestPriceProducts,
   });
+
+  //wishlist addded
+  const dispatch = useDispatch<AppDispatch>();
+  const wishlist = useSelector((state: any) => state.wishlist.items);
+  //const [showModal, setShowModal] = useState(false);
+
+  //const handleAddToCart = (id: string) => console.log("Add to cart:", id);
+
+  const handleAddToWishlist = async (id: string) => {
+    await dispatch(addToWishlist(id));
+  };
+
+  const handleRemoveFromWishlist = async (id: string) => {
+    await dispatch(removeFromWishlist(id));
+  };
+
+
 
   if (isLoading) return <LoaderPage />;
   if (isError)
@@ -97,9 +118,11 @@ export default function LowestPriceSection() {
               <ProductCard
                 product={product}
                 onAddToCart={() => console.log("Add to cart:", product._id)}
-                onAddToWishlist={() =>
-                  console.log("Add to wishlist:", product._id)
-                }
+                onAddToWishlist={handleAddToWishlist}
+                onRemoveFromWishlist={handleRemoveFromWishlist}
+                isInWishlist={wishlist.some(
+                  (item: any) => item._id === product._id
+                 )}
               />
             </div>
           ))}

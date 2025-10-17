@@ -17,6 +17,7 @@ interface WishlistState {
   loading: boolean;
   error: string | null;
   fetched: boolean; // marks if initial fetch done
+  justFetched: boolean;
 }
 
 const initialState: WishlistState = {
@@ -24,6 +25,7 @@ const initialState: WishlistState = {
   loading: false,
   error: null,
   fetched: false,
+  justFetched: false,
 };
 
 //  FETCH wishlist
@@ -109,6 +111,7 @@ const wishlistSlice = createSlice({
         state.loading = false;
         state.items = action.payload;
         state.fetched = true; // mark that initial fetch is done
+        state.justFetched = true; //mark fresh fetch
       })
       .addCase(fetchWishlist.rejected, (state, action) => {
         state.loading = false;
@@ -118,6 +121,12 @@ const wishlistSlice = createSlice({
       // ADD
       .addCase(addToWishlist.pending, (state, action) => {
         const id = action.meta.arg;
+
+      // Skip optimistic add immediately after a fresh fetch
+     if (state.justFetched) {
+     state.justFetched = false;
+     return;
+     }
 
         // Only optimistic add if initial fetch is done and item not already present
         if (state.fetched && !state.items.find((i) => i._id === id)) {
