@@ -23,6 +23,12 @@ import { store } from "./Store/store";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import ContactUs from "./Pages/Contact/ContactUs";
 import AuthLayout from "./Components/AuthLayout/AuthLayout";
+import Overview from "./Dashboard/Pages/OverView/OverView";
+import DashboardLayout from "./Dashboard/Dashboared";
+import OrderProducts from "./Dashboard/Pages/Products/Products";
+import Orders from "./Dashboard/Pages/Orders/Orders";
+import Users from "./Dashboard/Pages/Users/Users";
+import Reports from "./Dashboard/Pages/Reports/Reports";
 
 const router = createBrowserRouter([
   {
@@ -74,6 +80,17 @@ const router = createBrowserRouter([
       { path: "*", element: <NotFound /> },
     ],
   },
+  {
+  path: "dashboard",
+  element: <DashboardLayout />, 
+  children: [
+    { index: true, element: <Overview /> },
+    { path: "products", element: <OrderProducts /> }, 
+    { path: "orders", element: <Orders /> }, 
+    { path: "users", element: <Users /> }, 
+    { path: "reports", element: <Reports /> },
+  ],
+},
   {
     path: "",
     element: <AuthLayout />,
