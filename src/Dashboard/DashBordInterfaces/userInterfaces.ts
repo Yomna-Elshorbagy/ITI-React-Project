@@ -1,0 +1,30 @@
+export interface IUser {
+  _id: string;
+  userName: string;
+  email: string;
+  phone: string;
+  role: string;
+}
+
+export interface IUseUsers {
+  users: IUser[];
+  page: number;
+  pagesCount: number;
+  loading: boolean;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+  fetchUsers: (pageNum?: number) => Promise<void>;
+}
+
+export interface UserModalProps {
+  open: boolean;
+  onClose: () => void;
+  user: IUser | null;
+}
+
+export interface UserTableProps {
+  users: IUser[];
+  onView: (user: IUser) => void;
+  onEdit: (user: IUser) => void;
+  onDelete: (id: string) => void;
+  onBlock: (id: string) => void;
+}

@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @import "flowbite/src/themes/default";
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap");
 
 @plugin "flowbite/plugin";
 @source "../node_modules/flowbite";
@@ -17,11 +17,13 @@
   --sage-600: #588157;
   --sage-700: #3a5a40;
   --sage-800: #344e41;
-  --sage-900: #568F87
+  --sage-900: #568f87;
 
   --mist-100: #dde5b6;
   --mist-200: #f0ead2;
   --mist-300: #cfe1b9;
+  --mist-400: #b6cc9b;
+  --mist-500: #9eb489;
 
   --color-primary: #588157;
   --color-primary-hover: #3a5a40;
@@ -39,10 +41,28 @@
   --global-padding: 3.5rem;
   --global-margin: 1rem;
   --color-header: #d4a762;
-  --font-header: 'Playfair Display';
-  --font-navbar: 'Cormorant Garamond';
-  --color-navbarText: #A08965;
-  --color-iconHover: #1F5958;
+  --font-header: "Playfair Display";
+  --font-navbar: "Cormorant Garamond";
+  --color-navbarText: #a08965;
+  --color-iconHover: #1f5958;
+
+  --sand-100: #faf3dd;
+  --sand-200: #f8e1a4;
+  --sand-300: #e5c185;
+  --sand-400: #d4a762;
+  --sand-500: #a47e3b;
+
+  --wood-100: #e0d4b7;
+  --wood-200: #c9b79b;
+  --wood-300: #bfa084;
+  --wood-400: #9c6b30;
+  --wood-500: #6b4f2e;
+
+  --sky-100: #d7f9f1;
+  --sky-200: #a7d8d5;
+  --sky-300: #74b49b;
+  --sky-400: #568f87;
+  --sky-500: #1f5958;
 }
 
 .dark {
@@ -59,7 +79,6 @@
   --color-warning: #eadca6;
   --color-error: #c97c5d;
   --color-info: #cfe1b9;
-
 }
 
 body {

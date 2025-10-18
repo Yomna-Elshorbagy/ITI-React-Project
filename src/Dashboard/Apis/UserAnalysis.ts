@@ -24,6 +24,8 @@ export const getDeletedUsersAnalysis = async (): Promise<DeletedUsersAnalysis> =
       "Content-Type": "application/json",
     },
   });
+    console.log("✅ Response from deleted:", data);
+
   return data;
 };
 
@@ -34,7 +36,5 @@ export const getDemographics = async (): Promise<Demographics> => {
       "Content-Type": "application/json",
     },
   });
-  console.log("✅ Response from backend hereeee:", data);
-
   return data;
 };
