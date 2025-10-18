@@ -146,3 +146,13 @@ body {
   background-clip: text;
   color: transparent;
 }
+
+/* react-hot-toast global error style */
+[data-sonner-toast][data-type="error"],
+[data-hot-toast][data-type="error"] {
+  background-color: #fee2e2 !important; /* light red background */
+  color: #b91c1c !important; /* dark red text */
+  border-left: 5px solid #ef4444 !important; /* red accent bar */
+  font-weight: 600 !important;
+}
+

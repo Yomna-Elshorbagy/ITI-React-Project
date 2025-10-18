@@ -9,7 +9,8 @@ export const store = configureStore({
     wishlist: wishlistReducer,
   },
 });
-
-store.dispatch(getUserCart());
+if (localStorage.getItem("accessToken")) {
+  store.dispatch(getUserCart());
+}
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
