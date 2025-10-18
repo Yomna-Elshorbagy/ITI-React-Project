@@ -7,19 +7,19 @@ const PromoBanner: React.FC = () => {
   return (
     <section className="w-full py-[padding:var(--global-padding)]">  {/* bg-[#FbFaF8]*/}
       {/* Top ribbon */}
-      <div className="bg-[#1F5958]  text-white text-sm md:text-base py-2 md:py-4 flex justify-center items-center md-gap-12 gap-8"> {/*bg-[#1F5958] */}
+      <div className="bg-[#14213d] text-white text-sm md:text-base py-2 md:py-4 flex justify-center items-center md-gap-12 gap-8"> {/*bg-[#1F5958]  bg-[#1a2a40] bg[#2b3a67] */}
         <img
           src="src/assets/images/flowerr.png"
           alt="flower"
           className="w-4 h-4"
         />
-        <span className="text-lg md:text-xl font-['Playfair_Display']">Upto 25% Off All Jewelry</span>
+        <span className="text-lg md:text-xl font-['Playfair_Display'] dark:text-[var(--color-ribbon)]">Upto 25% Off All Jewelry</span>
         <img
           src="src/assets/images/flowerr.png"
           alt="flower"
           className="w-4 h-4"
         />
-        <span className="text-lg md:text-xl font-['Playfair_Display']">Shop Your Favorites!</span>
+        <span className="text-lg md:text-xl font-['Playfair_Display'] dark:text-[var(--color-ribbon)] ">Shop Your Favorites!</span>
         <img
           src="src/assets/images/flowerr.png"
           alt="flower"
@@ -52,7 +52,7 @@ const PromoBanner: React.FC = () => {
             Upto 30% Off All Jewelry Favorites - Shop Your Favorites!
           </h2>
 
-          <p className="text-gray-600 text-sm md:text-base mb-6 font-['Playfair_Display'] tracking-widest  max-w-md mx-auto md:mx-0">
+          <p className="text-gray-600 text-sm md:text-base mb-6 font-['Playfair_Display'] dark:text-[var(--color-ribbon)] tracking-widest leading-relaxed  max-w-md mx-auto md:mx-0">
             Elevate your everyday style with exceptional craftsmanship and exclusive savings on our signature designs.
           </p>
 
@@ -72,19 +72,19 @@ const PromoBanner: React.FC = () => {
       </div>
 
       {/* Bottom ribbon */}
-      <div className="bg-[#163D3C] text-white text-sm md:text-base py-2 md:py-4 flex justify-center items-center md-gap-12 gap-8">
+      <div className="bg-[#14213d] text-white text-sm md:text-base py-2 md:py-4 flex justify-center items-center md-gap-12 gap-8">
         <img
           src="src/assets/images/flowerr.png"
           alt="flower"
           className="w-4 h-4"
         />
-        <span className="text-lg md:text-xl font-['Playfair_Display']">Upto 25% Off All Jewelry</span>
+        <span className="text-lg md:text-xl font-['Playfair_Display'] dark:text-[var(--color-ribbon)]">Upto 25% Off All Jewelry</span>
         <img
           src="src/assets/images/flowerr.png"
           alt="flower"
           className="w-4 h-4"
         />
-        <span className="text-lg md:text-xl font-['Playfair_Display']">Shop Your Favorites!</span>
+        <span className="text-lg md:text-xl font-['Playfair_Display'] dark:text-[var(--color-ribbon)]">Shop Your Favorites!</span>
         <img
           src="src/assets/images/flowerr.png"
           alt="flower"

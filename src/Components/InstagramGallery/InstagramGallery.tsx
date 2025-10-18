@@ -7,6 +7,7 @@ const InstagramGallery: React.FC = () => {
     "src/assets/images/Instagram/3edsec-2.jpeg",
     "src/assets/images/Instagram/3edsec-3.jpeg",
     "src/assets/images/Instagram/3edsec-4-.jpeg",
+    //"src/assets/images/middle instagram.jpeg",
     "src/assets/images/Instagram/3edsec-center.jpeg",  //center image
     "src/assets/images/Instagram/R3edsec-1.jpeg",
     "src/assets/images/Instagram/R3sec-22.jpeg",
@@ -58,7 +59,7 @@ const InstagramGallery: React.FC = () => {
                   key={i}
                   src={img}
                   alt={`Left ${rowIndex}-${i}`}
-                  className="w-24 h-28 md:w-[42%] md:h-auto object-cover custome-md-size"
+                  className="w-24 h-28 md:w-[42%] md:h-38 object-cover custome-md-size"
                   loading="lazy"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -74,7 +75,7 @@ const InstagramGallery: React.FC = () => {
         <motion.img
           src={centerImage}
           alt="Center"
-          className="w-48 h-60 md:w-[25%] md:h-[80%] object-cover custome-md-size"  //the center image is double that h and w
+          className=" w-48 h-60 md:w-[25%] md:h-80 object-cover" //the center image is double that h and w md:h-[80%]   className="w-48 h-60 md:w-[25%] md:h-auto object-cover custome-md-size" 
           loading="lazy"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -85,13 +86,13 @@ const InstagramGallery: React.FC = () => {
         {/* Right Side: : 2x2 grid- flex col as i'm building rows */}
         <div className="flex flex-col gap-4">
           {rightChunks.map((row, rowIndex) => (
-            <div key={rowIndex} className="flex gap-4">
+            <div key={rowIndex} className="flex gap-4 items-center justify-start">
               {row.map((img, i) => (
                 <motion.img
                   key={i}
                   src={img}
                   alt={`Right ${rowIndex}-${i}`}
-                  className="w-24 h-28 md:w-[42%] md:h-auto object-cover custome-md-size"
+                  className="w-24 h-28 md:w-[42%] md:h-38 object-cover custome-md-size"
                   loading="lazy"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
