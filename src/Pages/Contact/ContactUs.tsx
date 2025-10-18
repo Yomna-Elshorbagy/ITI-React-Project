@@ -61,41 +61,41 @@ export default function ContactUs() {
   };
 
   return (
-    <section className="bg-white dark:bg-gray-900 transition-colors duration-500 py-16 px-6 sm:px-10 lg:px-20">
+    <section className=" bg-[#F7E7CE] dark:bg-[var(--color-blue)] transition-colors duration-500 py-16 px-6 sm:px-10 lg:px-20"> {/*dark:bg-gray-900*/}
       <div className="max-w-6xl mx-auto text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-4">
-          Get in <span className="text-[var(--color-primary)]">Touch</span>
+        <h1 className="text-[var(--color-header)] font-['Playfair_Display'] uppercase tracking-widest font-semibold text-lg md:text-2xl mb-4">
+          Get in Touch                {/*<span className="text-[var(--color-primary)] text-4xl font-bold text-gray-800  "> */}
         </h1>
-        <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+        <p className="font-['Playfair_Display']  text-[var(--color-blue)] dark:text-[var(--color-darkText)] leading-relaxed whitespace-pre-wrap max-w-2xl mx-auto">  {/*text-gray-600 dark:text-gray-300 max-w-2xl mx-auto dark:text-gray-300 */}
           We’d love to hear from you! Whether you have a question about our
           jewelry, your order, or anything else — our team is ready to help.
         </p>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-12 justify-between items-start">
-        <div className="flex-1 bg-gray-100 dark:bg-gray-800 p-8 rounded-2xl shadow-md transition-all duration-300 hover:shadow-lg">
-          <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-6">
+      <div className="flex flex-col lg:flex-row gap-12 justify-between items-start header-font">
+        <div className="flex-1 bg-gray-100 dark:bg-[#F4EDE1] p-8 rounded-2xl shadow-md transition-all duration-300 hover:shadow-lg">
+          <h2 className="header-font text-2xl font-semibold text-[var(--color-blue)] dark:text-[var(--color-blue)] mb-6"> {/* */}
             Contact Information
           </h2>
 
           <div className="space-y-6">
             <div className="flex items-center gap-4">
-              <FaPhoneAlt className="text-[var(--color-primary)] text-xl" />
-              <p className="text-gray-700 dark:text-gray-300">
+              <FaPhoneAlt className="text-[var(--color-blue)] text-xl" />
+              <p className="text-gray-700 dark:text-[var(--color-blue)] "> {/*dark:text-gray-300 */}
                 +20 123 456 7890
               </p>
             </div>
 
             <div className="flex items-center gap-4">
-              <FaEnvelope className="text-[var(--color-primary)] text-xl" />
-              <p className="text-gray-700 dark:text-gray-300">
+              <FaEnvelope className="text-[var(--color-blue)] text-xl" />
+              <p className="text-gray-700 dark:text-[var(--color-blue)]">
                 support@kayanaccessories.com
               </p>
             </div>
 
             <div className="flex items-center gap-4">
-              <FaMapMarkerAlt className="text-[var(--color-primary)] text-xl" />
-              <p className="text-gray-700 dark:text-gray-300">
+              <FaMapMarkerAlt className="text-[var(--color-blue)] text-xl" />
+              <p className="text-gray-700 dark:text-[var(--color-blue)]">
                 Makram Ebeid, Nasr City, Cairo, Egypt
               </p>
             </div>
@@ -113,14 +113,14 @@ export default function ContactUs() {
           </div>
         </div>
 
-        <div className="flex-1 bg-gray-50 dark:bg-gray-800 p-8 rounded-2xl shadow-md transition-all duration-300 hover:shadow-lg">
-          <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-6">
+        <div className="flex-1 bg-gray-50 dark:bg-[#F4EDE1] p-8 rounded-2xl shadow-md transition-all duration-300 hover:shadow-lg">
+          <h2 className="text-2xl font-semibold text-[var(--color-blue)] dark:text-[var(--color-blue)] mb-6 ">
             Send Us a Message
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-gray-700 dark:text-gray-300 mb-2 font-medium">
+              <label className="block text-gray-700 dark:text-[var(--color-blue)] mb-2 font-medium ">
                 Full Name
               </label>
               <input
@@ -129,12 +129,12 @@ export default function ContactUs() {
                 value={formData.fullName}
                 onChange={handleChange}
                 placeholder="Enter your name"
-                className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-white focus:ring-2 focus:ring-[var(--color-primary)] outline-none transition"
+                className="w-full px-4 py-3 rounded-md border border-gray-300 border-gray-400 bg-white dark:bg-[#F4EDE1] text-gray-800 dark:text-white focus:ring-2 focus:ring-[var(--color-primary)] outline-none transition"
               />
             </div>
 
             <div>
-              <label className="block text-gray-700 dark:text-gray-300 mb-2 font-medium">
+              <label className="block text-gray-700 dark:text-[var(--color-blue)] mb-2 font-medium ">
                 Email Address
               </label>
               <input
@@ -143,12 +143,12 @@ export default function ContactUs() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Enter your email"
-                className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-white focus:ring-2 focus:ring-[var(--color-primary)] outline-none transition"
+                className="w-full px-4 py-3 rounded-md border border-gray-300 border-gray-400 bg-white dark:bg-[#F4EDE1]  text-gray-800 dark:text-white focus:ring-2 focus:ring-[var(--color-primary)] outline-none transition"
               />
             </div>
 
             <div>
-              <label className="block text-gray-700 dark:text-gray-300 mb-2 font-medium">
+              <label className="block text-gray-700 dark:text-[var(--color-blue)] mb-2 font-medium">
                 Message
               </label>
               <textarea
@@ -157,17 +157,17 @@ export default function ContactUs() {
                 onChange={handleChange}
                 placeholder="Type your message..."
                 rows={5}
-                className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-white focus:ring-2 focus:ring-[var(--color-primary)] outline-none transition"
+                className="w-full px-4 py-3 rounded-md border border-gray-300 border-gray-400  bg-white dark:bg-[#F4EDE1]  text-gray-800 dark:text-white focus:ring-2 focus:ring-[var(--color-primary)] outline-none transition"
               ></textarea>
             </div>
 
             <button
               type="submit"
               disabled={isPending}
-              className={`w-full py-3 font-medium rounded-md transition duration-300 ${
+              className={`w-full py-3 font-medium rounded-md transition duration-300 dark:text-[#F4EDE1] ${
                 isPending
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-[var(--color-primary)] hover:opacity-90 text-white"
+                  ? "bg-[var(--color-blue)] cursor-not-allowed"
+                  : "bg-[#C49A53] hover:bg-[var(--color-blue)] text-[var(--color-bg)]" //hover:opacity-90
               }`}
             >
               {isPending ? "Sending..." : "Send Message"}

@@ -42,7 +42,11 @@
   --font-header: 'Playfair Display';
   --font-navbar: 'Cormorant Garamond';
   --color-navbarText: #A08965;
-  --color-iconHover: #1F5958;
+  --color-iconHover: #1f5958;
+  --color-blue: #14213d;
+  --color-ribbon: #c2c5c9;
+  --color-darkText: #F4EDE1;
+  --color-heart: #C49A53;
 }
 
 .dark {
@@ -126,4 +130,8 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+.header-font {
+  font-family: var(--font-header);
 }

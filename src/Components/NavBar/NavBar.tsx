@@ -82,7 +82,7 @@ export default function NavBar() {
           {/*</div> */}
         </Link>
           
-       <nav className="hidden md:flex items-center space-x-10 font-[Libre-Franklin] tracking-[0.12rem] text-[1.1rem] uppercase dark:text-gray-100 md:justify-center lg:absolute lg:left-1/2 lg:-translate-x-1/2"> 
+       <nav className="hidden md:flex text-[var(--color-blue)] items-center space-x-10 font-[Libre-Franklin] tracking-[0.12rem] text-[1.1rem] uppercase dark:text-gray-100 md:justify-center lg:absolute lg:left-1/2 lg:-translate-x-1/2"> 
           <Link
             to="/"
             className="relative group hover:text-[var(--color-blue)] transition duration-200"
