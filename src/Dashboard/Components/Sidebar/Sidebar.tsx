@@ -16,9 +16,11 @@ export default function Sidebar() {
 
   const links = [
     { to: "/dashboard", icon: <FaHome />, label: "Overview" },
-    { to: "/dashboard/products", icon: <FaBox />, label: "Products" },
-    { to: "/dashboard/orders", icon: <FaClipboardList />, label: "Orders" },
     { to: "/dashboard/users", icon: <FaUsers />, label: "Users" },
+    { to: "/dashboard/products", icon: <FaBox />, label: "Products" },
+    { to: "/dashboard/categories", icon: <FaUsers />, label: "Categories" },
+    { to: "/dashboard/coupons", icon: <FaUsers />, label: "Coupons" },
+    { to: "/dashboard/orders", icon: <FaClipboardList />, label: "Orders" },
     { to: "/dashboard/reports", icon: <FaChartBar />, label: "Reports" },
   ];
 

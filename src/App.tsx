@@ -29,6 +29,8 @@ import OrderProducts from "./Dashboard/Pages/Products/Products";
 import Orders from "./Dashboard/Pages/Orders/Orders";
 import Users from "./Dashboard/Pages/Users/Users";
 import Reports from "./Dashboard/Pages/Reports/Reports";
+import DashCategories from "./Dashboard/Pages/Categories/Categories";
+import Coupons from "./Dashboard/Pages/Coupons/Coupons";
 
 const router = createBrowserRouter([
   {
@@ -81,16 +83,18 @@ const router = createBrowserRouter([
     ],
   },
   {
-  path: "dashboard",
-  element: <DashboardLayout />, 
-  children: [
-    { index: true, element: <Overview /> },
-    { path: "products", element: <OrderProducts /> }, 
-    { path: "orders", element: <Orders /> }, 
-    { path: "users", element: <Users /> }, 
-    { path: "reports", element: <Reports /> },
-  ],
-},
+    path: "dashboard",
+    element: <DashboardLayout />,
+    children: [
+      { index: true, element: <Overview /> },
+      { path: "products", element: <OrderProducts /> },
+      { path: "orders", element: <Orders /> },
+      { path: "users", element: <Users /> },
+      { path: "categories", element: <DashCategories /> },
+      { path: "coupons", element: <Coupons /> },
+      { path: "reports", element: <Reports /> },
+    ],
+  },
   {
     path: "",
     element: <AuthLayout />,
