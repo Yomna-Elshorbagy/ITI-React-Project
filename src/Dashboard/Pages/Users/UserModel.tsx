@@ -46,7 +46,7 @@ const UserModal: React.FC<UserModalProps> = ({ open, onClose, user }) => {
               <strong>Email:</strong> {user.email}
             </p>
             <p>
-              <strong>Phone:</strong> {user.phone}
+              <strong>Phone:</strong> {user.mobileNumber}
             </p>
             <p>
               <strong>Role:</strong> {user.role}

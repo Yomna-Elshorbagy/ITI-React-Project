@@ -44,7 +44,7 @@ const UserTable: React.FC<UserTableProps> = ({
                 {u.email}
               </td>
               <td className="py-3 px-4 text-[var(--color-text-muted)]">
-                {u.phone}
+                {u.mobileNumber}
               </td>
               <td className="py-3 px-4 text-[var(--color-primary)] font-semibold">
                 {u.role}

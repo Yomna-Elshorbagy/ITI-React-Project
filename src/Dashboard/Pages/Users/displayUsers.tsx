@@ -4,19 +4,26 @@ import UserModal from "./UserModel";
 import UserTable from "./UsersTable";
 import { useUsers } from "../../DashboardHooks/useUseres";
 import type { IUser } from "../../DashBordInterfaces/userInterfaces";
+import UserEditModal from "./UserEditModel";
 
 const UsersPage: React.FC = () => {
-  const { users, page, pagesCount, setPage, loading } = useUsers();
+  const { users, page, pagesCount, setPage, loading, fetchUsers } = useUsers();
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
-  const [isModalOpen, setModalOpen] = useState<boolean>(false);
+  const [activeModal, setActiveModal] = useState<"view" | "edit" | null>(null);
 
   const handleView = (user: IUser) => {
     setSelectedUser(user);
-    setModalOpen(true);
+    setActiveModal("view");
   };
 
   const handleEdit = (user: IUser) => {
-    console.log("Edit user:", user);
+    setSelectedUser(user);
+    setActiveModal("edit");
+  };
+
+  const handleCloseModal = () => {
+    setActiveModal(null);
+    setSelectedUser(null);
   };
 
   const handleDelete = (id: string) => {
@@ -38,6 +45,7 @@ const UsersPage: React.FC = () => {
       >
         Users Management
       </h1>
+
       {loading ? (
         <p>Loading...</p>
       ) : (
@@ -106,10 +114,18 @@ const UsersPage: React.FC = () => {
               Next
             </button>
           </div>
+
           <UserModal
-            open={isModalOpen}
-            onClose={() => setModalOpen(false)}
+            open={activeModal === "view"}
+            onClose={handleCloseModal}
             user={selectedUser}
+          />
+
+          <UserEditModal
+            user={selectedUser}
+            isOpen={activeModal === "edit"}
+            onClose={handleCloseModal}
+            onUpdated={fetchUsers}
           />
         </>
       )}

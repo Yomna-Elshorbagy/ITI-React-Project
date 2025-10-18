@@ -1,4 +1,3 @@
-// src/Dashboard/Hooks/useUsers.ts
 import { useEffect, useState } from "react";
 import axios from "axios";
 import type { IUser, IUseUsers } from "../DashBordInterfaces/userInterfaces";
@@ -23,8 +22,13 @@ export const useUsers = (): IUseUsers => {
           },
         }
       );
-      setUsers(res.data.data);
-      setPagesCount(Math.ceil(res.data.total / 5) || 2);
+
+      const usersData = (res.data.data || []).filter(
+        (u: IUser) => u.role?.toLowerCase() === "user"
+      );
+
+      setUsers(usersData);
+      setPagesCount(res.data.meta?.totalPages || 1);
     } catch (err) {
       console.error("Error fetching users:", err);
     } finally {
