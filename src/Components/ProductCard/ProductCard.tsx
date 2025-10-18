@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import cartIcon from "../../assets/svgs/cart.svg";
 import heartIcon from "../../assets/svgs/heart.svg";
 import { useAppDispatch } from "../../Hooks/reduxHooks";
 import { addProductToCart } from "../../Store/Slices/CartSlice";
 import toast from "react-hot-toast";
-import { useEffect } from "react";
 
 type Product = {
   _id: string;
@@ -32,25 +31,23 @@ const ProductCard: React.FC<Props> = ({
   onRemoveFromWishlist,
   isInWishlist,
 }) => {
-const [inWishlist, setInWishlist] = useState(isInWishlist);
+  const [inWishlist, setInWishlist] = useState(isInWishlist);
 
-  // Sync local state with Redux on reload/modal open
   useEffect(() => {
     setInWishlist(isInWishlist);
   }, [isInWishlist]);
 
   const handleWishlistClick = () => {
     if (inWishlist) {
-      setInWishlist(false); // optimistic toggle
+      setInWishlist(false);
       onRemoveFromWishlist(product._id);
-       toast.success("Item removed from wishlist 🖤");
+      toast.success("Item removed from wishlist 🖤");
     } else {
-      setInWishlist(true); // optimistic toggle
+      setInWishlist(true);
       onAddToWishlist(product._id);
       toast.success("Item added to wishlist 💚");
     }
   };
-
 
   const [hovered, setHovered] = useState(false);
   const navigate = useNavigate();
@@ -81,9 +78,9 @@ const [inWishlist, setInWishlist] = useState(isInWishlist);
       onMouseLeave={() => setHovered(false)}
       className="group relative flex flex-col rounded-2xl overflow-hidden bg-[color:var(--color-surface)] shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer elevate-soft hover:-translate-y-1"
     >
-      {/* Image container */}
+      {/* Image container with shortened height */}
       <div
-        className="relative w-full aspect-[4/5] overflow-hidden"
+        className="relative w-full aspect-[4/4.25] overflow-hidden"
         onClick={handleProductClick}
       >
         <img
@@ -106,6 +103,8 @@ const [inWishlist, setInWishlist] = useState(isInWishlist);
             %
           </span>
         )}
+
+        {/* Sub images preview on hover */}
         {product.subImages && product.subImages.length > 0 && (
           <div
             className={`absolute bottom-0 left-0 right-0 bg-black/50 backdrop-blur-sm 
@@ -133,23 +132,27 @@ const [inWishlist, setInWishlist] = useState(isInWishlist);
           <button
             onClick={(e) => {
               e.stopPropagation();
-              handleWishlistClick()
+              handleWishlistClick();
             }}
             className={`p-2.5 cursor-pointer rounded-full shadow transition ${
-           inWishlist
-           ? "bg-green-900 border-green-900 text-white"
-           : "bg-[color:var(--color-surface)]  hover:bg-[color:var(--mist-100)]"
+              inWishlist
+                ? "bg-green-900 border-green-900 text-white"
+                : "bg-[color:var(--color-surface)] hover:bg-[color:var(--mist-100)]"
             }`}
             aria-label="Add to Wishlist"
           >
-            <img src={heartIcon} alt="Wishlist" className={`w-5 h-5 ${inWishlist ? "invert" : ""}`} />
+            <img
+              src={heartIcon}
+              alt="Wishlist"
+              className={`w-5 h-5 ${inWishlist ? "invert" : ""}`}
+            />
           </button>
           <button
             onClick={(e) => {
               e.stopPropagation();
               handleAddToCart();
             }}
-            className="p-2.5 cursor-pointer  bg-[color:var(--color-primary)] rounded-full shadow hover:bg-[color:var(--color-primary-hover)] transition"
+            className="p-2.5 cursor-pointer bg-[color:var(--color-primary)] rounded-full shadow hover:bg-[color:var(--color-primary-hover)] transition"
             aria-label="Add to Cart"
           >
             <img src={cartIcon} alt="Cart" className="w-5 h-5 invert" />

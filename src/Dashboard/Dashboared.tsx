@@ -4,6 +4,8 @@ import Sidebar from "./Components/Sidebar/Sidebar";
 import Navbar from "./Components/Navbar/Navbar";
 
 const DashboardLayout: React.FC = () => {
+  // const token = localStorage.getItem("accessToken")
+  // if(){}
   return (
     <div className="flex bg-gray-50 min-h-screen">
       <Sidebar />

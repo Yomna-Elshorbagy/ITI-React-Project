@@ -65,7 +65,7 @@ export default function NavBar() {
   };
 
   return (
-    <header className="sticky top-0 z-50  bg-[#E8DFD3]/80 dark:bg-gray-900/70 dark:glass-dark">
+    <header className="sticky top-0 z-50  bg-[#E8DFD3]/80 dark:bg-[#14213d]/70 dark:glass-dark"> {/*dark:bg-gray-900/70 */}
       {" "}
       {/*border-b border-[color:var(--color-border)] backdrop-blur  glass  bg-[color:var(--color-surface)]/80 */}
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
@@ -81,45 +81,45 @@ export default function NavBar() {
           </span> */}
           {/*</div> */}
         </Link>
-
-        <nav className="hidden md:flex items-center space-x-10 font-[Libre-Franklin] tracking-[0.12rem] text-[1.1rem] uppercase dark:text-gray-100">
+          
+       <nav className="hidden md:flex items-center space-x-10 font-[Libre-Franklin] tracking-[0.12rem] text-[1.1rem] uppercase dark:text-gray-100 md:justify-center lg:absolute lg:left-1/2 lg:-translate-x-1/2"> 
           <Link
             to="/"
-            className="relative group hover:text-[#A08965] transition duration-200"
+            className="relative group hover:text-[var(--color-blue)] transition duration-200"
           >
             Home
-            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[color:var(--color-primary)] transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[color:var(--color-blue)] transition-all duration-300 group-hover:w-full"></span>
           </Link>
 
           <Link
             to="/products"
-            className="relative group hover:text-[color:var(--color-navbarText)] transition duration-200"
+            className="relative group hover:text-[color:var(--color-blue)] transition duration-200"
           >
             Shop
-            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[color:var(--color-primary-hover)] transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[color:var(--color-blue)] transition-all duration-300 group-hover:w-full"></span>
           </Link>
 
           <Link
             to="/about"
-            className="relative group hover:text-[color:var(--color-navbarText)] transition duration-200"
+            className="relative group hover:text-[color:var(--color-blue)] transition duration-200"
           >
             About Us
-            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[color:var(--color-primary-hover)] transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[color:var(--color-blue)] transition-all duration-300 group-hover:w-full"></span>
           </Link>
 
           <Link
             to="/contact"
-            className="relative group hover:text-[color:var(--color-navbarText)] transition duration-200"
+            className="relative group hover:text-[color:var(--color-blue)] transition duration-200"
           >
             Contact Us
-            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[color:var(--color-primary-hover)] transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[color:var(--color-blue)] transition-all duration-300 group-hover:w-full"></span>
           </Link>
         </nav>
         <div className="flex items-center justify-between space-x-6 text-xl text-[color:var(--color-text)] dark:text-gray-200 w-auto">
           <button
             type="button"
             onClick={toggleDarkMode}
-            className="text-2xl mr-3 text-[color:var(--color-iconHover)] dark:text-[color:var(--color-secondary)] transition cursor-pointer hover:scale-105 active:scale-95 duration-200"
+            className="text-2xl mr-3 text-[#14213d] dark:text-[color:var(--color-secondary)] transition cursor-pointer hover:scale-105 active:scale-95 duration-200"
           >
             <i
               className={`fa-solid ${
@@ -136,7 +136,7 @@ export default function NavBar() {
                 className="relative"
                 title="Wishlist"
               >
-                <Heart className="cursor-pointer transition hover:text-[color:var(--color-iconHover)]" />
+                <Heart className="cursor-pointer transition hover:text-[color:var(--color-header)] " /> {/* hover:text-[color:var(--color-iconHover)] */}
                 {items.length > 0 && (
                   <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold px-[6px] py-[1px] rounded-full">
                     {items.length}
@@ -145,14 +145,14 @@ export default function NavBar() {
               </button>
 
               <Link to="/cart" className="relative">
-                <ShoppingBag className="cursor-pointer hover:text-[color:var(--color-iconHover)] transition" />
+                <ShoppingBag className="cursor-pointer hover:text-[color:var(--color-header)] transition" /> {/*hover:text-[color:var(--color-iconHover)] */}
                 <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold px-[6px] py-[1px] rounded-full">
                   {noOfCartProducts}
                 </span>
               </Link>
 
               <Link to="/profile">
-                <FaUser className="cursor-pointer hover:text-[color:var(--color-header)] transition" />
+                <FaUser className="cursor-pointer hover:text-[color:var(--color-header)] transition " />
               </Link>
             </div>
           )}

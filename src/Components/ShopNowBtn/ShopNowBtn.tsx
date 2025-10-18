@@ -11,7 +11,7 @@ const ShopNowBtn: React.FC = () => {
   return (
     <button
       onClick={handleClick}
-      className=" text-neutral-100 font-semibold py-2 px-5 rounded-sm  transition cursor-pointer"
+      className=" text-neutral-100 font-semibold py-2 px-5 rounded-sm  transition cursor-pointer font-['Playfair_Display']"
         style={{
     background:
       "linear-gradient(270deg, #d4a762, #f0d283, #b97c3e, #d4a762)",

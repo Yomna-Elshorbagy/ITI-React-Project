@@ -42,14 +42,22 @@ export default function WishlistModal({ open, onClose, onAddToCart }: any) {
 
   // fetch wishlist when modal opens
   useQuery({
-    queryKey: ["wishlist"],
-    queryFn: async () => {
-      const result = await dispatch(fetchWishlist());
-      return result.payload;
-    },
-    enabled: open,
-    refetchOnWindowFocus: false,
-  });
+  queryKey: ["wishlist"],
+  queryFn: async () => {
+    const result = await dispatch(fetchWishlist());
+
+    // Check if the thunk failed
+    if (result.meta.requestStatus === "rejected") {
+      throw new Error("Failed to load wishlist");
+    }
+    return result.payload;
+  },
+  enabled: open,
+  refetchOnWindowFocus: false,
+  retry: false, // don't auto retry
+  staleTime: 0, // always refetch when opened
+  gcTime: 0, // no cache stored(garbage collection time)
+});
 
   const handleRemove = async (id: string) => {
     await dispatch(removeFromWishlist(id));
@@ -117,14 +125,12 @@ export default function WishlistModal({ open, onClose, onAddToCart }: any) {
 
                 {loading ? (
                 <p className="text-center">Loading...</p>
-                ) : error ? (
-                <p className="text-center text-red-500">Failed to load wishlist.</p>
-               ) : null}
-
-                {!loading && items.length === 0 ? (
-                  <p className="text-center text-gray-500 dark:text-[#dad7cd]">
-                    Your wishlist is empty.
-                  </p>
+                 ) : error ? (
+                 <p className="text-center text-red-500">Failed to load wishlist.</p>
+                 ) : items.length === 0 ? (
+                 <p className="text-center text-gray-500 dark:text-[#dad7cd]">
+                  Your wishlist is empty.
+                 </p>
                 ) : (
                   <>
                     <div className="overflow-y-auto max-h-[65vh] px-6">
