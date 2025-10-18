@@ -82,37 +82,37 @@ export default function NavBar() {
           {/*</div> */}
         </Link>
           
-       <nav className="hidden md:flex text-[var(--color-blue)] items-center space-x-10 font-[Libre-Franklin] tracking-[0.12rem] text-[1.1rem] uppercase dark:text-gray-100 md:justify-center lg:absolute lg:left-1/2 lg:-translate-x-1/2"> 
+       <nav className="hidden md:flex text-[var(--color-blue)] items-center space-x-10 font-[Libre-Franklin] tracking-[0.12rem] text-[1.1rem] uppercase dark:text-gray-100 dark:hover:text-gray-100 md:justify-center lg:absolute lg:left-1/2 lg:-translate-x-1/2"> 
           <Link
             to="/"
-            className="relative group hover:text-[var(--color-blue)] transition duration-200"
+            className="relative group hover:text-[var(--color-blue)] dark:text-gray-100 dark:hover:text-gray-100 transition duration-200"
           >
             Home
-            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[color:var(--color-blue)] transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[color:var(--color-blue)] dark:bg-gray-100 transition-all  duration-300 group-hover:w-full"></span>
           </Link>
 
           <Link
             to="/products"
-            className="relative group hover:text-[color:var(--color-blue)] transition duration-200"
+            className="relative group hover:text-[color:var(--color-blue)] dark:text-gray-100 dark:hover:text-gray-100 transition duration-200"
           >
             Shop
-            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[color:var(--color-blue)] transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[color:var(--color-blue)] dark:bg-gray-100 transition-all duration-300 group-hover:w-full"></span>
           </Link>
 
           <Link
             to="/about"
-            className="relative group hover:text-[color:var(--color-blue)] transition duration-200"
+            className="relative group hover:text-[color:var(--color-blue)] dark:text-gray-100 dark:hover:text-gray-100 transition duration-200"
           >
             About Us
-            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[color:var(--color-blue)] transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[color:var(--color-blue)] dark:bg-gray-100 transition-all duration-300 group-hover:w-full"></span>
           </Link>
 
           <Link
             to="/contact"
-            className="relative group hover:text-[color:var(--color-blue)] transition duration-200"
+            className="relative group hover:text-[color:var(--color-blue)] dark:text-gray-100 dark:hover:text-gray-100 transition duration-200"
           >
             Contact Us
-            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[color:var(--color-blue)] transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[color:var(--color-blue)] dark:bg-gray-100 transition-all duration-300 group-hover:w-full"></span>
           </Link>
         </nav>
         <div className="flex items-center justify-between space-x-6 text-xl text-[color:var(--color-text)] dark:text-gray-200 w-auto">
