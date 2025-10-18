@@ -4,6 +4,8 @@ import LoaderPage from "../../Shared/LoaderPage/LoaderPage";
 import profileImage from "../../assets/images/fourthPerson.webp";
 import UserOrders from "../../Components/UserOrder/UserOrder";
 import { useUserProfile } from "../../Hooks/useUserProfile";
+import OrderTracking from "../../Components/UserOrder/OrderTracking";
+import cover from "../../assets/images/imageBg.jpeg";
 
 export default function UserProfile() {
   const [activeTab, setActiveTab] = useState("Personal Information");
@@ -18,24 +20,29 @@ export default function UserProfile() {
     isError,
   } = useUserProfile();
 
-  const tabs = ["Personal Information", "My Orders"];
+  const tabs = ["Personal Information", "My Orders", "Orders Tracking"];
 
   if (isLoading) {
     return <LoaderPage />;
   }
 
   if (isError)
-    return <p className="text-center py-10 text-gray-700 dark:text-gray-300">
-      Error loading User Profile
-    </p>;
+    return (
+      <p className="text-center py-10 text-gray-700 dark:text-gray-300">
+        Error loading User Profile
+      </p>
+    );
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-10 px-5 text-gray-900 dark:text-gray-100 transition-colors duration-300">
       {/* Header */}
       <div className="text-center mb-10">
-        <h2 className="text-3xl font-serif text-gray-800 dark:text-gray-100">My Account</h2>
+        <h2 className="text-3xl font-serif text-gray-800 dark:text-gray-100">
+          My Account
+        </h2>
         <p className="text-gray-500 dark:text-gray-400 mt-2">
-          Home / <span className="text-gray-800 dark:text-gray-200">My Account</span>
+          Home /{" "}
+          <span className="text-gray-800 dark:text-gray-200">My Account</span>
         </p>
       </div>
 
@@ -215,6 +222,12 @@ export default function UserProfile() {
           {activeTab === "My Orders" && (
             <div className="flex justify-center items-center h-full text-gray-400 dark:text-gray-300">
               <UserOrders />
+            </div>
+          )}
+
+          {activeTab === "Orders Tracking" && (
+            <div className="h-full space-y-6">
+              <OrderTracking />
             </div>
           )}
         </div>

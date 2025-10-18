@@ -18,12 +18,9 @@ export default function UserOrders() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["userOrders"],
     queryFn: async () => {
-      const res = await axios.get(
-        "https://iti-react-backend.vercel.app/order",
-        {
-          headers: { authentication: `bearer ${token}` },
-        }
-      );
+      const res = await axios.get("https://iti-react-backend.vercel.app/order", {
+        headers: { authentication: `bearer ${token}` },
+      });
       return res.data.data;
     },
     enabled: !!token,
@@ -75,7 +72,7 @@ export default function UserOrders() {
               className="text-lg font-semibold flex items-center gap-2"
               style={{ color: "var(--color-primary)" }}
             >
-              <FaBoxOpen /> Order #{order._id.slice(-6).toUpperCase()}
+              <FaBoxOpen /> Order #{order._id}
             </h4>
             <span
               className={`text-sm font-semibold px-3 py-1 rounded-full ${
@@ -124,8 +121,16 @@ export default function UserOrders() {
               {order.products.map((p: any) => (
                 <div
                   key={p._id}
-                  className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
+                  className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-[var(--color-surface)] dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
                 >
+                  {p.productId.imageCover?.secure_url && (
+                    <img
+                      src={p.productId.imageCover.secure_url}
+                      alt={p.title}
+                      className="w-full h-25 object-cover rounded-md mb-3"
+                    />
+                  )}
+
                   <p className="font-semibold text-gray-800 dark:text-gray-100">
                     {p.title}
                   </p>
