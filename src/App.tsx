@@ -23,6 +23,14 @@ import { store } from "./Store/store";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import ContactUs from "./Pages/Contact/ContactUs";
 import AuthLayout from "./Components/AuthLayout/AuthLayout";
+import Overview from "./Dashboard/Pages/OverView/OverView";
+import DashboardLayout from "./Dashboard/Dashboared";
+import OrderProducts from "./Dashboard/Pages/Products/Products";
+import Orders from "./Dashboard/Pages/Orders/Orders";
+import Users from "./Dashboard/Pages/Users/Users";
+import Reports from "./Dashboard/Pages/Reports/Reports";
+import DashCategories from "./Dashboard/Pages/Categories/Categories";
+import Coupons from "./Dashboard/Pages/Coupons/Coupons";
 
 const router = createBrowserRouter([
   {
@@ -72,6 +80,19 @@ const router = createBrowserRouter([
       },
       { path: "qr-login", element: <UserProfile /> },
       { path: "*", element: <NotFound /> },
+    ],
+  },
+  {
+    path: "dashboard",
+    element: <DashboardLayout />,
+    children: [
+      { index: true, element: <Overview /> },
+      { path: "products", element: <OrderProducts /> },
+      { path: "orders", element: <Orders /> },
+      { path: "users", element: <Users /> },
+      { path: "categories", element: <DashCategories /> },
+      { path: "coupons", element: <Coupons /> },
+      { path: "reports", element: <Reports /> },
     ],
   },
   {
