@@ -7,8 +7,8 @@ const UserTable: React.FC<UserTableProps> = ({
   users,
   onView,
   onEdit,
-  onDelete,
-  onBlock,
+  onHardDelete,
+  onSoftDelete,
 }) => {
   return (
     <div className="overflow-x-auto bg-[var(--color-surface)] rounded-xl elevate-soft border border-[var(--color-border)] transition-all duration-500 ease-in-out hover:shadow-lg">
@@ -70,7 +70,7 @@ const UserTable: React.FC<UserTableProps> = ({
                   className="p-2 rounded-md text-white transition-all duration-300 transform hover:scale-110"
                   style={{ backgroundColor: "var(--color-error)" }}
                   title="Delete User"
-                  onClick={() => onDelete(u._id)}
+                  onClick={() => onHardDelete(u._id)}
                 >
                   <FaTrash />
                 </button>
@@ -78,7 +78,7 @@ const UserTable: React.FC<UserTableProps> = ({
                   className="p-2 rounded-md text-white transition-all duration-300 transform hover:scale-110"
                   style={{ backgroundColor: "var(--color-text-muted)" }}
                   title="Block User"
-                  onClick={() => onBlock(u._id)}
+                  onClick={() => onSoftDelete(u._id)}
                 >
                   <FaBan />
                 </button>

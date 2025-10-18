@@ -31,7 +31,7 @@ export const getDeletedUsersAnalysis =
         },
       }
     );
-    console.log("✅ Response from deleted:", data);
+    console.log("✅Response from deleted:", data);
 
     return data;
   };

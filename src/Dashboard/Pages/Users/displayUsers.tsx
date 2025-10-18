@@ -5,7 +5,12 @@ import UserTable from "./UsersTable";
 import { useUsers } from "../../DashboardHooks/useUseres";
 import type { IUser } from "../../DashBordInterfaces/userInterfaces";
 import UserEditModal from "./UserEditModel";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import { hardDeleteUser, softDeleteUser } from "../../Apis/UserAnalysis";
+import toast from "react-hot-toast";
 
+const MySwal = withReactContent(Swal);
 const UsersPage: React.FC = () => {
   const { users, page, pagesCount, setPage, loading, fetchUsers } = useUsers();
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
@@ -26,8 +31,58 @@ const UsersPage: React.FC = () => {
     setSelectedUser(null);
   };
 
-  const handleDelete = (id: string) => {
-    console.log("Delete user:", id);
+  const handleSoftDelete = async (id: string) => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) return toast.error("Unauthorized");
+
+    const result = await MySwal.fire({
+      title: "Soft delete this user?",
+      text: "The user will be marked as deleted but not removed permanently.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, soft delete",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#fbbf24",
+      cancelButtonColor: "#a3b18a",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await softDeleteUser(id, token);
+        toast.success("User soft deleted successfully");
+        fetchUsers();
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to soft delete user");
+      }
+    }
+  };
+
+  const handleHardDelete = async (id: string) => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) return toast.error("Unauthorized");
+
+    const result = await MySwal.fire({
+      title: "Permanently delete this user?",
+      text: "This action cannot be undone!",
+      icon: "error",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete permanently",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#a3b18a",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await hardDeleteUser(id, token);
+        toast.success("User permanently deleted");
+        fetchUsers();
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to permanently delete user");
+      }
+    }
   };
 
   const handleBlock = (id: string) => {
@@ -54,7 +109,8 @@ const UsersPage: React.FC = () => {
             users={users}
             onView={handleView}
             onEdit={handleEdit}
-            onDelete={handleDelete}
+            onSoftDelete={handleSoftDelete}
+            onHardDelete={handleHardDelete}
             onBlock={handleBlock}
           />
 

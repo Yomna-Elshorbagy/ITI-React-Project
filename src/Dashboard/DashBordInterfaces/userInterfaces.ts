@@ -25,6 +25,7 @@ export interface UserTableProps {
   users: IUser[];
   onView: (user: IUser) => void;
   onEdit: (user: IUser) => void;
-  onDelete: (id: string) => void;
+  onHardDelete: (id: string) => void;
+  onSoftDelete: (id: string) => void;
   onBlock: (id: string) => void;
 }
