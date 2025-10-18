@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import cartIcon from "../../assets/svgs/cart.svg";
 import heartIcon from "../../assets/svgs/heart.svg";
-import { useAppDispatch } from "../../Hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../../Hooks/reduxHooks";
 import { addProductToCart } from "../../Store/Slices/CartSlice";
 import toast from "react-hot-toast";
 
@@ -41,11 +41,11 @@ const ProductCard: React.FC<Props> = ({
     if (inWishlist) {
       setInWishlist(false);
       onRemoveFromWishlist(product._id);
-      toast.success("Item removed from wishlist 🖤");
+      toast.success(`${product.title} removed from wishlist ❌`);
     } else {
       setInWishlist(true);
       onAddToWishlist(product._id);
-      toast.success("Item added to wishlist 💚");
+      toast.success(`${product.title} added to wishlist 💚`);
     }
   };
 
@@ -64,8 +64,24 @@ const ProductCard: React.FC<Props> = ({
 
   const dispatch = useAppDispatch();
 
-  const handleAddToCart = () => {
-    dispatch(addProductToCart(product._id));
+  const cartItems = useAppSelector((state) => state.cart.products);
+
+  const handleAddToCart = async () => {
+    const alreadyInCart = cartItems.some(
+      (item) => item.productId && item.productId._id === product._id
+    );
+
+    if (alreadyInCart) {
+      toast.error(`${product.title} is already in your cart ⚠️`);
+      return;
+    }
+
+    try {
+      await dispatch(addProductToCart(product._id)).unwrap();
+      toast.success(`${product.title} added to cart successfully 🛒`);
+    } catch (error) {
+      toast.error(`Failed to add ${product.title} ❌`);
+    }
   };
 
   const handleProductClick = () => {

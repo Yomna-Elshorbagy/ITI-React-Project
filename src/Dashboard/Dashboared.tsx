@@ -1,9 +1,20 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Sidebar from "./Components/Sidebar/Sidebar";
 import Navbar from "./Components/Navbar/Navbar";
-
+import { jwtDecode } from "jwt-decode";
 const DashboardLayout: React.FC = () => {
+  const token = localStorage.getItem("accessToken");
+  const navigate = useNavigate();
+  if (token) {
+    const user = jwtDecode(token);
+    if (user && (user as any).role !== "admin") {
+      navigate("/home");
+    }
+  }else{
+    navigate("/login");
+  }
+
   return (
     <div className="flex bg-gray-50 min-h-screen">
       <Sidebar />
