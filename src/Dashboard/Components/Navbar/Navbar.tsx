@@ -15,6 +15,7 @@ import { getProducts } from "../../Apis/Products";
 import { getAllOrders } from "../../Apis/OrderApis";
 import type { IProduct } from "../../DashBordInterfaces/ProductsInterfaces";
 import type { IOrder } from "../../DashBordInterfaces/OrderInterfaces";
+import OrderNotificationBell from "../../Pages/Orders/AdminNotify";
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ const Navbar: React.FC = () => {
   }, []);
   const handleExport = async () => {
     try {
-      const response = await fetch("http://localhost:3000/products/export", {
+      const response = await fetch("https://iti-react-backend.vercel.app/products/export", {
         headers: {
           authentication: `bearer ${localStorage.getItem("accessToken")}`,
         },
@@ -83,7 +84,7 @@ const Navbar: React.FC = () => {
       try {
         const json = JSON.parse(event.target?.result as string);
 
-        const response = await fetch("http://localhost:3000/products/import", {
+        const response = await fetch("https://iti-react-backend.vercel.app/products/import", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -116,6 +117,8 @@ const Navbar: React.FC = () => {
         </h1>
 
         <div className="flex items-center flex-wrap gap-3">
+            <OrderNotificationBell />
+
           <button
             className="p-2 hover:bg-[var(--color-accent)] rounded-lg transition"
             onClick={handleHomeRedirect}
