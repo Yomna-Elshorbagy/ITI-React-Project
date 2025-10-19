@@ -1,17 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { getProducts } from "../../Apis/Products";
-import type { IProduct } from "../../DashBordInterfaces/ProductsInterfaces";
-
-export interface IUseProducts {
-  products: IProduct[];
-  page: number;
-  pagesCount: number;
-  loading: boolean;
-  error: unknown;
-  setPage: (page: number) => void;
-  refetch: () => void;
-}
+import type { IUseProducts } from "../../DashBordInterfaces/ProductsInterfaces";
 
 export const useProducts = (): IUseProducts => {
   const [page, setPage] = useState<number>(1);

@@ -20,7 +20,7 @@ const DashboardLayout: React.FC = () => {
       <Sidebar />
       <main className="flex-1 ml- p-6">
         <Navbar />
-        <div className="mt-20 ms-20">
+        <div className="mt-20 ms-6">
           <Outlet />
         </div>
       </main>

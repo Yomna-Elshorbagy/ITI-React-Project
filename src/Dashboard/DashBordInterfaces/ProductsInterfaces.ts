@@ -55,3 +55,13 @@ export interface IProductStats {
   trendingProducts: IProduct[];
   [key: string]: any;
 }
+
+export interface IUseProducts {
+  products: IProduct[];
+  page: number;
+  pagesCount: number;
+  loading: boolean;
+  error: unknown;
+  setPage: (page: number) => void;
+  refetch: () => void;
+}

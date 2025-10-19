@@ -65,6 +65,7 @@ import LoaderPage from "../../../Shared/LoaderPage/LoaderPage";
 import EditProductModal from "./EditProductModal";
 import { useProducts } from "../../DashboardHooks/Products/useProducts";
 import { deleteProduct } from "../../Apis/Products";
+import ProductModal from "./productModel";
 
 const MySwal = withReactContent(Swal);
 
@@ -73,7 +74,7 @@ export default function ProductsPage() {
     useProducts();
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [editOpen, setEditOpen] = useState(false);
-
+  const [viewOpen, setViewOpen] = useState(false);
   const handleDelete = async (id: string) => {
     const token = localStorage.getItem("accessToken");
     if (!token) return toast.error("Unauthorized");
@@ -101,6 +102,10 @@ export default function ProductsPage() {
       }
     }
   };
+  const handleView = (product: any) => {
+    setSelectedProduct(product);
+    setViewOpen(true);
+  };
 
   const handleEdit = (product: any) => {
     setSelectedProduct(product);
@@ -113,7 +118,7 @@ export default function ProductsPage() {
     <div className="p-4">
       <ProductTable
         products={products}
-        onView={(p) => console.log("View:", p)}
+        onView={handleView}
         onEdit={handleEdit}
         onDelete={handleDelete}
       />
@@ -143,6 +148,12 @@ export default function ProductsPage() {
         onClose={() => setEditOpen(false)}
         product={selectedProduct}
         onUpdated={refetch}
+      />
+
+      <ProductModal
+        open={viewOpen}
+        onClose={() => setViewOpen(false)}
+        product={selectedProduct}
       />
     </div>
   );
