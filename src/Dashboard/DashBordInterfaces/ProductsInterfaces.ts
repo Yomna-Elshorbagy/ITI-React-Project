@@ -3,15 +3,16 @@ export interface IProduct {
   title: string;
   description: string;
   price: number;
+  finalPrice?: number;
   discount?: number;
   stock: number;
-  category: {
+  rate: number;
+   category: {
     _id: string;
     name: string;
-    slug?: string;
-    image?: string;
-    createdBy?: string;
+    image: { secure_url: string };
   };
+
   imageCover: {
     secure_url: string;
     public_id: string;
@@ -52,5 +53,5 @@ export interface IProductStats {
   totalProducts: number;
   lowStockProducts: number;
   trendingProducts: IProduct[];
-  [key: string]: any; 
+  [key: string]: any;
 }

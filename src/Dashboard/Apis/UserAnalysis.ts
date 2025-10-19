@@ -55,16 +55,20 @@ export const hardDeleteUser = async (id: string, token: string) => {
   const res = await axios.delete(`${BASE_URL}/delete/${id}`, {
     headers: { authentication: `bearer ${token}` },
   });
+  console.log("hard delete",res.data);
+  
   return res.data;
 };
 
 export const softDeleteUser = async (id: string, token: string) => {
-  const res = await axios.patch(
+  const res = await axios.put(
     `${BASE_URL}/softDelete/${id}`,
     {},
     {
       headers: { authentication: `bearer ${token}` },
     }
   );
+  console.log("soft delete",res.data);
+  
   return res.data;
 };

@@ -1,7 +1,10 @@
-import React from 'react'
+import React from "react";
+import ProductsPage from "./DisplayProducts";
 
 export default function OrderProducts() {
   return (
-    <div>Order</div>
-  )
+    <div>
+      <ProductsPage />
+    </div>
+  );
 }

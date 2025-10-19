@@ -1,5 +1,9 @@
 import axios from "axios";
-import type { IProduct, IProductStats, IRelatedProduct } from "../DashBordInterfaces/ProductsInterfaces";
+import type {
+  IProduct,
+  IProductStats,
+  IRelatedProduct,
+} from "../DashBordInterfaces/ProductsInterfaces";
 
 const BASE_URL = "https://iti-react-backend.vercel.app/products";
 const token = localStorage.getItem("accessToken");
@@ -11,7 +15,7 @@ const headers = {
 
 export const getProducts = async (
   page: number = 1,
-  size: number = 10,
+  size: number = 6,
   search?: string,
   category?: string
 ): Promise<{
@@ -79,7 +83,9 @@ export const getTrendingProducts = async (): Promise<IProduct[]> => {
 export const getRelatedProducts = async (
   productId: string
 ): Promise<IRelatedProduct[]> => {
-  const { data } = await axios.get(`${BASE_URL}/related/${productId}`, { headers });
+  const { data } = await axios.get(`${BASE_URL}/related/${productId}`, {
+    headers,
+  });
   return data.relatedProducts;
 };
 
@@ -94,7 +100,9 @@ export const getLowStockProducts = async (
 };
 
 export const contactProductOwner = async (productId: string) => {
-  const { data } = await axios.get(`${BASE_URL}/contact/${productId}`, { headers });
+  const { data } = await axios.get(`${BASE_URL}/contact/${productId}`, {
+    headers,
+  });
   return data.chatDetails;
 };
 
