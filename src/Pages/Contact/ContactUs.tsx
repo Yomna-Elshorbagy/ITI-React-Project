@@ -61,7 +61,7 @@ export default function ContactUs() {
   };
 
   return (
-    <section className=" bg-[#F7E7CE] dark:bg-[var(--color-blue)] transition-colors duration-500 py-16 px-6 sm:px-10 lg:px-20"> {/*dark:bg-gray-900*/}
+    <section className=" bg-[#fdfaf5ff] dark:bg-[var(--color-blue)] transition-colors duration-500 py-16 px-6 sm:px-10 lg:px-20"> {/*dark:bg-gray-900  #F7E7CE #F6E7D7 #FAF9F7 #fdfaf5ff*/}
       <div className="max-w-6xl mx-auto text-center mb-12">
         <h1 className="text-[var(--color-header)] font-['Playfair_Display'] uppercase tracking-widest font-semibold text-lg md:text-2xl mb-4">
           Get in Touch                {/*<span className="text-[var(--color-primary)] text-4xl font-bold text-gray-800  "> */}

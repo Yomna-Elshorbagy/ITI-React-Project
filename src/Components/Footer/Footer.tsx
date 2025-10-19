@@ -19,7 +19,7 @@ const AppFooter: FC = () => {
           {/* Logo + About */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="bg-[color:var(--color-primary)] text-white w-10 h-10 rounded-full flex items-center justify-center font-bold shadow-sm">
+              <div className="bg-[color:var(--color-blue)] dark:bg-[color:var(--color-heart)] text-white w-10 h-10 rounded-full flex items-center justify-center font-bold shadow-sm">
                 J
               </div>
               <span className="text-2xl font-semibold text-[color:var(--color-text)] dark:text-white">
@@ -33,31 +33,31 @@ const AppFooter: FC = () => {
             <div className="flex gap-3">
               <a
                 href="#"
-                className="bg-[color:var(--color-primary)] hover:bg-[color:var(--color-primary-hover)] text-white p-2 rounded transition transform hover:-translate-y-0.5"
+                className="bg-[color:var(--color-blue)]  dark:bg-[color:var(--color-heart)] text-white p-2 rounded transition transform hover:-translate-y-0.5" //hover:bg-[color:var(--color-primary-hover)]
               >
                 <FaFacebookF />
               </a>
               <a
                 href="#"
-                className="bg-[color:var(--color-primary)] hover:bg-[color:var(--color-primary-hover)] text-white p-2 rounded transition transform hover:-translate-y-0.5"
+                className="bg-[color:var(--color-blue)] dark:bg-[color:var(--color-heart)] text-white p-2 rounded transition transform hover:-translate-y-0.5"
               >
                 <FaBloggerB />
               </a>
               <a
                 href="#"
-                className="bg-[color:var(--color-primary)] hover:bg-[color:var(--color-primary-hover)] text-white p-2 rounded transition transform hover:-translate-y-0.5"
+                className="bg-[color:var(--color-blue)]  dark:bg-[color:var(--color-heart)] text-white p-2 rounded transition transform hover:-translate-y-0.5"
               >
                 <FaYoutube />
               </a>
               <a
                 href="#"
-                className="bg-[color:var(--color-primary)] hover:bg-[color:var(--color-primary-hover)] text-white p-2 rounded transition transform hover:-translate-y-0.5"
+                className="bg-[color:var(--color-blue)]  dark:bg-[color:var(--color-heart)] text-white p-2 rounded transition transform hover:-translate-y-0.5"
               >
                 <FaTwitter />
               </a>
               <a
                 href="#"
-                className="bg-[color:var(--color-primary)] hover:bg-[color:var(--color-primary-hover)] text-white p-2 rounded transition transform hover:-translate-y-0.5"
+                className="bg-[color:var(--color-blue)]  dark:bg-[color:var(--color-heart)] text-white p-2 rounded transition transform hover:-translate-y-0.5"
               >
                 <FaInstagram />
               </a>

@@ -102,7 +102,7 @@ export default function WishlistModal({ open, onClose, onAddToCart }: any) {
             leaveFrom="scale-100 opacity-100"
             leaveTo="scale-95 opacity-0"
           >
-            <Dialog.Panel className="relative w-full max-w-3xl rounded-2xl bg-white/90 dark:bg-black/90 py-6 p-x-2 shadow-xl">
+            <Dialog.Panel className="relative w-full max-w-3xl rounded-2xl bg-[#FAF9F7]/90 dark:bg-[#101b31ff]/80 py-6 p-x-2 shadow-xl">  {/* #101b31ff */}
               <div className="px-6 py-2 h-[85vh]">
                 <button
                   onClick={handleClear}
@@ -119,7 +119,7 @@ export default function WishlistModal({ open, onClose, onAddToCart }: any) {
                   ✕
                 </button>
 
-                <Dialog.Title className="text-3xl font-serif text-gray-900 mb-4 text-center dark:text-[#dad7cd]">
+                <Dialog.Title className="text-3xl font-serif text-[var(--color-blue)] mb-4 text-center dark:text-[#dad7cd]">  {/*text-gray-900 */}
                   My Wishlist
                 </Dialog.Title>
 
@@ -138,7 +138,7 @@ export default function WishlistModal({ open, onClose, onAddToCart }: any) {
                         {currentItems.map((product: any) => (
                           <div
                             key={product._id}
-                            className="relative rounded-xl border border-gray-200 shadow hover:shadow-lg transition overflow-hidden"
+                            className="relative rounded-xl border border-gray-300 dark:border-[var(--color-heartOp)] shadow hover:shadow-lg transition overflow-hidden"
                           >
                             <button
                               onClick={() => handleRemove(product._id)}

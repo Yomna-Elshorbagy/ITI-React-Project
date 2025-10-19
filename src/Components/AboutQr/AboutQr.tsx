@@ -23,7 +23,7 @@ export default function AboutQr() {
   }, []);
 
   return (
-    <section className="container dark:bg-gray-800 mx-auto px-30 py-16 flex flex-col lg:flex-row items-center justify-between gap-16">
+    <section className="w-full dark:bg-gray-800 mx-auto px-30 py-16 flex flex-col lg:flex-row items-center justify-between gap-16">
       <div className="flex-1 flex justify-center">
         <div className="relative group w-100 h-100 rounded-2xl overflow-hidden shadow-xl transition-all duration-500 hover:shadow-2xl hover:scale-105">
           <img

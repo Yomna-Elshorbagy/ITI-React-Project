@@ -13,13 +13,13 @@ const PromoBanner: React.FC = () => {
           alt="flower"
           className="w-4 h-4"
         />
-        <span className="text-lg md:text-xl font-['Playfair_Display'] dark:text-[var(--color-ribbon)]">Upto 25% Off All Jewelry</span>
+        <span className="text-lg md:text-xl font-['Playfair_Display'] dark:text-[var(--color-darkText)]">Upto 25% Off All Jewelry</span>
         <img
           src="src/assets/images/flowerr.png"
           alt="flower"
           className="w-4 h-4"
         />
-        <span className="text-lg md:text-xl font-['Playfair_Display'] dark:text-[var(--color-ribbon)] ">Shop Your Favorites!</span>
+        <span className="text-lg md:text-xl font-['Playfair_Display'] dark:text-[var(--color-darkText)] ">Shop Your Favorites!</span>
         <img
           src="src/assets/images/flowerr.png"
           alt="flower"
@@ -78,13 +78,13 @@ const PromoBanner: React.FC = () => {
           alt="flower"
           className="w-4 h-4"
         />
-        <span className="text-lg md:text-xl font-['Playfair_Display'] dark:text-[var(--color-ribbon)]">Upto 25% Off All Jewelry</span>
+        <span className="text-lg md:text-xl font-['Playfair_Display'] dark:text-[var(--color-darkText)]">Upto 25% Off All Jewelry</span>
         <img
           src="src/assets/images/flowerr.png"
           alt="flower"
           className="w-4 h-4"
         />
-        <span className="text-lg md:text-xl font-['Playfair_Display'] dark:text-[var(--color-ribbon)]">Shop Your Favorites!</span>
+        <span className="text-lg md:text-xl font-['Playfair_Display'] dark:text-[var(--color-darkText)]">Shop Your Favorites!</span>
         <img
           src="src/assets/images/flowerr.png"
           alt="flower"
