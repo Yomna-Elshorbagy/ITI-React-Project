@@ -6,6 +6,7 @@ import UserOrders from "../../Components/UserOrder/UserOrder";
 import { useUserProfile } from "../../Hooks/useUserProfile";
 import OrderTracking from "../../Components/UserOrder/OrderTracking";
 import cover from "../../assets/images/imageBg.jpeg";
+import LoginActivityTab from "../../Components/ActivityLog/ActivityLog";
 
 export default function UserProfile() {
   const [activeTab, setActiveTab] = useState("Personal Information");
@@ -20,7 +21,7 @@ export default function UserProfile() {
     isError,
   } = useUserProfile();
 
-  const tabs = ["Personal Information", "My Orders", "Orders Tracking"];
+  const tabs = ["Personal Information", "My Orders", "Orders Tracking", "Activity Log"];
 
   if (isLoading) {
     return <LoaderPage />;
@@ -228,6 +229,13 @@ export default function UserProfile() {
           {activeTab === "Orders Tracking" && (
             <div className="h-full space-y-6">
               <OrderTracking />
+            </div>
+          )}
+
+          
+          {activeTab === "Activity Log" && (
+            <div className="h-full space-y-6">
+              <LoginActivityTab />
             </div>
           )}
         </div>

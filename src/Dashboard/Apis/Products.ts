@@ -1,0 +1,104 @@
+import axios from "axios";
+import type { IProduct, IProductStats, IRelatedProduct } from "../DashBordInterfaces/ProductsInterfaces";
+
+const BASE_URL = "https://iti-react-backend.vercel.app/products";
+const token = localStorage.getItem("accessToken");
+
+const headers = {
+  authentication: `bearer ${token}`,
+  "Content-Type": "application/json",
+};
+
+export const getProducts = async (
+  page: number = 1,
+  size: number = 10,
+  search?: string,
+  category?: string
+): Promise<{
+  success: boolean;
+  results: number;
+  data: IProduct[];
+  metadata: {
+    currentPage: number;
+    numberOfPages: number;
+    limit: number;
+    prevPage: number | null;
+  };
+}> => {
+  const params: Record<string, any> = { page, size };
+  if (search) params.search = search;
+  if (category) params.category = category;
+
+  const { data } = await axios.get(`${BASE_URL}/getproducts`, {
+    headers,
+    params,
+  });
+  return data;
+};
+
+export const getProductById = async (id: string): Promise<IProduct> => {
+  const { data } = await axios.get(`${BASE_URL}/${id}`, { headers });
+  return data.data;
+};
+
+export const addProduct = async (formData: FormData): Promise<IProduct> => {
+  const { data } = await axios.post(`${BASE_URL}/`, formData, {
+    headers: {
+      authentication: `bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return data.data;
+};
+
+export const updateProduct = async (
+  id: string,
+  formData: FormData
+): Promise<IProduct> => {
+  const { data } = await axios.put(`${BASE_URL}/${id}`, formData, {
+    headers: {
+      authentication: `bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return data.data;
+};
+
+// === Delete product
+export const deleteProduct = async (id: string): Promise<any> => {
+  const { data } = await axios.delete(`${BASE_URL}/${id}`, { headers });
+  return data;
+};
+
+// === Get trending products
+export const getTrendingProducts = async (): Promise<IProduct[]> => {
+  const { data } = await axios.get(`${BASE_URL}/trending`, { headers });
+  return data.trendingProducts;
+};
+
+export const getRelatedProducts = async (
+  productId: string
+): Promise<IRelatedProduct[]> => {
+  const { data } = await axios.get(`${BASE_URL}/related/${productId}`, { headers });
+  return data.relatedProducts;
+};
+
+export const getLowStockProducts = async (
+  threshold: number = 10
+): Promise<IProduct[]> => {
+  const { data } = await axios.get(`${BASE_URL}/lowstock`, {
+    headers,
+    params: { threshold },
+  });
+  return data.products;
+};
+
+export const contactProductOwner = async (productId: string) => {
+  const { data } = await axios.get(`${BASE_URL}/contact/${productId}`, { headers });
+  return data.chatDetails;
+};
+
+export const getProductStats = async (): Promise<IProductStats> => {
+  const { data } = await axios.get(`${BASE_URL}/analytics/stats`, { headers });
+  return data.data;
+};

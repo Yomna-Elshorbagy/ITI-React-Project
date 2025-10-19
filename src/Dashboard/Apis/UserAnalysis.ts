@@ -9,7 +9,7 @@ const token = localStorage.getItem("accessToken");
 
 export const getUsersOverview = async (): Promise<UsersOverview> => {
   const { data } = await axios.get(
-    "http://localhost:3000/user/analysis/overview",
+    "https://iti-react-backend.vercel.app/user/analysis/overview",
     {
       headers: {
         authentication: `bearer ${token}`,
@@ -23,7 +23,7 @@ export const getUsersOverview = async (): Promise<UsersOverview> => {
 export const getDeletedUsersAnalysis =
   async (): Promise<DeletedUsersAnalysis> => {
     const { data } = await axios.get(
-      "http://localhost:3000/user/analysis/deleted",
+      "https://iti-react-backend.vercel.app/user/analysis/deleted",
       {
         headers: {
           authentication: `bearer ${token}`,
@@ -38,7 +38,7 @@ export const getDeletedUsersAnalysis =
 
 export const getDemographics = async (): Promise<Demographics> => {
   const { data } = await axios.get(
-    "http://localhost:3000/user/analysis/demographics",
+    "https://iti-react-backend.vercel.app/user/analysis/demographics",
     {
       headers: {
         authentication: `bearer ${token}`,
@@ -49,7 +49,7 @@ export const getDemographics = async (): Promise<Demographics> => {
   return data;
 };
 
-const BASE_URL = "http://localhost:3000/user";
+const BASE_URL = "https://iti-react-backend.vercel.app/user";
 
 export const hardDeleteUser = async (id: string, token: string) => {
   const res = await axios.delete(`${BASE_URL}/delete/${id}`, {

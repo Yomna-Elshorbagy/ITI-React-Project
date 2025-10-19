@@ -17,6 +17,7 @@ const MySwal = withReactContent(Swal);
 
 export default function Cart() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const handleShoppingClick = () => {
     navigate("/products");
   };
@@ -27,7 +28,6 @@ export default function Cart() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
- 
   if (loading) return <LoaderPage />;
 
   if (products.length === 0) {

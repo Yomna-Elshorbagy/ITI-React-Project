@@ -44,8 +44,15 @@ export default function Register() {
     mutationFn: async (data: RegisterFormData) => {
       const res = await axios.post(
         "https://iti-react-backend.vercel.app/auth/login",
-        data
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-client-user-agent": navigator.userAgent,
+          },
+        }
       );
+
       return res.data;
     },
     onSuccess: (data) => {

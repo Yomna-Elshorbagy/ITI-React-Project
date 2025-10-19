@@ -14,7 +14,7 @@ export const useUsers = (): IUseUsers => {
 
     try {
       const res = await axios.get(
-        `http://localhost:3000/user/allUsers?page=${pageNum}&size=5`,
+        `https://iti-react-backend.vercel.app/user/allUsers?page=${pageNum}&size=5`,
         {
           headers: {
             authentication: `bearer ${token}`,
