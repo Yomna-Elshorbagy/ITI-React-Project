@@ -7,6 +7,9 @@ import {
   FaChartBar,
   FaChevronLeft,
   FaChevronRight,
+  FaTags,
+  FaTicketAlt,
+  FaEnvelopeOpenText,
 } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import logo from "../../../assets/images/KAYAN logo.png";
@@ -18,9 +21,10 @@ export default function Sidebar() {
     { to: "/dashboard", icon: <FaHome />, label: "Overview" },
     { to: "/dashboard/users", icon: <FaUsers />, label: "Users" },
     { to: "/dashboard/products", icon: <FaBox />, label: "Products" },
-    { to: "/dashboard/categories", icon: <FaUsers />, label: "Categories" },
-    { to: "/dashboard/coupons", icon: <FaUsers />, label: "Coupons" },
+    { to: "/dashboard/categories", icon: <FaTags />, label: "Categories" },
+    { to: "/dashboard/coupons", icon: <FaTicketAlt />, label: "Coupons" },
     { to: "/dashboard/orders", icon: <FaClipboardList />, label: "Orders" },
+    { to: "/dashboard/emails", icon: <FaEnvelopeOpenText />, label: "Support" },
     { to: "/dashboard/reports", icon: <FaChartBar />, label: "Reports" },
   ];
 

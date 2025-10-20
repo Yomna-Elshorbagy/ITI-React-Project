@@ -31,6 +31,7 @@ import Users from "./Dashboard/Pages/Users/Users";
 import Reports from "./Dashboard/Pages/Reports/Reports";
 import DashCategories from "./Dashboard/Pages/Categories/Categories";
 import Coupons from "./Dashboard/Pages/Coupons/Coupons";
+import ContactsPage from "./Dashboard/Pages/Contact/Contacts";
 
 const router = createBrowserRouter([
   {
@@ -92,6 +93,7 @@ const router = createBrowserRouter([
       { path: "users", element: <Users /> },
       { path: "categories", element: <DashCategories /> },
       { path: "coupons", element: <Coupons /> },
+      { path: "emails", element: < ContactsPage/> },
       { path: "reports", element: <Reports /> },
     ],
   },

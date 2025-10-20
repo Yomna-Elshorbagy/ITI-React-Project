@@ -16,7 +16,7 @@ export default function ContactUs() {
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (data) => {
-      const res = await axios.post(`https://iti-react-backend.vercel.app/contact`, data);
+      const res = await axios.post(`http://localhost:3000/contact`, data);
       return res.data;
     },
     onSuccess: (data) => {
