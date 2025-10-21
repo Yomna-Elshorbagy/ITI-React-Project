@@ -1,11 +1,12 @@
 import React from "react";
-import { FaEye, FaTrash, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
 import type { IOrder } from "../../DashBordInterfaces/OrderInterfaces";
 
 interface OrderTableProps {
   orders: IOrder[];
   onView: (order: IOrder) => void;
   onDelete: (id: string) => void;
+  onEdit: (order: IOrder) => void;
   onUpdateStatus: (id: string, status: string) => void;
 }
 
@@ -13,77 +14,100 @@ const OrderTable: React.FC<OrderTableProps> = ({
   orders,
   onView,
   onDelete,
-  onUpdateStatus,
+  onEdit,
 }) => {
+  // 🎨 Status color logic
+  const getStatusColor = (status: string) => {
+    switch (status.toLowerCase()) {
+      case "placed":
+        return "bg-blue-200 text-blue-800";
+      case "shipping":
+        return "bg-sky-200 text-sky-800";
+      case "completed":
+        return "bg-green-200 text-green-800";
+      case "canceled":
+        return "bg-red-200 text-red-800";
+      case "refund":
+        return "bg-yellow-200 text-yellow-800";
+      default:
+        return "bg-gray-200 text-gray-800";
+    }
+  };
+
   return (
-    <div className="overflow-x-auto bg-[var(--color-surface)] rounded-xl border border-[var(--color-border)] hover:shadow-lg transition-all">
-      <table className="min-w-full text-sm">
+    <div className="overflow-x-auto bg-[var(--color-surface)] rounded-xl elevate-soft border border-[var(--color-border)] transition-all duration-500 ease-in-out hover:shadow-lg">
+      <table className="min-w-full text-sm rounded-xl overflow-hidden">
         <thead>
           <tr
             className="text-white uppercase tracking-wide"
             style={{ backgroundColor: "var(--color-primary)" }}
           >
-            <th className="py-3 px-4 text-left">Customer</th>
-            <th className="py-3 px-4 text-left">Phone</th>
-            <th className="py-3 px-4 text-left">Payment</th>
-            <th className="py-3 px-4 text-left">Status</th>
-            <th className="py-3 px-4 text-left">Total</th>
-            <th className="py-3 px-4 text-center">Actions</th>
+            <th className="py-3 px-4 text-left font-semibold">Customer</th>
+            <th className="py-3 px-4 text-left font-semibold">Phone</th>
+            <th className="py-3 px-4 text-left font-semibold">Payment</th>
+            <th className="py-3 px-4 text-left font-semibold">Status</th>
+            <th className="py-3 px-4 text-left font-semibold">Total</th>
+            <th className="py-3 px-4 text-center font-semibold">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {orders.map((order, i) => (
+          {orders.map((order, index) => (
             <tr
               key={order._id}
-              className={`transition-all border-b border-[var(--color-border)] ${
-                i % 2 === 0
-                  ? "bg-[var(--sage-300)]/60"
-                  : "bg-[var(--sage-200)]/60"
-              } hover:bg-[var(--color-border)]/80`}
+              className={`transition-all duration-300 ease-in-out border-b border-[var(--color-border)] ${
+                index % 2 === 0
+                  ? "bg-[var(--sage-400)]/60"
+                  : "bg-[var(--sage-300)]/60"
+              } hover:bg-[var(--color-border)]/80 hover:scale-[1.01] hover:shadow-md`}
             >
-              <td className="py-3 px-4 font-medium">
+              <td className="py-3 px-4 font-medium text-[var(--color-text)]">
                 {order.fullName || "Unknown"}
               </td>
-              <td className="py-3 px-4">{order.phone}</td>
-              <td className="py-3 px-4">{order.payment}</td>
-              <td
-                className={`py-3 px-4 font-semibold text-center rounded-lg ${
-                  order.status === "placed"
-                    ? "bg-yellow-100 text-yellow-700"
-                    : order.status === "shipped"
-                    ? "bg-blue-100 text-blue-700"
-                    : order.status === "delivered"
-                    ? "bg-green-100 text-green-700"
-                    : "bg-gray-100 text-gray-700"
-                }`}
-              >
-                {order.status}
+
+              <td className="py-3 px-4 text-[var(--color-text-muted)]">
+                {order.phone}
               </td>
+
+              <td className="py-3 px-4 capitalize text-[var(--color-text-muted)]">
+                {order.payment}
+              </td>
+
+              <td className="py-3 px-4 capitalize">
+                <span
+                  className={`px-3 py-1 rounded-full font-semibold text-xs ${getStatusColor(
+                    order.status
+                  )}`}
+                >
+                  {order.status}
+                </span>
+              </td>
+
               <td className="py-3 px-4 font-semibold text-[var(--color-text)]">
-                {order.finalPrice} EGP
+                {order.finalPrice?.toLocaleString() || 0} EGP
               </td>
+
               <td className="py-3 px-4 flex justify-center gap-2">
                 <button
-                  className="p-2 rounded-md text-white"
+                  className="p-2 rounded-md text-white transition-all duration-300 transform hover:scale-110"
                   style={{ backgroundColor: "var(--color-success)" }}
-                  onClick={() => onView(order)}
                   title="View Order"
+                  onClick={() => onView(order)}
                 >
                   <FaEye />
                 </button>
                 <button
-                  className="p-2 rounded-md text-white"
+                  className="p-2 rounded-md text-white transition-all duration-300 transform hover:scale-110"
                   style={{ backgroundColor: "var(--color-primary-hover)" }}
-                  onClick={() => onUpdateStatus(order._id, "delivered")}
-                  title="Mark Delivered"
+                  title="Edit Order"
+                  onClick={() => onEdit(order)}
                 >
-                  <FaCheckCircle />
+                  <FaEdit />
                 </button>
                 <button
-                  className="p-2 rounded-md text-white"
+                  className="p-2 rounded-md text-white transition-all duration-300 transform hover:scale-110"
                   style={{ backgroundColor: "var(--color-error)" }}
-                  onClick={() => onDelete(order._id)}
                   title="Delete Order"
+                  onClick={() => onDelete(order._id)}
                 >
                   <FaTrash />
                 </button>

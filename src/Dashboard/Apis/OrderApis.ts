@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { ICreateOrder, IOrder, IOrderResponse } from "../DashBordInterfaces/OrderInterfaces";
 
-const BASE_URL = "https://iti-react-backend.vercel.app/order";
+const BASE_URL = "http://localhost:3000/order";
 const token = localStorage.getItem("accessToken");
 
 const headers = {
@@ -50,6 +50,20 @@ export const updateOrderStatus = async (id: string, status: string): Promise<IOr
   );
   return data.data;
 };
+
+export const updateOrderInfo = async (
+  id: string,
+  updateData: {
+    fullName?: string;
+    phone?: string;
+    address?: string;
+    status?: string;
+  }
+): Promise<IOrder> => {
+  const { data } = await axios.put(`${BASE_URL}/${id}`, updateData, { headers });
+  return data.data;
+};
+
 
 export const softDeleteOrder = async (id: string): Promise<any> => {
   const { data } = await axios.delete(`${BASE_URL}/soft/${id}`, { headers });

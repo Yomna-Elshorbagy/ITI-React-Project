@@ -22,16 +22,18 @@ const OrderNotificationBell: React.FC = () => {
         // console.log(res.data.data);
 
         const data = res.data.data || [];
+        const prevIds = lastIdsRef.current;
+        const currentIds = data.map((order: any) => order._id);
 
         const newOnes = data.filter(
-          (order: any) => !lastIdsRef.current.includes(order._id)
+          (order: any) => !prevIds.includes(order._id)
         );
 
-        if (newOnes.length > 0 && lastIdsRef.current.length > 0) {
+        if (newOnes.length > 0 && prevIds.length > 0) {
           setHasNew(true);
         }
 
-        lastIdsRef.current = data.map((order: any) => order._id);
+        lastIdsRef.current = currentIds;
         setOrders(data);
       } catch (err) {
         console.error("Error fetching orders:", err);

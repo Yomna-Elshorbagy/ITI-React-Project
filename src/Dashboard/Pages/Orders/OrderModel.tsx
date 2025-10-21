@@ -1,5 +1,13 @@
 import React from "react";
-import { FaTimes, FaUser, FaBox, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
+import {
+  FaTimes,
+  FaUser,
+  FaBox,
+  FaMapMarkerAlt,
+  FaPhone,
+  FaDollarSign,
+  FaInfoCircle,
+} from "react-icons/fa";
 import type { IOrder } from "../../DashBordInterfaces/OrderInterfaces";
 
 interface OrderModalProps {
@@ -12,57 +20,92 @@ const OrderModal: React.FC<OrderModalProps> = ({ open, onClose, order }) => {
   if (!open || !order) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center p-4">
-      <div className="bg-[var(--color-surface)] rounded-xl shadow-2xl w-full max-w-2xl border border-[var(--color-border)]">
-        {/* header */}
-        <div className="flex justify-between items-center bg-[var(--color-primary)] text-white px-6 py-4 rounded-t-xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-fadeIn">
+      <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-[var(--color-surface)] dark:bg-[var(--color-surface-dark)] rounded-2xl shadow-2xl border border-[var(--color-border)] transition-all duration-300">
+        <div className="flex justify-between items-center bg-[var(--color-primary)] text-white px-6 py-4 rounded-t-2xl">
           <h2 className="text-lg font-semibold flex items-center gap-2">
-            <FaBox /> Order Details
+            <FaInfoCircle /> Order Details
           </h2>
-          <button onClick={onClose}>
-            <FaTimes />
+          <button
+            onClick={onClose}
+            className="hover:text-[var(--mist-300)] transition-all duration-300"
+          >
+            <FaTimes size={18} />
           </button>
         </div>
 
-        <div className="p-6 space-y-4">
-          <div className="space-y-2">
-            <p><strong>Order ID:</strong> {order._id}</p>
-            <p><strong>Status:</strong> {order.status}</p>
-            <p><strong>Payment:</strong> {order.payment}</p>
-            <p><strong>Total Price:</strong> {order.finalPrice} EGP</p>
+        <div className="p-6 space-y-6">
+          {/* order Info */}
+          <div className="border border-[var(--color-border)] rounded-lg p-4 bg-[var(--color-surface-alt)] hover:bg-[var(--color-surface-hover)] transition-all duration-300 space-y-2 shadow-sm">
+            <p>
+              <strong>ID:</strong> {order._id}
+            </p>
+            <p>
+              <strong>Status:</strong>{" "}
+              <span className="capitalize">{order.status}</span>
+            </p>
+            <p>
+              <strong>Payment:</strong> {order.payment}
+            </p>
+            <p>
+              <FaDollarSign className="inline mr-2 text-[var(--color-primary)]" />
+              <strong>Total:</strong>{" "}
+              <span className="font-semibold text-[var(--color-primary)]">
+                {order.finalPrice} EGP
+              </span>
+            </p>
           </div>
 
-          <div className="border-t border-[var(--color-border)] pt-4">
-            <h3 className="font-semibold flex items-center gap-2 text-[var(--color-primary)]">
+          {/* customer Info */}
+          <section>
+            <h3 className="text-[var(--color-primary)] font-semibold flex items-center gap-2 mb-2">
               <FaUser /> Customer Info
             </h3>
-            <p><strong>Name:</strong> {order.fullName}</p>
-            <p><FaPhone className="inline mr-2" />{order.phone}</p>
-            <p><FaMapMarkerAlt className="inline mr-2" />{order.address}</p>
-          </div>
+            <div className="border border-[var(--color-border)] rounded-lg p-4 bg-[var(--color-surface-alt)] hover:bg-[var(--color-surface-hover)] transition-all duration-300 space-y-2 shadow-sm">
+              <p>
+                <strong>Name:</strong> {order.fullName}
+              </p>
+              <p className="flex items-center gap-2">
+                <FaPhone className="text-[var(--color-primary)]" />
+                {order.phone}
+              </p>
+              <p className="flex items-center gap-2">
+                <FaMapMarkerAlt className="text-[var(--color-primary)]" />
+                {order.address}
+              </p>
+            </div>
+          </section>
 
-          <div className="border-t border-[var(--color-border)] pt-4">
-            <h3 className="font-semibold flex items-center gap-2 text-[var(--color-primary)]">
+          {/* Products */}
+          <section>
+            <h3 className="text-[var(--color-primary)] font-semibold flex items-center gap-2 mb-2">
               <FaBox /> Products
             </h3>
-            <ul className="space-y-2 mt-2">
+            <ul className="border border-[var(--color-border)] rounded-lg p-4 bg-[var(--color-surface-alt)] hover:bg-[var(--color-surface-hover)] transition-all duration-300 shadow-sm space-y-2">
               {order.products.map((p) => (
                 <li
                   key={p.productId}
-                  className="flex justify-between border-b border-[var(--color-border)] pb-2"
+                  className="flex justify-between border-b border-[var(--color-border)] pb-2 last:border-0 last:pb-0"
                 >
-                  <span>{p.title} (x{p.quantity})</span>
-                  <span>{p.finalPrice} EGP</span>
+                  <span>
+                    {p.title}{" "}
+                    <span className="text-sm text-gray-500">
+                      (x{p.quantity})
+                    </span>
+                  </span>
+                  <span className="font-semibold text-[var(--color-primary)]">
+                    {p.finalPrice} EGP
+                  </span>
                 </li>
               ))}
             </ul>
-          </div>
+          </section>
         </div>
 
-        <div className="flex justify-end p-4 border-t border-[var(--color-border)]">
+        <div className="flex justify-end p-4 border-t border-[var(--color-border)] bg-[var(--color-surface-alt)] rounded-b-2xl">
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-[var(--color-primary)] text-white rounded-md hover:bg-[var(--color-primary-hover)]"
+            className="px-5 py-2.5 rounded-lg text-white bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] transition-all duration-300 shadow-md hover:shadow-lg"
           >
             Close
           </button>

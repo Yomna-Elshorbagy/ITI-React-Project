@@ -23,7 +23,7 @@ export const useOrders = () => {
   return {
     orders,
     page,
-    pagination,
+    totalPages: pagination.totalPages,
     loading: isLoading,
     error: isError,
     setPage,

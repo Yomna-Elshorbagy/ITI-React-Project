@@ -1,18 +1,25 @@
 import React, { useState } from "react";
-import { softDeleteOrder, updateOrderStatus } from "../../Apis/OrderApis";
 import Swal from "sweetalert2";
+import { softDeleteOrder, updateOrderStatus } from "../../Apis/OrderApis";
+import { useOrders } from "../../DashboardHooks/Orders/useOrders";
 import OrderModal from "./OrderModel";
 import OrderTable from "./OrderTable";
-import { useOrders } from "../../DashboardHooks/Orders/useOrders";
+import EditOrderModal from "./EditOrderModel";
 
 const Orders = () => {
-  const { orders, loading, error, refetch } = useOrders();
+  const { orders, loading, page, totalPages, setPage, error, refetch } = useOrders();
   const [selectedOrder, setSelectedOrder] = useState<any>(null);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [viewModalOpen, setViewModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
 
   const handleView = (order: any) => {
     setSelectedOrder(order);
-    setModalOpen(true);
+    setViewModalOpen(true);
+  };
+
+  const handleEdit = (order: any) => {
+    setSelectedOrder(order);
+    setEditModalOpen(true);
   };
 
   const handleDelete = async (id: string) => {
@@ -43,13 +50,47 @@ const Orders = () => {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-[var(--color-primary)]">Orders</h1>
+
       <OrderTable
         orders={orders}
         onView={handleView}
+        onEdit={handleEdit}
         onDelete={handleDelete}
         onUpdateStatus={handleStatusUpdate}
       />
-      <OrderModal open={modalOpen} onClose={() => setModalOpen(false)} order={selectedOrder} />
+
+      <div className="flex justify-center items-center gap-2 mt-6">
+        <button
+          onClick={() => setPage(page - 1)}
+          disabled={page === 1}
+          className="px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-50"
+        >
+          Prev
+        </button>
+        <span className="text-sm text-gray-500 dark:text-gray-300">
+          Page {page} of {totalPages}
+        </span>
+        <button
+          onClick={() => setPage(page + 1)}
+          disabled={page === totalPages}
+          className="px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-50"
+        >
+          Next
+        </button>
+      </div>
+
+      <OrderModal
+        open={viewModalOpen}
+        onClose={() => setViewModalOpen(false)}
+        order={selectedOrder}
+      />
+
+      <EditOrderModal
+        order={selectedOrder}
+        isOpen={editModalOpen}
+        onClose={() => setEditModalOpen(false)}
+        onUpdated={refetch}
+      />
     </div>
   );
 };
