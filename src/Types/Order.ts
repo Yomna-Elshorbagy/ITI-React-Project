@@ -5,6 +5,7 @@ export type CreateOrderInput = {
   phone: string;
   address: string;
   payment: PaymentMethod;
+  couponCode?: string;
 };
 
 export type OrderProduct = {
@@ -28,6 +29,7 @@ export type Order = {
   status: "placed" | "shipped" | "delivered" | string;
   orderPrice: number;
   finalPrice: number;
+  coupon?: string;
   createdAt: string;
   updatedAt: string;
 };

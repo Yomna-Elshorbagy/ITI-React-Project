@@ -15,6 +15,7 @@ const schema = z.object({
   phone: z.string().regex(/^01[01245]\d{8}$/i, "Invalid Egyptian phone number"),
   address: z.string().optional(),
   payment: z.enum(["Cash on Delivery", "Online"]),
+  couponCode: z.string().optional(),
 });
 type FormValues = z.infer<typeof schema>;
 
@@ -45,6 +46,7 @@ export default function Checkout() {
         phone: values.phone,
         address: values.address || "",
         payment: values.payment,
+        couponCode: values.couponCode,
       },
       {
         onSuccess: (res) => {
@@ -125,6 +127,14 @@ export default function Checkout() {
                 <option>Online</option>
               </select>
             </div>
+            <div>
+              <label className="block mb-1">Coupon Code (Optional)</label>
+              <input
+                className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:border-emerald-600"
+                {...register("couponCode")}
+                placeholder="Enter coupon code"
+              />
+            </div>
             <button
               disabled={isPending}
               className="w-full py-3 rounded-lg text-white font-semibold bg-gradient-to-r from-emerald-600 to-teal-600 disabled:opacity-60"
@@ -135,20 +145,41 @@ export default function Checkout() {
         </div>
 
         <aside className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl p-6 shadow-sm h-fit">
-          <h3 className="text-lg font-semibold mb-3">Order Summary</h3>
-          <div className="space-y-2 text-sm">
+          <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
+          <div className="space-y-4">
             {(products || []).map((p: any) => (
-              <div key={p._id} className="flex justify-between">
-                <span className="truncate pr-3">{p.title}</span>
-                <span className="font-semibold">
-                  {p.finalPrice} EGP × {p.quantity}
-                </span>
+              <div key={p._id} className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                <img
+                  src={p.productId?.imageCover?.secure_url || '/placeholder-image.jpg'}
+                  alt={p.productId?.title || 'Product'}
+                  className="w-16 h-16 object-cover rounded-md flex-shrink-0"
+                />
+                <div className="flex-1 min-w-0">
+                  <h4 className="font-medium text-gray-900 dark:text-white truncate">
+                    {p.productId?.title || 'Product Name'}
+                  </h4>
+                  <div className="flex items-center justify-between mt-1">
+                    <span className="text-sm text-gray-600 dark:text-gray-300">
+                      Qty: {p.quantity}
+                    </span>
+                    <span className="font-semibold text-emerald-600">
+                      {p.price} EGP
+                    </span>
+                  </div>
+                  {p.productId?.finalPrice && p.productId?.finalPrice < p.productId?.price && (
+                    <div className="text-xs text-green-600 font-medium">
+                      {Math.round(((p.productId.price - p.productId.finalPrice) / p.productId.price) * 100)}% off
+                    </div>
+                  )}
+                </div>
               </div>
             ))}
           </div>
-          <div className="mt-4 flex justify-between text-base font-semibold">
-            <span>Total</span>
-            <span className="text-emerald-700">{totalPrice} EGP</span>
+          <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <div className="flex justify-between text-base font-semibold">
+              <span>Total</span>
+              <span className="text-emerald-700">{totalPrice} EGP</span>
+            </div>
           </div>
         </aside>
       </div>

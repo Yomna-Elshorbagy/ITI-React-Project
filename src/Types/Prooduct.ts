@@ -45,3 +45,8 @@ export interface Product {
 export interface RelatedProduct extends Product {
   image: string;
 }
+export interface QuickViewModalProps {
+  product: Product;
+  onClose: () => void;
+  onAddToCart?: (id: string) => void;
+}

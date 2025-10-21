@@ -4,7 +4,12 @@ import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import type { RelatedProduct } from "../../Types/RelatedProduct";
+import { useState } from "react";
 import styles from "./RelatedProducts.module.css";
+import { useAppDispatch } from "../../Hooks/reduxHooks";
+import { addToWishlist } from "../../Store/Slices/WishlistSlice";
+import { toast } from "react-hot-toast";
+import ProductModal from "../Modal/ProductModal";
 
 interface RelatedProductsProps {
   relatedProducts: RelatedProduct[];
@@ -16,21 +21,37 @@ export default function RelatedProducts({
   isLoading,
 }: RelatedProductsProps) {
   const navigate = useNavigate();
+  const [selectedProduct, setSelectedProduct] = useState<RelatedProduct | null>(
+    null
+  );
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const dispatch = useAppDispatch();
+  const [isAddingToWishlist, setIsAddingToWishlist] = useState(false);
 
   const handleProductClick = (productId: string) => {
     navigate(`/productDetails/${productId}`);
   };
 
-  const handleAddToWishlist = (productId: string, e: React.MouseEvent) => {
+  const handleAddToWishlist = async (
+    productId: string,
+    e: React.MouseEvent
+  ) => {
     e.stopPropagation();
-    // TODO: Implement wishlist functionality
-    console.log("Add to wishlist:", productId);
+    setIsAddingToWishlist(true);
+    try {
+      await dispatch(addToWishlist(productId));
+      toast.success("Added to wishlist ❤️");
+    } catch (error) {
+      toast.error("Failed to add to wishlist");
+    } finally {
+      setIsAddingToWishlist(false);
+    }
   };
 
-  const handleQuickView = (productId: string, e: React.MouseEvent) => {
+  const handleQuickView = (product: RelatedProduct, e: React.MouseEvent) => {
     e.stopPropagation();
-    // TODO: Implement quick view functionality
-    console.log("Quick view:", productId);
+    setSelectedProduct(product);
+    setIsModalOpen(true);
   };
 
   if (isLoading) {
@@ -135,12 +156,17 @@ export default function RelatedProducts({
                       className={styles.quickActionBtn}
                       onClick={(e) => handleAddToWishlist(product._id, e)}
                       title="Add to Wishlist"
+                      disabled={isAddingToWishlist}
                     >
-                      <i className="fa-solid fa-heart"></i>
+                      {isAddingToWishlist ? (
+                        <i className="fa-solid fa-spinner fa-spin"></i>
+                      ) : (
+                        <i className="fa-solid fa-heart"></i>
+                      )}
                     </button>
                     <button
                       className={styles.quickActionBtn}
-                      onClick={(e) => handleQuickView(product._id, e)}
+                      onClick={(e) => handleQuickView(product, e)}
                       title="Quick View"
                     >
                       <i className="fa-solid fa-eye"></i>
@@ -199,6 +225,16 @@ export default function RelatedProducts({
         {/* Pagination */}
         <div className={styles.pagination}></div>
       </div>
+
+      {/* Product Modal */}
+      <ProductModal
+        product={selectedProduct}
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedProduct(null);
+        }}
+      />
     </section>
   );
 }

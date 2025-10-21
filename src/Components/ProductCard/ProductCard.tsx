@@ -63,7 +63,6 @@ const ProductCard: React.FC<Props> = ({
   const [activeImg, setActiveImg] = useState(imgSrc);
 
   const dispatch = useAppDispatch();
-
   const cartItems = useAppSelector((state) => state.cart.products);
 
   const handleAddToCart = async () => {
@@ -92,11 +91,10 @@ const ProductCard: React.FC<Props> = ({
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="group relative flex flex-col rounded-2xl overflow-hidden bg-[color:var(--color-surface)] shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer elevate-soft hover:-translate-y-1"
+      className="group relative flex flex-col rounded-2xl overflow-hidden bg-[color:var(--color-surface)] shadow-sm hover:shadow-lg transition-all duration-300 elevate-soft hover:-translate-y-1"
     >
-      {/* Image container with shortened height */}
       <div
-        className="relative w-full aspect-[4/4.25] overflow-hidden"
+        className="relative w-full aspect-[4/4.25] overflow-hidden cursor-pointer"
         onClick={handleProductClick}
       >
         <img
@@ -108,8 +106,6 @@ const ProductCard: React.FC<Props> = ({
           }}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
-
-        {/* Discount badge */}
         {hasDiscount && (
           <span className="absolute top-3 left-3 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow">
             -
@@ -119,8 +115,6 @@ const ProductCard: React.FC<Props> = ({
             %
           </span>
         )}
-
-        {/* Sub images preview on hover */}
         {product.subImages && product.subImages.length > 0 && (
           <div
             className={`absolute bottom-0 left-0 right-0 bg-black/50 backdrop-blur-sm 
@@ -142,8 +136,6 @@ const ProductCard: React.FC<Props> = ({
             ))}
           </div>
         )}
-
-        {/* Action buttons - appear on hover */}
         <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <button
             onClick={(e) => {
@@ -176,21 +168,15 @@ const ProductCard: React.FC<Props> = ({
         </div>
       </div>
 
-      {/* Info section */}
       <div className="p-4 flex flex-col gap-2 flex-1">
-        <h3
-          className="text-sm font-semibold text-[color:var(--color-text)] line-clamp-2 min-h-[38px] cursor-pointer hover:text-[color:var(--color-primary)] transition-colors"
-          onClick={handleProductClick}
-        >
+        <h3 className="text-sm font-semibold text-[color:var(--color-text)] line-clamp-2 min-h-[38px] hover:text-[color:var(--color-primary)] transition-colors cursor-default">
           {product.title}
         </h3>
-
         {product.category?.name && (
           <p className="text-xs text-[color:var(--color-text-muted)]">
             {product.category.name}
           </p>
         )}
-
         <div className="mt-auto flex items-baseline gap-2">
           <span className="text-lg font-bold text-[color:var(--color-primary)]">
             {discountedPrice.toFixed(2)} EGP
