@@ -34,6 +34,7 @@ import Reports from "./Dashboard/Pages/Reports/Reports";
 import DashCategories from "./Dashboard/Pages/Categories/Categories";
 import Coupons from "./Dashboard/Pages/Coupons/Coupons";
 import ContactsPage from "./Dashboard/Pages/Contact/Contacts";
+import KayanChatbot from "./Components/Chatbot/Chatbot";
 
 const router = createBrowserRouter([
   {
@@ -127,6 +128,7 @@ function App() {
           <Provider store={store}>
             <RouterProvider router={router} />
             <Toaster />
+            <KayanChatbot/>
           </Provider>
         </QueryClientProvider>
       </GoogleOAuthProvider>
