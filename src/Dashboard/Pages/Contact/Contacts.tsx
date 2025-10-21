@@ -7,17 +7,24 @@ import { useContacts } from "../../DashboardHooks/Contacts/Contacts";
 import { deleteContact } from "../../Apis/Contact";
 import ContactTable from "./ContactsTable";
 import ReplyModal from "./ReplayModel";
+import ContactEditModal from "./ContectEditModel";
 
 const MySwal = withReactContent(Swal);
 
 export default function ContactsPage() {
-  const { contacts, page, pagesCount, loading, setPage, refetch } = useContacts();
+  const { contacts, page, pagesCount, loading, setPage, refetch } =
+    useContacts();
   const [selectedContact, setSelectedContact] = useState<any>(null);
   const [replyOpen, setReplyOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
 
   const handleReply = (contact: any) => {
     setSelectedContact(contact);
     setReplyOpen(true);
+  };
+  const handleEdit = (contact: any) => {
+    setSelectedContact(contact);
+    setEditOpen(true);
   };
 
   const handleDelete = async (id: string) => {
@@ -38,7 +45,9 @@ export default function ContactsPage() {
         toast.success("Message deleted successfully!");
         refetch();
       } catch (error: any) {
-        toast.error(error.response?.data?.message || "Failed to delete message");
+        toast.error(
+          error.response?.data?.message || "Failed to delete message"
+        );
       }
     }
   };
@@ -50,6 +59,7 @@ export default function ContactsPage() {
       <ContactTable
         contacts={contacts}
         onReply={handleReply}
+        onEdit={handleEdit}
         onDelete={handleDelete}
       />
 
@@ -78,6 +88,12 @@ export default function ContactsPage() {
         contact={selectedContact}
         onClose={() => setReplyOpen(false)}
         onReplied={refetch}
+      />
+      <ContactEditModal
+        isOpen={editOpen}
+        contact={selectedContact}
+        onClose={() => setEditOpen(false)}
+        onUpdated={refetch}
       />
     </div>
   );

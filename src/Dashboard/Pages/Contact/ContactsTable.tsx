@@ -1,20 +1,34 @@
 import React from "react";
-import { FaTrash, FaReply } from "react-icons/fa";
+import { FaTrash, FaReply, FaEdit } from "react-icons/fa";
 import type { IContact } from "../../DashBordInterfaces/Contact";
 
 interface ContactTableProps {
   contacts: IContact[];
   onReply: (contact: IContact) => void;
   onDelete: (id: string) => void;
+  onEdit: (contact: IContact) => void;
 }
+
+const getStatusStyle = (replyStatus: string) => {
+  switch (replyStatus?.toLowerCase()) {
+    case "replied":
+      return "bg-green-100 text-green-700 border-green-300";
+    case "in progress":
+      return "bg-blue-100 text-blue-700 border-blue-300";
+    case "pending":
+    default:
+      return "bg-yellow-100 text-yellow-700 border-yellow-300";
+  }
+};
 
 const ContactTable: React.FC<ContactTableProps> = ({
   contacts,
   onReply,
   onDelete,
+  onEdit,
 }) => {
   return (
-    <div className="overflow-x-auto bg-[var(--color-surface)] rounded-xl elevate-soft border border-[var(--color-border)] transition-all duration-500 ease-in-out hover:shadow-lg">
+    <div className="overflow-x-auto bg-[var(--color-surface)] rounded-xl border border-[var(--color-border)] hover:shadow-lg transition-all duration-500 ease-in-out">
       <table className="min-w-full text-sm rounded-xl overflow-hidden">
         <thead>
           <tr
@@ -25,6 +39,10 @@ const ContactTable: React.FC<ContactTableProps> = ({
             <th className="py-3 px-4 text-left font-semibold">Email</th>
             <th className="py-3 px-4 text-left font-semibold">Message</th>
             <th className="py-3 px-4 text-center font-semibold">Status</th>
+            <th className="py-3 px-4 text-center font-semibold">Reply</th>
+            <th className="py-3 px-4 text-center font-semibold">
+              Time Response
+            </th>
             <th className="py-3 px-4 text-center font-semibold">Actions</th>
           </tr>
         </thead>
@@ -52,15 +70,21 @@ const ContactTable: React.FC<ContactTableProps> = ({
               </td>
 
               <td className="py-3 px-4 text-center">
-                {contact.reply ? (
-                  <span className="px-3 py-1 text-sm font-semibold rounded-full bg-green-100 text-green-700 border border-green-300">
-                    Replied
-                  </span>
-                ) : (
-                  <span className="px-3 py-1 text-sm font-semibold rounded-full bg-yellow-100 text-yellow-700 border border-yellow-300">
-                    Pending
-                  </span>
-                )}
+                <span
+                  className={`px-3 py-1 text-sm font-semibold rounded-full border ${getStatusStyle(
+                    contact.replyStatus || "pending"
+                  )}`}
+                >
+                  {contact.replyStatus ? contact.replyStatus : "pending"}
+                </span>
+              </td>
+
+              <td className="py-3 px-4 text-center text-[var(--color-text-muted)]">
+                {contact.replyMessage ? contact.replyMessage : "No"}
+              </td>
+
+              <td className="py-3 px-4 text-center text-[var(--color-text-muted)]">
+                {contact.repliedAt || "—"}
               </td>
 
               <td className="py-3 px-4 flex justify-center gap-2">
@@ -71,6 +95,14 @@ const ContactTable: React.FC<ContactTableProps> = ({
                   onClick={() => onReply(contact)}
                 >
                   <FaReply />
+                </button>
+                <button
+                  className="p-2 rounded-md text-white transition-all duration-300 transform hover:scale-110"
+                  style={{ backgroundColor: "var(--color-primary)" }}
+                  title="Edit"
+                  onClick={() => onEdit(contact)}
+                >
+                  <FaEdit />
                 </button>
                 <button
                   className="p-2 rounded-md text-white transition-all duration-300 transform hover:scale-110"
@@ -87,7 +119,7 @@ const ContactTable: React.FC<ContactTableProps> = ({
           {contacts.length === 0 && (
             <tr>
               <td
-                colSpan={5}
+                colSpan={7}
                 className="text-center py-6 text-gray-400 dark:text-gray-500"
               >
                 No messages found.

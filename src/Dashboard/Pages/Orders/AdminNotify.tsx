@@ -19,7 +19,7 @@ const OrderNotificationBell: React.FC = () => {
             headers: { authentication: `bearer ${token}` },
           }
         );
-console.log(res.data.data);
+        // console.log(res.data.data);
 
         const data = res.data.data || [];
 
@@ -45,10 +45,7 @@ console.log(res.data.data);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        bellRef.current &&
-        !bellRef.current.contains(event.target as Node)
-      ) {
+      if (bellRef.current && !bellRef.current.contains(event.target as Node)) {
         setOpen(false);
       }
     };
@@ -94,7 +91,8 @@ console.log(res.data.data);
                   key={order._id}
                   className="border-b border-gray-200 dark:border-gray-700 py-2 text-sm text-gray-700 dark:text-gray-300"
                 >
-                  <strong>{order.fullName || "Unknown User"}</strong> placed an order
+                  <strong>{order.fullName || "Unknown User"}</strong> placed an
+                  order
                   <br />
                   <small>
                     Total: ${order.finalPrice || 0} —{" "}

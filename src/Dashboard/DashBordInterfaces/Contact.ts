@@ -3,7 +3,8 @@ export interface IContact {
   fullName: string;
   email: string;
   message: string;
-  reply?: string | null;
+  replyStatus?: string | null;
+  replyMessage?: string | null;
   repliedAt?: string | null;
   createdAt: string;
   updatedAt: string;

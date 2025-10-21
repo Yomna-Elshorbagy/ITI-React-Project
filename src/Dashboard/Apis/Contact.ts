@@ -40,7 +40,18 @@ export const replyToContact = async (id: string, replyMessage: string): Promise<
   const { data } = await axios.post(`${BASE_URL}/reply/${id}`, { replyMessage }, { headers });
   return data.data;
 };
+export const updateContact = async (
+  id: string,
+  updateData: Partial<IContact>
+): Promise<IContact> => {
+  const { data } = await axios.put(`${BASE_URL}/${id}`, updateData, { headers });
+  return data.data;
+};
 
+export const softDeleteContact = async (id: string): Promise<any> => {
+  const { data } = await axios.delete(`${BASE_URL}/softdelete/${id}`, { headers });
+  return data;
+};
 export const deleteContact = async (id: string): Promise<any> => {
   const { data } = await axios.delete(`${BASE_URL}/${id}`, { headers });
   return data;

@@ -20,6 +20,7 @@ export interface IOrder {
   status: string;
   createdAt: string;
   updatedAt: string;
+  payment: string;
 }
 
 export interface ICreateOrder {
