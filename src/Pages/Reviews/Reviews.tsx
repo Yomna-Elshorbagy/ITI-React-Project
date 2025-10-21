@@ -9,8 +9,6 @@ import { useProduct } from "../../Hooks/useProduct";
 import { useAppSelector } from "../../Hooks/reduxHooks";
 import LoaderPage from "../../Shared/LoaderPage/LoaderPage";
 import styles from "./Reviews.module.css";
-import type { Review } from "../../Types/Review";
-
 export default function Reviews() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -237,7 +235,9 @@ export default function Reviews() {
                 className={styles.submitButton}
                 disabled={addReviewMutation.isPending}
               >
-                {addReviewMutation.isPending ? "Submitting..." : "Submit Review"}
+                {addReviewMutation.isPending
+                  ? "Submitting..."
+                  : "Submit Review"}
               </button>
             </div>
           </form>
@@ -297,4 +297,3 @@ export default function Reviews() {
     </div>
   );
 }
-

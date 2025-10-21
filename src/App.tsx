@@ -19,6 +19,8 @@ import Category from "./Pages/Category/Category";
 import Login from "./Pages/Login/Login";
 import Register from "./Pages/Register/Register";
 import ForgetPassword from "./Pages/ForgetPassword/ForgetPassword";
+import Checkout from "./Pages/Checkout/Checkout";
+
 import { store } from "./Store/store";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import ContactUs from "./Pages/Contact/ContactUs";
@@ -45,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: "home",
         element: <Home />,
+      },
+      {
+        path: "checkout",
+        element: <Checkout />,
       },
       {
         path: "products",
@@ -93,7 +99,7 @@ const router = createBrowserRouter([
       { path: "users", element: <Users /> },
       { path: "categories", element: <DashCategories /> },
       { path: "coupons", element: <Coupons /> },
-      { path: "emails", element: < ContactsPage/> },
+      { path: "emails", element: <ContactsPage /> },
       { path: "reports", element: <Reports /> },
     ],
   },

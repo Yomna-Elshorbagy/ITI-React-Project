@@ -238,8 +238,12 @@ export default function Cart() {
             </div>
           </div>
 
-          <button className={styles.checkoutBtn}>Checkout</button>
-
+          <button
+            className={styles.checkoutBtn}
+            onClick={() => navigate("/checkout")}
+          >
+            Checkout
+          </button>
           <div className="mt-3 flex gap-2">
             <button
               onClick={handleShoppingClick}
