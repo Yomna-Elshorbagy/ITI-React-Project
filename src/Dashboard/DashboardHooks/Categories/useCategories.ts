@@ -1,0 +1,45 @@
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { getCategories } from "../../Apis/CategoryApis";
+import type { ICategory } from "../../DashBordInterfaces/categryInterfaces";
+
+export interface IUseCategories {
+  categories: ICategory[];
+  page: number;
+  pagesCount: number;
+  loading: boolean;
+  error: unknown;
+  setPage: (page: number) => void;
+  refetchAll: () => Promise<void>;
+}
+
+export const useCategories = (): IUseCategories => {
+  const [page, setPage] = useState<number>(1);
+
+  const {
+    data,
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery({
+    queryKey: ["categories", page],
+    queryFn: async () => await getCategories(page, 8),
+  });
+
+  const categories = (data as any)?.data || [];
+  const pagesCount = data?.metadata?.numberOfPages || 1;
+
+  const refetchAll = async () => {
+    await refetch();
+  };
+
+  return {
+    categories,
+    page,
+    pagesCount,
+    loading: isLoading,
+    error: isError,
+    setPage,
+    refetchAll,
+  };
+};

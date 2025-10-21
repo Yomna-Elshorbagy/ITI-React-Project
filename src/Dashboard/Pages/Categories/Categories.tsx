@@ -1,7 +1,12 @@
-import React from 'react'
+import React from "react";
+import DisplayCategories from "./DisplayCategories";
+import AddCategoryButton from "./AddCategoryButton";
 
-export default function DashCategories() {
+export default function Categories() {
   return (
-    <div>Dash</div>
-  )
+    <div>
+      <AddCategoryButton/>
+      <DisplayCategories />
+    </div>
+  );
 }

@@ -12,6 +12,8 @@ export interface ICategory {
     image?: string;
   };
   createdAt?: string;
+  productCount?: number;
+  updatedAt?: string;
 }
 
 export interface ITrendingCategory {
