@@ -9,8 +9,8 @@ const RecentOrdersTable: React.FC = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const { data } = await getAllOrders(1, 5);
-        setOrders(data.slice(-5).reverse()); // latest 5 orders
+        const { data } = await getAllOrders(1, 9);
+        setOrders(data.slice(-9).reverse()); // latest 9 orders
       } catch (err) {
         console.error("Error loading orders:", err);
       } finally {
@@ -44,7 +44,7 @@ const RecentOrdersTable: React.FC = () => {
   }
 
   return (
-    <div className="bg-[var(--color-surface)] rounded-xl border border-[var(--color-border)] p-6 shadow-lg transition-all duration-300 hover:shadow-xl">
+    <div className="bg-[var(--color-surface)] rounded-xl border border-[var(--color-border)] p-6 mt-8 shadow-lg transition-all duration-300 hover:shadow-xl">
       <h2 className="text-2xl font-semibold mb-6 text-[var(--color-text)] tracking-wide">
         Recent Orders
       </h2>

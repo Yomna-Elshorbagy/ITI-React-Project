@@ -4,6 +4,9 @@ export interface IUser {
   email: string;
   mobileNumber: string;
   role: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface IUseUsers {
