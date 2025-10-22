@@ -12,7 +12,11 @@ interface ProductModalProps {
   onClose: () => void;
 }
 
-export default function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
+export default function ProductModal({
+  product,
+  isOpen,
+  onClose,
+}: ProductModalProps) {
   const dispatch = useAppDispatch();
   const [isAddingToWishlist, setIsAddingToWishlist] = useState(false);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
@@ -55,7 +59,7 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black/50" />
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
         </Transition.Child>
 
         <div className="fixed inset-0 flex items-center justify-center p-4">
@@ -68,7 +72,7 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
             leaveFrom="scale-100 opacity-100"
             leaveTo="scale-95 opacity-0"
           >
-            <Dialog.Panel className="relative w-full max-w-2xl bg-white rounded-2xl shadow-xl">
+            <Dialog.Panel className="relative w-full max-w-2xl bg-[var(--color-surface)] dark:bg-[var(--color-surface)] rounded-2xl shadow-xl border border-[var(--color-border)]">
               <div className="flex flex-col md:flex-row">
                 {/* Image Section */}
                 <div className="md:w-1/2">
@@ -88,28 +92,28 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
                 <div className="md:w-1/2 p-6">
                   <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl"
+                    className="absolute top-4 right-4 text-[var(--color-text-muted)] hover:text-[var(--color-text)] text-2xl transition-colors"
                   >
                     ×
                   </button>
 
-                  <Dialog.Title className="text-2xl font-bold text-gray-900 mb-2">
+                  <Dialog.Title className="text-2xl font-bold text-[var(--color-text)] mb-2">
                     {product.title}
                   </Dialog.Title>
 
                   <div className="mb-4">
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="text-2xl font-bold text-green-600">
+                      <span className="text-2xl font-bold text-[var(--color-primary)]">
                         ${product.finalPrice}
                       </span>
                       {product.discount > 0 && (
-                        <span className="text-lg text-gray-500 line-through">
+                        <span className="text-lg text-[var(--color-text-muted)] line-through">
                           ${product.price}
                         </span>
                       )}
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <i className="fa-solid fa-check-circle text-green-500"></i>
+                    <div className="flex items-center gap-2 text-sm text-[var(--color-text-muted)]">
+                      <i className="fa-solid fa-check-circle text-[var(--color-success)]"></i>
                       <span>In Stock ({product.stock})</span>
                     </div>
                   </div>
@@ -118,7 +122,7 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
                     <button
                       onClick={handleAddToWishlist}
                       disabled={isAddingToWishlist}
-                      className="w-full bg-pink-100 hover:bg-pink-200 text-pink-700 py-3 rounded-lg font-medium transition-colors disabled:opacity-50"
+                      className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-secondary)] text-[var(--color-text)] py-3 rounded-lg font-medium transition-colors disabled:opacity-50 border border-[var(--color-border)]"
                     >
                       {isAddingToWishlist ? (
                         <i className="fa-solid fa-spinner fa-spin mr-2"></i>
@@ -131,7 +135,7 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
                     <button
                       onClick={handleAddToCart}
                       disabled={isAddingToCart}
-                      className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-medium transition-colors disabled:opacity-50"
+                      className="w-full bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white py-3 rounded-lg font-medium transition-colors disabled:opacity-50"
                     >
                       {isAddingToCart ? (
                         <i className="fa-solid fa-spinner fa-spin mr-2"></i>

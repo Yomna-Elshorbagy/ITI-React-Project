@@ -240,6 +240,11 @@
   background-color: #1f2937;
 }
 
+.addToCartButtonDisabled {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+
 .wishlistButton {
   padding: 0.75rem 1.5rem;
   border-radius: 0.5rem;

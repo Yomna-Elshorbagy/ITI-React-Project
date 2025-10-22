@@ -8,6 +8,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../../Hooks/reduxHooks";
 import type { Product } from "../../Types/Prooduct";
 import styles from "./ProductDetailsInfo.module.css";
+import { toast } from "react-hot-toast";
 
 interface ProductDetailsInfoProps {
   product: Product;
@@ -19,6 +20,7 @@ export default function ProductDetailsInfo({
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
+  const [addingToCart, setAddingToCart] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [thumbnailScrollIndex, setThumbnailScrollIndex] = useState(0);
 
@@ -36,12 +38,26 @@ export default function ProductDetailsInfo({
 
   const isInWishlist = wishlistItems.some((item) => item._id === product._id);
 
-  const handleAddToCart = () => {
-    if (token) {
-      dispatch(addProductToCart(product._id));
-    } else {
-      // Handle case when user is not logged in
-      console.log("User must be logged in to add to cart");
+  const handleAddToCart = async () => {
+    if (!token) {
+      toast.error("Please login to add products to your cart");
+      return;
+    }
+
+    if (addingToCart) return;
+    try {
+      setAddingToCart(true);
+      const promise = dispatch(addProductToCart(product._id)).unwrap();
+      toast.promise(promise, {
+        loading: "Adding to cart...",
+        success: `${product.title} added to cart 🛒`,
+        error: "Failed to add to cart",
+      });
+      await promise;
+    } catch (e) {
+      // toast handled in toast.promise
+    } finally {
+      setAddingToCart(false);
     }
   };
 
@@ -281,9 +297,19 @@ export default function ProductDetailsInfo({
           <div className={styles.primaryButtons}>
             <button
               onClick={handleAddToCart}
-              className={styles.addToCartButton}
+              className={`${styles.addToCartButton} ${
+                addingToCart ? styles.addToCartButtonDisabled : ""
+              }`}
+              disabled={addingToCart}
             >
-              Add to Cart
+              {addingToCart ? (
+                <>
+                  <i className="fa-solid fa-spinner fa-spin"></i>
+                  <span style={{ marginLeft: "0.5rem" }}>Adding...</span>
+                </>
+              ) : (
+                <>Add to Cart</>
+              )}
             </button>
             <button
               onClick={handleWishlistToggle}
