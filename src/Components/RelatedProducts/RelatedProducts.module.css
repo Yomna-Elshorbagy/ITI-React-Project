@@ -1,495 +1,507 @@
 /* RelatedProducts.module.css */
 
 .container {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 4rem 1rem;
-    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-    border-radius: 2rem;
-    margin-top: 2rem;
-    position: relative;
-    overflow: hidden;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 4rem 1rem;
+  background: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--color-bg) 92%, white) 0%,
+    color-mix(in oklab, var(--color-surface) 85%, white) 100%
+  );
+  border-radius: 2rem;
+  margin-top: 2rem;
+  position: relative;
+  overflow: hidden;
 }
 
 .container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #10b981, transparent);
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #10b981, transparent);
 }
 
 .header {
-    text-align: center;
-    margin-bottom: 3rem;
+  text-align: center;
+  margin-bottom: 3rem;
 }
 
 .title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #1e293b;
-    margin-bottom: 0.5rem;
-    position: relative;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+  position: relative;
+  font-family: var(--font-header), serif;
 }
 
 .title::after {
-    content: '';
-    position: absolute;
-    bottom: -0.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 4px;
-    background: linear-gradient(90deg, #10b981, #059669);
-    border-radius: 2px;
+  content: "";
+  position: absolute;
+  bottom: -0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--color-primary),
+    var(--color-primary-hover)
+  );
+  border-radius: 2px;
 }
 
 .subtitle {
-    font-size: 1.125rem;
-    color: #64748b;
-    font-weight: 400;
+  font-size: 1.125rem;
+  color: color-mix(in oklab, var(--color-text) 60%, transparent);
+  font-weight: 400;
 }
 
 .sliderWrapper {
-    position: relative;
-    padding: 0 3rem;
+  position: relative;
+  padding: 0 3rem;
 }
 
 .swiper {
-    padding: 1rem 0 3rem 0;
+  padding: 1rem 0 3rem 0;
 }
 
 .productCard {
-    background: white;
-    border-radius: 1.5rem;
-    overflow: hidden;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: pointer;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    border: 1px solid #e2e8f0;
+  background: var(--color-surface);
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-border);
 }
 
 .productCard:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    border-color: #10b981;
+  transform: translateY(-8px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+  border-color: var(--color-primary);
 }
 
 .imageContainer {
-    position: relative;
-    aspect-ratio: 1;
-    overflow: hidden;
-    background: #f8fafc;
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: color-mix(in oklab, var(--color-bg) 92%, white);
 }
 
 .productImage {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
 }
 
 .productCard:hover .productImage {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 .discountBadge {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: linear-gradient(135deg, #ef4444, #dc2626);
-    color: white;
-    padding: 0.5rem 0.75rem;
-    border-radius: 0.75rem;
-    font-size: 0.875rem;
-    font-weight: 600;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .discountText {
-    display: block;
+  display: block;
 }
 
 .quickActions {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    opacity: 0;
-    transform: translateX(-10px);
-    transition: all 0.3s ease;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
 }
 
 .productCard:hover .quickActions {
-    opacity: 1;
-    transform: translateX(0);
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .quickActionBtn {
-    width: 2.5rem;
-    height: 2.5rem;
-    background: white;
-    border: none;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    color: #64748b;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--color-text-muted);
 }
 
 .quickActionBtn:hover {
-    background: #10b981;
-    color: white;
-    transform: scale(1.1);
+  background: var(--color-primary);
+  color: white;
+  transform: scale(1.1);
+  border-color: var(--color-primary);
 }
 
 .content {
-    padding: 1.5rem;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 .category {
-    font-size: 0.875rem;
-    color: #10b981;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  font-size: 0.875rem;
+  color: var(--color-primary);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .productTitle {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: #1e293b;
-    line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    min-height: 2.8rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.8rem;
+  font-family: var(--font-navbar), serif;
 }
 
 .rating {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .stars {
-    display: flex;
-    align-items: center;
-    gap: 0.125rem;
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
 }
 
 .ratingText {
-    font-size: 0.875rem;
-    color: #64748b;
-    font-weight: 500;
+  font-size: 0.875rem;
+  color: color-mix(in oklab, var(--color-text) 60%, transparent);
+  font-weight: 500;
 }
 
 .priceSection {
-    margin-top: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .priceContainer {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .currentPrice {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #1e293b;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-primary);
 }
 
 .originalPrice {
-    font-size: 0.875rem;
-    color: #94a3b8;
-    text-decoration: line-through;
+  font-size: 0.875rem;
+  color: color-mix(in oklab, var(--color-text) 40%, transparent);
+  text-decoration: line-through;
 }
 
 .stockInfo {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    font-size: 0.75rem;
-    color: #059669;
-    font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  color: var(--color-primary);
+  font-weight: 500;
 }
 
 .actionButton {
-    width: 100%;
-    background: linear-gradient(135deg, #10b981, #059669);
-    color: white;
-    border: none;
-    padding: 0.75rem 1rem;
-    border-radius: 0.75rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
+  width: 100%;
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
 }
 
 .actionButton:hover {
-    background: linear-gradient(135deg, #059669, #047857);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  background: var(--color-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
 }
 
 /* Navigation Buttons */
 .prevButton,
 .nextButton {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 3rem;
-    height: 3rem;
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    z-index: 10;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    color: #64748b;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3rem;
+  height: 3rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 10;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  color: var(--color-text-muted);
 }
 
 .prevButton {
-    left: 0;
+  left: 0;
 }
 
 .nextButton {
-    right: 0;
+  right: 0;
 }
 
 .prevButton:hover,
 .nextButton:hover {
-    background: #10b981;
-    color: white;
-    border-color: #10b981;
-    transform: translateY(-50%) scale(1.1);
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+  transform: translateY(-50%) scale(1.1);
 }
 
 /* Pagination */
 .pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
 }
 
 .bullet {
-    width: 0.75rem;
-    height: 0.75rem;
-    background: #cbd5e1;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.2s ease;
+  width: 0.75rem;
+  height: 0.75rem;
+  background: color-mix(in oklab, var(--color-text) 20%, transparent);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .bulletActive {
-    background: #10b981;
-    transform: scale(1.2);
+  background: var(--color-primary);
+  transform: scale(1.2);
 }
 
 /* Loading States */
 .loadingGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    padding: 0 3rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 0 3rem;
 }
 
 .loadingCard {
-    background: white;
-    border-radius: 1.5rem;
-    overflow: hidden;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    height: 400px;
+  background: white;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  height: 400px;
 }
 
 .loadingImage {
-    height: 60%;
-    background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
-    background-size: 200% 100%;
-    animation: loading 1.5s infinite;
+  height: 60%;
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
 }
 
 .loadingContent {
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 .loadingLine {
-    height: 1rem;
-    background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
-    background-size: 200% 100%;
-    animation: loading 1.5s infinite;
-    border-radius: 0.25rem;
+  height: 1rem;
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 0.25rem;
 }
 
 .loadingLine:nth-child(1) {
-    width: 100%;
+  width: 100%;
 }
 
 .loadingLine:nth-child(2) {
-    width: 75%;
+  width: 75%;
 }
 
 .loadingLine:nth-child(3) {
-    width: 50%;
+  width: 50%;
 }
 
 @keyframes loading {
-    0% {
-        background-position: 200% 0;
-    }
+  0% {
+    background-position: 200% 0;
+  }
 
-    100% {
-        background-position: -200% 0;
-    }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 /* Empty State */
 .emptyState {
-    text-align: center;
-    padding: 4rem 2rem;
+  text-align: center;
+  padding: 4rem 2rem;
 }
 
 .emptyIcon {
-    font-size: 4rem;
-    color: #cbd5e1;
-    margin-bottom: 1rem;
+  font-size: 4rem;
+  color: #cbd5e1;
+  margin-bottom: 1rem;
 }
 
 .emptyText {
-    font-size: 1.125rem;
-    color: #64748b;
-    font-weight: 500;
+  font-size: 1.125rem;
+  color: #64748b;
+  font-weight: 500;
 }
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-    .container {
-        padding: 3rem 1rem;
-    }
+  .container {
+    padding: 3rem 1rem;
+  }
 
-    .title {
-        font-size: 2rem;
-    }
+  .title {
+    font-size: 2rem;
+  }
 
-    .sliderWrapper {
-        padding: 0 2rem;
-    }
+  .sliderWrapper {
+    padding: 0 2rem;
+  }
 
-    .loadingGrid {
-        padding: 0 2rem;
-    }
+  .loadingGrid {
+    padding: 0 2rem;
+  }
 }
 
 @media (max-width: 768px) {
-    .container {
-        padding: 2rem 1rem;
-        margin-top: 1rem;
-    }
+  .container {
+    padding: 2rem 1rem;
+    margin-top: 1rem;
+  }
 
-    .title {
-        font-size: 1.75rem;
-    }
+  .title {
+    font-size: 1.75rem;
+  }
 
-    .subtitle {
-        font-size: 1rem;
-    }
+  .subtitle {
+    font-size: 1rem;
+  }
 
-    .sliderWrapper {
-        padding: 0 1rem;
-    }
+  .sliderWrapper {
+    padding: 0 1rem;
+  }
 
-    .prevButton,
-    .nextButton {
-        width: 2.5rem;
-        height: 2.5rem;
-    }
+  .prevButton,
+  .nextButton {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
 
-    .prevButton {
-        left: -0.5rem;
-    }
+  .prevButton {
+    left: -0.5rem;
+  }
 
-    .nextButton {
-        right: -0.5rem;
-    }
+  .nextButton {
+    right: -0.5rem;
+  }
 
-    .loadingGrid {
-        padding: 0 1rem;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    }
+  .loadingGrid {
+    padding: 0 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
 }
 
 @media (max-width: 480px) {
-    .container {
-        padding: 1.5rem 0.5rem;
-    }
+  .container {
+    padding: 1.5rem 0.5rem;
+  }
 
-    .title {
-        font-size: 1.5rem;
-    }
+  .title {
+    font-size: 1.5rem;
+  }
 
-    .sliderWrapper {
-        padding: 0 0.5rem;
-    }
+  .sliderWrapper {
+    padding: 0 0.5rem;
+  }
 
-    .prevButton,
-    .nextButton {
-        width: 2rem;
-        height: 2rem;
-        font-size: 0.75rem;
-    }
+  .prevButton,
+  .nextButton {
+    width: 2rem;
+    height: 2rem;
+    font-size: 0.75rem;
+  }
 
-    .prevButton {
-        left: -0.25rem;
-    }
+  .prevButton {
+    left: -0.25rem;
+  }
 
-    .nextButton {
-        right: -0.25rem;
-    }
+  .nextButton {
+    right: -0.25rem;
+  }
 
-    .loadingGrid {
-        padding: 0 0.5rem;
-        grid-template-columns: 1fr;
-    }
+  .loadingGrid {
+    padding: 0 0.5rem;
+    grid-template-columns: 1fr;
+  }
 
-    .content {
-        padding: 1rem;
-    }
+  .content {
+    padding: 1rem;
+  }
 
-    .actionButton {
-        padding: 0.625rem 0.75rem;
-        font-size: 0.875rem;
-    }
+  .actionButton {
+    padding: 0.625rem 0.75rem;
+    font-size: 0.875rem;
+  }
 }
