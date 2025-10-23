@@ -61,7 +61,12 @@ export const addToWishlist = createAsyncThunk<
   "wishlist/add",
   async (productId: string, { getState, rejectWithValue }) => {
     try {
-      const token = getState().auth.token;
+      const state = getState();
+      // Guard: prevent duplicate add
+      if (state.wishlist.items.some((i) => i._id === productId)) {
+        return rejectWithValue("Item is already in your wishlist");
+      }
+      const token = state.auth.token;
       const res = await axios.put(
         `${API_BASE}/wishlist`,
         { productId },

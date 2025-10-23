@@ -61,23 +61,33 @@ export default function ProductDetailsInfo({
     await promise;
   };
 
-  const handleWishlistToggle = () => {
+  const handleWishlistToggle = async () => {
     if (!token) return toast.error("Please login to manage your wishlist");
-    if (isInWishlist) dispatch(removeFromWishlist(product._id));
-    else dispatch(addToWishlist(product._id));
+    if (isInWishlist) {
+      await dispatch(removeFromWishlist(product._id));
+      toast.success("Removed from wishlist");
+      return;
+    }
+    try {
+      await dispatch(addToWishlist(product._id)).unwrap();
+      toast.success("Added to wishlist ❤️");
+    } catch (e) {
+      const msg = typeof e === "string" ? e : "Item is already in your wishlist";
+      toast.error(msg);
+    }
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 grid lg:grid-cols-2 gap-12">
+    <div className="productDetailsContainer max-w-[1280px] mx-auto px-4 py-8 grid lg:grid-cols-2 gap-12">
       <ProductGallery product={product} />
-      <div className="flex flex-col gap-6">
+      <div className="productInfo flex flex-col gap-6">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">{product.title}</h1>
-          <p className="text-lg text-gray-600">{product.category.name}</p>
+          <h1 className="productTitle text-3xl font-bold text-gray-900">{product.title}</h1>
+          <p className="categoryName text-lg text-gray-600">{product.category.name}</p>
         </div>
         <ProductPrice product={product} />
-        <p className="text-gray-700 leading-relaxed">{product.description}</p>
-        <p className="text-sm text-gray-500">
+        <p className="description text-gray-700 leading-relaxed">{product.description}</p>
+        <p className="stockInfo text-sm text-gray-500">
           <span className="font-medium">In Stock:</span> {product.stock} items
           available
         </p>
