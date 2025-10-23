@@ -1,7 +1,26 @@
+// src/Store/Slices/CartSlice.ts
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import type { RootState } from "../store";
 import type { CartState } from "../../Types/CartState";
+
+type CartData = {
+  products: CartState["products"];
+  totalPrice: number;
+};
+
+type CartFetchResponse = {
+  noOfCartItems: number;
+  noOfProducts: number;
+  data: CartData;
+};
+
+type CartMutationResponse = {
+  noOfCartItems: number;
+  noOfProducts: number;
+  cart?: CartData;
+  data?: CartData;
+};
 
 // =============> Initial State <===============
 const initialState: CartState = {
@@ -14,7 +33,7 @@ const initialState: CartState = {
 };
 
 // =============> Async Thunks <=============
-export const getUserCart = createAsyncThunk<any, void, { state: RootState }>(
+export const getUserCart = createAsyncThunk<CartFetchResponse, void, { state: RootState }>(
   "cart/getUserCart",
   async (_, { getState, rejectWithValue }) => {
     try {
@@ -24,59 +43,58 @@ export const getUserCart = createAsyncThunk<any, void, { state: RootState }>(
           authentication: `bearer ${token}`,
         },
       });
-      return res.data;
-    } catch (error: any) {
-      if (error?.response?.status === 404) {
-        // No cart found for user yet – treat as empty cart
+      return res.data as CartFetchResponse;
+    } catch (error: unknown) {
+      if (
+        typeof error === "object" &&
+        error &&
+        "response" in error &&
+        (error as { response?: { status?: number } }).response?.status === 404
+      ) {
         return {
           noOfCartItems: 0,
           noOfProducts: 0,
           data: { products: [], totalPrice: 0 },
         };
       }
-      return rejectWithValue(error.response?.data || error.message);
+      const message =
+        typeof error === "object" && error && "message" in error
+          ? String((error as { message?: unknown }).message)
+          : "Failed to get user cart";
+      return rejectWithValue(message);
     }
   }
 );
 
+// ✅ Add product to cart (with quantity)
 export const addProductToCart = createAsyncThunk<
-  any,
-  string,
+  CartMutationResponse,
+  { productId: string; quantity: number },
   { state: RootState }
->("cart/addProductToCart", async (productId, { getState, rejectWithValue }) => {
-  try {
-    const token = getState().auth.token;
-    const res = await axios.post(
-      "https://iti-react-backend.vercel.app/cart",
-      { productId },
-      { headers: { authentication: `bearer ${token}` } }
-    );
-    return res.data;
-  } catch (error: any) {
-    return rejectWithValue(error.response?.data || error.message);
+>(
+  "cart/addProductToCart",
+  async ({ productId, quantity }, { getState, rejectWithValue }) => {
+    try {
+      const token = getState().auth.token;
+      const res = await axios.post(
+        "https://iti-react-backend.vercel.app/cart",
+        { productId, quantity },
+        { headers: { authentication: `bearer ${token}` } }
+      );
+      return res.data as CartMutationResponse;
+    } catch (error: unknown) {
+      const message =
+        typeof error === "object" && error && "message" in error
+          ? String((error as { message?: unknown }).message)
+          : "Failed to add to cart";
+      return rejectWithValue(message);
+    }
   }
-});
+);
 
-// export const updateCart = createAsyncThunk<
-//   any,
-//   { id: string; newCount: number },
-//   { state: RootState }
-// >("cart/updateCart", async ({ id, newCount }, { getState, rejectWithValue }) => {
-//   try {
-//     const token = getState().auth.token;
-//     const res = await axios.put(
-//       `https://iti-react-backend.vercel.app/cart/${id}`,
-//       { quantity: newCount },
-//       { headers: { authentication: `bearer ${token}` } }
-//     );
-//     return res.data;
-//   } catch (error: any) {
-//     return rejectWithValue(error.response?.data || error.message);
-//   }
-// });
-// Update quantity
+// ✅ Update cart quantity
 export const updateCartQuantity = createAsyncThunk<
-  any,
+  CartMutationResponse,
   { id: string; newCount: number },
   { state: RootState }
 >(
@@ -89,16 +107,20 @@ export const updateCartQuantity = createAsyncThunk<
         { quantity: newCount },
         { headers: { authentication: `bearer ${token}` } }
       );
-      return res.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data || error.message);
+      return res.data as CartMutationResponse;
+    } catch (error: unknown) {
+      const message =
+        typeof error === "object" && error && "message" in error
+          ? String((error as { message?: unknown }).message)
+          : "Failed to update cart quantity";
+      return rejectWithValue(message);
     }
   }
 );
 
-// delete single cart item
+// ✅ Delete single item
 export const deleteCartItem = createAsyncThunk<
-  any,
+  CartMutationResponse,
   string,
   { state: RootState }
 >("cart/deleteCartItem", async (id, { getState, rejectWithValue }) => {
@@ -109,13 +131,18 @@ export const deleteCartItem = createAsyncThunk<
       {},
       { headers: { authentication: `bearer ${token}` } }
     );
-    return res.data;
-  } catch (error: any) {
-    return rejectWithValue(error.response?.data || error.message);
+    return res.data as CartMutationResponse;
+  } catch (error: unknown) {
+    const message =
+      typeof error === "object" && error && "message" in error
+        ? String((error as { message?: unknown }).message)
+        : "Failed to delete cart item";
+    return rejectWithValue(message);
   }
 });
-//  clearing cart
-export const clearCartApi = createAsyncThunk<any, void, { state: RootState }>(
+
+// ✅ Clear all cart
+export const clearCartApi = createAsyncThunk<void, void, { state: RootState }>(
   "cart/clearCartApi",
   async (_, { getState, rejectWithValue }) => {
     try {
@@ -126,9 +153,13 @@ export const clearCartApi = createAsyncThunk<any, void, { state: RootState }>(
           headers: { authentication: `bearer ${token}` },
         }
       );
-      return res.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data || error.message);
+      void res; // silence unused
+    } catch (error: unknown) {
+      const message =
+        typeof error === "object" && error && "message" in error
+          ? String((error as { message?: unknown }).message)
+          : "Failed to clear cart";
+      return rejectWithValue(message);
     }
   }
 );
@@ -146,67 +177,62 @@ const cartSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // =====> getUserCart <=====
-    builder.addCase(getUserCart.pending, (state) => {
-      state.loading = true;
-    });
-    builder.addCase(getUserCart.fulfilled, (state, action) => {
-      state.loading = false;
-      state.noOfCartItems = action.payload.noOfCartItems;
-      state.noOfCartProducts = action.payload.noOfProducts;
-      state.products = action.payload.data.products;
-      state.totalPrice = action.payload.data.totalPrice;
-    });
-    builder.addCase(getUserCart.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.payload as string;
-    });
-
-    // =====> addProductToCart <=====
-    builder.addCase(addProductToCart.fulfilled, (state, action) => {
-      const cartData = action.payload.cart;
-      if (cartData) {
+    builder
+      .addCase(getUserCart.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getUserCart.fulfilled, (state, action) => {
+        state.loading = false;
         state.noOfCartItems = action.payload.noOfCartItems;
         state.noOfCartProducts = action.payload.noOfProducts;
-        state.products = cartData.products;
-        state.totalPrice = cartData.totalPrice;
-      }
-    });
+        state.products = action.payload.data.products;
+        state.totalPrice = action.payload.data.totalPrice;
+      })
+      .addCase(getUserCart.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
 
-    // =====> updateCartQuantity <=====
-    builder.addCase(updateCartQuantity.fulfilled, (state, action) => {
-      const cartData = action.payload.data;
-      if (cartData) {
-        state.noOfCartItems = action.payload.noOfCartItems;
-        state.noOfCartProducts = action.payload.noOfProducts;
-        state.products = cartData.products;
-        state.totalPrice = cartData.totalPrice;
-      }
-    });
+      //  addProductToCart
+      .addCase(addProductToCart.fulfilled, (state, action) => {
+        const cartData = action.payload.cart;
+        if (cartData) {
+          state.noOfCartItems = action.payload.noOfCartItems;
+          state.noOfCartProducts = action.payload.noOfProducts;
+          state.products = cartData.products;
+          state.totalPrice = cartData.totalPrice;
+        }
+      })
 
-    // =====> deleteCartItem <=====
-    builder.addCase(deleteCartItem.fulfilled, (state, action) => {
-      const cartData = action.payload.data;
-      if (cartData) {
-        state.noOfCartItems = action.payload.noOfCartItems;
-        state.noOfCartProducts = action.payload.noOfProducts;
-        state.products = cartData.products;
-        state.totalPrice = cartData.totalPrice;
-      }
-    });
-    // =====> clearCart <=====
-    builder.addCase(clearCartApi.fulfilled, (state, action) => {
-      const cartData = action.payload.data;
-      if (cartData) {
+      //  updateCartQuantity
+      .addCase(updateCartQuantity.fulfilled, (state, action) => {
+        const cartData = action.payload.data;
+        if (cartData) {
+          state.noOfCartItems = action.payload.noOfCartItems;
+          state.noOfCartProducts = action.payload.noOfProducts;
+          state.products = cartData.products;
+          state.totalPrice = cartData.totalPrice;
+        }
+      })
+
+      //  deleteCartItem
+      .addCase(deleteCartItem.fulfilled, (state, action) => {
+        const cartData = action.payload.data;
+        if (cartData) {
+          state.noOfCartItems = action.payload.noOfCartItems;
+          state.noOfCartProducts = action.payload.noOfProducts;
+          state.products = cartData.products;
+          state.totalPrice = cartData.totalPrice;
+        }
+      })
+
+      //  clearCartApi
+      .addCase(clearCartApi.fulfilled, (state) => {
         state.noOfCartItems = 0;
         state.noOfCartProducts = 0;
         state.products = [];
         state.totalPrice = 0;
-      }
-    });
-    builder.addCase(clearCartApi.rejected, (state, action) => {
-      state.error = action.payload as string;
-    });
+      });
   },
 });
 

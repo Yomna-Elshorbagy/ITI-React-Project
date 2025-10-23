@@ -9,7 +9,7 @@ type WishlistItem = {
   title?: string;
   price?: number;
   imageCover?: { secure_url: string };
-  [key: string]: any;
+  [key: string]: unknown;
 };
 
 interface WishlistState {
@@ -29,35 +29,51 @@ const initialState: WishlistState = {
 };
 
 //  FETCH wishlist
-export const fetchWishlist = createAsyncThunk(
+export const fetchWishlist = createAsyncThunk<
+  WishlistItem[],
+  void,
+  { state: RootState }
+>(
   "wishlist/fetch",
   async (_, { getState, rejectWithValue }) => {
     try {
-      const token = (getState() as any).auth.token;
+      const token = getState().auth.token;
       const res = await axios.get(`${API_BASE}/wishlist`, {
         headers: { authentication: `bearer ${token}` },
       });
-      return res.data.data.wishlist;
-    } catch (err: any) {
-      return rejectWithValue(err.response?.data || err.message);
+      return res.data.data.wishlist as WishlistItem[];
+    } catch (err: unknown) {
+      const message =
+        typeof err === "object" && err && "message" in err
+          ? String((err as { message?: unknown }).message)
+          : "Failed to fetch wishlist";
+      return rejectWithValue(message);
     }
   }
 );
 
 //  ADD to wishlist
-export const addToWishlist = createAsyncThunk(
+export const addToWishlist = createAsyncThunk<
+  WishlistItem,
+  string,
+  { state: RootState }
+>(
   "wishlist/add",
   async (productId: string, { getState, rejectWithValue }) => {
     try {
-      const token = (getState() as any).auth.token;
+      const token = getState().auth.token;
       const res = await axios.put(
         `${API_BASE}/wishlist`,
         { productId },
         { headers: { authentication: `bearer ${token}` } }
       );
-      return res.data.data;
-    } catch (err: any) {
-      return rejectWithValue(err.response?.data || err.message);
+      return res.data.data as WishlistItem;
+    } catch (err: unknown) {
+      const message =
+        typeof err === "object" && err && "message" in err
+          ? String((err as { message?: unknown }).message)
+          : "Failed to add to wishlist";
+      return rejectWithValue(message);
     }
   }
 );
@@ -71,13 +87,17 @@ export const removeFromWishlist = createAsyncThunk<
   "wishlist/remove",
   async (id, { getState, rejectWithValue }) => {
     try {
-      const token = (getState() as any).auth.token;
+      const token = getState().auth.token;
       await axios.put(`${API_BASE}/wishlist/${id}`, {}, {
         headers: { authentication: `bearer ${token}` },
       });
       return id;
-    } catch (err: any) {
-      return rejectWithValue(err.response?.data || err.message);
+    } catch (err: unknown) {
+      const message =
+        typeof err === "object" && err && "message" in err
+          ? String((err as { message?: unknown }).message)
+          : "Failed to remove from wishlist";
+      return rejectWithValue(message);
     }
   }
 );
@@ -87,12 +107,16 @@ export const clearWishlist = createAsyncThunk<void, void, { state: RootState }>(
   "wishlist/clear",
   async (_, { getState, rejectWithValue }) => {
     try {
-      const token = (getState() as any).auth.token;
+      const token = getState().auth.token;
       await axios.put(`${API_BASE}/wishlist/clear`, {}, {
         headers: { authentication: `bearer ${token}` },
       });
-    } catch (err: any) {
-      return rejectWithValue(err.response?.data || err.message);
+    } catch (err: unknown) {
+      const message =
+        typeof err === "object" && err && "message" in err
+          ? String((err as { message?: unknown }).message)
+          : "Failed to clear wishlist";
+      return rejectWithValue(message);
     }
   }
 );

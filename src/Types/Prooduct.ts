@@ -37,7 +37,7 @@ export interface Product {
     mobileNumber: string;
   };
   updatedBy: string;
-  Reviews: any[];
+  Reviews: import("./Review").Review[];
   createdAt: string;
   updatedAt: string;
 }
