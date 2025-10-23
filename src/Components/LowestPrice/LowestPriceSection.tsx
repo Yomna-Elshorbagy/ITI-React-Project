@@ -1,4 +1,4 @@
-import React from "react";
+import { } from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import Slider from "react-slick";
@@ -8,7 +8,8 @@ import LoaderPage from "../../Shared/LoaderPage/LoaderPage";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import type { AppDispatch } from "../../Store/store";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../../Hooks/reduxHooks";
 import { addToWishlist, removeFromWishlist } from "../../Store/Slices/WishlistSlice";
 
 
@@ -26,21 +27,25 @@ const fetchLowestPriceProducts = async () => {
 
 // 🧠 Custom Arrow Components
 const NextArrow = ({ onClick }: any) => (
-  <div
+  <button
+    type="button"
     onClick={onClick}
     className="absolute top-1/2 right-0 z-10 -translate-y-1/2 bg-white shadow-md p-2 rounded-full cursor-pointer hover:bg-gray-100 transition"
+    aria-label="Next"
   >
     <ChevronRight className="w-6 h-6 text-gray-700" />
-  </div>
+  </button>
 );
 
 const PrevArrow = ({ onClick }: any) => (
-  <div
+  <button
+    type="button"
     onClick={onClick}
     className="absolute top-1/2 left-0 z-10 -translate-y-1/2 bg-white shadow-md p-2 rounded-full cursor-pointer hover:bg-gray-100 transition"
+    aria-label="Previous"
   >
     <ChevronLeft className="w-6 h-6 text-gray-700" />
-  </div>
+  </button>
 );
 
 export default function LowestPriceSection() {
@@ -51,7 +56,7 @@ export default function LowestPriceSection() {
 
   //wishlist addded
   const dispatch = useDispatch<AppDispatch>();
-  const wishlist = useSelector((state: any) => state.wishlist.items);
+  const wishlist = useAppSelector((state) => state.wishlist.items);
   //const [showModal, setShowModal] = useState(false);
 
   //const handleAddToCart = (id: string) => console.log("Add to cart:", id);

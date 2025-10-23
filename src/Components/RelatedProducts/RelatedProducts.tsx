@@ -6,8 +6,8 @@ import "swiper/css/pagination";
 import type { RelatedProduct } from "../../Types/RelatedProduct";
 import { useState } from "react";
 import styles from "./RelatedProducts.module.css";
-import { useAppDispatch } from "../../Hooks/reduxHooks";
-import { addToWishlist } from "../../Store/Slices/WishlistSlice";
+import { useAppDispatch, useAppSelector } from "../../Hooks/reduxHooks";
+import { addToWishlist, removeFromWishlist } from "../../Store/Slices/WishlistSlice";
 import { toast } from "react-hot-toast";
 import ProductModal from "../Modal/ProductModal";
 
@@ -27,6 +27,7 @@ export default function RelatedProducts({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useAppDispatch();
   const [isAddingToWishlist, setIsAddingToWishlist] = useState(false);
+  const wishlistItems = useAppSelector((s) => s.wishlist.items);
 
   const handleProductClick = (productId: string) => {
     navigate(`/productDetails/${productId}`);
@@ -37,12 +38,19 @@ export default function RelatedProducts({
     e: React.MouseEvent
   ) => {
     e.stopPropagation();
+    const exists = wishlistItems.some((w) => w._id === productId);
     setIsAddingToWishlist(true);
     try {
-      await dispatch(addToWishlist(productId));
-      toast.success("Added to wishlist ❤️");
+      if (exists) {
+        await dispatch(removeFromWishlist(productId)).unwrap();
+        toast.success("Removed from wishlist");
+      } else {
+        await dispatch(addToWishlist(productId)).unwrap();
+        toast.success("Added to wishlist ❤️");
+      }
     } catch (error) {
-      toast.error("Failed to add to wishlist");
+      const msg = typeof error === "string" ? error : "Failed to update wishlist";
+      toast.error(msg);
     } finally {
       setIsAddingToWishlist(false);
     }
@@ -153,7 +161,11 @@ export default function RelatedProducts({
                   {/* Quick Actions */}
                   <div className={styles.quickActions}>
                     <button
-                      className={styles.quickActionBtn}
+                      className={`${styles.quickActionBtn} cursor-pointer ${
+                        wishlistItems.some((w) => w._id === product._id)
+                          ? "!bg-red-50 !text-red-600"
+                          : ""
+                      }`}
                       onClick={(e) => handleAddToWishlist(product._id, e)}
                       title="Add to Wishlist"
                       disabled={isAddingToWishlist}
@@ -161,11 +173,17 @@ export default function RelatedProducts({
                       {isAddingToWishlist ? (
                         <i className="fa-solid fa-spinner fa-spin"></i>
                       ) : (
-                        <i className="fa-solid fa-heart"></i>
+                        <i
+                          className={`fa-solid fa-heart ${
+                            wishlistItems.some((w) => w._id === product._id)
+                              ? "text-red-500"
+                              : ""
+                          }`}
+                        ></i>
                       )}
                     </button>
                     <button
-                      className={styles.quickActionBtn}
+                      className={`${styles.quickActionBtn} cursor-pointer`}
                       onClick={(e) => handleQuickView(product, e)}
                       title="Quick View"
                     >

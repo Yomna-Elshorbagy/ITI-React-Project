@@ -1,6 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { Fragment, useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import {
   fetchWishlist,
   clearWishlist,
@@ -13,11 +13,17 @@ import { toast } from "react-hot-toast";
 import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router-dom";
 import { addProductToCart } from "../../Store/Slices/CartSlice";
-import { useEffect } from "react";
+import { useAppSelector } from "../../Hooks/reduxHooks";
 
-export default function WishlistModal({ open, onClose, onAddToCart }: any) {
+type Props = Readonly<{
+  open: boolean;
+  onClose: () => void;
+  onAddToCart?: (id: string) => void;
+}>;
+
+export default function WishlistModal({ open, onClose, onAddToCart }: Props) {
   const dispatch = useDispatch<AppDispatch>();
-  const { items, loading, error } = useSelector((state: any) => state.wishlist);
+  const { items, loading, error } = useAppSelector((state) => state.wishlist);
 
   // pagination states
   const [currentPage, setCurrentPage] = useState(0);
@@ -27,41 +33,41 @@ export default function WishlistModal({ open, onClose, onAddToCart }: any) {
   const currentItems = items.slice(offset, offset + itemsPerPage);
   const pageCount = Math.ceil(items.length / itemsPerPage);
 
-  const handlePageClick = ({ selected }: any) => {
+  const handlePageClick = ({ selected }: { selected: number }) => {
     setCurrentPage(selected);
   };
 
   //if current page in navigation becomes empty go back
   useEffect(() => {
-  const totalPages = Math.ceil(items.length / itemsPerPage);
-  // if current page is out of range (e.g. after removals), reset to page 1
-  if (currentPage >= totalPages && currentPage > 0) {
-    setCurrentPage(totalPages > 0 ? totalPages - 1 : 0);
-  }
-}, [items, currentPage, itemsPerPage]);
+    const totalPages = Math.ceil(items.length / itemsPerPage);
+    // if current page is out of range (e.g. after removals), reset to page 1
+    if (currentPage >= totalPages && currentPage > 0) {
+      setCurrentPage(totalPages > 0 ? totalPages - 1 : 0);
+    }
+  }, [items, currentPage, itemsPerPage]);
 
   // fetch wishlist when modal opens
   useQuery({
-  queryKey: ["wishlist"],
-  queryFn: async () => {
-    const result = await dispatch(fetchWishlist());
+    queryKey: ["wishlist"],
+    queryFn: async () => {
+      const result = await dispatch(fetchWishlist());
 
-    // Check if the thunk failed
-    if (result.meta.requestStatus === "rejected") {
-      throw new Error("Failed to load wishlist");
-    }
-    return result.payload;
-  },
-  enabled: open,
-  refetchOnWindowFocus: false,
-  retry: false, // don't auto retry
-  staleTime: 0, // always refetch when opened
-  gcTime: 0, // no cache stored(garbage collection time)
-});
+      // Check if the thunk failed
+      if (result.meta.requestStatus === "rejected") {
+        throw new Error("Failed to load wishlist");
+      }
+      return result.payload;
+    },
+    enabled: open,
+    refetchOnWindowFocus: false,
+    retry: false, // don't auto retry
+    staleTime: 0, // always refetch when opened
+    gcTime: 0, // no cache stored(garbage collection time)
+  });
 
   const handleRemove = async (id: string) => {
     await dispatch(removeFromWishlist(id));
-    toast.success("Item removed from wishlist 🖤");
+    toast.success("Item removed from wishlist ");
   };
 
   const handleClear = async () => {
@@ -70,12 +76,11 @@ export default function WishlistModal({ open, onClose, onAddToCart }: any) {
     );
     if (confirmed) {
       await dispatch(clearWishlist());
-      toast.success("Wishlist Cleared 🖤");
+      toast.success("Wishlist Cleared ");
     }
   };
 
   const navigate = useNavigate();
-
 
   return (
     <Transition appear show={open} as={Fragment}>
@@ -102,7 +107,7 @@ export default function WishlistModal({ open, onClose, onAddToCart }: any) {
             leaveFrom="scale-100 opacity-100"
             leaveTo="scale-95 opacity-0"
           >
-            <Dialog.Panel className="relative w-full max-w-3xl rounded-2xl bg-[#FAF9F7]/90 dark:bg-[#101b31ff]/80 py-6 p-x-2 shadow-xl">  {/* #101b31ff */}
+            <Dialog.Panel className="relative w-full max-w-3xl rounded-2xl bg-[#FAF9F7]/90 dark:bg-[#101b31ff]/80 py-6 p-x-2 shadow-xl">
               <div className="px-6 py-2 h-[85vh]">
                 <button
                   onClick={handleClear}
@@ -119,23 +124,23 @@ export default function WishlistModal({ open, onClose, onAddToCart }: any) {
                   ✕
                 </button>
 
-                <Dialog.Title className="text-3xl font-serif text-[var(--color-blue)] mb-4 text-center dark:text-[#dad7cd]">  {/*text-gray-900 */}
+                <Dialog.Title className="text-3xl font-serif text-[var(--color-blue)] mb-4 text-center dark:text-[#dad7cd]">
                   My Wishlist
                 </Dialog.Title>
 
                 {loading ? (
-                <p className="text-center">Loading...</p>
-                 ) : error ? (
-                 <p className="text-center text-red-500">Failed to load wishlist.</p>
-                 ) : items.length === 0 ? (
-                 <p className="text-center text-gray-500 dark:text-[#dad7cd]">
-                  Your wishlist is empty.
-                 </p>
+                  <p className="text-center">Loading...</p>
+                ) : error ? (
+                  <p className="text-center text-red-500">Failed to load wishlist.</p>
+                ) : items.length === 0 ? (
+                  <p className="text-center text-gray-500 dark:text-[#dad7cd]">
+                    Your wishlist is empty.
+                  </p>
                 ) : (
                   <>
                     <div className="overflow-y-auto max-h-[65vh] px-6">
                       <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4 overflow-y-auto">
-                        {currentItems.map((product: any) => (
+                        {currentItems.map((product) => (
                           <div
                             key={product._id}
                             className="relative rounded-xl border border-gray-300 dark:border-[var(--color-heartOp)] shadow hover:shadow-lg transition overflow-hidden"
@@ -151,10 +156,10 @@ export default function WishlistModal({ open, onClose, onAddToCart }: any) {
                               src={product.imageCover?.secure_url}
                               alt={product.title}
                               className="w-full h-38 object-cover cursor-pointer"
-                             onClick={() => {
-                             onClose(); // closes modal
-                             navigate(`/productDetails/${product._id}`); // goes to product detail
-                             }}
+                              onClick={() => {
+                                onClose(); // closes modal
+                                navigate(`/productDetails/${product._id}`); // goes to product detail
+                              }}
                             />
                             <div className="p-3 text-center">
                               <h3 className="text-sm font-semibold text-gray-800 truncate dark:text-[#dad7cd]">
@@ -164,11 +169,12 @@ export default function WishlistModal({ open, onClose, onAddToCart }: any) {
                                 {product.finalPrice} EGP
                               </p>
                               <button
-                                onClick={() => {
-                                dispatch(addProductToCart(product._id));  //added to cart
-                                dispatch(removeFromWishlist(product._id)); //removed from wishlist
-                                toast.success("Added to cart 🛒");
-                                 }}
+                                onClick={async () => {
+                                  await dispatch(addProductToCart({ productId: product._id, quantity: 1 })).unwrap();
+                                  await dispatch(removeFromWishlist(product._id));
+                                  toast.success("Added to cart ");
+                                  onAddToCart?.(product._id);
+                                }}
                                 className="mt-2 w-full bg-[#d4a762] hover:bg-[#b9894e] text-white py-1.5 rounded-md transition"
                               >
                                 Add to Cart

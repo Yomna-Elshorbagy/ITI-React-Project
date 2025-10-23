@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
-import { useAppDispatch } from "../../Hooks/reduxHooks";
-import { addToWishlist } from "../../Store/Slices/WishlistSlice";
+import { useAppDispatch, useAppSelector } from "../../Hooks/reduxHooks";
+import { addToWishlist, removeFromWishlist } from "../../Store/Slices/WishlistSlice";
 import { addProductToCart } from "../../Store/Slices/CartSlice";
 import { toast } from "react-hot-toast";
 import type { RelatedProduct } from "../../Types/RelatedProduct";
@@ -16,20 +16,28 @@ export default function ProductModal({
   product,
   isOpen,
   onClose,
-}: ProductModalProps) {
+}: Readonly<ProductModalProps>) {
   const dispatch = useAppDispatch();
   const [isAddingToWishlist, setIsAddingToWishlist] = useState(false);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const wishlistItems = useAppSelector((s) => s.wishlist.items);
 
   if (!product) return null;
 
   const handleAddToWishlist = async () => {
     setIsAddingToWishlist(true);
     try {
-      await dispatch(addToWishlist(product._id));
-      toast.success("Added to wishlist ❤️");
+      const exists = wishlistItems.some((w) => w._id === product._id);
+      if (exists) {
+        await dispatch(removeFromWishlist(product._id)).unwrap();
+        toast.success("Removed from wishlist");
+      } else {
+        await dispatch(addToWishlist(product._id)).unwrap();
+        toast.success("Added to wishlist ❤️");
+      }
     } catch (error) {
-      toast.error("Failed to add to wishlist");
+      const msg = typeof error === "string" ? error : "Failed to update wishlist";
+      toast.error(msg);
     } finally {
       setIsAddingToWishlist(false);
     }
@@ -38,7 +46,7 @@ export default function ProductModal({
   const handleAddToCart = async () => {
     setIsAddingToCart(true);
     try {
-      await dispatch(addProductToCart(product._id));
+      await dispatch(addProductToCart({ productId: product._id, quantity: 1 })).unwrap();
       toast.success("Added to cart 🛒");
     } catch (error) {
       toast.error("Failed to add to cart");
@@ -122,27 +130,39 @@ export default function ProductModal({
                     <button
                       onClick={handleAddToWishlist}
                       disabled={isAddingToWishlist}
-                      className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-secondary)] text-[var(--color-text)] py-3 rounded-lg font-medium transition-colors disabled:opacity-50 border border-[var(--color-border)]"
+                      className={`w-full py-3 rounded-lg font-medium transition-colors disabled:opacity-50 border cursor-pointer ${
+                        wishlistItems.some((w) => w._id === product._id)
+                          ? "bg-red-50 border-red-200 text-red-600 hover:bg-red-100"
+                          : "bg-[var(--color-accent)] hover:bg-[var(--color-secondary)] text-[var(--color-text)] border-[var(--color-border)]"
+                      }`}
                     >
                       {isAddingToWishlist ? (
                         <i className="fa-solid fa-spinner fa-spin mr-2"></i>
                       ) : (
-                        <i className="fa-solid fa-heart mr-2"></i>
+                        <i
+                          className={`fa-solid fa-heart mr-2 ${
+                            wishlistItems.some((w) => w._id === product._id)
+                              ? "text-red-500"
+                              : ""
+                          }`}
+                        ></i>
                       )}
-                      Add to Wishlist
+                      {wishlistItems.some((w) => w._id === product._id)
+                        ? "Remove from Wishlist"
+                        : "Add to Wishlist"}
                     </button>
 
                     <button
                       onClick={handleAddToCart}
-                      disabled={isAddingToCart}
-                      className="w-full bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white py-3 rounded-lg font-medium transition-colors disabled:opacity-50"
+                      disabled={isAddingToCart || product.stock <= 0}
+                      className="w-full bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white py-3 rounded-lg font-medium transition-colors disabled:opacity-50 cursor-pointer"
                     >
                       {isAddingToCart ? (
                         <i className="fa-solid fa-spinner fa-spin mr-2"></i>
                       ) : (
                         <i className="fa-solid fa-shopping-cart mr-2"></i>
                       )}
-                      Add to Cart
+                      {product.stock > 0 ? "Add to Cart" : "Out of Stock"}
                     </button>
                   </div>
                 </div>

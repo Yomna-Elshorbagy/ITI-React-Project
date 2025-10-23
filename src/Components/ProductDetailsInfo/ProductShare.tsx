@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"; // kept for JSX runtime consistency if project not using automatic runtime
 import type { Product } from "../../Types/Prooduct";
 
 export default function ProductShare({ product }: { product: Product }) {
@@ -52,7 +52,7 @@ export default function ProductShare({ product }: { product: Product }) {
   ];
 
   return (
-    <div className="border-t pt-6">
+    <div className="border-t border-gray-200 pt-6">
       <p className="text-sm text-gray-600 mb-3">Share this product:</p>
       <div className="flex gap-2">
         {icons.map((icon) => (

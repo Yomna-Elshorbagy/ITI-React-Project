@@ -4,12 +4,14 @@ import { useQuery } from "@tanstack/react-query";
 import ProductCard from "../../Components/ProductCard/ProductCard";
 import AccessoriesBanner from "../../Components/AccessoriesBanner/AccessoriesBanner";
 import { useSearchParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   addToWishlist,
   removeFromWishlist,
 } from "../../Store/Slices/WishlistSlice";
 import { Filter, X } from "lucide-react";
+import { useAppSelector } from "../../Hooks/reduxHooks";
+import type { AppDispatch } from "../../Store/store";
 
 type Product = {
   _id: string;
@@ -24,7 +26,7 @@ type Product = {
 
 const PAGE_SIZE = 12;
 
-const fetchProducts = async (page: number, size: number) => {
+const fetchProducts = async (page: number, size: number): Promise<Product[]> => {
   const res = await axios.get(
     `https://iti-react-backend.vercel.app/products/getproducts?page=${page}&size=${size}`
   );
@@ -56,11 +58,9 @@ const Products: React.FC = () => {
     data: products = [],
     isLoading,
     isError,
-    isFetching,
-  } = useQuery({
+  } = useQuery<Product[]>({
     queryKey: ["products", page, size],
     queryFn: () => fetchProducts(page, size),
-    keepPreviousData: true,
     staleTime: 1000 * 60 * 2,
   });
 
@@ -72,15 +72,15 @@ const Products: React.FC = () => {
     }
   }, [products]);
 
-  const categories = useMemo(() => {
+  const categories = useMemo<string[]>(() => {
     const names = products
-      .map((p) => p.category?.name)
+      .map((p: Product) => p.category?.name)
       .filter((n): n is string => !!n)
-      .map((n) => n.charAt(0).toUpperCase() + n.slice(1));
+      .map((n: string) => n.charAt(0).toUpperCase() + n.slice(1));
     return ["All", ...Array.from(new Set(names))];
   }, [products]);
 
-  const filtered = useMemo(() => {
+  const filtered = useMemo<Product[]>(() => {
     let list = [...products];
 
     list = list.filter((p) =>
@@ -108,7 +108,7 @@ const Products: React.FC = () => {
       );
     }
 
-    list.sort((a, b) => {
+    list.sort((a: Product, b: Product) => {
       const priceA = a.price ?? 0;
       const priceB = b.price ?? 0;
       const titleA = a.title.toLowerCase();
@@ -139,20 +139,20 @@ const Products: React.FC = () => {
     discountFilter,
   ]);
 
-  const dispatch = useDispatch();
-  const wishlist = useSelector((state: any) => state.wishlist.items);
+  const dispatch = useDispatch<AppDispatch>();
+  const wishlist = useAppSelector((state) => state.wishlist.items);
   const [showModal, setShowModal] = useState(false);
 
   const handleAddToCart = (id: string) => console.log("Add to cart:", id);
 
   const handleAddToWishlist = async (id: string) => {
-    await dispatch(addToWishlist(id));
+    await dispatch(addToWishlist(id)).unwrap();
     setShowModal(true);
     setTimeout(() => setShowModal(false), 1500);
   };
 
   const handleRemoveFromWishlist = async (id: string) => {
-    await dispatch(removeFromWishlist(id));
+    await dispatch(removeFromWishlist(id)).unwrap();
   };
 
   if (isLoading) {
