@@ -1,7 +1,14 @@
-import React from 'react'
+import type { ReactNode } from "react";
+import { Navigate } from "react-router-dom";
 
-export default function ProtectedRoutes() {
-  return (
-    <div>ProtectedRoutes</div>
-  )
+interface ProtectedRoutesProps {
+  children: ReactNode;
+}
+
+export default function ProtectedRoutes({ children }: ProtectedRoutesProps) {
+  if (localStorage.getItem("accessToken") == null) {
+    return <Navigate to="/login" />;
+  }
+
+  return <>{children}</>;
 }

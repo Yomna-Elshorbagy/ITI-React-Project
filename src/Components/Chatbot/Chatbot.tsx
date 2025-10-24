@@ -3,9 +3,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, Send, X } from "lucide-react";
 
 export default function KayanChatbot() {
+  const token = localStorage.getItem("accessToken");
+  if (!token) return null;
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { sender: "bot", text: "✨ Welcome to KAYAN Jewelry! Are you shopping for yourself or a gift?" },
+    {
+      sender: "bot",
+      text: "✨ Welcome to KAYAN Jewelry! Are you shopping for yourself or a gift?",
+    },
   ]);
   const [step, setStep] = useState(1);
   const [answers, setAnswers] = useState({});
@@ -30,7 +35,9 @@ export default function KayanChatbot() {
       } else if (step === 2) {
         setAnswers({ ...answers, recipient: msg });
         setStep(3);
-        botReply("What jewelry are you interested in? (ring, necklace, bracelet, earrings)");
+        botReply(
+          "What jewelry are you interested in? (ring, necklace, bracelet, earrings)"
+        );
       } else if (step === 3) {
         setAnswers({ ...answers, type: msg });
         setStep(4);
@@ -38,17 +45,30 @@ export default function KayanChatbot() {
       } else if (step === 4) {
         setAnswers({ ...answers, metal: msg });
         setStep(5);
-        botReply("Would you describe your style as classic, modern, or statement?");
+        botReply(
+          "Would you describe your style as classic, modern, or statement?"
+        );
       } else if (step === 5) {
-        botReply("💎 I think you’ll love our curated " + msg + " collection! Visit: /shop/" + (answers.type || "jewelry"));
+        botReply(
+          "💎 I think you’ll love our curated " +
+            msg +
+            " collection! Visit: /shop/" +
+            (answers.type || "jewelry")
+        );
         setStep(6);
-        botReply("if you have more questions, feel free to contact our support team 😊, click restart");
+        botReply(
+          "if you have more questions, feel free to contact our support team 😊, click restart"
+        );
       } else if (msg.includes("restart")) {
         setStep(1);
         setAnswers({});
-        botReply("✨ Let’s start fresh! Are you shopping for yourself or a gift?");
+        botReply(
+          "✨ Let’s start fresh! Are you shopping for yourself or a gift?"
+        );
       } else {
-        botReply("💬 Type 'restart' to begin again or ask about care/custom designs!");
+        botReply(
+          "💬 Type 'restart' to begin again or ask about care/custom designs!"
+        );
       }
       setLoading(false);
     }, 800);
@@ -62,7 +82,7 @@ export default function KayanChatbot() {
     <>
       <motion.div
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-5 right-5 flex items-center justify-center w-14 h-14 rounded-full shadow-lg cursor-pointer text-white bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] z-50"
+        className="fixed bottom-5 right-5 flex items-center justify-center w-14 h-14 rounded-full shadow-lg cursor-pointer text-white bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] z-[9999]"
         whileHover={{ scale: 1.1 }}
       >
         {isOpen ? <X size={26} /> : <MessageCircle size={26} />}
@@ -75,7 +95,7 @@ export default function KayanChatbot() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 50 }}
             transition={{ duration: 0.3 }}
-            className="fixed bottom-24 right-5 w-80 sm:w-96 h-96 bg-[var(--color-surface)] text-[var(--color-text)] rounded-3xl shadow-2xl flex flex-col border border-[var(--color-border)]"
+            className="fixed bottom-24 right-5 w-80 sm:w-96 h-96 bg-[var(--color-surface)] text-[var(--color-text)] rounded-3xl shadow-2xl flex flex-col border border-[var(--color-border)] z-[9999]"
           >
             <div className="flex-1 overflow-y-auto p-3 space-y-2">
               {messages.map((msg, i) => (
@@ -91,7 +111,9 @@ export default function KayanChatbot() {
                 </div>
               ))}
               {loading && (
-                <div className="text-center text-[var(--color-text-muted)] text-sm">Typing...</div>
+                <div className="text-center text-[var(--color-text-muted)] text-sm">
+                  Typing...
+                </div>
               )}
             </div>
 
