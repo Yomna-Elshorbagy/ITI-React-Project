@@ -3,6 +3,7 @@ export interface ICoupon {
   code: string;
   type: string;
   fromDate: string | Date;
-  expire: string | Date;
+  expiryDate: string | Date;
+  usageLimit: number;
   discount: number;
 }
