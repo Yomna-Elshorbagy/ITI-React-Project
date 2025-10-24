@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import CategoryModal from "./CategoryModal";
 import { addCategory } from "../../Apis/CategoryApis";
 import { useCategories } from "../../DashboardHooks/Categories/useCategories";
+import toast from "react-hot-toast";
 
 export default function AddCategoryButton() {
   const [open, setOpen] = useState(false);
@@ -11,12 +12,14 @@ export default function AddCategoryButton() {
   const handleAdd = async (formData: FormData) => {
     try {
       await addCategory(formData);
-      alert("✅ Category added successfully!");
+      //alert(" Category added successfully!");
+      toast.success(" Category added successfully!");
       setOpen(false);
       await refetchAll();
     } catch (err) {
       console.error("Error adding category:", err);
-      alert("❌ Failed to add category");
+      //alert(" Failed to add category");
+      toast.error("Failed to add category");
     }
   };
 
