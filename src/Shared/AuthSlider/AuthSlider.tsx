@@ -3,9 +3,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 
 // Import images
-import auth1 from "../../assets/images/auth-slider2.jpeg";
-import auth2 from "../../assets/images/auth-slider3.jpeg";
-import auth3 from "../../assets/images/auth-slider4.jpeg";
+//import auth1 from "../../assets/images/auth-slider2.jpeg";
+import auth1 from "../../assets/images/trial2.jpeg";
+//import auth2 from "../../assets/images/auth-slider3.jpeg";
+import auth2 from "../../assets/images/trial5.jpeg";
+import auth3 from "../../assets/images/trial4.jpeg";
 import auth4 from "../../assets/images/video.mp4";
 
 // Import Swiper styles
@@ -35,9 +37,9 @@ const AuthSlider: React.FC = () => {
           />
           <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 text-white w-[90%]">
             <div className="text-center">
-              <h2 className="text-[2rem] font-bold mb-2">Welcome to KAYAN</h2>
-              <p className="text-[1.25rem]">
-                Discover the latest trends, express your unique style.
+              <h2 className="text-[2rem] font-bold font-['Playfair_Display'] mb-2 text-[#f5f3e79]/80">Welcome to KAYAN</h2>
+              <p className="text-[1.25rem] font-['Playfair_Display'] text-[#f5f3e79]">
+                Discover the Timeless Beauty of Handcrafted jewelry 
               </p>
             </div>
           </div>
@@ -54,9 +56,9 @@ const AuthSlider: React.FC = () => {
           />
           <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 text-white w-[90%]">
             <div className="text-center">
-              <h2 className="text-[2rem] font-bold mb-2">Welcome to KAYAN</h2>
-              <p className="text-[1.25rem]">
-                Discover the latest trends, express your unique style.
+              <h2 className="text-[2rem] font-bold mb-2 font-['Playfair_Display']">Welcome to KAYAN</h2>
+              <p className="text-[1.25rem] font-['Playfair_Display'] text-[#f5f3e79]">
+                 Every piece of jewelry tells a story of elegance, and grace.
               </p>
             </div>
           </div>
@@ -84,9 +86,9 @@ const AuthSlider: React.FC = () => {
 
           <div className="absolute inset-0 flex items-end justify-center pb-24 z-10 pointer-events-none">
             <div className="text-center text-white w-[90%]">
-              <h2 className="text-[2rem] font-bold mb-2">Welcome to KAYAN</h2>
-              <p className="text-[1.25rem]">
-                Discover the latest trends, express your unique style.
+              <h2 className="text-[2rem] font-bold mb-2 font-['Playfair_Display'] text-[var(--wood-400)]">Welcome to KAYAN</h2>
+              <p className="text-[1.25rem] font-['Playfair_Display'] text-[var(--wood-400)]/70">
+                Elevate your look with our exclusive collection
               </p>
             </div>
           </div>
@@ -103,8 +105,8 @@ const AuthSlider: React.FC = () => {
           />
           <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 text-white w-[90%]">
             <div className="text-center">
-              <h2 className="text-[2rem] font-bold mb-2">Welcome to KAYAN</h2>
-              <p className="text-[1.25rem]">
+              <h2 className="text-[2rem] font-bold mb-2 font-['Playfair_Display']">Welcome to KAYAN</h2>
+              <p className="text-[1.25rem] font-['Playfair_Display'] text-[#f5f3e79] ">
                 Discover the latest trends, express your unique style.
               </p>
             </div>

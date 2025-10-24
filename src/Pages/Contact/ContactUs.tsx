@@ -61,7 +61,7 @@ export default function ContactUs() {
   };
 
   return (
-    <section className=" bg-[#fdfaf5ff] dark:bg-[var(--color-blue)] transition-colors duration-500 py-16 px-6 sm:px-10 lg:px-20"> {/*dark:bg-gray-900  #F7E7CE #F6E7D7 #FAF9F7 #fdfaf5ff*/}
+    <section className=" bg-[ #F7E7CE] dark:bg-[var(--color-blue)]/85 transition-colors duration-500 py-16 px-6 sm:px-10 lg:px-20"> {/*dark:bg-gray-900 #fdfaf5ff  #F7E7CE #F6E7D7 #FAF9F7 #fdfaf5ff*/}
       <div className="max-w-6xl mx-auto text-center mb-12">
         <h1 className="text-[var(--color-header)] font-['Playfair_Display'] uppercase tracking-widest font-semibold text-lg md:text-2xl mb-4">
           Get in Touch                {/*<span className="text-[var(--color-primary)] text-4xl font-bold text-gray-800  "> */}
@@ -73,8 +73,8 @@ export default function ContactUs() {
       </div>
 
       <div className="flex flex-col lg:flex-row gap-12 justify-between items-start header-font">
-        <div className="flex-1 bg-gray-100 dark:bg-[#F4EDE1] p-8 rounded-2xl shadow-md transition-all duration-300 hover:shadow-lg">
-          <h2 className="header-font text-2xl font-semibold text-[var(--color-blue)] dark:text-[var(--color-blue)] mb-6"> {/* */}
+        <div className="flex-1 bg-gray-50 dark:bg-[#F4EDE1] p-8 rounded-2xl shadow-md transition-all duration-300 hover:shadow-lg">
+          <h2 className="header-font text-2xl font-semibold text-[var(--color-blue)]/90 dark:text-[var(--color-blue)] mb-6"> {/* */}
             Contact Information
           </h2>
 
@@ -114,7 +114,7 @@ export default function ContactUs() {
         </div>
 
         <div className="flex-1 bg-gray-50 dark:bg-[#F4EDE1] p-8 rounded-2xl shadow-md transition-all duration-300 hover:shadow-lg">
-          <h2 className="text-2xl font-semibold text-[var(--color-blue)] dark:text-[var(--color-blue)] mb-6 ">
+          <h2 className="text-2xl font-semibold text-[var(--color-blue)]/90 dark:text-[var(--color-blue)] mb-6 ">
             Send Us a Message
           </h2>
 

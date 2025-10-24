@@ -127,7 +127,7 @@ export default function Register() {
     <>
       <section className="register">
         <div className="flex min-h-screen">
-          <div className="relative w-full md:w-1/2 bg-[var(--colo-text)] min-h-screen flex justify-center items-center">
+          <div className="relative w-full md:w-1/2 bg-[#C49A53]/40 min-h-screen flex justify-center items-center">
             <button
               onClick={() => navigate("/")}
               className="absolute top-6 left-6 bg-white shadow-md rounded-full p-3 hover:bg-amber-50 hover:scale-105 transition duration-200"
@@ -136,8 +136,8 @@ export default function Register() {
               <i className="fa-solid fa-arrow-left text-[#8B5E35] text-lg"></i>
             </button>
 
-            <div className="w-full px-5 md:w-[75%] max-w-md">
-              <h1 className="text-[1.75rem] sm:text-[2rem] text-[#090f41] animate-pulse text-center mb-6">
+            <div className="w-full px-5 md:w-[75%] max-w-md"> 
+              <h1 className="text-[1.75rem] sm:text-[2rem] font-['Playfair_Display'] text-[var(--wood-400)] animate-pulse  text-center mb-6"> {/*text-[#090f41] */}
                 Log in
               </h1>
 
@@ -158,7 +158,7 @@ export default function Register() {
                 )}
 
                 <div className="flex flex-col gap-2 mb-5">
-                  <label className="text-[1.125rem]">E-mail</label>
+                  <label className="text-[1.125rem] font-['Playfair_Display'] text-gray-600">E-mail</label>
                   <div className="relative">
                     <i className="fa-solid fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-[#8B5E35] animate-[var(--animate-bounce-slow)]"></i>
                     <input
@@ -176,7 +176,7 @@ export default function Register() {
                 </div>
 
                 <div className="flex flex-col gap-2 mb-5">
-                  <label className="text-[1.125rem]">Password</label>
+                  <label className="text-[1.125rem] font-['Playfair_Display'] text-gray-600">Password</label>
                   <div className="relative">
                     <i className="fa-solid fa-lock absolute left-3 top-1/2 -translate-y-1/2 text-[#8B5E35] animate-[var(--animate-bounce-slow)]"></i>
                     <input
@@ -204,7 +204,7 @@ export default function Register() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="bg-[var(--wood-400)] hover:bg-[var(--wood-500)] active:scale-95 transition-transform duration-200 text-white font-semibold py-3 rounded-lg shadow-lg hover:shadow-amber-200/30 disabled:opacity-60 disabled:cursor-not-allowed w-full"
+                  className="hover:bg-[#C49A53]/90  bg-[var(--wood-400)] font-['Playfair_Display'] active:scale-95 transition-transform duration-200 text-[#fdfaf5ff] font-semibold py-3 rounded-lg shadow-lg hover:shadow-amber-200/30 disabled:opacity-60 disabled:cursor-not-allowed w-full"
                 >
                   {isLoading ? (
                     <i className="fa-solid fa-spinner fa-spin"></i>
@@ -214,7 +214,7 @@ export default function Register() {
                 </button>
               </form>
 
-              <p className="mt-5 text-center text-gray-500">
+              <p className="mt-5 text-center text-gray-500 ">
                 Create new account?{" "}
                 <Link to="/register" className="underline text-[#8B5E35]">
                   Sign up
