@@ -34,7 +34,9 @@ import Reports from "./Dashboard/Pages/Reports/Reports";
 import DashCategories from "./Dashboard/Pages/Categories/Categories";
 import ContactsPage from "./Dashboard/Pages/Contact/Contacts";
 import KayanChatbot from "./Components/Chatbot/Chatbot";
-import Coupons from './Dashboard/Pages/Coupons/Coupons';
+import Coupons from "./Dashboard/Pages/Coupons/Coupons";
+import AdminProtectedRoute from "./Shared/ProtectedRoutes/AdminProtectedRoutes";
+import ProtectedRoutes from "./Shared/ProtectedRoutes/ProtectedRoutes";
 
 const router = createBrowserRouter([
   {
@@ -59,7 +61,12 @@ const router = createBrowserRouter([
       },
       {
         path: "cart",
-        element: <Cart />,
+        element: (
+          <ProtectedRoutes>
+            {" "}
+            <Cart />{" "}
+          </ProtectedRoutes>
+        ),
       },
       {
         path: "productDetails/:id",
@@ -67,7 +74,12 @@ const router = createBrowserRouter([
       },
       {
         path: "reviews/:id",
-        element: <Reviews />,
+        element: (
+          <ProtectedRoutes>
+            {" "}
+            <Reviews />{" "}
+          </ProtectedRoutes>
+        ),
       },
       {
         path: "category",
@@ -84,7 +96,12 @@ const router = createBrowserRouter([
       },
       {
         path: "profile",
-        element: <UserProfile />,
+        element: (
+          <ProtectedRoutes>
+            {" "}
+            <UserProfile />
+          </ProtectedRoutes>
+        ),
       },
       { path: "qr-login", element: <UserProfile /> },
       { path: "*", element: <NotFound /> },
@@ -92,7 +109,11 @@ const router = createBrowserRouter([
   },
   {
     path: "dashboard",
-    element: <DashboardLayout />,
+    element: (
+      <AdminProtectedRoute>
+        <DashboardLayout />
+      </AdminProtectedRoute>
+    ),
     children: [
       { index: true, element: <Overview /> },
       { path: "products", element: <OrderProducts /> },
@@ -128,7 +149,7 @@ function App() {
           <Provider store={store}>
             <RouterProvider router={router} />
             <Toaster />
-            <KayanChatbot/>
+            <KayanChatbot />
           </Provider>
         </QueryClientProvider>
       </GoogleOAuthProvider>
