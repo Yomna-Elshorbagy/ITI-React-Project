@@ -1,3 +1,4 @@
+import TotalIncomeAnalysis from "../../Components/Charts/TotalIncomeAnalysis";
 import DeletedUsersChart from "../../Components/Charts/UserDeletedChart";
 import DemographicsChart from "../../Components/Charts/UserDemographicsChart";
 import UsersOverviewChart from "../../Components/Charts/UsersOverviewChart";
@@ -18,7 +19,11 @@ const Overview: React.FC = () => {
         <div className="flex flex-col items-center justify-center bg-[var(--color-surface)] rounded-2xl p-6 elevate-soft h-[280px]">
           <DemographicsChart />
         </div>
-      </div>    </>
+      </div>    
+      <div>
+        <TotalIncomeAnalysis/>
+      </div>
+      </>
   );
 };
 

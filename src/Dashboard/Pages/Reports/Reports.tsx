@@ -3,6 +3,7 @@ import OrderStatusTable from "../Orders/OrderStatusTable";
 import TopProductsTable from "../Products/TopProductsTable";
 import RecentOrdersTable from "../Orders/RecentOrderTable";
 import UserStatusOverview from "../Users/UserTableActive";
+import RevenueTable from "./RevenueData";
 
 export default function Reports() {
   return (
@@ -18,6 +19,7 @@ export default function Reports() {
           <RecentOrdersTable />
         </div>
       </div>
+      <RevenueTable />
     </>
   );
 }

@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { ICreateOrder, IOrder, IOrderResponse } from "../DashBordInterfaces/OrderInterfaces";
 
-const BASE_URL = "http://localhost:3000/order";
+const BASE_URL = "https://iti-react-backend.vercel.app/order";
 const token = localStorage.getItem("accessToken");
 
 const headers = {
@@ -73,4 +73,39 @@ export const softDeleteOrder = async (id: string): Promise<any> => {
 export const hardDeleteOrder = async (id: string): Promise<any> => {
   const { data } = await axios.delete(`${BASE_URL}/hard/${id}`, { headers });
   return data;
+};
+
+export const getRevenuePerMonth = async (): Promise<any[]> => {
+  const { data } = await axios.get(`${BASE_URL}/revenue`, { headers });
+  console.log(data);
+  
+  return data.data; 
+};
+
+export const exportOrdersToCSV = async (): Promise<void> => {
+  const response = await axios.get(`${BASE_URL}/exportcsv`, {
+    headers,
+    responseType: "blob",
+  });
+
+  const url = window.URL.createObjectURL(new Blob([response.data]));
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute("download", "orders-report.csv");
+  document.body.appendChild(link);
+  link.click();
+};
+
+export const exportOrdersToPDF = async (): Promise<void> => {
+  const response = await axios.get(`${BASE_URL}/exportpdf`, {
+    headers,
+    responseType: "blob",
+  });
+
+  const url = window.URL.createObjectURL(new Blob([response.data]));
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute("download", "orders-report.pdf");
+  document.body.appendChild(link);
+  link.click();
 };
