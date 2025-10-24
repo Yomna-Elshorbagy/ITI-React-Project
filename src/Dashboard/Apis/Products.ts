@@ -5,7 +5,7 @@ import type {
   IRelatedProduct,
 } from "../DashBordInterfaces/ProductsInterfaces";
 
-const BASE_URL = "https://iti-react-backend.vercel.app/products";
+const BASE_URL = "http://localhost:3000/products";
 const token = localStorage.getItem("accessToken");
 
 const headers = {
@@ -30,7 +30,7 @@ export const getProducts = async (
   };
 }> => {
   const params: Record<string, any> = { page, size };
-  if (search) params.search = search;
+  if (search) params.keyword = search; 
   if (category) params.category = category;
 
   const { data } = await axios.get(`${BASE_URL}/getproducts`, {
