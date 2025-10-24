@@ -1,9 +1,18 @@
 import React, { useState } from "react";
-import { FaEdit, FaTag, FaPercent, FaCalendarAlt, FaTimes } from "react-icons/fa";
+import {
+  FaEdit,
+  FaTag,
+  FaPercent,
+  FaCalendarAlt,
+  FaTimes,
+} from "react-icons/fa";
 import { z } from "zod";
 import Swal from "sweetalert2";
 import { updateCoupon } from "../../Apis/CouponApis";
-import type { ICoupon, IUpdateCoupon } from "../../DashBordInterfaces/CouponInterface";
+import type {
+  ICoupon,
+  IUpdateCoupon,
+} from "../../DashBordInterfaces/CouponInterface";
 
 interface EditCouponModalProps {
   coupon: ICoupon;
@@ -56,7 +65,7 @@ const EditCouponModal: React.FC<EditCouponModalProps> = ({
 
     try {
       setLoading(true);
-      
+
       if (formData._id) {
         const {
           _id,
@@ -68,9 +77,6 @@ const EditCouponModal: React.FC<EditCouponModalProps> = ({
           isDeleted,
           ...payload
         } = formData;
-
-console.log("Coupon ID being sent:", _id);
-console.log("Payload before sending:", payload);
         await updateCoupon(_id, payload as IUpdateCoupon);
 
         Swal.fire("Success", "Coupon updated successfully!", "success");
