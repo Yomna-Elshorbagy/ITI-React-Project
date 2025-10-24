@@ -10,6 +10,7 @@ import withReactContent from "sweetalert2-react-content";
 import { useMutation } from "@tanstack/react-query";
 import { useAppDispatch } from "../../Hooks/reduxHooks";
 import { insertUserToken } from "../../Store/Slices/AuthSlice";
+import { jwtDecode } from "jwt-decode";
 
 const MySwal = withReactContent(Swal);
 
@@ -57,17 +58,37 @@ export default function Register() {
     },
     onSuccess: (data) => {
       if (data?.message === "logIn Successfully") {
-        // localStorage.setItem("accessToken", data.accessToken);
         dispatch(insertUserToken(data.accessToken));
-        setSuccess("Login Successful!");
+
+        let username = "User";
+        let role = "user";
+        try {
+          const decoded: any = jwtDecode(data.accessToken);
+          username = decoded?.name || "User";
+          role = decoded?.role || "user";
+          console.log("Decoded token:", decoded);
+        } catch (error) {
+          console.error("Error decoding token:", error);
+        }
+
+        const destination = role === "admin" ? "/dashboard" : "/home";
+        const welcomeText =
+          role === "admin"
+            ? `Welcome, Admin ${username}!`
+            : `Welcome, ${username}!`;
+
+        setSuccess(welcomeText);
         MySwal.fire({
-          title: "✅ Login Successful!",
-          text: "Redirecting to home in 3 seconds...",
+          title: `👋 ${welcomeText}`,
+          text:
+            role === "admin"
+              ? "Redirecting you to the admin dashboard..."
+              : "You have logged in successfully.",
           icon: "success",
           timer: 3000,
           timerProgressBar: true,
           showConfirmButton: false,
-          willClose: () => navigate("/home"),
+          willClose: () => navigate(destination),
         });
       } else {
         setAPIError(data?.message || "Unexpected response");
@@ -79,6 +100,7 @@ export default function Register() {
         });
       }
     },
+
     onError: (error: any) => {
       console.error(error);
       setIsLoading(false);
@@ -102,108 +124,116 @@ export default function Register() {
   };
 
   return (
-    <section className="register">
-      <div className="flex min-h-screen">
-        {/* Left Side - Form */}
-        <div className=" relative w-full md:w-1/2 bg-[#f9f9f9] max-h-screen overflow-y-auto py-16 flex items-center">
-          <button
-            onClick={() => navigate("/")}
-            className="absolute top-6 left-6 bg-white shadow-md rounded-full p-3 hover:bg-amber-50 hover:scale-105 transition duration-200"
-            title="Back to Home"
-          >
-            <i className="fa-solid fa-arrow-left text-[#8B5E35] text-lg"></i>
-          </button>
-          <div className="w-full px-5 md:px-0 md:w-[75%] mx-auto h-full">
-            <h1 className="text-[1.75rem] sm:text-[2rem] text-[#090f41] animate-pulse">
-              Log in
-            </h1>
-            <form onSubmit={handleSubmit(onSubmit)} className="text-[#090f41]">
-              {/* API Success & Error Alerts */}
-              {apiError && (
-                <p className="bg-red-100 text-red-700 border border-red-400 rounded p-2 mt-3 mb-3 text-center text-sm">
-                  {apiError}
-                </p>
-              )}
+    <>
+      <section className="register">
+        <div className="flex min-h-screen">
+          <div className="relative w-full md:w-1/2 bg-[var(--colo-text)] min-h-screen flex justify-center items-center">
+            <button
+              onClick={() => navigate("/")}
+              className="absolute top-6 left-6 bg-white shadow-md rounded-full p-3 hover:bg-amber-50 hover:scale-105 transition duration-200"
+              title="Back to Home"
+            >
+              <i className="fa-solid fa-arrow-left text-[#8B5E35] text-lg"></i>
+            </button>
 
-              {success && (
-                <p className="bg-green-100 text-green-700 border border-green-400 rounded p-2 mt-3  mb-3 text-center text-sm">
-                  {success}
-                </p>
-              )}
+            <div className="w-full px-5 md:w-[75%] max-w-md">
+              <h1 className="text-[1.75rem] sm:text-[2rem] text-[#090f41] animate-pulse text-center mb-6">
+                Log in
+              </h1>
 
-              {/* Email */}
-              <div className="flex flex-col gap-2 mb-5">
-                <label className="text-[1.125rem]">E-mail</label>
-                <div className="relative">
-                  <i className="fa-solid fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-[#8B5E35] animate-[var(--animate-bounce-slow)]"></i>
-                  <input
-                    type="email"
-                    placeholder="E-mail"
-                    className="w-full pl-10 py-3 border border-gray-300 rounded focus:border-[#8B5E35] focus:outline-none"
-                    {...register("email")}
-                  />
-                </div>
-                {formState.errors.email && formState.touchedFields.email ? (
-                  <p className="bg-red-100 text-red-700 border border-red-400 rounded p-2 mt-3 text-center text-sm">
-                    {formState.errors.email.message}
-                  </p>
-                ) : null}
-              </div>
-
-              {/* Password */}
-              <div className="flex flex-col gap-2 mb-5">
-                <label className="text-[1.125rem]">Password</label>
-                <div className="relative">
-                  <i className="fa-solid fa-lock absolute left-3 top-1/2 -translate-y-1/2 text-[#8B5E35] animate-[var(--animate-bounce-slow)]"></i>
-                  <input
-                    type={isPasswordVisible ? "text" : "password"}
-                    placeholder="xxxxxxxxxxxx"
-                    className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded focus:border-[#8B5E35] focus:outline-none"
-                    {...register("password")}
-                  />
-                  <i
-                    className={`fa-solid cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 text-[#8B5E35] animate-[var(--animate-bounce-slow)] ${
-                      isPasswordVisible ? "fa-eye" : "fa-eye-slash"
-                    }`}
-                    onClick={() => setIsPasswordVisible((prev) => !prev)}
-                  ></i>
-                </div>
-                {formState.errors.password &&
-                formState.touchedFields.password ? (
-                  <p className="bg-red-100 text-red-700 border border-red-400 rounded p-2 mt-3 text-center text-sm">
-                    {formState.errors.password.message}
-                  </p>
-                ) : null}
-              </div>
-
-              {/* Submit Button */}
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="bg-[#8B5E35] hover:bg-[#734927] active:scale-95 transition-transform duration-200 text-white font-semibold py-3 rounded-lg shadow-lg hover:shadow-amber-200/30 disabled:opacity-60 disabled:cursor-not-allowed w-full"
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="text-[#090f41]"
               >
-                {isLoading ? (
-                  <i className="fa-solid fa-spinner fa-spin"></i>
-                ) : (
-                  "Sign in"
+                {apiError && (
+                  <p className="bg-red-100 text-red-700 border border-red-400 rounded p-2 mt-3 mb-3 text-center text-sm">
+                    {apiError}
+                  </p>
                 )}
-              </button>
-            </form>
 
-            <p className="mt-5 pb-10 text-center text-gray-500">
-              create new account?{" "}
-              <Link to="/register" className="underline text-[#8B5E35]">
-                sign up
-              </Link>
-            </p>
+                {success && (
+                  <p className="bg-green-100 text-green-700 border border-green-400 rounded p-2 mt-3 mb-3 text-center text-sm">
+                    {success}
+                  </p>
+                )}
+
+                <div className="flex flex-col gap-2 mb-5">
+                  <label className="text-[1.125rem]">E-mail</label>
+                  <div className="relative">
+                    <i className="fa-solid fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-[#8B5E35] animate-[var(--animate-bounce-slow)]"></i>
+                    <input
+                      type="email"
+                      placeholder="E-mail"
+                      className="w-full pl-10 py-3 border border-gray-300 rounded focus:border-[var(--wood-400)] focus:ring-2 focus:ring-[var(--wood-200)] focus:outline-none transition-all duration-200"
+                      {...register("email")}
+                    />
+                  </div>
+                  {formState.errors.email && formState.touchedFields.email && (
+                    <p className="bg-red-100 text-red-700 border border-red-400 rounded p-2 mt-3 text-center text-sm">
+                      {formState.errors.email.message}
+                    </p>
+                  )}
+                </div>
+
+                <div className="flex flex-col gap-2 mb-5">
+                  <label className="text-[1.125rem]">Password</label>
+                  <div className="relative">
+                    <i className="fa-solid fa-lock absolute left-3 top-1/2 -translate-y-1/2 text-[#8B5E35] animate-[var(--animate-bounce-slow)]"></i>
+                    <input
+                      type={isPasswordVisible ? "text" : "password"}
+                      placeholder="xxxxxxxxxxxx"
+                      className="w-full pl-10 py-3 border border-gray-300 rounded focus:border-[var(--wood-400)] focus:ring-2 focus:ring-[var(--wood-200)]  ocus:outline-none transition-all duration-200"
+                      {...register("password")}
+                    />
+                    <i
+                      className={`fa-solid cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 text-[#8B5E35] ${
+                        isPasswordVisible ? "fa-eye" : "fa-eye-slash"
+                      }`}
+                      onClick={() => setIsPasswordVisible((prev) => !prev)}
+                    ></i>
+                  </div>
+                  {formState.errors.password &&
+                    formState.touchedFields.password && (
+                      <p className="bg-red-100 text-red-700 border border-red-400 rounded p-2 mt-3 text-center text-sm">
+                        {formState.errors.password.message}
+                      </p>
+                    )}
+                </div>
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="bg-[var(--wood-400)] hover:bg-[var(--wood-500)] active:scale-95 transition-transform duration-200 text-white font-semibold py-3 rounded-lg shadow-lg hover:shadow-amber-200/30 disabled:opacity-60 disabled:cursor-not-allowed w-full"
+                >
+                  {isLoading ? (
+                    <i className="fa-solid fa-spinner fa-spin"></i>
+                  ) : (
+                    "Sign in"
+                  )}
+                </button>
+              </form>
+
+              <p className="mt-5 text-center text-gray-500">
+                Create new account?{" "}
+                <Link to="/register" className="underline text-[#8B5E35]">
+                  Sign up
+                </Link>
+              </p>
+              <p className=" text-center text-gray-500">
+                Forget Password{" "}
+                <Link to="/forgetPass" className="underline text-[#8B5E35]">
+                  forget password
+                </Link>
+              </p>
+            </div>
+          </div>
+
+          <div className="hidden md:block h-screen w-1/2 bg-gray-200 flex items-center justify-center">
+            <AuthSlider />
           </div>
         </div>
-
-        {/* Right Side - Auth Slider Placeholder */}
-        <div className="hidden md:block h-screen w-1/2 bg-gray-200 flex items-center justify-center">
-          <AuthSlider />
-        </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

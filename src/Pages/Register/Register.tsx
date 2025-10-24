@@ -126,7 +126,7 @@ export default function Register() {
     <section className="register">
       <div className="flex min-h-screen">
         {/* Left Side - Form */}
-        <div className="relative w-full md:w-1/2 bg-[#f9f9f9] max-h-screen overflow-y-auto py-5 flex items-start dark:bg-gray-900 pb-5 dark:text-white">
+        <div className="relative w-full md:w-1/2 bg-[var(--colo-text)] max-h-screen overflow-y-auto py-5 flex items-start dark:bg-gray-900 pb-5 dark:text-white">
           <button
             onClick={() => navigate("/")}
             className="absolute top-6 left-6 bg-white shadow-md rounded-full p-3 hover:bg-amber-50 hover:scale-105 transition duration-200"
@@ -135,11 +135,11 @@ export default function Register() {
             <i className="fa-solid fa-arrow-left text-[#8B5E35] text-lg"></i>
           </button>
           <div className="w-full px-5 md:px-0 md:w-[75%] mx-auto h-ful">
-            <h1 className="text-[1.75rem] sm:text-[2rem] text-[#090f41] dark:text-white animate-pulse">
+            <h1 className="text-[1.75rem] sm:text-[2rem] text-[#090f41] dark:text-white animate-pulse text-center">
               Sign Up
             </h1>
-            <p className="text-gray-500 dark:text-gray-400 mb-5">
-              Welcome in our Store
+            <p className="text-gray-500 dark:text-gray-400 mb-5 text-center">
+              Welcome in KAYAN family! Create your account to start shopping.
             </p>
 
             <form onSubmit={handleSubmit(onSubmit)} className="text-[#090f41]">
@@ -166,7 +166,7 @@ export default function Register() {
                   <input
                     type="text"
                     placeholder="UserName"
-                    className="w-full pl-10 py-3 border border-gray-300 rounded focus:border-[#8B5E35] focus:outline-none"
+                    className="w-full pl-10 py-3 border border-gray-300 rounded focus:border-[var(--wood-400)] focus:ring-2 focus:ring-[var(--wood-200)] focus:outline-none transition-all duration-200"
                     {...register("userName")}
                   />
                 </div>
@@ -187,7 +187,7 @@ export default function Register() {
                   <input
                     type="email"
                     placeholder="E-mail"
-                    className="w-full pl-10 py-3 border border-gray-300 rounded focus:border-[#8B5E35] focus:outline-none"
+                    className="w-full pl-10 py-3 border border-gray-300 rounded focus:border-[var(--wood-400)] focus:ring-2 focus:ring-[var(--wood-200)] focus:outline-none transition-all duration-200"
                     {...register("email")}
                   />
                 </div>
@@ -208,7 +208,7 @@ export default function Register() {
                   <input
                     type={isPasswordVisible ? "text" : "password"}
                     placeholder="xxxxxxxxxxxx"
-                    className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded focus:border-[#8B5E35] focus:outline-none"
+                    className="w-full pl-10 py-3 border border-gray-300 rounded focus:border-[var(--wood-400)] focus:ring-2 focus:ring-[var(--wood-200)] focus:outline-none transition-all duration-200"
                     {...register("password")}
                   />
                   <i
@@ -235,7 +235,7 @@ export default function Register() {
                   <input
                     type={isPasswordVisible ? "text" : "password"}
                     placeholder="xxxxxxxxxxxx"
-                    className="w-full pl-10 py-3 border border-gray-300 rounded focus:border-[#8B5E35] focus:outline-none"
+                    className="w-full pl-10 py-3 border border-gray-300 rounded focus:border-[var(--wood-400)] focus:ring-2 focus:ring-[var(--wood-200)] focus:outline-none transition-all duration-200"
                     {...register("Cpassword")}
                   />
                 </div>
@@ -254,7 +254,7 @@ export default function Register() {
                   <input
                     type="tel"
                     placeholder="01023780008"
-                    className="w-full pl-10 py-3 border border-gray-300 rounded focus:border-[#8B5E35] focus:outline-none"
+                    className="w-full pl-10 py-3 border border-gray-300 rounded focus:border-[var(--wood-400)] focus:ring-2 focus:ring-[var(--wood-200)] focus:outline-none transition-all duration-200"
                     {...register("mobileNumber")}
                   />
                 </div>
@@ -274,7 +274,7 @@ export default function Register() {
                   <input
                     type="email"
                     placeholder="E-mail"
-                    className="w-full pl-10 py-3 border border-gray-300 rounded focus:border-[#8B5E35] focus:outline-none"
+                    className="w-full pl-10 py-3 border border-gray-300 rounded focus:border-[var(--wood-400)] focus:ring-2 focus:ring-[var(--wood-200)] focus:outline-none transition-all duration-200"
                     {...register("recoveryEmail")}
                   />
                 </div>
@@ -296,7 +296,7 @@ export default function Register() {
                       type="radio"
                       value="male"
                       {...register("gender")}
-                      className="accent-[#8B5E35]"
+                      className="appearance-none w-5 h-5 border-2 border-[#8B5E35] rounded-full checked:bg-[#8B5E35] checked:border-[#8B5E35] transition-colors duration-200"
                     />
                     Male
                   </label>
@@ -306,7 +306,7 @@ export default function Register() {
                       type="radio"
                       value="female"
                       {...register("gender")}
-                      className="accent-[#8B5E35]"
+                      className="appearance-none w-5 h-5 border-2 border-[#8B5E35] rounded-full checked:bg-[#8B5E35] checked:border-[#8B5E35] transition-colors duration-200"
                     />
                     Female
                   </label>
@@ -321,7 +321,7 @@ export default function Register() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="bg-[#8B5E35] hover:bg-[#734927] active:scale-95 transition-transform duration-200 text-white font-semibold py-3 rounded-lg shadow-lg hover:shadow-amber-200/30 disabled:opacity-60 disabled:cursor-not-allowed w-full"
+                  className="bg-[var(--wood-400)] hover:bg-[var(--wood-500)] active:scale-95 transition-transform duration-200 text-white font-semibold py-3 rounded-lg shadow-lg hover:shadow-amber-200/30 disabled:opacity-60 disabled:cursor-not-allowed w-full"
               >
                 {isLoading ? (
                   <i className="fa-solid fa-spinner fa-spin"></i>

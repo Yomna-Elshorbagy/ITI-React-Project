@@ -19,11 +19,11 @@ const AppFooter: FC = () => {
           {/* Logo + About */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="bg-[color:var(--color-blue)] dark:bg-[color:var(--color-heart)] text-white w-10 h-10 rounded-full flex items-center justify-center font-bold shadow-sm">
-                J
+              <div className="bg-[color:var(--color-text)] dark:bg-[color:var(--color-heart)] text-white w-10 h-10 rounded-full flex items-center justify-center font-bold shadow-sm">
+                K
               </div>
               <span className="text-2xl font-semibold text-[color:var(--color-text)] dark:text-white">
-                Jewelry
+                KAYAN
               </span>
             </div>
             <p className="text-gray-600 dark:text-gray-300 mb-6">
@@ -33,31 +33,31 @@ const AppFooter: FC = () => {
             <div className="flex gap-3">
               <a
                 href="#"
-                className="bg-[color:var(--color-blue)]  dark:bg-[color:var(--color-heart)] text-white p-2 rounded transition transform hover:-translate-y-0.5" //hover:bg-[color:var(--color-primary-hover)]
+                className="bg-[color:var(--color-text)]  dark:bg-[color:var(--color-heart)] text-white p-2 rounded transition transform hover:-translate-y-0.5" //hover:bg-[color:var(--color-primary-hover)]
               >
                 <FaFacebookF />
               </a>
               <a
                 href="#"
-                className="bg-[color:var(--color-blue)] dark:bg-[color:var(--color-heart)] text-white p-2 rounded transition transform hover:-translate-y-0.5"
+                className="bg-[color:var(--color-text)] dark:bg-[color:var(--color-heart)] text-white p-2 rounded transition transform hover:-translate-y-0.5"
               >
                 <FaBloggerB />
               </a>
               <a
                 href="#"
-                className="bg-[color:var(--color-blue)]  dark:bg-[color:var(--color-heart)] text-white p-2 rounded transition transform hover:-translate-y-0.5"
+                className="bg-[color:var(--color-text)]  dark:bg-[color:var(--color-heart)] text-white p-2 rounded transition transform hover:-translate-y-0.5"
               >
                 <FaYoutube />
               </a>
               <a
                 href="#"
-                className="bg-[color:var(--color-blue)]  dark:bg-[color:var(--color-heart)] text-white p-2 rounded transition transform hover:-translate-y-0.5"
+                className="bg-[color:var(--color-text)]  dark:bg-[color:var(--color-heart)] text-white p-2 rounded transition transform hover:-translate-y-0.5"
               >
                 <FaTwitter />
               </a>
               <a
                 href="#"
-                className="bg-[color:var(--color-blue)]  dark:bg-[color:var(--color-heart)] text-white p-2 rounded transition transform hover:-translate-y-0.5"
+                className="bg-[color:var(--color-text)]  dark:bg-[color:var(--color-heart)] text-white p-2 rounded transition transform hover:-translate-y-0.5"
               >
                 <FaInstagram />
               </a>
@@ -150,16 +150,7 @@ const AppFooter: FC = () => {
             </span>
             . All Rights Reserved.
           </p>
-          <div className="flex items-center gap-4 mt-4 sm:mt-0">
-            <div className="flex items-center gap-1">
-              <span>English</span>
-              <span className="text-gray-400">▼</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <span>USD</span>
-              <span className="text-gray-400">▼</span>
-            </div>
-          </div>
+        
         </div>
       </div>
     </Footer>

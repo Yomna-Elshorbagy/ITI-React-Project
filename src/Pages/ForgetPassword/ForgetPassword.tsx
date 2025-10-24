@@ -154,7 +154,7 @@ export default function ForgetPassword() {
   return (
     <div className="flex min-h-screen">
       {/* Left Side */}
-      <div className="w-full md:w-1/2 bg-gray-50 flex flex-col items-center justify-center py-16">
+      <div className="w-full md:w-1/2 bg-[var(--colo-text)] flex flex-col items-center justify-center py-16">
         <div className="w-full px-4 sm:w-3/4 lg:w-2/3">
           <h1 className="text-2xl mb-2">Forget Password</h1>
           <p className="text-gray-600 mb-5">
@@ -169,7 +169,7 @@ export default function ForgetPassword() {
                   <div
                     className={`w-8 h-8 rounded-full flex items-center justify-center text-white ${
                       step === index
-                        ? "bg-[#8B5E35]"
+                        ? "bg-[var(--wood-400)]"
                         : step > index
                         ? "bg-green-500"
                         : "bg-gray-300"
@@ -205,7 +205,7 @@ export default function ForgetPassword() {
                   <input
                     type="text"
                     {...registerEmail("email")}
-                    className="w-full border rounded px-3 py-2"
+                    className="w-full pl-10 py-3 border border-gray-300 rounded focus:border-[var(--wood-400)] focus:ring-2 focus:ring-[var(--wood-200)] focus:outline-none transition-all duration-200"
                     placeholder="Enter your email"
                   />
                   {emailErrors.email && (
@@ -215,7 +215,7 @@ export default function ForgetPassword() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="bg-[#8B5E35] text-white px-4 py-2 rounded"
+                  className="bg-[var(--wood-400)] text-white px-4 py-2 rounded cursor-pointer"
                 >
                   {loading ? "Sending..." : "Send Code"}
                 </button>
@@ -271,7 +271,7 @@ export default function ForgetPassword() {
                           }
                         }}
                         id={`otp-${index}`}
-                        className="w-10 h-10 border border-gray-400 rounded text-center text-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                        className="w-full pl-10 py-3 border border-gray-300 rounded focus:border-[var(--wood-400)] focus:ring-2 focus:ring-[var(--wood-200)] focus:outline-none transition-all duration-200"
                       />
                     ))}
                   </div>
@@ -279,13 +279,13 @@ export default function ForgetPassword() {
 
                 <div className="flex justify-center gap-2">
                   <button
-                    className="border px-4 py-2 rounded"
+                    className="border px-4 py-2 rounded cursor-pointer"
                     onClick={() => setStep(0)}
                   >
                     Back
                   </button>
                   <button
-                    className="bg-[#8B5E35] text-white px-4 py-2 rounded"
+                    className="bg-[var(--wood-400)] text-white px-4 py-2 rounded cursor-pointer"
                     onClick={verifyCode}
                   >
                     Verify Code
@@ -304,7 +304,7 @@ export default function ForgetPassword() {
                       <input
                         type={isPasswordVisible ? "text" : "password"}
                         {...registerPassword("newPassword")}
-                        className="w-full border rounded px-3 py-2"
+                      className="w-full pl-10 py-3 border border-gray-300 rounded focus:border-[var(--wood-400)] focus:ring-2 focus:ring-[var(--wood-200)] focus:outline-none transition-all duration-200"
                       />
                       <span
                         className="absolute right-3 top-2 cursor-pointer"
@@ -337,7 +337,7 @@ export default function ForgetPassword() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="bg-[#8B5E35] text-white px-4 py-2 rounded"
+                    className="bg-[var(--wood-400)] text-white px-4 py-2 rounded cursor-pointer"
                   >
                     {loading ? "Resetting..." : "Reset Password"}
                   </button>

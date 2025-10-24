@@ -5,7 +5,6 @@ import profileImage from "../../assets/images/fourthPerson.webp";
 import UserOrders from "../../Components/UserOrder/UserOrder";
 import { useUserProfile } from "../../Hooks/useUserProfile";
 import OrderTracking from "../../Components/UserOrder/OrderTracking";
-import cover from "../../assets/images/imageBg.jpeg";
 import LoginActivityTab from "../../Components/ActivityLog/ActivityLog";
 
 export default function UserProfile() {
