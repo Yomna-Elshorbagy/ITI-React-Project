@@ -1,34 +1,32 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 export const useUsersOverview = () => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("accessToken");
 
-  useEffect(() => {
-    const fetchOverview = async () => {
-      try {
-        const { data } = await axios.get(
-          "https://iti-react-backend.vercel.app/user/analysis/overview",
-          {
-            headers: {
-              authentication: `bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        console.log(`data is${data}`);
-
-        setData(data.data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
+  const fetchOverview = async () => {
+    const { data } = await axios.get(
+      "http://localhost:3000/user/analysis/overview",
+      {
+        headers: {
+          authentication: `bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       }
-    };
-    fetchOverview();
-  }, []);
+    );
+    console.log("data is", data);
+    return data.data;
+  };
 
-  return { data, loading };
+  const { data, isLoading, isError, refetch } = useQuery({
+    queryKey: ["usersOverview"],
+    queryFn: fetchOverview,
+  });
+
+  return {
+    data,
+    loading: isLoading,
+    error: isError,
+    refetch,
+  };
 };
