@@ -1,28 +1,25 @@
 import React, { useEffect, useState } from "react";
 import {
   FaTimes,
-  FaEdit,
+  FaPlusCircle,
   FaImage,
-  FaTag,
-  FaDollarSign,
   FaBoxOpen,
+  FaDollarSign,
+  FaTag,
 } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { z } from "zod";
-import { updateProduct } from "../../Apis/Products";
+import { addProduct } from "../../Apis/Products";
 import { getAllCategories } from "../../Apis/CategoryApis";
 import type { IProduct } from "../../DashBordInterfaces/ProductsInterfaces";
 
-// ✅ Define reusable validation schema
-const editProductSchema = z.object({
-  title: z.string().min(1, "Title must not be empty").optional(),
-  description: z
-    .string()
-    .min(3, "Description must be at least 3 characters")
-    .optional(),
+// ✅ Validation schema for new product
+const addProductSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  description: z.string().min(3, "Description must be at least 3 characters"),
   price: z.preprocess(
     (val) => (val === "" || val === undefined ? undefined : Number(val)),
-    z.number().positive("Price must be positive").optional()
+    z.number().positive("Price must be positive")
   ),
   discount: z.preprocess(
     (val) => (val === "" || val === undefined ? undefined : Number(val)),
@@ -34,29 +31,23 @@ const editProductSchema = z.object({
   ),
   stock: z.preprocess(
     (val) => (val === "" || val === undefined ? undefined : Number(val)),
-    z
-      .number()
-      .int("Stock must be an integer")
-      .min(0, "Stock must be >= 0")
-      .optional()
+    z.number().int("Stock must be an integer").min(0, "Stock must be ≥ 0")
   ),
-  category: z.string().optional(),
+  category: z.string().min(1, "Please select a category"),
   imageCover: z.any().optional(),
   subImages: z.any().optional(),
 });
 
-interface EditProductModalProps {
-  product: IProduct | null;
-  isOpen: boolean;
+interface AddProductModalProps {
+  open: boolean;
   onClose: () => void;
-  onUpdated: () => void;
+  onProductAdded: (newProduct: IProduct) => void;
 }
 
-const EditProductModal: React.FC<EditProductModalProps> = ({
-  product,
-  isOpen,
+const AddProductModal: React.FC<AddProductModalProps> = ({
+  open,
   onClose,
-  onUpdated,
+  onProductAdded,
 }) => {
   const [formData, setFormData] = useState({
     title: "",
@@ -72,6 +63,7 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
     []
   );
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -85,20 +77,7 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
     fetchCategories();
   }, []);
 
-  useEffect(() => {
-    if (product) {
-      setFormData({
-        title: product.title || "",
-        description: product.description || "",
-        price: product.price?.toString() || "",
-        discount: product.discount?.toString() || "",
-        stock: product.stock?.toString() || "",
-        category: product.category?._id || "",
-      });
-    }
-  }, [product]);
-
-  if (!isOpen || !product) return null;
+  if (!open) return null;
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -113,7 +92,7 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
     e.preventDefault();
     setValidationErrors([]);
 
-    const validation = editProductSchema.safeParse(formData);
+    const validation = addProductSchema.safeParse(formData);
 
     if (!validation.success) {
       const errors = validation.error.issues.map((err) => err.message);
@@ -130,25 +109,29 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
       if (subImages)
         Array.from(subImages).forEach((file) => fd.append("subImages", file));
 
-      await updateProduct(product._id, fd);
-      Swal.fire("Success", "Product updated successfully!", "success");
-      onUpdated();
+      setLoading(true);
+      const newProduct = await addProduct(fd);
+      Swal.fire("Success", "Product added successfully!", "success");
+      onProductAdded(newProduct);
       onClose();
     } catch (error: any) {
       Swal.fire(
         "Error",
-        error.response?.data?.message || "Update failed",
+        error.response?.data?.message || "Failed to add product",
         "error"
       );
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex justify-center items-center">
       <div className="bg-white dark:bg-[var(--color-surface-dark)] rounded-xl shadow-2xl w-full max-w-3xl max-h-[90vh] border border-gray-300 dark:border-gray-700 overflow-y-auto">
+        {/* Header */}
         <div className="flex justify-between items-center px-6 py-4 bg-[var(--color-primary)] text-white rounded-t-xl">
           <h2 className="text-lg font-semibold flex items-center gap-2">
-            <FaEdit /> Edit Product
+            <FaPlusCircle /> Add New Product
           </h2>
           <button onClick={onClose}>
             <FaTimes size={18} />
@@ -175,6 +158,7 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
               value={formData.title}
               onChange={handleChange}
               className="w-full border p-2 rounded-md bg-transparent"
+              placeholder="Enter product title"
             />
           </div>
 
@@ -186,6 +170,7 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
               onChange={handleChange}
               className="w-full border p-2 rounded-md bg-transparent"
               rows={3}
+              placeholder="Product description"
             />
           </div>
 
@@ -200,6 +185,7 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
                 value={formData.price}
                 onChange={handleChange}
                 className="w-full border p-2 rounded-md bg-transparent"
+                placeholder="Enter price"
               />
             </div>
 
@@ -211,6 +197,7 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
                 value={formData.discount}
                 onChange={handleChange}
                 className="w-full border p-2 rounded-md bg-transparent"
+                placeholder="Optional discount"
               />
             </div>
           </div>
@@ -224,6 +211,7 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
                 value={formData.stock}
                 onChange={handleChange}
                 className="w-full border p-2 rounded-md bg-transparent"
+                placeholder="Stock quantity"
               />
             </div>
 
@@ -253,6 +241,7 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
             </label>
             <input
               type="file"
+              accept="image/*"
               onChange={(e) => setImageCover(e.target.files?.[0] || null)}
             />
           </div>
@@ -276,9 +265,10 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
             </button>
             <button
               type="submit"
+              disabled={loading}
               className="px-4 py-2 bg-[var(--color-primary)] text-white rounded-md hover:bg-[var(--color-primary-hover)] transition-all duration-300"
             >
-              Save Changes
+              {loading ? "Adding..." : "Add Product"}
             </button>
           </div>
         </form>
@@ -287,4 +277,4 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
   );
 };
 
-export default EditProductModal;
+export default AddProductModal;
