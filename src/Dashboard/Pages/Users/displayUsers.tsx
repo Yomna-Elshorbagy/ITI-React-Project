@@ -1,5 +1,4 @@
-// src/Dashboard/Pages/Users/UsersPage.tsx
-import React, { useState } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import UserModal from "./UserModel";
 import UserTable from "./UsersTable";
 import { useUsers } from "../../DashboardHooks/useUseres";
@@ -9,12 +8,27 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { hardDeleteUser, softDeleteUser } from "../../Apis/UserAnalysis";
 import toast from "react-hot-toast";
+import { filterUsers } from "../../Components/filter/filter";
+import {
+  FaIdBadge,
+  FaUser,
+  FaEnvelope,
+  FaPhone,
+  FaCircle,
+} from "react-icons/fa";
 
 const MySwal = withReactContent(Swal);
+
 const UsersPage: React.FC = () => {
   const { users, page, pagesCount, setPage, loading, fetchUsers } = useUsers();
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
   const [activeModal, setActiveModal] = useState<"view" | "edit" | null>(null);
+
+  const [searchId, setSearchId] = useState("");
+  const [searchName, setSearchName] = useState("");
+  const [searchEmail, setSearchEmail] = useState("");
+  const [searchPhone, setSearchPhone] = useState("");
+  const [status, setStatus] = useState("");
 
   const handleView = (user: IUser) => {
     setSelectedUser(user);
@@ -51,8 +65,7 @@ const UsersPage: React.FC = () => {
         await softDeleteUser(id, token);
         toast.success("User soft deleted successfully");
         fetchUsers();
-      } catch (err) {
-        console.error(err);
+      } catch {
         toast.error("Failed to soft delete user");
       }
     }
@@ -78,8 +91,7 @@ const UsersPage: React.FC = () => {
         await hardDeleteUser(id, token);
         toast.success("User permanently deleted");
         fetchUsers();
-      } catch (err) {
-        console.error(err);
+      } catch {
         toast.error("Failed to permanently delete user");
       }
     }
@@ -88,6 +100,16 @@ const UsersPage: React.FC = () => {
   const handleBlock = (id: string) => {
     console.log("Block user:", id);
   };
+
+  const filteredUsers = useMemo(() => {
+    return filterUsers(users, {
+      searchId,
+      searchName,
+      searchEmail,
+      searchPhone,
+      status,
+    });
+  }, [users, searchId, searchName, searchEmail, searchPhone, status]);
 
   return (
     <div
@@ -101,12 +123,88 @@ const UsersPage: React.FC = () => {
         Users Management
       </h1>
 
+      {/* === Filter Bar === */}
+      <div className="w-full flex flex-wrap lg:flex-nowrap items-center justify-between gap-3 mb-6 bg-[var(--color-surface)] p-4 rounded-lg border border-[var(--color-border)] shadow-sm">
+        <div className="flex items-center gap-2 w-full lg:w-[180px]">
+          <FaIdBadge className="text-gray-500 shrink-0" />
+          <input
+            type="text"
+            placeholder="Search by ID..."
+            value={searchId}
+            onChange={(e) => setSearchId(e.target.value)}
+            className="border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-transparent w-full focus:outline-none hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] transition-colors"
+          />
+        </div>
+
+        <div className="flex items-center gap-2 w-full lg:w-[180px]">
+          <FaUser className="text-gray-500 shrink-0" />
+          <input
+            type="text"
+            placeholder="Search by Name..."
+            value={searchName}
+            onChange={(e) => setSearchName(e.target.value)}
+            className="border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-transparent w-full focus:outline-none hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] transition-colors"
+          />
+        </div>
+
+        <div className="flex items-center gap-2 w-full lg:w-[220px]">
+          <FaEnvelope className="text-gray-500 shrink-0" />
+          <input
+            type="text"
+            placeholder="Search by Email..."
+            value={searchEmail}
+            onChange={(e) => setSearchEmail(e.target.value)}
+            className="border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-transparent w-full focus:outline-none hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] transition-colors"
+          />
+        </div>
+
+        <div className="flex items-center gap-2 w-full lg:w-[180px]">
+          <FaPhone className="text-gray-500 shrink-0" />
+          <input
+            type="text"
+            placeholder="Search by Phone..."
+            value={searchPhone}
+            onChange={(e) => setSearchPhone(e.target.value)}
+            className="border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-transparent w-full focus:outline-none hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] transition-colors"
+          />
+        </div>
+
+        <div className="flex items-center gap-2 w-full lg:w-[160px]">
+          <FaCircle className="text-gray-500 shrink-0" />
+          <select
+            value={status || "All"}
+            onChange={(e) =>
+              setStatus(e.target.value === "All" ? "" : e.target.value)
+            }
+            className="border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-transparent w-full focus:outline-none hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] transition-colors"
+          >
+            <option value="All">All</option>
+            <option value="pending">Pending</option>{" "}
+            <option value="blocked">blocked</option>{" "}
+            <option value="verified">verified</option>
+          </select>
+        </div>
+
+        <button
+          onClick={() => {
+            setSearchId("");
+            setSearchName("");
+            setSearchEmail("");
+            setSearchPhone("");
+            setStatus("");
+          }}
+          className="px-4 py-2 bg-[var(--color-primary)] text-white rounded-md text-sm font-medium shadow hover:bg-[var(--color-primary-hover)] transition-colors w-full lg:w-auto"
+        >
+          Reset
+        </button>
+      </div>
+
       {loading ? (
         <p>Loading...</p>
       ) : (
         <>
           <UserTable
-            users={users}
+            users={filteredUsers}
             onView={handleView}
             onEdit={handleEdit}
             onSoftDelete={handleSoftDelete}
@@ -114,41 +212,7 @@ const UsersPage: React.FC = () => {
             onBlock={handleBlock}
           />
 
-          {/* <div className="flex justify-center mt-6 gap-2">
-            <button
-              disabled={page === 1}
-              onClick={() => setPage(page - 1)}
-              className="px-4 py-2 rounded text-[var(--color-text)] border border-[var(--color-border)]"
-              style={{ backgroundColor: "var(--color-surface)" }}
-            >
-              Prev
-            </button>
-
-            {Array.from({ length: pagesCount }, (_, i) => (
-              <button
-                key={i}
-                onClick={() => setPage(i + 1)}
-                className={`px-3 py-2 rounded border border-[var(--color-border)] transition-colors ${
-                  page === i + 1 ? "text-white" : "text-[var(--color-text)]"
-                }`}
-                style={{
-                  backgroundColor:
-                    page === i + 1
-                      ? "var(--color-primary)"
-                      : "var(--color-surface)",
-                }}
-              >
-                {i + 1}
-              </button>
-            ))}
-            <button
-              disabled={page === pagesCount}
-              onClick={() => setPage(page + 1)}
-              className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
-            >
-              Next
-            </button>
-          </div> */}
+          {/* Pagination */}
           <div className="flex justify-center items-center gap-2 mt-4">
             <button
               disabled={page === 1}
