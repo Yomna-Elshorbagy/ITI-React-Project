@@ -32,9 +32,9 @@ import Orders from "./Dashboard/Pages/Orders/Orders";
 import Users from "./Dashboard/Pages/Users/Users";
 import Reports from "./Dashboard/Pages/Reports/Reports";
 import DashCategories from "./Dashboard/Pages/Categories/Categories";
-import Coupons from "./Dashboard/Pages/Coupons/Coupons";
 import ContactsPage from "./Dashboard/Pages/Contact/Contacts";
 import KayanChatbot from "./Components/Chatbot/Chatbot";
+import Coupons from './Dashboard/Pages/Coupons/Coupons';
 
 const router = createBrowserRouter([
   {

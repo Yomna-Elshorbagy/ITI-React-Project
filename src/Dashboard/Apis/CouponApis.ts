@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { ICoupon } from "../DashBordInterfaces/CouponInterface";
 
-const BASE_URL = "https://iti-react-backend.vercel.app/coupons";
+const BASE_URL = "http://localhost:3000/coupons";
 const token = localStorage.getItem("accessToken");
 
 const headers = {

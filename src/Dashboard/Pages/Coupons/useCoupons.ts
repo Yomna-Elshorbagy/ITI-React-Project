@@ -5,8 +5,8 @@ import {
   updateCoupon,
   deleteCoupon,
 } from "../../Apis/CouponApis";
-import { ICoupon } from "../../DashBordInterfaces/CouponInterface";
 import Swal from "sweetalert2";
+import type { ICoupon } from "../../DashBordInterfaces/CouponInterface";
 
 export const useCoupons = () => {
   const [coupons, setCoupons] = useState<ICoupon[]>([]);

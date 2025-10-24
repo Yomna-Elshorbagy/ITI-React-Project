@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { ICoupon } from "../../DashBordInterfaces/CouponInterface";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import type { ICoupon } from "../../DashBordInterfaces/CouponInterface";
 import EditCouponModal from "./EditCouponModal";
 
 interface CouponsTableProps {
@@ -16,50 +17,70 @@ const CouponsTable: React.FC<CouponsTableProps> = ({
   const [selectedCoupon, setSelectedCoupon] = useState<ICoupon | null>(null);
 
   return (
-    <div className="overflow-x-auto rounded-lg shadow">
-      <table className="min-w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
-        <thead className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
-          <tr>
-            <th className="py-3 px-4 text-left text-sm font-semibold">Code</th>
-            <th className="py-3 px-4 text-left text-sm font-semibold">
-              Discount (%)
-            </th>
-            <th className="py-3 px-4 text-left text-sm font-semibold">
-              Expiry Date
-            </th>
-            <th className="py-3 px-4 text-left text-sm font-semibold">
-              Usage Limit
-            </th>
-            <th className="py-3 px-4 text-left text-sm font-semibold">
-              Actions
-            </th>
+    <div className="overflow-x-auto bg-[var(--color-surface)] rounded-xl elevate-soft border border-[var(--color-border)] transition-all duration-500 ease-in-out hover:shadow-lg">
+      <table className="min-w-full text-sm rounded-xl overflow-hidden">
+        <thead>
+          <tr
+            className="text-white uppercase tracking-wide"
+            style={{ backgroundColor: "var(--color-primary)" }}
+          >
+            <th className="py-3 px-4 text-left font-semibold">Code</th>
+            <th className="py-3 px-4 text-left font-semibold">Type</th>
+            <th className="py-3 px-4 text-left font-semibold">Discount (%)</th>
+            <th className="py-3 px-4 text-left font-semibold">Start Date</th>
+            <th className="py-3 px-4 text-left font-semibold">Expiry Date</th>
+            <th className="py-3 px-4 text-center font-semibold">Actions</th>
           </tr>
         </thead>
+
         <tbody>
           {coupons.length > 0 ? (
-            coupons.map((coupon) => (
+            coupons.map((coupon, index) => (
               <tr
                 key={coupon._id}
-                className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700"
+                className={`transition-all duration-300 ease-in-out border-b border-[var(--color-border)] ${
+                  index % 2 === 0
+                    ? "bg-[var(--sage-400)]/60"
+                    : "bg-[var(--sage-300)]/60"
+                } hover:bg-[var(--color-border)]/80 hover:scale-[1.01] hover:shadow-md`}
               >
-                <td className="py-3 px-4 text-sm">{coupon.code}</td>
-                <td className="py-3 px-4 text-sm">{coupon.discount}</td>
-                <td className="py-3 px-4 text-sm">
-                  {new Date(coupon.expiryDate).toLocaleDateString()}
+                <td className="py-3 px-4 font-medium text-[var(--color-text)]">
+                  {coupon.code}
                 </td>
-                <td className="py-3 px-4 text-sm">{coupon.usageLimit}</td>
-                <td className="py-3 px-4 text-sm flex gap-2">
+
+                <td className="py-3 px-4 capitalize text-[var(--color-text-muted)]">
+                  {coupon.type}
+                </td>
+
+                <td className="py-3 px-4 text-red-500 font-semibold">
+                  {coupon.discount}%
+                </td>
+
+                <td className="py-3 px-4 text-[var(--color-text-muted)]">
+                  {new Date(coupon.fromDate).toLocaleDateString()}
+                </td>
+
+                <td className="py-3 px-4 text-[var(--color-text-muted)]">
+                  {new Date(coupon.expire).toLocaleDateString()}
+                </td>
+
+                <td className="py-3 px-4 flex justify-center gap-2">
                   <button
+                    className="p-2 rounded-md text-white transition-all duration-300 transform hover:scale-110"
+                    style={{ backgroundColor: "var(--color-primary-hover)" }}
+                    title="Edit Coupon"
                     onClick={() => setSelectedCoupon(coupon)}
-                    className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-xs transition"
                   >
-                    Edit
+                    <FaEdit />
                   </button>
+
                   <button
+                    className="p-2 rounded-md text-white transition-all duration-300 transform hover:scale-110"
+                    style={{ backgroundColor: "var(--color-error)" }}
+                    title="Delete Coupon"
                     onClick={() => onDelete(coupon._id)}
-                    className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded-md text-xs transition"
                   >
-                    Delete
+                    <FaTrash />
                   </button>
                 </td>
               </tr>
@@ -67,7 +88,7 @@ const CouponsTable: React.FC<CouponsTableProps> = ({
           ) : (
             <tr>
               <td
-                colSpan={5}
+                colSpan={6}
                 className="text-center py-6 text-gray-500 dark:text-gray-400 text-sm"
               >
                 No coupons found
@@ -77,7 +98,6 @@ const CouponsTable: React.FC<CouponsTableProps> = ({
         </tbody>
       </table>
 
-      {/* ✅ Fixed Edit Modal Rendering */}
       {selectedCoupon && (
         <EditCouponModal
           coupon={selectedCoupon}
