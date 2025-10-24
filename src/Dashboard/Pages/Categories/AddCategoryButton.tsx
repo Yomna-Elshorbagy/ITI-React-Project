@@ -22,12 +22,17 @@ export default function AddCategoryButton() {
 
   return (
     <>
+    <div className="flex justify-between items-center px-4">
+        <h1 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
+          Categories
+        </h1>
       <button
         onClick={() => {setOpen(true)}} 
-        className="mb-4 px-4 py-2 rounded-lg bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-hover)] transition-all"
+        className="mb-4 px-4 py-2 rounded-lg bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-hover)] transition-all "
       >
         + Add Category
       </button>
+      </div>
 
       <CategoryModal
         open={open}

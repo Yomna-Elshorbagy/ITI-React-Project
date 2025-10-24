@@ -4,6 +4,7 @@ import LoaderPage from "../../../Shared/LoaderPage/LoaderPage";
 import CategoryModal from "./CategoryModal";
 import { useCategories } from "../../DashboardHooks/Categories/useCategories";
 import { updateCategory, deleteCategory } from "../../Apis/CategoryApis";
+import { FaTag, FaHashtag } from "react-icons/fa";
 
 export default function DisplayCategories() {
   const {
@@ -16,17 +17,21 @@ export default function DisplayCategories() {
   } = useCategories();
 
 //search filter
-const [searchTerm, setSearchTerm] = useState("");
+const [searchId, setSearchId] = useState("");
+const [searchName, setSearchName] = useState("");
 
-// Filtered categories (by name or id)
+// Filtered categories (by name or/and id)
 const filteredCategories = useMemo(() => {
-  if (!searchTerm.trim()) return categories;
-  return categories.filter(
-    (cat) =>
-      cat.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      cat._id.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-}, [categories, searchTerm]);
+  return categories.filter((cat) => {
+    const matchesId =
+      !searchId.trim() ||
+      cat._id.toLowerCase().includes(searchId.trim().toLowerCase());
+    const matchesName =
+      !searchName.trim() ||
+      cat.name.toLowerCase().includes(searchName.trim().toLowerCase());
+    return matchesId && matchesName;
+  });
+}, [categories, searchId, searchName]);
 
 
   const [selectedCategory, setSelectedCategory] = useState<any | null>(null);
@@ -68,22 +73,53 @@ const filteredCategories = useMemo(() => {
 
   return (
     <div className="p-4">
-      <div className="flex justify-end mb-4">    {/*search bar*/}
+     {/* === Search Bar === */}
+<div className="w-full flex flex-wrap items-center gap-4 mb-6 bg-[var(--color-surface)] p-4 rounded-lg border border-[var(--color-border)] shadow-sm">
+
+  {/* Search by ID */}
+  <div className="flex items-center gap-2 flex-1 min-w-[220px]">
+    <div className="p-2 border border-gray-300 dark:border-gray-700 rounded-md flex items-center justify-center bg-[var(--color-surface)]">
+      <FaHashtag className="text-gray-500" />
+    </div>
     <input
       type="text"
-      placeholder="Search by name or ID..."
-      value={searchTerm}
-      onChange={(e) => setSearchTerm(e.target.value)} 
-      onKeyDown={(e) => {
-       if (e.key === "Enter") {
-         setSearchTerm(e.currentTarget.value);
-       }
-      }}
-      className="w-full sm:w-80 px-4 py-2 rounded-lg border border-[var(--color-border)] 
-               focus:ring-2 focus:ring-[var(--color-primary)] focus:outline-none 
-               text-[var(--color-text)] bg-[var(--color-surface)]"
-       />
+      placeholder="Search by ID..."
+      value={searchId}
+      onChange={(e) => setSearchId(e.target.value)}
+      className="border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-transparent w-full 
+                 focus:outline-none hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] transition-colors"
+    />
   </div>
+
+  {/* Search by Name */}
+  <div className="flex items-center gap-2 flex-1 min-w-[220px]">
+    <div className="p-2 border border-gray-300 dark:border-gray-700 rounded-md flex items-center justify-center bg-[var(--color-surface)]">
+      <FaTag className="text-gray-500" />
+    </div>
+    <input
+      type="text"
+      placeholder="Search by Name..."
+      value={searchName}
+      onChange={(e) => setSearchName(e.target.value)}
+      className="border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-transparent w-full 
+                 focus:outline-none hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] transition-colors"
+    />
+  </div>
+
+  {/* Reset Button */}
+  <div className="flex justify-end flex-1 min-w-[150px]">
+    <button
+      onClick={() => {
+        setSearchId("");
+        setSearchName("");
+      }}
+      className="px-4 py-2 bg-[var(--color-primary)] text-white rounded-md text-sm font-medium shadow 
+                 hover:bg-[var(--color-primary-hover)] transition-colors w-full sm:w-auto"
+    >
+      Reset
+    </button>
+    </div>
+    </div>
       <CategoriesTable
         categories={filteredCategories}
         onView={handleView}
