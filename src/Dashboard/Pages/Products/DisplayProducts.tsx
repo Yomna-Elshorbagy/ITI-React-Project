@@ -14,7 +14,8 @@ import { filterProducts } from "../../Components/filter/filter";
 const MySwal = withReactContent(Swal);
 
 export default function ProductsPage() {
-  const { products, loading, refetch, page, setPage, pagesCount } = useProducts();
+  const { products, loading, refetch, page, setPage, pagesCount } =
+    useProducts();
 
   const [category, setCategory] = useState<string>("");
   const [searchName, setSearchName] = useState<string>("");
@@ -82,8 +83,11 @@ export default function ProductsPage() {
     <div className="p-4">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
-          Products
+        <h1
+          className="text-3xl font-semibold mb-6 text-gradient dark:text-gray-100"
+          style={{ fontFamily: "var(--font-header)" }}
+        >
+          Products Management
         </h1>
         <button
           onClick={() => setAddOpen(true)}
@@ -180,7 +184,7 @@ export default function ProductsPage() {
         onEdit={handleEdit}
         onDelete={handleDelete}
       />
-           <div className="flex justify-center items-center gap-2 mt-6">
+      <div className="flex justify-center items-center gap-2 mt-6">
         <button
           onClick={() => setPage(page - 1)}
           disabled={page === 1}

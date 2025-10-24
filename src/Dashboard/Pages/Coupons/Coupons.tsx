@@ -17,7 +17,6 @@ const Coupons: React.FC = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingCoupon, setEditingCoupon] = useState<ICoupon | null>(null);
 
-  // ✅ Filter states
   const [code, setCode] = useState<string>("");
   const [type, setType] = useState<string>("");
   const [discount, setDiscount] = useState<string>("");
@@ -72,8 +71,11 @@ const Coupons: React.FC = () => {
   return (
     <div className="p-6 bg-white dark:bg-gray-900 rounded-xl shadow-md min-h-screen transition-colors duration-300">
       <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-        <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
-          Coupons 
+        <h1
+          className="text-3xl font-semibold mb-6 text-gradient dark:text-gray-100"
+          style={{ fontFamily: "var(--font-header)" }}
+        >
+          Coupons Management
         </h1>
 
         <div className="flex flex-wrap gap-2 items-center">
