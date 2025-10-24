@@ -7,7 +7,7 @@ interface CategoryTableProps {
  // productCounts: Record<string, number>; // categoryId → count
   onView: (category: ICategory) => void;
   onEdit: (category: ICategory) => void;
-  onDelete: (id: string) => void;
+  onDelete: (id: string, name: string) => void;
 }
 
 const CategoriesTable: React.FC<CategoryTableProps> = ({
@@ -89,7 +89,7 @@ const CategoriesTable: React.FC<CategoryTableProps> = ({
                   className="p-2 rounded-md text-white transition-all duration-300 transform hover:scale-110"
                   style={{ backgroundColor: "var(--color-error)" }}
                   title="Delete Category"
-                  onClick={() => onDelete(c._id)}
+                  onClick={() => onDelete(c._id, c.name)}
                 >
                   <FaTrash />
                 </button>

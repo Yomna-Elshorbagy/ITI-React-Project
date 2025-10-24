@@ -5,6 +5,9 @@ import CategoryModal from "./CategoryModal";
 import { useCategories } from "../../DashboardHooks/Categories/useCategories";
 import { updateCategory, deleteCategory } from "../../Apis/CategoryApis";
 import { FaTag, FaHashtag } from "react-icons/fa";
+import toast from "react-hot-toast";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 export default function DisplayCategories() {
   const {
@@ -12,6 +15,7 @@ export default function DisplayCategories() {
     page,
     pagesCount,
     loading,
+    error,
     setPage,
     refetchAll,
   } = useCategories();
@@ -33,6 +37,8 @@ const filteredCategories = useMemo(() => {
   });
 }, [categories, searchId, searchName]);
 
+//sweet alert
+const MySwal = withReactContent(Swal);
 
   const [selectedCategory, setSelectedCategory] = useState<any | null>(null);
 
@@ -43,37 +49,55 @@ const filteredCategories = useMemo(() => {
   const handleSave = async (formData: FormData, id: string) => {
     try {
       await updateCategory(id, formData);
-      alert("✅ Category updated successfully");
+      //alert(" Category updated successfully");
+      toast.success(" Category updated successfully!");
       await refetchAll(); // refresh table + stats
       setSelectedCategory(null);
     } catch (err) {
       console.error("Error updating category:", err);
-      alert("❌ Failed to update category");
+      //alert(" Failed to update category");
+       toast.error("Failed to update category");
     }
   };
 
- // Delete category
-  const handleDelete = async (id: string) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this category?"
-    );
-    if (!confirmDelete) return;
 
+// Delete category
+const handleDelete = async (id: string, name?: string) => {
+  const result = await MySwal.fire({
+    title: `Are you sure?`,
+    text: `The category ("${name}" ) will be permanently deleted!`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Yes, delete it!",
+    cancelButtonText: "Cancel",
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#a3b18a",
+  });
+
+  if (result.isConfirmed) {
     try {
       await deleteCategory(id);
-      alert("🗑️ Category deleted successfully");
-      await refetchAll(); // refresh categories + stats
-    } catch (err) {
-      console.error("Error deleting category:", err);
-      alert("❌ Failed to delete category");
+      toast.success(`"${name}" deleted successfully!`);
+      await refetchAll();
+    } catch (error: any) {
+      console.error("Error deleting category:", error);
+      toast.error(error.response?.data?.message || "Failed to delete category");
     }
-  };
+  }
+};
 
   if (loading) return <LoaderPage />;
+  if (error) {
+  return (
+    <div className="text-center text-red-500 dark:text-red-400 py-10 border border-[var(--color-border)] rounded-lg bg-[var(--color-surface)] shadow-sm">
+      Failed to load categories.
+    </div>
+  );
+}
 
   return (
     <div className="p-4">
-     {/* === Search Bar === */}
+     {/* Search Bar*/}
 <div className="w-full flex flex-wrap items-center gap-4 mb-6 bg-[var(--color-surface)] p-4 rounded-lg border border-[var(--color-border)] shadow-sm">
 
   {/* Search by ID */}
@@ -106,7 +130,7 @@ const filteredCategories = useMemo(() => {
     />
   </div>
 
-  {/* Reset Button */}
+  {/* Reset*/}
   <div className="flex justify-end flex-1 min-w-[150px]">
     <button
       onClick={() => {
@@ -124,7 +148,7 @@ const filteredCategories = useMemo(() => {
         categories={filteredCategories}
         onView={handleView}
         onEdit={handleEdit}
-        onDelete={handleDelete} // now active
+        onDelete={(id, name) => handleDelete(id, name)}
       />
 
       <div className="flex justify-center items-center gap-2 mt-6">
