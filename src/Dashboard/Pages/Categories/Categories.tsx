@@ -5,6 +5,7 @@ import AddCategoryButton from "./AddCategoryButton";
 export default function Categories() {
   return (
     <div>
+    
       <AddCategoryButton/>
       <DisplayCategories />
     </div>

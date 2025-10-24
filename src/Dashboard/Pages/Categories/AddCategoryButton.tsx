@@ -5,7 +5,7 @@ import { useCategories } from "../../DashboardHooks/Categories/useCategories";
 
 export default function AddCategoryButton() {
   const [open, setOpen] = useState(false);
-  const { refetchAll } = useCategories();
+  const { categories, refetchAll } = useCategories();
 
   // Add new category
   const handleAdd = async (formData: FormData) => {
@@ -34,6 +34,7 @@ export default function AddCategoryButton() {
         onClose={() => setOpen(false)}
         isAdd={true}
         onAdd={handleAdd}
+        categories={categories}
       />
     </>
   );

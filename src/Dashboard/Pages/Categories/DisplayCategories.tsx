@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import CategoriesTable from "./CategoriesTable";
 import LoaderPage from "../../../Shared/LoaderPage/LoaderPage";
 import CategoryModal from "./CategoryModal";
@@ -8,13 +8,26 @@ import { updateCategory, deleteCategory } from "../../Apis/CategoryApis";
 export default function DisplayCategories() {
   const {
     categories,
-   // productCounts,
     page,
     pagesCount,
     loading,
     setPage,
     refetchAll,
   } = useCategories();
+
+//search filter
+const [searchTerm, setSearchTerm] = useState("");
+
+// Filtered categories (by name or id)
+const filteredCategories = useMemo(() => {
+  if (!searchTerm.trim()) return categories;
+  return categories.filter(
+    (cat) =>
+      cat.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      cat._id.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+}, [categories, searchTerm]);
+
 
   const [selectedCategory, setSelectedCategory] = useState<any | null>(null);
 
@@ -55,8 +68,24 @@ export default function DisplayCategories() {
 
   return (
     <div className="p-4">
+      <div className="flex justify-end mb-4">    {/*search bar*/}
+    <input
+      type="text"
+      placeholder="Search by name or ID..."
+      value={searchTerm}
+      onChange={(e) => setSearchTerm(e.target.value)} 
+      onKeyDown={(e) => {
+       if (e.key === "Enter") {
+         setSearchTerm(e.currentTarget.value);
+       }
+      }}
+      className="w-full sm:w-80 px-4 py-2 rounded-lg border border-[var(--color-border)] 
+               focus:ring-2 focus:ring-[var(--color-primary)] focus:outline-none 
+               text-[var(--color-text)] bg-[var(--color-surface)]"
+       />
+  </div>
       <CategoriesTable
-        categories={categories}
+        categories={filteredCategories}
         onView={handleView}
         onEdit={handleEdit}
         onDelete={handleDelete} // now active
@@ -89,6 +118,7 @@ export default function DisplayCategories() {
         isEdit={selectedCategory?.isEdit || false}
         productCount={selectedCategory?.productCount?? 0}
         onSave={handleSave}
+        categories={categories}
       />
     </div>
   );

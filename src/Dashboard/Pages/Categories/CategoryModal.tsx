@@ -7,6 +7,7 @@ import {
   FaInfoCircle,
 } from "react-icons/fa";
 import type { ICategory } from "../../DashBordInterfaces/categryInterfaces";
+import { FaSpinner } from "react-icons/fa";
 
 interface CategoryModalProps {
   open: boolean;
@@ -17,6 +18,7 @@ interface CategoryModalProps {
   productCount?: number;
   onSave?: (updatedCategory: FormData, id: string) => Promise<void>;
   onAdd?: (newCategory: FormData) => Promise<void>; 
+  categories?: ICategory[];
 }
 
 const CategoryModal: React.FC<CategoryModalProps> = ({
@@ -28,10 +30,14 @@ const CategoryModal: React.FC<CategoryModalProps> = ({
   productCount = 0,
   onSave,
   onAdd, 
+  categories= [],
 }) => {
   const [name, setName] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const [createdAt, setCreatedAt] = useState("");
+  const [errors, setErrors] = useState({ name: "", image: "" });
+  const [isSaving, setIsSaving] = useState(false);
+  
 
   useEffect(() => {
     if (isAdd) {
@@ -50,6 +56,7 @@ const CategoryModal: React.FC<CategoryModalProps> = ({
   if (!open) {
     setName("");
     setImage(null);
+    setErrors({ name: "", image: "" }); //clear errors
   }
 }, [open]);
 
@@ -75,6 +82,52 @@ const CategoryModal: React.FC<CategoryModalProps> = ({
     : isEdit
     ? "Edit Category"
     : "Category Details";
+
+//handle submit
+const handleSubmit = async () => {
+  const newErrors = { name: "", image: "" };
+  let valid = true;
+
+// name: required + letters only
+  if (!name.trim() || !/^[A-Za-z\s]+$/.test(name)) {
+    newErrors.name = "Please enter a valid name (letters only)";
+    valid = false;
+  }
+
+  // Duplicate check (case-insensitive)
+  const nameExists = 
+  categories?.length > 0 &&
+  categories?.some(
+    (cat: ICategory) =>
+      cat.name.toLowerCase() === name.trim().toLowerCase() &&
+      cat._id !== category?._id // allow same name if editing itself
+  )
+
+  if ( nameExists) {
+    newErrors.name = "This category name already exists.";
+    valid = false;
+  }
+
+ // image: required only when adding
+  if (isAdd && !image) {
+    newErrors.image = "Please select an image.";
+    valid = false;
+  }
+
+  setErrors(newErrors);
+
+  // if validation fails, return
+  if (!valid) return; 
+
+    try {
+    setIsSaving(true);
+    await handleSave();
+  } catch (err) {
+    console.error(err);
+  } finally {
+    setIsSaving(false);
+  }
+};
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
@@ -102,7 +155,7 @@ const CategoryModal: React.FC<CategoryModalProps> = ({
                   <strong>ID:</strong> {category?._id}
                 </p>
               )}
-
+             <div className="flex flex-col gap-1">
              <div className="flex items-center gap-2">
            <strong >Name:</strong>
           <input
@@ -114,9 +167,11 @@ const CategoryModal: React.FC<CategoryModalProps> = ({
            disabled={!isEdit && !isAdd} // disable in view mode
            className={`flex-1 p-2 rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] 
           ${!isEdit && !isAdd ? "opacity-70 cursor-not-allowed" : "focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"}
-    `}
-  />
-</div>
+         `}
+          />
+        </div>
+             {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
+        </div>
               <p>
                 <strong>Created At:</strong>{" "}
                 {new Date(createdAt).toLocaleDateString()}
@@ -151,14 +206,18 @@ const CategoryModal: React.FC<CategoryModalProps> = ({
 
               <div className="space-y-2">
                 {( isAdd || isEdit ) &&(
+                <>
                 <input
                   type="file"
                   accept="image/*"
+                  required
                   onChange={(e) =>
                     setImage(e.target.files ? e.target.files[0] : null)
                   }
                   className="block text-sm text-gray-500 border border-[var(--color-border)] rounded-md p-1"
                 />
+                  {errors.image && <p className="text-red-500 text-sm">{errors.image}</p>}
+                  </>
                 )}
                 {!isAdd && (
                   <p>
@@ -193,16 +252,20 @@ const CategoryModal: React.FC<CategoryModalProps> = ({
         {/* Footer */}
         <div className="flex justify-end p-4 border-t border-[var(--color-border)] bg-[var(--color-surface-alt)]">
         {(isAdd || isEdit) ? (
-         <button
-         onClick={handleSave}
-        className={`px-4 py-2 rounded-lg text-white ${
-        isAdd
-          ? "bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)]"
-          : "bg-[var(--color-success)] hover:bg-green-600"
-        } transition-all duration-300`}
-       >
-      {isAdd ? "Add Category" : "Save Changes"}
-      </button>
+        <button
+      onClick={handleSubmit}
+      disabled={isSaving}
+      className={`flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-white transition-all duration-300 ${
+      isSaving
+      ? "bg-gray-400 cursor-not-allowed"
+      : isAdd
+      ? "bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)]"
+      : "bg-[var(--color-success)] hover:bg-green-600"
+  }`}
+>
+  {isSaving && <FaSpinner className="animate-spin" />}
+  {isSaving ? "Saving..." : isAdd ? "Add Category" : "Save Changes"}
+</button>
       ) : (
       <button
       onClick={onClose}
