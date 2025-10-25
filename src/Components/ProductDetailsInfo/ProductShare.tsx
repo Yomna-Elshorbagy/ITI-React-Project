@@ -1,4 +1,3 @@
-import React from "react"; // kept for JSX runtime consistency if project not using automatic runtime
 import type { Product } from "../../Types/Prooduct";
 
 export default function ProductShare({ product }: { product: Product }) {
@@ -26,9 +25,6 @@ export default function ProductShare({ product }: { product: Product }) {
           url
         )}&media=${encode(image)}&description=${encode(desc)}`;
         break;
-      case "whatsapp":
-        shareUrl = `https://wa.me/?text=${encode(`${title} - ${url}`)}`;
-        break;
       case "linkedin":
         shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encode(
           url
@@ -46,7 +42,6 @@ export default function ProductShare({ product }: { product: Product }) {
     { name: "facebook", color: "bg-[#1877F2]" },
     { name: "twitter", color: "bg-[#1DA1F2]" },
     { name: "pinterest", color: "bg-[#E60023]" },
-    { name: "whatsapp", color: "bg-[#25D366]" },
     { name: "linkedin", color: "bg-[#0077B5]" },
     { name: "instagram", color: "bg-[#E4405F]" },
   ];

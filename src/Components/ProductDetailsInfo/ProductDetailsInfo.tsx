@@ -7,6 +7,7 @@ import {
   removeFromWishlist,
 } from "../../Store/Slices/WishlistSlice";
 import { toast } from "react-hot-toast";
+import { useContactProductOwner } from "../../Hooks/useContactProductOwner";
 import ProductGallery from "./ProductGallery";
 import ProductPrice from "./ProductPrice";
 import ProductActions from "./ProductActions";
@@ -26,6 +27,7 @@ export default function ProductDetailsInfo({
   const [quantity, setQuantity] = useState(1);
   const [addingToCart, setAddingToCart] = useState(false);
   const { token } = useAppSelector((state) => state.auth);
+  const { mutate: contactOwner, isPending: isContactingOwner } = useContactProductOwner();
   const { items: wishlistItems } = useAppSelector((state) => state.wishlist);
   const { products: cartItems } = useAppSelector((state) => state.cart);
   const isInWishlist = wishlistItems.some((item) => item._id === product._id);
@@ -79,6 +81,22 @@ export default function ProductDetailsInfo({
     }
   };
 
+  const handleContactOwner = () => {
+    if (!token) return toast.error("Please login to contact the product owner");
+    
+    contactOwner(product._id, {
+      onSuccess: (data) => {
+        if (data.success && data.chatDetails.whatsappUrl) {
+          window.open(data.chatDetails.whatsappUrl, "_blank");
+          toast.success("Opening WhatsApp chat...");
+        }
+      },
+      onError: () => {
+        toast.error("Failed to contact product owner");
+      },
+    });
+  };
+
   return (
     <div className="productDetailsContainer max-w-[1280px] mx-auto px-4 py-8 grid lg:grid-cols-2 gap-12">
       <ProductGallery product={product} />
@@ -110,6 +128,14 @@ export default function ProductDetailsInfo({
           onRemoveFromCart={handleRemoveFromCart}
           onWishlistToggle={handleWishlistToggle}
         />
+        <button
+          onClick={handleContactOwner}
+          disabled={isContactingOwner}
+          className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        >
+          <i className="fa-brands fa-whatsapp text-xl"></i>
+          {isContactingOwner ? "Connecting..." : "Contact with us"}
+        </button>
         <ProductShare product={product} />
         <ProductReviewsButton productId={product._id} navigate={navigate} />
       </div>

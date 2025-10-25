@@ -24,7 +24,7 @@ export function useContactProductOwner() {
       const response = await axios.get(
         `https://iti-react-backend.vercel.app/products/contact/${productId}`,
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { authentication: `bearer ${token}` },
         }
       );
       return response.data as ContactResponse;

@@ -376,15 +376,6 @@
   background-color: #d5001f;
 }
 
-.socialButton.whatsapp {
-  background-color: #25d366;
-  color: white;
-}
-
-.socialButton.whatsapp:hover {
-  background-color: #22c55e;
-}
-
 .socialButton.linkedin {
   background-color: #0077b5;
   color: white;
