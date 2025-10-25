@@ -15,6 +15,7 @@ type Product = {
   subImages?: { secure_url: string }[];
   category?: { name?: string };
   stock?: number;
+  inStock?: boolean;
 };
 
 interface Props {
@@ -56,7 +57,6 @@ const ProductCard: React.FC<Props> = ({
   const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><rect fill='%23f3f4f6' width='100%' height='100%'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%239ca3af' font-size='20' font-family='Arial, Helvetica, sans-serif'>No Image</text></svg>`;
   const fallback = `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
   const imgSrc = product.imageCover?.secure_url || fallback;
-  const subImgs = product.subImages || [];
   const originalPrice = product.price ?? 0;
   const discountedPrice = product.finalPrice ?? originalPrice;
   const hasDiscount =
@@ -64,8 +64,16 @@ const ProductCard: React.FC<Props> = ({
   const [activeImg, setActiveImg] = useState(imgSrc);
   const dispatch = useAppDispatch();
   const cartItems = useAppSelector((state) => state.cart.products);
+  const isOutOfStock =
+    typeof product.stock === "number"
+      ? product.stock <= 0
+      : product.inStock === false;
 
   const handleAddToCartInternal = async () => {
+    if (isOutOfStock) {
+      toast.error("Out of stock ❌");
+      return;
+    }
     const alreadyInCart = cartItems.some(
       (item) => item.productId && item.productId._id === product._id
     );
@@ -160,7 +168,13 @@ const ProductCard: React.FC<Props> = ({
               e.stopPropagation();
               handleAddToCartInternal();
             }}
-            className="p-2.5 cursor-pointer bg-[color:var(--color-primary)] rounded-full shadow hover:bg-[color:var(--color-primary-hover)] transition"
+            disabled={isOutOfStock}
+            title={isOutOfStock ? "Out of Stock" : "Add to Cart"}
+            className={`p-2.5 rounded-full shadow transition ${
+              isOutOfStock
+                ? "bg-gray-400 cursor-not-allowed"
+                : "cursor-pointer bg-[color:var(--color-primary)] hover:bg-[color:var(--color-primary-hover)]"
+            }`}
             aria-label="Add to Cart"
           >
             <img src={cartIcon} alt="Cart" className="w-5 h-5 invert" />

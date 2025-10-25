@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
-import { useAppDispatch } from "../../Hooks/reduxHooks";
-import { addToWishlist } from "../../Store/Slices/WishlistSlice";
+import { useAppDispatch, useAppSelector } from "../../Hooks/reduxHooks";
+import { addToWishlist, removeFromWishlist } from "../../Store/Slices/WishlistSlice";
 import { addProductToCart } from "../../Store/Slices/CartSlice";
 import { toast } from "react-hot-toast";
 import type { RelatedProduct } from "../../Types/RelatedProduct";
@@ -18,27 +18,41 @@ export default function ProductModal({
   onClose,
 }: ProductModalProps) {
   const dispatch = useAppDispatch();
+  const wishlistItems = useAppSelector((s) => s.wishlist.items);
   const [isAddingToWishlist, setIsAddingToWishlist] = useState(false);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const isOutOfStock = (product?.stock ?? 0) <= 0;
 
   if (!product) return null;
+  const inWishlist = wishlistItems?.some((w) => w._id === product._id);
 
   const handleAddToWishlist = async () => {
     setIsAddingToWishlist(true);
     try {
-      await dispatch(addToWishlist(product._id));
-      toast.success("Added to wishlist ❤️");
+      if (inWishlist) {
+        await dispatch(removeFromWishlist(product._id)).unwrap();
+        toast.success("Removed from wishlist ❌");
+      } else {
+        await dispatch(addToWishlist(product._id)).unwrap();
+        toast.success("Added to wishlist ❤️");
+      }
     } catch (error) {
-      toast.error("Failed to add to wishlist");
+      toast.error("Failed to update wishlist");
     } finally {
       setIsAddingToWishlist(false);
     }
   };
 
   const handleAddToCart = async () => {
+    if (isOutOfStock) {
+      toast.error("Out of stock ❌");
+      return;
+    }
     setIsAddingToCart(true);
     try {
-      await dispatch(addProductToCart(product._id));
+      await dispatch(
+        addProductToCart({ productId: product._id, quantity: 1 })
+      ).unwrap();
       toast.success("Added to cart 🛒");
     } catch (error) {
       toast.error("Failed to add to cart");
@@ -113,8 +127,17 @@ export default function ProductModal({
                       )}
                     </div>
                     <div className="flex items-center gap-2 text-sm text-[var(--color-text-muted)]">
-                      <i className="fa-solid fa-check-circle text-[var(--color-success)]"></i>
-                      <span>In Stock ({product.stock})</span>
+                      {isOutOfStock ? (
+                        <>
+                          <i className="fa-solid fa-triangle-exclamation text-red-500"></i>
+                          <span>Out of Stock</span>
+                        </>
+                      ) : (
+                        <>
+                          <i className="fa-solid fa-check-circle text-[var(--color-success)]"></i>
+                          <span>In Stock ({product.stock})</span>
+                        </>
+                      )}
                     </div>
                   </div>
 
@@ -122,27 +145,36 @@ export default function ProductModal({
                     <button
                       onClick={handleAddToWishlist}
                       disabled={isAddingToWishlist}
-                      className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-secondary)] text-[var(--color-text)] py-3 rounded-lg font-medium transition-colors disabled:opacity-50 border border-[var(--color-border)]"
+                      className={`w-full py-3 rounded-lg font-medium transition-colors disabled:opacity-50 border border-[var(--color-border)] ${
+                        inWishlist
+                          ? "bg-red-50 text-red-600 hover:bg-red-100"
+                          : "bg-[var(--color-accent)] hover:bg-[var(--color-secondary)] text-[var(--color-text)]"
+                      }`}
                     >
                       {isAddingToWishlist ? (
                         <i className="fa-solid fa-spinner fa-spin mr-2"></i>
                       ) : (
-                        <i className="fa-solid fa-heart mr-2"></i>
+                        <i className={`fa-solid fa-heart mr-2 ${inWishlist ? "text-red-500" : ""}`}></i>
                       )}
-                      Add to Wishlist
+                      {inWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
                     </button>
 
                     <button
                       onClick={handleAddToCart}
-                      disabled={isAddingToCart}
-                      className="w-full bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white py-3 rounded-lg font-medium transition-colors disabled:opacity-50"
+                      disabled={isAddingToCart || isOutOfStock}
+                      title={isOutOfStock ? "Out of Stock" : "Add to Cart"}
+                      className={`w-full text-white py-3 rounded-lg font-medium transition-colors disabled:opacity-50 ${
+                        isOutOfStock
+                          ? "bg-gray-400 cursor-not-allowed"
+                          : "bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)]"
+                      }`}
                     >
                       {isAddingToCart ? (
                         <i className="fa-solid fa-spinner fa-spin mr-2"></i>
                       ) : (
                         <i className="fa-solid fa-shopping-cart mr-2"></i>
                       )}
-                      Add to Cart
+                      {isOutOfStock ? "Out of Stock" : "Add to Cart"}
                     </button>
                   </div>
                 </div>

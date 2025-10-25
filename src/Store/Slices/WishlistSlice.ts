@@ -111,7 +111,10 @@ const wishlistSlice = createSlice({
           return;
         }
         if (state.fetched && !state.items.find((i) => i._id === id)) {
-          state.items.push({ _id: id });
+          state.items.push({
+            _id: id,
+            stock: 0,
+          });
         }
       })
       .addCase(addToWishlist.fulfilled, (state, action) => {
