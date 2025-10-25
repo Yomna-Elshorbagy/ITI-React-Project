@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import {
   FaHome,
   FaBox,
@@ -31,7 +31,7 @@ export default function Sidebar() {
         const decoded: any = jwtDecode(token);
         setUser({
           email: decoded.email,
-          role: decoded.role || "Admin",
+          role: decoded.role || "admin",
         });
       } catch (err) {
         console.error("Invalid token:", err);
@@ -40,7 +40,7 @@ export default function Sidebar() {
   });
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
-    navigate("/");
+    navigate("/login");
   };
 
   const links = [

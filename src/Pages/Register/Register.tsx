@@ -73,7 +73,7 @@ export default function Register() {
 
       if (res.data?.message === "user created Successfully") {
         //===> 1- set state
-        setSuccess("Registered successfully! Redirecting to login...");
+        setSuccess("Registered successfully! Verify your account | Redirecting to login...");
 
         //===> 2- show SweetAlert and redirect after 3s
         MySwal.fire({

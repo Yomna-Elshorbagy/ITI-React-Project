@@ -5,6 +5,13 @@ import heartIcon from "../../assets/svgs/heart.svg";
 import { useAppDispatch, useAppSelector } from "../../Hooks/reduxHooks";
 import { addProductToCart } from "../../Store/Slices/CartSlice";
 import { toast } from "react-hot-toast";
+import { jwtDecode } from "jwt-decode";
+
+interface DecodedToken {
+  id: string;
+  role?: string;
+  exp?: number;
+}
 
 type Product = {
   _id: string;
@@ -26,6 +33,16 @@ interface Props {
   isInWishlist: boolean;
 }
 
+export const getUserRole = (): string | null => {
+  try {
+    const token = localStorage.getItem("accessToken");
+    if (!token) return null;
+    const decoded = jwtDecode<DecodedToken>(token);
+    return decoded.role || null;
+  } catch {
+    return null;
+  }
+};
 const ProductCard: React.FC<Props> = ({
   product,
   onAddToCart,
@@ -64,6 +81,9 @@ const ProductCard: React.FC<Props> = ({
   const [activeImg, setActiveImg] = useState(imgSrc);
   const dispatch = useAppDispatch();
   const cartItems = useAppSelector((state) => state.cart.products);
+  const role = getUserRole();
+  const isAdmin = role === "admin";
+
   const isOutOfStock =
     typeof product.stock === "number"
       ? product.stock <= 0
@@ -148,13 +168,14 @@ const ProductCard: React.FC<Props> = ({
           <button
             onClick={(e) => {
               e.stopPropagation();
-              handleWishlistClick();
+              if (!isAdmin) handleWishlistClick();
             }}
-            className={`p-2.5 cursor-pointer rounded-full shadow transition ${
+            disabled={isAdmin}
+            className={`p-2.5 rounded-full shadow transition ${
               inWishlist
                 ? "bg-green-900 border-green-900 text-white"
                 : "bg-[color:var(--color-surface)] hover:bg-[color:var(--mist-100)]"
-            }`}
+            } ${isAdmin ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
             aria-label="Add to Wishlist"
           >
             <img
@@ -163,16 +184,23 @@ const ProductCard: React.FC<Props> = ({
               className={`w-5 h-5 ${inWishlist ? "invert" : ""}`}
             />
           </button>
+
           <button
             onClick={(e) => {
               e.stopPropagation();
               handleAddToCartInternal();
             }}
-            disabled={isOutOfStock}
-            title={isOutOfStock ? "Out of Stock" : "Add to Cart"}
+            disabled={isAdmin || isOutOfStock}
+            title={
+              isAdmin
+                ? "Admins cannot add products to cart"
+                : isOutOfStock
+                ? "Out of Stock"
+                : "Add to Cart"
+            }
             className={`p-2.5 rounded-full shadow transition ${
-              isOutOfStock
-                ? "bg-gray-400 cursor-not-allowed"
+              isAdmin || isOutOfStock
+                ? "bg-gray-400 cursor-not-allowed opacity-60"
                 : "cursor-pointer bg-[color:var(--color-primary)] hover:bg-[color:var(--color-primary-hover)]"
             }`}
             aria-label="Add to Cart"

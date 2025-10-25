@@ -3,12 +3,13 @@ import { Outlet, useNavigate } from "react-router-dom";
 import Sidebar from "./Components/Sidebar/Sidebar";
 import Navbar from "./Components/Navbar/Navbar";
 import { jwtDecode } from "jwt-decode";
+import type { IUser } from "./DashBordInterfaces/userInterfaces";
 const DashboardLayout: React.FC = () => {
   const token = localStorage.getItem("accessToken");
   const navigate = useNavigate();
   if (token) {
     const user = jwtDecode(token);
-    if (user && (user as any).role !== "admin") {
+    if (user && (user as IUser).role !== "admin") {
       navigate("/home");
     }
   }else{
