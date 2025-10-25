@@ -1,44 +1,49 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import axios from "axios";
-import type { IUser, IUseUsers } from "../DashBordInterfaces/userInterfaces";
+import type { IUser } from "../DashBordInterfaces/userInterfaces";
 
-export const useUsers = (): IUseUsers => {
-  const [users, setUsers] = useState<IUser[]>([]);
-  const [page, setPage] = useState<number>(1);
-  const [pagesCount, setPagesCount] = useState<number>(1);
-  const [loading, setLoading] = useState<boolean>(false);
+const getAllUsers = async (page: number, size: number = 5) => {
+  const token = localStorage.getItem("accessToken");
 
-  const fetchUsers = async (pageNum: number = 1) => {
-    setLoading(true);
-    const token = localStorage.getItem("accessToken");
-
-    try {
-      const res = await axios.get(
-        `https://iti-react-backend.vercel.app/user/allUsers?page=${pageNum}&size=5`,
-        {
-          headers: {
-            authentication: `bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const usersData = (res.data.data || []).filter(
-        (u: IUser) => u.role?.toLowerCase() === "user"
-      );
-
-      setUsers(usersData);
-      setPagesCount(res.data.meta?.totalPages || 1);
-    } catch (err) {
-      console.error("Error fetching users:", err);
-    } finally {
-      setLoading(false);
+  const res = await axios.get(
+    `https://iti-react-backend.vercel.app/user/allUsers?page=${page}&size=${size}`,
+    {
+      headers: {
+        authentication: `bearer ${token}`,
+        "Content-Type": "application/json",
+      },
     }
+  );
+
+  const filteredUsers: IUser[] = (res.data.data || []).filter(
+    (u: IUser) => u.role?.toLowerCase() === "user"
+  );
+
+  return {
+    data: filteredUsers,
+    pagination: res.data.meta || { totalPages: 1 },
   };
+};
 
-  useEffect(() => {
-    fetchUsers(page);
-  }, [page]);
+export const useUsers = () => {
+  const [page, setPage] = useState<number>(1);
 
-  return { users, page, pagesCount, loading, setPage, fetchUsers };
+  const { data, isLoading, isError, refetch } = useQuery({
+    queryKey: ["users", page],
+    queryFn: () => getAllUsers(page, 7),
+  });
+
+  const users = data?.data || [];
+  const pagesCount = data?.pagination?.totalPages || 1;
+
+  return {
+    users,
+    page,
+    pagesCount,
+    loading: isLoading,
+    error: isError,
+    setPage,
+    refetch,
+  };
 };

@@ -13,7 +13,6 @@ import KayanChatbot from "./Components/Chatbot/Chatbot";
 import AdminProtectedRoute from "./Shared/ProtectedRoutes/AdminProtectedRoutes";
 import ProtectedRoutes from "./Shared/ProtectedRoutes/ProtectedRoutes";
 
-// 💤 Lazy imports
 const Layout = lazy(() => import("./Components/Layout/layout"));
 const Home = lazy(() => import("./Pages/Home/Home"));
 const Products = lazy(() => import("./Pages/Products/Products"));
@@ -35,7 +34,6 @@ const Checkout = lazy(() => import("./Pages/Checkout/Checkout"));
 const ContactUs = lazy(() => import("./Pages/Contact/ContactUs"));
 const AuthLayout = lazy(() => import("./Components/AuthLayout/AuthLayout"));
 
-// 🧭 Dashboard
 const DashboardLayout = lazy(() => import("./Dashboard/Dashboared"));
 const Overview = lazy(() => import("./Dashboard/Pages/OverView/OverView"));
 const OrderProducts = lazy(() => import("./Dashboard/Pages/Products/Products"));
@@ -48,7 +46,6 @@ const DashCategories = lazy(
 const ContactsPage = lazy(() => import("./Dashboard/Pages/Contact/Contacts"));
 const Coupons = lazy(() => import("./Dashboard/Pages/Coupons/Coupons"));
 
-// 🧭 Router setup
 const router = createBrowserRouter([
   {
     path: "",
@@ -126,7 +123,6 @@ function App() {
     <GoogleOAuthProvider clientId="700704531343-884jrghj44cpak2fo1na231uudd889nj.apps.googleusercontent.com">
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
-          {/* 🌀 Suspense wraps RouterProvider */}
           <Suspense
             fallback={
               <div className="flex items-center justify-center h-screen text-lg font-semibold">

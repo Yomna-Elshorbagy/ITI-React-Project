@@ -9,6 +9,7 @@ import {
   FaMoneyBill,
 } from "react-icons/fa";
 import Swal from "sweetalert2";
+import { z } from "zod";
 import type { IOrder } from "../../DashBordInterfaces/OrderInterfaces";
 import { updateOrderInfo } from "../../Apis/OrderApis";
 
@@ -18,6 +19,22 @@ interface EditOrderModalProps {
   onClose: () => void;
   onUpdated: () => void;
 }
+
+const orderSchema = z.object({
+  fullName: z.string().min(3, "Full name must be at least 3 characters long"),
+  phone: z
+    .string()
+    .regex(
+      /^01[0-9]{9}$/,
+      "Phone must be a valid Egyptian number (e.g., 010...)"
+    ),
+  address: z.string().min(5, "Address must be at least 5 characters long"),
+  status: z.string(),
+  finalPrice: z
+    .number()
+    .positive("Final price must be a positive number")
+    .min(1, "Minimum price is 1 EGP"),
+});
 
 const EditOrderModal: React.FC<EditOrderModalProps> = ({
   order,
@@ -32,6 +49,9 @@ const EditOrderModal: React.FC<EditOrderModalProps> = ({
     status: "",
     finalPrice: 0,
   });
+
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (order) {
@@ -59,7 +79,17 @@ const EditOrderModal: React.FC<EditOrderModalProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setValidationErrors([]);
+
+    const validation = orderSchema.safeParse(formData);
+    if (!validation.success) {
+      const errorMessages = validation.error.issues.map((err) => err.message);
+      setValidationErrors(errorMessages);
+      return;
+    }
+
     try {
+      setLoading(true);
       await updateOrderInfo(order._id, formData);
       Swal.fire("Success", "Order updated successfully!", "success");
       onUpdated();
@@ -70,6 +100,8 @@ const EditOrderModal: React.FC<EditOrderModalProps> = ({
         err.response?.data?.message || "Update failed",
         "error"
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -86,6 +118,16 @@ const EditOrderModal: React.FC<EditOrderModalProps> = ({
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
+          {validationErrors.length > 0 && (
+            <div className="bg-red-100 text-red-700 border border-red-400 px-4 py-2 rounded-md mb-4">
+              <ul className="list-disc pl-5">
+                {validationErrors.map((msg, index) => (
+                  <li key={index}>{msg}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           <div>
             <label className="block font-medium mb-1 flex items-center gap-2">
               <FaUser /> Full Name
@@ -138,7 +180,7 @@ const EditOrderModal: React.FC<EditOrderModalProps> = ({
               <option value="">Select status</option>
               <option value="placed">Placed</option>
               <option value="shipping">Shipping</option>
-              <option value="Completed">Completed</option>
+              <option value="completed">Completed</option>
               <option value="canceled">Canceled</option>
               <option value="refund">Refund</option>
             </select>
@@ -169,9 +211,10 @@ const EditOrderModal: React.FC<EditOrderModalProps> = ({
             </button>
             <button
               type="submit"
+              disabled={loading}
               className="px-4 py-2 bg-[var(--color-primary)] text-white rounded-md hover:bg-[var(--color-primary-hover)] transition-all duration-300"
             >
-              Save Changes
+              {loading ? "Saving..." : "Save Changes"}
             </button>
           </div>
         </form>
