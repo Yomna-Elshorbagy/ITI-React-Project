@@ -1,5 +1,9 @@
 import axios from "axios";
-import type { ICreateOrder, IOrder, IOrderResponse } from "../DashBordInterfaces/OrderInterfaces";
+import type {
+  ICreateOrder,
+  IOrder,
+  IOrderResponse,
+} from "../DashBordInterfaces/OrderInterfaces";
 
 const BASE_URL = "https://iti-react-backend.vercel.app/order";
 const token = localStorage.getItem("accessToken");
@@ -20,7 +24,10 @@ export const getAllOrders = async (
     totalOrders: number;
   };
 }> => {
-  const { data } = await axios.get(`${BASE_URL}/allorders?page=${page}&limit=${limit}`, { headers });
+  const { data } = await axios.get(
+    `${BASE_URL}/allorders?page=${page}&limit=${limit}`,
+    { headers }
+  );
   return {
     data: data.data,
     pagination: data.pagination,
@@ -37,12 +44,17 @@ export const getOrderDetails = async (id: string): Promise<IOrder> => {
   return data.data;
 };
 
-export const createOrder = async (orderData: ICreateOrder): Promise<IOrderResponse> => {
+export const createOrder = async (
+  orderData: ICreateOrder
+): Promise<IOrderResponse> => {
   const { data } = await axios.post(`${BASE_URL}/`, orderData, { headers });
   return data;
 };
 
-export const updateOrderStatus = async (id: string, status: string): Promise<IOrder> => {
+export const updateOrderStatus = async (
+  id: string,
+  status: string
+): Promise<IOrder> => {
   const { data } = await axios.put(
     `${BASE_URL}/status/${id}`,
     { status },
@@ -60,13 +72,23 @@ export const updateOrderInfo = async (
     status?: string;
   }
 ): Promise<IOrder> => {
-  const { data } = await axios.put(`${BASE_URL}/${id}`, updateData, { headers });
+  const { data } = await axios.put(`${BASE_URL}/${id}`, updateData, {
+    headers,
+  });
   return data.data;
 };
 
-
-export const softDeleteOrder = async (id: string): Promise<any> => {
-  const { data } = await axios.delete(`${BASE_URL}/soft/${id}`, { headers });
+export const softDeleteOrder = async (
+  id: string,
+  token: string
+): Promise<any> => {
+  const { data } = await axios.put(
+    `${BASE_URL}/soft/${id}`,
+    {},
+    {
+      headers: { authentication: `bearer ${token}` },
+    }
+  );
   return data;
 };
 
@@ -78,8 +100,8 @@ export const hardDeleteOrder = async (id: string): Promise<any> => {
 export const getRevenuePerMonth = async (): Promise<any[]> => {
   const { data } = await axios.get(`${BASE_URL}/revenue`, { headers });
   console.log(data);
-  
-  return data.data; 
+
+  return data.data;
 };
 
 export const exportOrdersToCSV = async (): Promise<void> => {

@@ -7,7 +7,7 @@ import LoaderPage from "../../../Shared/LoaderPage/LoaderPage";
 import EditProductModal from "./EditProductModal";
 import ProductModal from "./productModel";
 import { useProducts } from "../../DashboardHooks/Products/useProducts";
-import { deleteProduct } from "../../Apis/Products";
+import { deleteProduct, softDeleteProducts } from "../../Apis/Products";
 import AddProductModal from "./AddProducts";
 import { FaTag, FaBoxOpen, FaHashtag } from "react-icons/fa";
 import { filterProducts } from "../../Components/filter/filter";
@@ -56,6 +56,31 @@ export default function ProductsPage() {
     }
   };
 
+  const handleSoftDelete = async (id: string) => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) return toast.error("Unauthorized");
+
+    const result = await MySwal.fire({
+      title: "Soft delete this product?",
+      text: "The product will be marked as deleted but not removed permanently.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, soft delete",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#fbbf24",
+      cancelButtonColor: "#a3b18a",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await softDeleteProducts(id, token);
+        toast.success("product soft deleted successfully");
+        refetch();
+      } catch {
+        toast.error("Failed to soft delete product");
+      }
+    }
+  };
   const handleView = (product: any) => {
     setSelectedProduct(product);
     setViewOpen(true);
@@ -182,6 +207,7 @@ export default function ProductsPage() {
         products={filteredProducts}
         onView={handleView}
         onEdit={handleEdit}
+        onSoftDelete={handleSoftDelete}
         onDelete={handleDelete}
       />
       <div className="flex justify-center items-center gap-2 mt-6">

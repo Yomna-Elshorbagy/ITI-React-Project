@@ -35,3 +35,12 @@ export interface IOrderResponse {
   message: string;
   data: IOrder;
 }
+
+export interface OrderTableProps {
+  orders: IOrder[];
+  onView: (order: IOrder) => void;
+  onDelete: (id: string) => void;
+  onEdit: (order: IOrder) => void;
+  onSoftDelete: (id: string) => void;
+  onUpdateStatus: (id: string, status: string) => void;
+}

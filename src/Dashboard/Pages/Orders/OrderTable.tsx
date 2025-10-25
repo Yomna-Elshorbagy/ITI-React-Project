@@ -1,22 +1,14 @@
 import React from "react";
-import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
-import type { IOrder } from "../../DashBordInterfaces/OrderInterfaces";
-
-interface OrderTableProps {
-  orders: IOrder[];
-  onView: (order: IOrder) => void;
-  onDelete: (id: string) => void;
-  onEdit: (order: IOrder) => void;
-  onUpdateStatus: (id: string, status: string) => void;
-}
+import { FaEye, FaEdit, FaTrash, FaBan } from "react-icons/fa";
+import type { OrderTableProps } from "../../DashBordInterfaces/OrderInterfaces";
 
 const OrderTable: React.FC<OrderTableProps> = ({
   orders,
   onView,
   onDelete,
+  onSoftDelete,
   onEdit,
 }) => {
-  // 🎨 Status color logic
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case "placed":
@@ -110,6 +102,14 @@ const OrderTable: React.FC<OrderTableProps> = ({
                   onClick={() => onDelete(order._id)}
                 >
                   <FaTrash />
+                </button>
+                <button
+                  className="p-2 rounded-md text-white transition-all duration-300 transform hover:scale-110"
+                  style={{ backgroundColor: "var(--color-text-muted)" }}
+                  title="Block User"
+                  onClick={() => onSoftDelete(order._id)}
+                >
+                  <FaBan />
                 </button>
               </td>
             </tr>

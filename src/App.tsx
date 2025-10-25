@@ -6,98 +6,82 @@ import "slick-carousel/slick/slick-theme.css";
 import { Provider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
-import Layout from "./Components/Layout/layout";
-import Home from "./Pages/Home/Home";
-import Products from "./Pages/Products/Products";
-import Cart from "./Pages/Cart/Cart";
-import ProductDetails from "./Pages/ProductDetails/ProductDetails";
-import Reviews from "./Pages/Reviews/Reviews";
-import About from "./Pages/About/About";
-import UserProfile from "./Pages/Profile/UserProfile";
-import NotFound from "./Components/NotFound/NotFound";
-import Category from "./Pages/Category/Category";
-import Login from "./Pages/Login/Login";
-import Register from "./Pages/Register/Register";
-import ForgetPassword from "./Pages/ForgetPassword/ForgetPassword";
-import Checkout from "./Pages/Checkout/Checkout";
+import { lazy, Suspense } from "react";
 import { store } from "./Store/store";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import ContactUs from "./Pages/Contact/ContactUs";
-import AuthLayout from "./Components/AuthLayout/AuthLayout";
-import Overview from "./Dashboard/Pages/OverView/OverView";
-import DashboardLayout from "./Dashboard/Dashboared";
-import OrderProducts from "./Dashboard/Pages/Products/Products";
-import Orders from "./Dashboard/Pages/Orders/Orders";
-import Users from "./Dashboard/Pages/Users/Users";
-import Reports from "./Dashboard/Pages/Reports/Reports";
-import DashCategories from "./Dashboard/Pages/Categories/Categories";
-import ContactsPage from "./Dashboard/Pages/Contact/Contacts";
 import KayanChatbot from "./Components/Chatbot/Chatbot";
-import Coupons from "./Dashboard/Pages/Coupons/Coupons";
 import AdminProtectedRoute from "./Shared/ProtectedRoutes/AdminProtectedRoutes";
 import ProtectedRoutes from "./Shared/ProtectedRoutes/ProtectedRoutes";
 
+// 💤 Lazy imports
+const Layout = lazy(() => import("./Components/Layout/layout"));
+const Home = lazy(() => import("./Pages/Home/Home"));
+const Products = lazy(() => import("./Pages/Products/Products"));
+const Cart = lazy(() => import("./Pages/Cart/Cart"));
+const ProductDetails = lazy(
+  () => import("./Pages/ProductDetails/ProductDetails")
+);
+const Reviews = lazy(() => import("./Pages/Reviews/Reviews"));
+const About = lazy(() => import("./Pages/About/About"));
+const UserProfile = lazy(() => import("./Pages/Profile/UserProfile"));
+const NotFound = lazy(() => import("./Components/NotFound/NotFound"));
+const Category = lazy(() => import("./Pages/Category/Category"));
+const Login = lazy(() => import("./Pages/Login/Login"));
+const Register = lazy(() => import("./Pages/Register/Register"));
+const ForgetPassword = lazy(
+  () => import("./Pages/ForgetPassword/ForgetPassword")
+);
+const Checkout = lazy(() => import("./Pages/Checkout/Checkout"));
+const ContactUs = lazy(() => import("./Pages/Contact/ContactUs"));
+const AuthLayout = lazy(() => import("./Components/AuthLayout/AuthLayout"));
+
+// 🧭 Dashboard
+const DashboardLayout = lazy(() => import("./Dashboard/Dashboared"));
+const Overview = lazy(() => import("./Dashboard/Pages/OverView/OverView"));
+const OrderProducts = lazy(() => import("./Dashboard/Pages/Products/Products"));
+const Orders = lazy(() => import("./Dashboard/Pages/Orders/Orders"));
+const Users = lazy(() => import("./Dashboard/Pages/Users/Users"));
+const Reports = lazy(() => import("./Dashboard/Pages/Reports/Reports"));
+const DashCategories = lazy(
+  () => import("./Dashboard/Pages/Categories/Categories")
+);
+const ContactsPage = lazy(() => import("./Dashboard/Pages/Contact/Contacts"));
+const Coupons = lazy(() => import("./Dashboard/Pages/Coupons/Coupons"));
+
+// 🧭 Router setup
 const router = createBrowserRouter([
   {
     path: "",
     element: <Layout />,
     children: [
-      {
-        path: "",
-        element: <Home />,
-      },
-      {
-        path: "home",
-        element: <Home />,
-      },
-      {
-        path: "checkout",
-        element: <Checkout />,
-      },
-      {
-        path: "products",
-        element: <Products />,
-      },
+      { path: "", element: <Home /> },
+      { path: "home", element: <Home /> },
+      { path: "checkout", element: <Checkout /> },
+      { path: "products", element: <Products /> },
       {
         path: "cart",
         element: (
           <ProtectedRoutes>
-            {" "}
-            <Cart />{" "}
+            <Cart />
           </ProtectedRoutes>
         ),
       },
-      {
-        path: "productDetails/:id",
-        element: <ProductDetails />,
-      },
+      { path: "productDetails/:id", element: <ProductDetails /> },
       {
         path: "reviews/:id",
         element: (
           <ProtectedRoutes>
-            {" "}
-            <Reviews />{" "}
+            <Reviews />
           </ProtectedRoutes>
         ),
       },
-      {
-        path: "category",
-        element: <Category />,
-      },
-
-      {
-        path: "about",
-        element: <About />,
-      },
-      {
-        path: "contact",
-        element: <ContactUs />,
-      },
+      { path: "category", element: <Category /> },
+      { path: "about", element: <About /> },
+      { path: "contact", element: <ContactUs /> },
       {
         path: "profile",
         element: (
           <ProtectedRoutes>
-            {" "}
             <UserProfile />
           </ProtectedRoutes>
         ),
@@ -130,10 +114,7 @@ const router = createBrowserRouter([
     children: [
       { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
-      {
-        path: "forgetPass",
-        element: <ForgetPassword />,
-      },
+      { path: "forgetPass", element: <ForgetPassword /> },
     ],
   },
 ]);
@@ -142,17 +123,24 @@ function App() {
   const queryClient = new QueryClient();
 
   return (
-    <>
-      <GoogleOAuthProvider clientId="700704531343-884jrghj44cpak2fo1na231uudd889nj.apps.googleusercontent.com">
-        <QueryClientProvider client={queryClient}>
-          <Provider store={store}>
+    <GoogleOAuthProvider clientId="700704531343-884jrghj44cpak2fo1na231uudd889nj.apps.googleusercontent.com">
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          {/* 🌀 Suspense wraps RouterProvider */}
+          <Suspense
+            fallback={
+              <div className="flex items-center justify-center h-screen text-lg font-semibold">
+                Loading...
+              </div>
+            }
+          >
             <RouterProvider router={router} />
-            <Toaster />
-            <KayanChatbot />
-          </Provider>
-        </QueryClientProvider>
-      </GoogleOAuthProvider>
-    </>
+          </Suspense>
+          <Toaster />
+          <KayanChatbot />
+        </Provider>
+      </QueryClientProvider>
+    </GoogleOAuthProvider>
   );
 }
 
