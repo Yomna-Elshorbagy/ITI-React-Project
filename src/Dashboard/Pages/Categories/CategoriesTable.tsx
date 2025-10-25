@@ -1,6 +1,8 @@
 import React from "react";
 import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
 import type { ICategory } from "../../DashBordInterfaces/categryInterfaces";
+import { useState } from "react";
+import {  FaSpinner } from "react-icons/fa";
 
 interface CategoryTableProps {
   categories: ICategory[];
@@ -10,6 +12,7 @@ interface CategoryTableProps {
   onDelete: (id: string, name: string) => void;
 }
 
+
 const CategoriesTable: React.FC<CategoryTableProps> = ({
   categories,
  // productCounts,
@@ -17,6 +20,7 @@ const CategoriesTable: React.FC<CategoryTableProps> = ({
   onEdit,
   onDelete,
 }) => {
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   return (
     <div className="overflow-x-auto bg-[var(--color-surface)] rounded-xl elevate-soft border border-[var(--color-border)] transition-all duration-500 ease-in-out hover:shadow-lg">
       <table className="min-w-full text-sm rounded-xl overflow-hidden">
@@ -85,14 +89,31 @@ const CategoriesTable: React.FC<CategoryTableProps> = ({
                 >
                   <FaEdit />
                 </button>
-                <button
+                 {/*<button
                   className="p-2 rounded-md text-white transition-all duration-300 transform hover:scale-110"
                   style={{ backgroundColor: "var(--color-error)" }}
                   title="Delete Category"
                   onClick={() => onDelete(c._id, c.name)}
                 >
                   <FaTrash />
-                </button>
+                </button>*/}
+                <button
+               className="p-2 rounded-md text-white transition-all duration-300 transform hover:scale-110 flex items-center justify-center"
+               style={{ backgroundColor: "var(--color-error)" }}
+               title="Delete Category"
+               onClick={async () => {
+               setDeletingId(c._id);
+               await onDelete(c._id, c.name);
+              setDeletingId(null);
+              }}
+              disabled={deletingId === c._id}
+              >
+            {deletingId === c._id ? (
+           <FaSpinner className="animate-spin" />
+            ) : (
+          <FaTrash />
+           )}
+          </button>
               </td>
             </tr>
           ))}

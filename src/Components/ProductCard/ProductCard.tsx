@@ -41,11 +41,11 @@ const ProductCard: React.FC<Props> = ({
     if (inWishlist) {
       setInWishlist(false);
       onRemoveFromWishlist(product._id);
-      toast.success(`${product.title} removed from wishlist ❌`);
+      toast(`${product.title} removed from wishlist💔`);
     } else {
       setInWishlist(true);
       onAddToWishlist(product._id);
-      toast.success(`${product.title} added to wishlist 💚`);
+      toast.success(`${product.title} added to wishlist`);
     }
   };
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";     //React
 import CategoryModal from "./CategoryModal";
 import { addCategory } from "../../Apis/CategoryApis";
 import { useCategories } from "../../DashboardHooks/Categories/useCategories";
@@ -26,8 +26,11 @@ export default function AddCategoryButton() {
   return (
     <>
     <div className="flex justify-between items-center px-4">
-        <h1 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
-          Categories
+         <h1
+          className="text-3xl font-semibold mb-6 text-gradient dark:text-gray-100"
+          style={{ fontFamily: "var(--font-header)" }}
+        >
+          Categories Managment
         </h1>
       <button
         onClick={() => {setOpen(true)}} 

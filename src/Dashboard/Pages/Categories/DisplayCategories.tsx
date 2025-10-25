@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";   //React,
 import CategoriesTable from "./CategoriesTable";
 import LoaderPage from "../../../Shared/LoaderPage/LoaderPage";
 import CategoryModal from "./CategoryModal";
