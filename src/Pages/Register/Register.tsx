@@ -7,6 +7,7 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import SEO from "../../Components/SEO/SEO";
 
 const MySwal = withReactContent(Swal);
 
@@ -73,7 +74,9 @@ export default function Register() {
 
       if (res.data?.message === "user created Successfully") {
         //===> 1- set state
-        setSuccess("Registered successfully! Verify your account | Redirecting to login...");
+        setSuccess(
+          "Registered successfully! Verify your account | Redirecting to login..."
+        );
 
         //===> 2- show SweetAlert and redirect after 3s
         MySwal.fire({
@@ -124,9 +127,16 @@ export default function Register() {
   };
   return (
     <section className="register">
+      <SEO
+        title="Kayan | Register"
+        description="Create your Kayan account and start shopping exclusive deals today."
+      />
+
       <div className="flex min-h-screen">
         {/* Left Side - Form */}
-        <div className="relative w-full md:w-1/2  bg-[#f5f0e9]  max-h-screen overflow-y-auto py-5 flex items-start dark:bg-gray-900 pb-5 dark:text-white">   {/*bg-[var(--colo-text)] */}
+        <div className="relative w-full md:w-1/2  bg-[#f5f0e9]  max-h-screen overflow-y-auto py-5 flex items-start dark:bg-gray-900 pb-5 dark:text-white">
+          {" "}
+          {/*bg-[var(--colo-text)] */}
           <button
             onClick={() => navigate("/")}
             className="absolute top-6 left-6 bg-white shadow-md rounded-full p-3 hover:bg-amber-50 hover:scale-105 transition duration-200"
@@ -138,10 +148,10 @@ export default function Register() {
             <h1 className="text-[1.75rem] font-['Playfair_Display'] text-[var(--wood-400)] sm:text-[2rem] text-[#090f41] dark:text-white animate-pulse text-center">
               Sign Up
             </h1>
-          <p className="font-['Playfair_Display'] tracking-widest mt-3 text-gray-500 dark:text-gray-400 mb-5 text-center">
-              Welcome in KAYAN family!   
-            </p>   {/*text-gray-600 */}   
-
+            <p className="font-['Playfair_Display'] tracking-widest mt-3 text-gray-500 dark:text-gray-400 mb-5 text-center">
+              Welcome in KAYAN family!
+            </p>{" "}
+            {/*text-gray-600 */}
             <form onSubmit={handleSubmit(onSubmit)} className="text-[#090f41]">
               {/* API Success & Error Alerts */}
               {apiError && (
@@ -248,7 +258,9 @@ export default function Register() {
 
               {/* phone */}
               <div className="flex flex-col gap-2 mb-5">
-                <label className="text-[1.125rem] text-gray-600 dark:text-white font-['Playfair_Display']">Phone</label>
+                <label className="text-[1.125rem] text-gray-600 dark:text-white font-['Playfair_Display']">
+                  Phone
+                </label>
                 <div className="relative">
                   <i className="fa-solid fa-mobile absolute left-3 top-1/2 -translate-y-1/2 text-[#8B5E35] animate-[var(--animate-bounce-slow)]"></i>
                   <input
@@ -321,7 +333,7 @@ export default function Register() {
               <button
                 type="submit"
                 disabled={isLoading}
-                  className="hover:bg-[#C49A53]/90 bg-[var(--wood-400)] font-['Playfair_Display'] active:scale-95 transition-transform duration-200 text-white font-semibold py-3 rounded-lg shadow-lg hover:shadow-amber-200/30 disabled:opacity-60 disabled:cursor-not-allowed w-full" //hover:bg-[var(--wood-500)] 
+                className="hover:bg-[#C49A53]/90 bg-[var(--wood-400)] font-['Playfair_Display'] active:scale-95 transition-transform duration-200 text-white font-semibold py-3 rounded-lg shadow-lg hover:shadow-amber-200/30 disabled:opacity-60 disabled:cursor-not-allowed w-full" //hover:bg-[var(--wood-500)]
               >
                 {isLoading ? (
                   <i className="fa-solid fa-spinner fa-spin"></i>
@@ -330,7 +342,6 @@ export default function Register() {
                 )}
               </button>
             </form>
-
             <p className="mt-5 pb-10 text-center text-gray-500">
               Already have an account?{" "}
               <Link to="/login" className="underline text-[#8B5E35]">

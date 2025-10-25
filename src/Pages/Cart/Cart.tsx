@@ -12,6 +12,7 @@ import styles from "./Cart.module.css";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import SEO from "../../Components/SEO/SEO";
 
 const MySwal = withReactContent(Swal);
 
@@ -31,45 +32,44 @@ export default function Cart() {
   if (loading) return <LoaderPage />;
 
   if (products.length === 0) {
-  return (
-    <div
-      className={`${styles.container} flex flex-col justify-center items-center h-[calc(100vh-180px)] relative overflow-hidden`}
-    >
-      <div className="absolute inset-0 bg-gradient-to-br  to-[var(--color-bg)] dark:from-[var(--color-surface)] dark:via-[var(--color-bg)] dark:to-[var(--color-border)] opacity-70 blur-2xl animate-pulse"></div>
-
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: -20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="relative bg-[var(--color-surface)] dark:bg-[var(--color-bg)] border border-[var(--color-border)] rounded-2xl shadow-xl p-10 text-center elevate-soft glass dark:glass-dark max-w-lg mx-auto"
+    return (
+      <div
+        className={`${styles.container} flex flex-col justify-center items-center h-[calc(100vh-180px)] relative overflow-hidden`}
       >
+        <div className="absolute inset-0 bg-gradient-to-br  to-[var(--color-bg)] dark:from-[var(--color-surface)] dark:via-[var(--color-bg)] dark:to-[var(--color-border)] opacity-70 blur-2xl animate-pulse"></div>
+
         <motion.div
-          initial={{ rotate: -10, scale: 0.9 }}
-          animate={{ rotate: 0, scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[var(--color-accent)] text-[var(--color-primary)] shadow-md mb-4"
+          initial={{ opacity: 0, scale: 0.95, y: -20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="relative bg-[var(--color-surface)] dark:bg-[var(--color-bg)] border border-[var(--color-border)] rounded-2xl shadow-xl p-10 text-center elevate-soft glass dark:glass-dark max-w-lg mx-auto"
         >
-          <i className="fa-solid fa-cart-shopping text-3xl"></i>
+          <motion.div
+            initial={{ rotate: -10, scale: 0.9 }}
+            animate={{ rotate: 0, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[var(--color-accent)] text-[var(--color-primary)] shadow-md mb-4"
+          >
+            <i className="fa-solid fa-cart-shopping text-3xl"></i>
+          </motion.div>
+
+          <h2 className="text-3xl font-semibold text-[var(--color-text)] mb-2 header-font">
+            Your cart is empty
+          </h2>
+          <p className="text-[var(--color-text-muted)] mb-6 max-w-md mx-auto">
+            It looks like you haven’t added anything yet. Let’s fix that!
+          </p>
+
+          <button
+            onClick={handleShoppingClick}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-semibold animate-gradient-x elevate-soft transition-all duration-300 hover:scale-[1.03]"
+          >
+            <i className="fa-solid fa-bag-shopping"></i> Go Shopping
+          </button>
         </motion.div>
-
-        <h2 className="text-3xl font-semibold text-[var(--color-text)] mb-2 header-font">
-          Your cart is empty
-        </h2>
-        <p className="text-[var(--color-text-muted)] mb-6 max-w-md mx-auto">
-          It looks like you haven’t added anything yet. Let’s fix that!
-        </p>
-
-        <button
-          onClick={handleShoppingClick}
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-semibold animate-gradient-x elevate-soft transition-all duration-300 hover:scale-[1.03]"
-        >
-          <i className="fa-solid fa-bag-shopping"></i> Go Shopping
-        </button>
-      </motion.div>
-    </div>
-  );
-}
-
+      </div>
+    );
+  }
 
   // const handleUpdateQuantity = (id: any, quantity: number) => {
   //   if (quantity > 0) dispatch(updateCartQuantity({ id, newCount: quantity }));
@@ -108,6 +108,11 @@ export default function Cart() {
 
   return (
     <div className={styles.container}>
+      <SEO
+        title="Kayan | Cart"
+        description="Review your selected items before checkout on Kayan Store."
+      />
+
       <div className={styles.hero}>
         <h1 className={`${styles.title}`}>🛍️ Your Cart</h1>
         <p className={styles.subtitle}>Manage your items before checkout</p>

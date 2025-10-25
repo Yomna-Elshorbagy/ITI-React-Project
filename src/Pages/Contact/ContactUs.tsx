@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import SEO from "../../Components/SEO/SEO";
 
 const MySwal = withReactContent(Swal);
 
@@ -16,14 +17,18 @@ export default function ContactUs() {
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (data) => {
-      const res = await axios.post(`https://iti-react-backend.vercel.app/contact`, data);
+      const res = await axios.post(
+        `https://iti-react-backend.vercel.app/contact`,
+        data
+      );
       return res.data;
     },
     onSuccess: (data) => {
       MySwal.fire({
         icon: "success",
         title: "Message Sent!",
-        text: data.message || "Thank you for reaching out. We'll contact you soon.",
+        text:
+          data.message || "Thank you for reaching out. We'll contact you soon.",
         confirmButtonColor: "var(--color-primary)",
       });
       setFormData({ fullName: "", email: "", message: "" });
@@ -61,27 +66,38 @@ export default function ContactUs() {
   };
 
   return (
-    <section className="bg-[#f5f0e9] dark:bg-[var(--color-blue)]/85 transition-colors duration-500 py-16 px-6 sm:px-10 lg:px-20"> {/*dark:bg-gray-900 #fdfaf5ff bg-[ #F7E7CE]  #F7E7CE #F6E7D7 #FAF9F7 #fdfaf5ff*/}
+    <section className="bg-[#f5f0e9] dark:bg-[var(--color-blue)]/85 transition-colors duration-500 py-16 px-6 sm:px-10 lg:px-20">
+      <SEO
+        title="Kayan | Contact Us"
+        description="Have a question? Get in touch with Kayan support team easily."
+      />{" "}
+      {/*dark:bg-gray-900 #fdfaf5ff bg-[ #F7E7CE]  #F7E7CE #F6E7D7 #FAF9F7 #fdfaf5ff*/}
       <div className="max-w-6xl mx-auto text-center mb-12">
         <h1 className="text-[var(--color-header)] font-['Playfair_Display'] uppercase tracking-widest font-semibold text-lg md:text-2xl mb-4">
-          Get in Touch                {/*<span className="text-[var(--color-primary)] text-4xl font-bold text-gray-800  "> */}
+          Get in Touch{" "}
+          {/*<span className="text-[var(--color-primary)] text-4xl font-bold text-gray-800  "> */}
         </h1>
-        <p className="font-['Playfair_Display']  text-[var(--color-blue)] dark:text-[var(--color-darkText)] leading-relaxed whitespace-pre-wrap max-w-2xl mx-auto">  {/*text-gray-600 dark:text-gray-300 max-w-2xl mx-auto dark:text-gray-300 */}
+        <p className="font-['Playfair_Display']  text-[var(--color-blue)] dark:text-[var(--color-darkText)] leading-relaxed whitespace-pre-wrap max-w-2xl mx-auto">
+          {" "}
+          {/*text-gray-600 dark:text-gray-300 max-w-2xl mx-auto dark:text-gray-300 */}
           We’d love to hear from you! Whether you have a question about our
           jewelry, your order, or anything else — our team is ready to help.
         </p>
       </div>
-
       <div className="flex flex-col lg:flex-row gap-12 justify-between items-start header-font">
         <div className="flex-1 bg-gray-50 dark:bg-[#F4EDE1] p-8 rounded-2xl shadow-md transition-all duration-300 hover:shadow-lg">
-          <h2 className="header-font text-2xl font-semibold text-[var(--color-blue)]/90 dark:text-[var(--color-blue)] mb-6"> {/* */}
+          <h2 className="header-font text-2xl font-semibold text-[var(--color-blue)]/90 dark:text-[var(--color-blue)] mb-6">
+            {" "}
+            {/* */}
             Contact Information
           </h2>
 
           <div className="space-y-6">
             <div className="flex items-center gap-4">
               <FaPhoneAlt className="text-[var(--color-blue)] text-xl" />
-              <p className="text-gray-700 dark:text-[var(--color-blue)] "> {/*dark:text-gray-300 */}
+              <p className="text-gray-700 dark:text-[var(--color-blue)] ">
+                {" "}
+                {/*dark:text-gray-300 */}
                 +20 123 456 7890
               </p>
             </div>

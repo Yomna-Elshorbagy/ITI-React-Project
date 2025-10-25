@@ -11,6 +11,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useAppDispatch } from "../../Hooks/reduxHooks";
 import { insertUserToken } from "../../Store/Slices/AuthSlice";
 import { jwtDecode } from "jwt-decode";
+import SEO from "../../Components/SEO/SEO";
 
 const MySwal = withReactContent(Swal);
 
@@ -125,6 +126,11 @@ export default function Register() {
 
   return (
     <>
+      <SEO
+        title="Kayan | Login"
+        description="Access your Kayan account to track orders and manage your preferences."
+      />
+
       <section className="register">
         <div className="flex min-h-screen">
           <div className="relative w-full md:w-1/2 bg-[#f5f0e9] min-h-screen flex justify-center items-center">
@@ -136,8 +142,10 @@ export default function Register() {
               <i className="fa-solid fa-arrow-left text-[#8B5E35] text-lg"></i>
             </button>
 
-            <div className="w-full px-5 md:w-[75%] max-w-md"> 
-              <h1 className="text-[1.75rem] sm:text-[2rem] font-['Playfair_Display'] text-[var(--wood-400)] animate-pulse  text-center mb-6"> {/*text-[#090f41] */}
+            <div className="w-full px-5 md:w-[75%] max-w-md">
+              <h1 className="text-[1.75rem] sm:text-[2rem] font-['Playfair_Display'] text-[var(--wood-400)] animate-pulse  text-center mb-6">
+                {" "}
+                {/*text-[#090f41] */}
                 Log in
               </h1>
 
@@ -158,7 +166,9 @@ export default function Register() {
                 )}
 
                 <div className="flex flex-col gap-2 mb-5">
-                  <label className="text-[1.125rem] font-['Playfair_Display'] text-gray-600">E-mail</label>
+                  <label className="text-[1.125rem] font-['Playfair_Display'] text-gray-600">
+                    E-mail
+                  </label>
                   <div className="relative">
                     <i className="fa-solid fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-[#8B5E35] animate-[var(--animate-bounce-slow)]"></i>
                     <input
@@ -176,7 +186,9 @@ export default function Register() {
                 </div>
 
                 <div className="flex flex-col gap-2 mb-5">
-                  <label className="text-[1.125rem] font-['Playfair_Display'] text-gray-600">Password</label>
+                  <label className="text-[1.125rem] font-['Playfair_Display'] text-gray-600">
+                    Password
+                  </label>
                   <div className="relative">
                     <i className="fa-solid fa-lock absolute left-3 top-1/2 -translate-y-1/2 text-[#8B5E35] animate-[var(--animate-bounce-slow)]"></i>
                     <input

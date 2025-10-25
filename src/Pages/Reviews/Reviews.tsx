@@ -5,6 +5,7 @@ import {
   useAddReview,
   useDeleteReview,
 } from "../../Hooks/useReviews";
+import SEO from "../../Components/SEO/SEO";
 import { useProduct } from "../../Hooks/useProduct";
 import { useAppSelector } from "../../Hooks/reduxHooks";
 import LoaderPage from "../../Shared/LoaderPage/LoaderPage";
@@ -147,6 +148,11 @@ export default function Reviews() {
 
   return (
     <div className={styles.reviewsContainer}>
+      <SEO
+        title="Kayan | Reviews"
+        description="See what other shoppers think about our products at Kayan."
+      />
+
       {/* Header */}
       <div className={styles.header}>
         <button onClick={() => navigate(-1)} className={styles.backButton}>

@@ -7,6 +7,7 @@ import { useAppSelector, useAppDispatch } from "../../Hooks/reduxHooks";
 import { clearCartApi } from "../../Store/Slices/CartSlice";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import SEO from "../../Components/SEO/SEO";
 
 const MySwal = withReactContent(Swal);
 
@@ -78,6 +79,10 @@ export default function Checkout() {
           <h2 className="text-3xl font-semibold mb-6 text-gradient header-font">
             Checkout
           </h2>
+          <SEO
+            title="Kayan | Checkout"
+            description="Complete your purchase securely and quickly with Kayan checkout."
+          />
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             <div>

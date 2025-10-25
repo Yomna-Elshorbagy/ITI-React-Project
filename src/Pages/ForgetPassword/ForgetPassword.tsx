@@ -9,6 +9,7 @@ import withReactContent from "sweetalert2-react-content";
 import AuthSlider from "../../Shared/AuthSlider/AuthSlider";
 import { useAppDispatch } from "../../Hooks/reduxHooks";
 import { insertUserToken } from "../../Store/Slices/AuthSlice";
+import SEO from "../../Components/SEO/SEO";
 
 const MySwal = withReactContent(Swal);
 
@@ -153,10 +154,17 @@ export default function ForgetPassword() {
 
   return (
     <div className="flex min-h-screen">
+      <SEO
+        title="Kayan | Reset Password"
+        description="Reset your Kayan account password quickly and securely."
+      />
+
       {/* Left Side */}
       <div className="w-full md:w-1/2 bg-[#f5f0e9] flex flex-col items-center justify-center py-16">
         <div className="w-full px-4 sm:w-3/4 lg:w-2/3">
-          <h1 className="text-2xl mb-2 font-['Playfair_Display'] text-[var(--wood-400)]">Forget Password</h1>
+          <h1 className="text-2xl mb-2 font-['Playfair_Display'] text-[var(--wood-400)]">
+            Forget Password
+          </h1>
           <p className="text-gray-600 mb-5 font-['Playfair_Display']">
             Please finish these steps to reset your password
           </p>
@@ -201,7 +209,9 @@ export default function ForgetPassword() {
             {step === 0 && (
               <form onSubmit={handleEmailSubmit(sendCode)}>
                 <div className="mb-4">
-                  <label className="block mb-1 font-['Playfair_Display']">E-mail</label>
+                  <label className="block mb-1 font-['Playfair_Display']">
+                    E-mail
+                  </label>
                   <input
                     type="text"
                     {...registerEmail("email")}
@@ -299,12 +309,14 @@ export default function ForgetPassword() {
               <>
                 <form onSubmit={handlePasswordSubmit(resetPassword)}>
                   <div className="mb-4">
-                    <label className=" font-['Playfair_Display']">New Password</label>
+                    <label className=" font-['Playfair_Display']">
+                      New Password
+                    </label>
                     <div className="relative">
                       <input
                         type={isPasswordVisible ? "text" : "password"}
                         {...registerPassword("newPassword")}
-                      className="w-full pl-10 py-3 border border-gray-300 rounded focus:border-[var(--wood-400)] focus:ring-2 focus:ring-[var(--wood-200)] focus:outline-none transition-all duration-200"
+                        className="w-full pl-10 py-3 border border-gray-300 rounded focus:border-[var(--wood-400)] focus:ring-2 focus:ring-[var(--wood-200)] focus:outline-none transition-all duration-200"
                       />
                       <span
                         className="absolute right-3 top-2 cursor-pointer"

@@ -5,18 +5,17 @@ import PromoBanner from "../../Components/PromoBanner/PromoBanner";
 import Testimonials from "../../Components/Testimonials/Testimonials";
 import InstagramGallery from "../../Components/InstagramGallery/InstagramGallery";
 import LowestPriceSection from "../../Components/LowestPrice/LowestPriceSection";
-
+import SEO from "../../Components/SEO/SEO";
 const Home: React.FC = () => {
   return (
     <>
-      <Slider />
-      <CategorySlider />
-      <PromoBanner />
-      <InstagramGallery />
-      <LowestPriceSection />
-      <Testimonials />
+      <SEO
+        title="Kayan | Home"
+        description="Welcome to Kayan — your go-to store for fashion, electronics, and exclusive deals."
+      />{" "}
+      <Slider /> <CategorySlider /> <PromoBanner /> <InstagramGallery />{" "}
+      <LowestPriceSection /> <Testimonials />{" "}
     </>
   );
 };
-
 export default Home;

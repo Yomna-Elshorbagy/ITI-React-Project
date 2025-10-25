@@ -6,7 +6,7 @@ import UserOrders from "../../Components/UserOrder/UserOrder";
 import { useUserProfile } from "../../Hooks/useUserProfile";
 import OrderTracking from "../../Components/UserOrder/OrderTracking";
 import LoginActivityTab from "../../Components/ActivityLog/ActivityLog";
-
+import SEO from "../../Components/SEO/SEO";
 export default function UserProfile() {
   const [activeTab, setActiveTab] = useState("Personal Information");
   const {
@@ -20,7 +20,12 @@ export default function UserProfile() {
     isError,
   } = useUserProfile();
 
-  const tabs = ["Personal Information", "My Orders", "Orders Tracking", "Activity Log"];
+  const tabs = [
+    "Personal Information",
+    "My Orders",
+    "Orders Tracking",
+    "Activity Log",
+  ];
 
   if (isLoading) {
     return <LoaderPage />;
@@ -35,6 +40,11 @@ export default function UserProfile() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-10 px-5 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+      <SEO
+        title="Kayan | Profile"
+        description="Manage your personal info, orders, and settings in your Kayan account."
+      />
+
       {/* Header */}
       <div className="text-center mb-10">
         <h2 className="text-3xl font-serif text-gray-800 dark:text-gray-100">
@@ -231,7 +241,6 @@ export default function UserProfile() {
             </div>
           )}
 
-          
           {activeTab === "Activity Log" && (
             <div className="h-full space-y-6">
               <LoginActivityTab />

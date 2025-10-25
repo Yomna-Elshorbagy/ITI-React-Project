@@ -11,6 +11,7 @@ import {
   removeFromWishlist,
 } from "../../Store/Slices/WishlistSlice";
 import { Filter, X } from "lucide-react";
+import SEO from "../../Components/SEO/SEO";
 
 type Product = {
   _id: string;
@@ -140,8 +141,8 @@ const Products: React.FC = () => {
     discountFilter,
   ]);
 
- // const dispatch = useDispatch();
-  const dispatch = useDispatch<AppDispatch>()
+  // const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const wishlist = useSelector((state: any) => state.wishlist.items);
   const [showModal, setShowModal] = useState(false);
 
@@ -175,6 +176,10 @@ const Products: React.FC = () => {
 
   return (
     <>
+      <SEO
+        title="Kayan | Products"
+        description="Browse our wide range of products — from fashion to tech — only at Kayan."
+      />
       <AccessoriesBanner />
       {/* 
       {showModal && (
