@@ -15,13 +15,41 @@ export default function ProductGallery({
   };
   return (
     <div className="imageGallery flex flex-col gap-4">
-      <div className="mainImage aspect-square rounded-lg overflow-hidden bg-gray-100">
-        <img
-          src={allImages[selected]?.secure_url}
-          alt={product.title}
-          className="w-full h-full object-cover hover:scale-105 transition-transform"
-        />
+      <div className="mainImage aspect-square rounded-lg overflow-hidden bg-gray-100 relative">
+        <div
+          className="w-full h-full relative overflow-hidden cursor-zoom-in"
+          onMouseMove={(e) => {
+            const el = e.currentTarget.querySelector("img") as HTMLImageElement;
+            if (!el) return;
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width) * 100;
+            const y = ((e.clientY - rect.top) / rect.height) * 100;
+            el.style.transformOrigin = `${x}% ${y}%`;
+          }}
+          onMouseEnter={(e) => {
+            const el = e.currentTarget.querySelector("img") as HTMLImageElement;
+            if (el) {
+              el.style.transition = "transform 0.5s ease-in-out";
+              el.style.transform = "scale(1.2)";
+            }
+          }}
+          onMouseLeave={(e) => {
+            const el = e.currentTarget.querySelector("img") as HTMLImageElement;
+            if (el) {
+              el.style.transition = "transform 0.5s ease-in-out";
+              el.style.transform = "scale(1)";
+              el.style.transformOrigin = "center center";
+            }
+          }}
+        >
+          <img
+            src={allImages[selected]?.secure_url}
+            alt={product.title}
+            className="w-full h-full object-cover transition-transform duration-500 ease-in-out"
+          />
+        </div>
       </div>
+
       <div className="thumbnailContainer flex flex-col items-center gap-2">
         <div className="flex items-center w-full gap-2">
           <button

@@ -98,10 +98,7 @@ const ProductCard: React.FC<Props> = ({
       onMouseLeave={() => setHovered(false)}
       className="group relative flex flex-col rounded-2xl overflow-hidden bg-[color:var(--color-surface)] shadow-sm hover:shadow-lg transition-all duration-300 elevate-soft hover:-translate-y-1"
     >
-      <div
-        className="relative w-full aspect-[4/4.25] overflow-hidden cursor-pointer"
-        onClick={handleProductClick}
-      >
+      <div className="relative w-full aspect-[4/4.25] overflow-hidden">
         <img
           src={activeImg}
           alt={product.title}
@@ -170,7 +167,10 @@ const ProductCard: React.FC<Props> = ({
           </button>
         </div>
       </div>
-      <div className="p-4 flex flex-col gap-2 flex-1">
+      <div
+        className="p-4 flex flex-col gap-2 flex-1  cursor-pointer"
+        onClick={handleProductClick}
+      >
         <h3 className="text-sm font-semibold text-[color:var(--color-text)] line-clamp-2 min-h-[38px] hover:text-[color:var(--color-primary)] transition-colors cursor-default">
           {product.title}
         </h3>

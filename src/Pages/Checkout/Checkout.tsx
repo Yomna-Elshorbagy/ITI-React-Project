@@ -49,7 +49,7 @@ export default function Checkout() {
         couponCode: values.couponCode,
       },
       {
-        onSuccess: (res) => {
+        onSuccess: () => {
           MySwal.fire({
             icon: "success",
             title: "Order placed",
@@ -72,113 +72,144 @@ export default function Checkout() {
   };
 
   return (
-    <section className="min-h-[70vh] py-10">
-      <div className="max-w-5xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl p-6 shadow-sm">
-          <h2 className="text-2xl font-semibold mb-4">Checkout</h2>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <section className="min-h-[80vh] py-12 bg-[var(--color-bg)] transition-all duration-300">
+      <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div className="rounded-2xl glass dark:glass-dark p-8 elevate-soft elevate-hover border border-[var(--color-border)] transition-all duration-300">
+          <h2 className="text-3xl font-semibold mb-6 text-gradient header-font">
+            Checkout
+          </h2>
+
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             <div>
-              <label className="block mb-1">Full name</label>
+              <label className="block mb-2 font-medium text-[var(--color-text-muted)]">
+                Full name
+              </label>
               <input
-                className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:border-emerald-600"
                 {...register("fullName")}
                 placeholder="e.g. Yomna Mohamed"
+                className="w-full border border-[var(--color-border)] rounded-xl px-4 py-2.5 bg-[var(--color-surface)] focus-ring focus:border-[var(--color-primary)] transition-all"
               />
               {errors.fullName && (
-                <p className="text-red-600 text-sm mt-1">
+                <p className="text-[var(--color-error)] text-sm mt-1">
                   {errors.fullName.message}
                 </p>
               )}
             </div>
+
             <div>
-              <label className="block mb-1">Phone</label>
+              <label className="block mb-2 font-medium text-[var(--color-text-muted)]">
+                Phone
+              </label>
               <input
-                className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:border-emerald-600"
                 {...register("phone")}
                 placeholder="01001234567"
+                className="w-full border border-[var(--color-border)] rounded-xl px-4 py-2.5 bg-[var(--color-surface)] focus-ring transition-all"
               />
               {errors.phone && (
-                <p className="text-red-600 text-sm mt-1">
+                <p className="text-[var(--color-error)] text-sm mt-1">
                   {errors.phone.message}
                 </p>
               )}
             </div>
+
             <div>
-              <label className="block mb-1">Address</label>
+              <label className="block mb-2 font-medium text-[var(--color-text-muted)]">
+                Address
+              </label>
               <textarea
-                className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:border-emerald-600"
                 rows={3}
                 {...register("address")}
-                placeholder="15 El Tahrir St, Cairo, Egypt"
+                placeholder="18 abdelhameed shoman, Cairo, Egypt"
+                className="w-full border border-[var(--color-border)] rounded-xl px-4 py-2.5 bg-[var(--color-surface)] focus-ring transition-all"
               />
-              {errors.address && (
-                <p className="text-red-600 text-sm mt-1">
-                  {errors.address.message}
-                </p>
-              )}
             </div>
+
             <div>
-              <label className="block mb-1">Payment</label>
+              <label className="block mb-2 font-medium text-[var(--color-text-muted)]">
+                Payment
+              </label>
               <select
-                className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:border-emerald-600"
                 {...register("payment")}
+                className="w-full border border-[var(--color-border)] rounded-xl px-4 py-2.5 bg-[var(--color-surface)] focus-ring transition-all"
               >
                 <option>Cash on Delivery</option>
                 <option>Online</option>
               </select>
             </div>
+
             <div>
-              <label className="block mb-1">Coupon Code (Optional)</label>
+              <label className="block mb-2 font-medium text-[var(--color-text-muted)]">
+                Coupon Code (Optional)
+              </label>
               <input
-                className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:border-emerald-600"
                 {...register("couponCode")}
                 placeholder="Enter coupon code"
+                className="w-full border border-[var(--color-border)] rounded-xl px-4 py-2.5 bg-[var(--color-surface)] focus-ring transition-all"
               />
             </div>
+
             <button
               disabled={isPending}
-              className="w-full py-3 rounded-lg text-white font-semibold bg-gradient-to-r from-emerald-600 to-teal-600 disabled:opacity-60"
+              className="w-full py-3 rounded-xl text-white font-semibold text-lg animate-gradient-x elevate-soft transition-all disabled:opacity-60"
             >
               {isPending ? "Placing order..." : "Place order"}
             </button>
           </form>
         </div>
 
-        <aside className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl p-6 shadow-sm h-fit">
-          <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
+        <aside className="rounded-2xl glass dark:glass-dark p-8 border border-[var(--color-border)] elevate-soft elevate-hover h-fit transition-all">
+          <h3 className="text-2xl font-semibold mb-6 text-gradient header-font">
+            Order Summary
+          </h3>
+
           <div className="space-y-4">
             {(products || []).map((p: any) => (
-              <div key={p._id} className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+              <div
+                key={p._id}
+                className="flex items-center gap-4 p-3 bg-[var(--sage-50)] dark:bg-[var(--color-surface)] rounded-xl transition-all hover:elevate-soft"
+              >
                 <img
-                  src={p.productId?.imageCover?.secure_url || '/placeholder-image.jpg'}
-                  alt={p.productId?.title || 'Product'}
-                  className="w-16 h-16 object-cover rounded-md flex-shrink-0"
+                  src={
+                    p.productId?.imageCover?.secure_url ||
+                    "/placeholder-image.jpg"
+                  }
+                  alt={p.productId?.title || "Product"}
+                  className="w-16 h-16 object-cover rounded-lg flex-shrink-0 border border-[var(--color-border)]"
                 />
                 <div className="flex-1 min-w-0">
-                  <h4 className="font-medium text-gray-900 dark:text-white truncate">
-                    {p.productId?.title || 'Product Name'}
+                  <h4 className="font-medium text-[var(--color-text)] truncate">
+                    {p.productId?.title || "Product Name"}
                   </h4>
-                  <div className="flex items-center justify-between mt-1">
-                    <span className="text-sm text-gray-600 dark:text-gray-300">
+                  <div className="flex items-center justify-between mt-1 text-sm">
+                    <span className="text-[var(--color-text-muted)]">
                       Qty: {p.quantity}
                     </span>
-                    <span className="font-semibold text-emerald-600">
+                    <span className="font-semibold text-[var(--color-primary)]">
                       {p.price} EGP
                     </span>
                   </div>
-                  {p.productId?.finalPrice && p.productId?.finalPrice < p.productId?.price && (
-                    <div className="text-xs text-green-600 font-medium">
-                      {Math.round(((p.productId.price - p.productId.finalPrice) / p.productId.price) * 100)}% off
-                    </div>
-                  )}
+                  {p.productId?.finalPrice &&
+                    p.productId?.finalPrice < p.productId?.price && (
+                      <div className="text-xs text-[var(--color-success)] font-medium mt-1">
+                        {Math.round(
+                          ((p.productId.price - p.productId.finalPrice) /
+                            p.productId.price) *
+                            100
+                        )}
+                        % off
+                      </div>
+                    )}
                 </div>
               </div>
             ))}
           </div>
-          <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
-            <div className="flex justify-between text-base font-semibold">
+
+          <div className="mt-8 pt-5 border-t border-[var(--color-border)]">
+            <div className="flex justify-between text-lg font-semibold">
               <span>Total</span>
-              <span className="text-emerald-700">{totalPrice} EGP</span>
+              <span className="text-[var(--color-primary)]">
+                {totalPrice} EGP
+              </span>
             </div>
           </div>
         </aside>

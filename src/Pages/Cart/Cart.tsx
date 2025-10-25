@@ -31,38 +31,45 @@ export default function Cart() {
   if (loading) return <LoaderPage />;
 
   if (products.length === 0) {
-    return (
-      <div
-        className={`${styles.container} flex flex-col justify-center items-center h-[calc(100vh-180px)] gap-6`}
+  return (
+    <div
+      className={`${styles.container} flex flex-col justify-center items-center h-[calc(100vh-180px)] relative overflow-hidden`}
+    >
+      <div className="absolute inset-0 bg-gradient-to-br  to-[var(--color-bg)] dark:from-[var(--color-surface)] dark:via-[var(--color-bg)] dark:to-[var(--color-border)] opacity-70 blur-2xl animate-pulse"></div>
+
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: -20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="relative bg-[var(--color-surface)] dark:bg-[var(--color-bg)] border border-[var(--color-border)] rounded-2xl shadow-xl p-10 text-center elevate-soft glass dark:glass-dark max-w-lg mx-auto"
       >
-        <motion.h1
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className={`${styles.title} text-center dark:text-white`}
-        >
-          🛒 Your Shopping Cart
-        </motion.h1>
         <motion.div
-          initial={{ scale: 0.96, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          className={`${styles.emptyBox} text-center mt-4`}
+          initial={{ rotate: -10, scale: 0.9 }}
+          animate={{ rotate: 0, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[var(--color-accent)] text-[var(--color-primary)] shadow-md mb-4"
         >
-          <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-3">
-            Your cart is empty
-          </h2>
-          <p className="text-gray-500 dark:text-gray-400">
-            Browse our latest collections and add items to your cart!
-          </p>
-          <button
-            onClick={handleShoppingClick}
-            className="mt-6 px-6 py-3 bg-green-800 text-white rounded-xl hover:bg-green-900 transition font-medium shadow-lg"
-          >
-            Go Shopping
-          </button>
+          <i className="fa-solid fa-cart-shopping text-3xl"></i>
         </motion.div>
-      </div>
-    );
-  }
+
+        <h2 className="text-3xl font-semibold text-[var(--color-text)] mb-2 header-font">
+          Your cart is empty
+        </h2>
+        <p className="text-[var(--color-text-muted)] mb-6 max-w-md mx-auto">
+          It looks like you haven’t added anything yet. Let’s fix that!
+        </p>
+
+        <button
+          onClick={handleShoppingClick}
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-semibold animate-gradient-x elevate-soft transition-all duration-300 hover:scale-[1.03]"
+        >
+          <i className="fa-solid fa-bag-shopping"></i> Go Shopping
+        </button>
+      </motion.div>
+    </div>
+  );
+}
+
 
   // const handleUpdateQuantity = (id: any, quantity: number) => {
   //   if (quantity > 0) dispatch(updateCartQuantity({ id, newCount: quantity }));
