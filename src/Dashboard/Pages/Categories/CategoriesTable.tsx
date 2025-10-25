@@ -1,23 +1,24 @@
 import React from "react";
-import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
+import { FaEye, FaEdit, FaTrash, FaBan } from "react-icons/fa";
 import type { ICategory } from "../../DashBordInterfaces/categryInterfaces";
 import { useState } from "react";
-import {  FaSpinner } from "react-icons/fa";
+import { FaSpinner } from "react-icons/fa";
 
 interface CategoryTableProps {
   categories: ICategory[];
- // productCounts: Record<string, number>; // categoryId → count
+  // productCounts: Record<string, number>; // categoryId → count
   onView: (category: ICategory) => void;
   onEdit: (category: ICategory) => void;
+  onSoftDelete: (id: string) => void;
   onDelete: (id: string, name: string) => void;
 }
 
-
 const CategoriesTable: React.FC<CategoryTableProps> = ({
   categories,
- // productCounts,
+  // productCounts,
   onView,
   onEdit,
+  onSoftDelete,
   onDelete,
 }) => {
   const [deletingId, setDeletingId] = useState<string | null>(null);
@@ -63,7 +64,7 @@ const CategoriesTable: React.FC<CategoryTableProps> = ({
               <td className="py-3 px-4 text-[var(--color-text-muted)] text-center">
                 {c.productCount ?? 0}
               </td>
-              
+
               <td className="py-3 px-4 text-[var(--color-text-muted)] text-center">
                 {c.updatedAt ? new Date(c.updatedAt).toLocaleDateString() : "—"}
               </td>
@@ -89,7 +90,7 @@ const CategoriesTable: React.FC<CategoryTableProps> = ({
                 >
                   <FaEdit />
                 </button>
-                 {/*<button
+                {/*<button
                   className="p-2 rounded-md text-white transition-all duration-300 transform hover:scale-110"
                   style={{ backgroundColor: "var(--color-error)" }}
                   title="Delete Category"
@@ -98,22 +99,30 @@ const CategoriesTable: React.FC<CategoryTableProps> = ({
                   <FaTrash />
                 </button>*/}
                 <button
-               className="p-2 rounded-md text-white transition-all duration-300 transform hover:scale-110 flex items-center justify-center"
-               style={{ backgroundColor: "var(--color-error)" }}
-               title="Delete Category"
-               onClick={async () => {
-               setDeletingId(c._id);
-               await onDelete(c._id, c.name);
-              setDeletingId(null);
-              }}
-              disabled={deletingId === c._id}
-              >
-            {deletingId === c._id ? (
-           <FaSpinner className="animate-spin" />
-            ) : (
-          <FaTrash />
-           )}
-          </button>
+                  className="p-2 rounded-md text-white transition-all duration-300 transform hover:scale-110 flex items-center justify-center"
+                  style={{ backgroundColor: "var(--color-error)" }}
+                  title="Delete Category"
+                  onClick={async () => {
+                    setDeletingId(c._id);
+                    await onDelete(c._id, c.name);
+                    setDeletingId(null);
+                  }}
+                  disabled={deletingId === c._id}
+                >
+                  {deletingId === c._id ? (
+                    <FaSpinner className="animate-spin" />
+                  ) : (
+                    <FaTrash />
+                  )}
+                </button>
+                <button
+                  className="p-2 rounded-md text-white transition-all duration-300 transform hover:scale-110"
+                  style={{ backgroundColor: "var(--color-text-muted)" }}
+                  title="Block User"
+                  onClick={() => onSoftDelete(c._id)}
+                >
+                  <FaBan />
+                </button>
               </td>
             </tr>
           ))}

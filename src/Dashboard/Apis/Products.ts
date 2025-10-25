@@ -5,7 +5,7 @@ import type {
   IRelatedProduct,
 } from "../DashBordInterfaces/ProductsInterfaces";
 
-const BASE_URL = "https://iti-react-backend.vercel.app/products";
+const BASE_URL = "http://localhost:3000/products";
 const token = localStorage.getItem("accessToken");
 
 const headers = {
@@ -122,5 +122,12 @@ export const contactProductOwner = async (productId: string) => {
 
 export const getProductStats = async (): Promise<IProductStats> => {
   const { data } = await axios.get(`${BASE_URL}/analytics/stats`, { headers });
+  return data.data;
+};
+
+export const getTopSellingProducts = async () => {
+  const { data } = await axios.get(`${BASE_URL}/topSelling`, {
+    headers,
+  });
   return data.data;
 };

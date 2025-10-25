@@ -17,7 +17,7 @@ export interface ICategory {
 }
 
 export interface ITrendingCategory {
-  _id: string; 
+  _id: string;
   count: number;
   category: ICategory;
 }
@@ -26,7 +26,8 @@ export interface ICategoryStats {
   totalCategories: number;
   latest: ICategory[];
   productsPerCategory: Array<{
-    _id: string;
+    categoryId: string;
     count: number;
+    categoryName: string;
   }>;
 }

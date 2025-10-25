@@ -1,7 +1,11 @@
 import axios from "axios";
-import type { ICategory, ICategoryStats, ITrendingCategory } from "../DashBordInterfaces/categryInterfaces";
+import type {
+  ICategory,
+  ICategoryStats,
+  ITrendingCategory,
+} from "../DashBordInterfaces/categryInterfaces";
 
-const BASE_URL = "https://iti-react-backend.vercel.app/categories";
+const BASE_URL = "http://localhost:3000/categories";
 const token = localStorage.getItem("accessToken");
 
 const headers = {
@@ -9,12 +13,10 @@ const headers = {
   "Content-Type": "application/json",
 };
 
-
 export const getAllCategories = async (): Promise<ICategory[]> => {
   const { data } = await axios.get(`${BASE_URL}`, { headers });
   return data.data;
 };
-
 
 export const getCategories = async (
   page: number = 1,
@@ -41,12 +43,10 @@ export const getCategories = async (
   return data;
 };
 
-
 export const getCategoryById = async (id: string): Promise<ICategory> => {
   const { data } = await axios.get(`${BASE_URL}/${id}`, { headers });
   return data.data;
 };
-
 
 export const addCategory = async (formData: FormData): Promise<ICategory> => {
   const { data } = await axios.post(`${BASE_URL}/addCategory`, formData, {
@@ -57,7 +57,6 @@ export const addCategory = async (formData: FormData): Promise<ICategory> => {
   });
   return data.data;
 };
-
 
 export const updateCategory = async (
   id: string,
@@ -77,8 +76,17 @@ export const deleteCategory = async (id: string): Promise<any> => {
   return data;
 };
 
-export const softDeleteCategories = async (id: string, token: string): Promise<any> => {
-  const { data } = await axios.put(`${BASE_URL}/soft/${id}`, { headers });
+export const softDeleteCategories = async (
+  id: string,
+  token: string
+): Promise<any> => {
+  const { data } = await axios.put(
+    `${BASE_URL}/soft/${id}`,
+    {},
+    {
+      headers: { authentication: `bearer ${token}` },
+    }
+  );
   return data;
 };
 export const getProductsByCategory = async (id: string): Promise<any> => {
@@ -87,11 +95,20 @@ export const getProductsByCategory = async (id: string): Promise<any> => {
 };
 
 export const getTrendingCategories = async (): Promise<ITrendingCategory[]> => {
-  const { data } = await axios.get(`${BASE_URL}/analytics/trending`, { headers });
+  const { data } = await axios.get(`${BASE_URL}/analytics/trending`, {
+    headers,
+  });
   return data.data;
 };
 
 export const getCategoryStats = async (): Promise<ICategoryStats> => {
   const { data } = await axios.get(`${BASE_URL}/analytics/stats`, { headers });
+  return data.data;
+};
+
+export const getRevenueDistribution = async (): Promise<
+  { category: string; totalRevenue: number }[]
+> => {
+  const { data } = await axios.get(`${BASE_URL}/getRevenues`, { headers });
   return data.data;
 };

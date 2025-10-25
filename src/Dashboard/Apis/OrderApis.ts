@@ -5,7 +5,7 @@ import type {
   IOrderResponse,
 } from "../DashBordInterfaces/OrderInterfaces";
 
-const BASE_URL = "https://iti-react-backend.vercel.app/order";
+const BASE_URL = "http://localhost:3000/order";
 const token = localStorage.getItem("accessToken");
 
 const headers = {
@@ -101,6 +101,11 @@ export const getRevenuePerMonth = async (): Promise<any[]> => {
   const { data } = await axios.get(`${BASE_URL}/revenue`, { headers });
   console.log(data);
 
+  return data.data;
+};
+
+export const getOrdersDistribution = async () => {
+  const { data } = await axios.get(`${BASE_URL}/orderDistrbuted`, { headers });
   return data.data;
 };
 
