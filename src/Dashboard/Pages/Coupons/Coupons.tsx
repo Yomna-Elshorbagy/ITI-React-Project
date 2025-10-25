@@ -1,19 +1,28 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { getCoupons, deleteCoupon } from "../../Apis/CouponApis";
+import React, { useMemo, useState } from "react";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import toast from "react-hot-toast";
+import { deleteCoupon } from "../../Apis/CouponApis";
 import CouponsTable from "./CouponsTable";
 import AddCouponModal from "./AddCouponModal";
 import EditCouponModal from "./EditCouponModal";
-import toast from "react-hot-toast";
-import type { ICoupon } from "../../DashBordInterfaces/CouponInterface";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
 import { filterCoupons } from "../../Components/filter/filter";
 import { FaBarcode, FaTags, FaPercent } from "react-icons/fa";
+import type { ICoupon } from "../../DashBordInterfaces/CouponInterface";
+import { useCoupons } from "../../DashboardHooks/Coupons/useCoupon";
 
 const Coupons: React.FC = () => {
-  const [coupons, setCoupons] = useState<ICoupon[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [search, setSearch] = useState("");
+  const {
+    coupons,
+    loading,
+    page,
+    totalPages,
+    setPage,
+    search,
+    setSearch,
+    refetch,
+  } = useCoupons();
+
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingCoupon, setEditingCoupon] = useState<ICoupon | null>(null);
 
@@ -23,18 +32,7 @@ const Coupons: React.FC = () => {
 
   const MySwal = withReactContent(Swal);
 
-  const fetchCoupons = async () => {
-    setLoading(true);
-    try {
-      const response = await getCoupons(1, 20, search);
-      if (response.success) setCoupons(response.data);
-    } catch (err) {
-      toast.error("Failed to fetch coupons ❌");
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  // === Delete handler ===
   const handleDelete = async (id: string) => {
     const result = await MySwal.fire({
       title: "Are you sure?",
@@ -51,7 +49,7 @@ const Coupons: React.FC = () => {
       try {
         await deleteCoupon(id);
         toast.success("Coupon deleted successfully 🗑️");
-        fetchCoupons();
+        refetch();
       } catch (error: any) {
         toast.error(
           error.response?.data?.message || "Failed to delete coupon ❌"
@@ -60,13 +58,19 @@ const Coupons: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    fetchCoupons();
-  }, []);
-
+  // === Filtering ===
   const filteredCoupons = useMemo(() => {
     return filterCoupons(coupons, { code, type, discount });
   }, [coupons, code, type, discount]);
+
+  const handleReset = () => {
+    setCode("");
+    setType("");
+    setDiscount("");
+    setSearch("");
+  };
+
+  if (loading) return <p>Loading coupons...</p>;
 
   return (
     <div className="p-6 bg-white dark:bg-gray-900 rounded-xl shadow-md min-h-screen transition-colors duration-300">
@@ -89,7 +93,6 @@ const Coupons: React.FC = () => {
         </div>
       </div>
 
-      {/* === Filter Bar === */}
       <div className="w-full flex flex-wrap items-center gap-4 mb-6 bg-[var(--color-surface)] p-4 rounded-lg border border-[var(--color-border)] shadow-sm">
         <div className="flex items-center gap-2 flex-1 min-w-[220px]">
           <div className="p-2 border border-gray-300 dark:border-gray-700 rounded-md flex items-center justify-center bg-[var(--color-surface)]">
@@ -99,7 +102,10 @@ const Coupons: React.FC = () => {
             type="text"
             placeholder="Search by Code..."
             value={code}
-            onChange={(e) => setCode(e.target.value)}
+            onChange={(e) => {
+              setCode(e.target.value);
+              setSearch(e.target.value);
+            }}
             className="border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-transparent w-full focus:outline-none hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] transition-colors"
           />
         </div>
@@ -136,11 +142,7 @@ const Coupons: React.FC = () => {
 
         <div className="flex justify-end flex-1 min-w-[150px]">
           <button
-            onClick={() => {
-              setCode("");
-              setType("");
-              setDiscount("");
-            }}
+            onClick={handleReset}
             className="px-4 py-2 bg-[var(--color-primary)] text-white rounded-md text-sm font-medium shadow hover:bg-[var(--color-primary-hover)] transition-colors w-full sm:w-auto"
           >
             Reset
@@ -155,10 +157,31 @@ const Coupons: React.FC = () => {
         onDelete={handleDelete}
       />
 
+      {/* === pagination Controls === */}
+      <div className="flex justify-center items-center gap-2 mt-6">
+        <button
+          onClick={() => setPage(page - 1)}
+          disabled={page === 1}
+          className="px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-50"
+        >
+          Prev
+        </button>
+        <span className="text-sm text-gray-500 dark:text-gray-300">
+          Page {page} of {totalPages}
+        </span>
+        <button
+          onClick={() => setPage(page + 1)}
+          disabled={page === totalPages}
+          className="px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-50"
+        >
+          Next
+        </button>
+      </div>
+
       {showAddModal && (
         <AddCouponModal
           onClose={() => setShowAddModal(false)}
-          onSuccess={fetchCoupons}
+          onSuccess={refetch}
         />
       )}
 
@@ -166,7 +189,7 @@ const Coupons: React.FC = () => {
         <EditCouponModal
           coupon={editingCoupon}
           onClose={() => setEditingCoupon(null)}
-          onSuccess={fetchCoupons}
+          onSuccess={refetch}
         />
       )}
     </div>
