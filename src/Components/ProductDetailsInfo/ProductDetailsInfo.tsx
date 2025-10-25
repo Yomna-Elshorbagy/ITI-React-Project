@@ -6,13 +6,13 @@ import {
   addToWishlist,
   removeFromWishlist,
 } from "../../Store/Slices/WishlistSlice";
-import type { Product } from "../../Types/Prooduct";
 import { toast } from "react-hot-toast";
 import ProductGallery from "./ProductGallery";
 import ProductPrice from "./ProductPrice";
 import ProductActions from "./ProductActions";
 import ProductReviewsButton from "./ProductReviewsButton";
 import ProductShare from "./ProductShare";
+import type { Product } from "../../Types/Prooduct";
 
 interface ProductDetailsInfoProps {
   product: Product;
@@ -28,7 +28,6 @@ export default function ProductDetailsInfo({
   const { token } = useAppSelector((state) => state.auth);
   const { items: wishlistItems } = useAppSelector((state) => state.wishlist);
   const { products: cartItems } = useAppSelector((state) => state.cart);
-
   const isInWishlist = wishlistItems.some((item) => item._id === product._id);
   const isInCart = cartItems.some(
     (item) => item.productId?._id === product._id

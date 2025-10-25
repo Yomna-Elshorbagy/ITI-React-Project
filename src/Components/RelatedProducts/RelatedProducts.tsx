@@ -1,11 +1,10 @@
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import type { RelatedProduct } from "../../Types/RelatedProduct";
-import { useState } from "react";
-import styles from "./RelatedProducts.module.css";
 import { useAppDispatch, useAppSelector } from "../../Hooks/reduxHooks";
 import {
   addToWishlist,
@@ -13,6 +12,7 @@ import {
 } from "../../Store/Slices/WishlistSlice";
 import { toast } from "react-hot-toast";
 import ProductModal from "../Modal/ProductModal";
+import styles from "./RelatedProducts.module.css";
 
 interface RelatedProductsProps {
   relatedProducts: RelatedProduct[];
@@ -110,7 +110,6 @@ export default function RelatedProducts({
         <h2 className={styles.title}>Related Products</h2>
         <p className={styles.subtitle}>Discover more items you might love</p>
       </div>
-
       <div className={styles.sliderWrapper}>
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
@@ -124,10 +123,7 @@ export default function RelatedProducts({
             bulletClass: styles.bullet,
             bulletActiveClass: styles.bulletActive,
           }}
-          autoplay={{
-            delay: 5000,
-            disableOnInteraction: false,
-          }}
+          autoplay={{ delay: 5000, disableOnInteraction: false }}
           spaceBetween={24}
           slidesPerView={1}
           breakpoints={{
@@ -144,7 +140,6 @@ export default function RelatedProducts({
                 className={styles.productCard}
                 onClick={() => handleProductClick(product._id)}
               >
-                {/* Image Container */}
                 <div className={styles.imageContainer}>
                   <img
                     src={product.imageCover.secure_url}
@@ -152,8 +147,6 @@ export default function RelatedProducts({
                     className={styles.productImage}
                     loading="lazy"
                   />
-
-                  {/* Discount Badge */}
                   {product.discount > 0 && (
                     <div className={styles.discountBadge}>
                       <span className={styles.discountText}>
@@ -161,8 +154,6 @@ export default function RelatedProducts({
                       </span>
                     </div>
                   )}
-
-                  {/* Quick Actions */}
                   <div className={styles.quickActions}>
                     <button
                       className={`${styles.quickActionBtn} cursor-pointer ${
@@ -172,7 +163,6 @@ export default function RelatedProducts({
                       }`}
                       onClick={(e) => handleAddToWishlist(product._id, e)}
                       title="Add to Wishlist"
-                      disabled={isAddingToWishlist}
                     >
                       {isAddingToWishlist ? (
                         <i className="fa-solid fa-spinner fa-spin"></i>
@@ -195,13 +185,8 @@ export default function RelatedProducts({
                     </button>
                   </div>
                 </div>
-
-                {/* Content */}
                 <div className={styles.content}>
-                  {/* Title */}
                   <h3 className={styles.productTitle}>{product.title}</h3>
-
-                  {/* Price */}
                   <div className={styles.priceSection}>
                     <div className={styles.priceContainer}>
                       <span className={styles.currentPrice}>
@@ -218,8 +203,6 @@ export default function RelatedProducts({
                       <span>In Stock ({product.stock})</span>
                     </div>
                   </div>
-
-                  {/* Action Button */}
                   <button
                     className={styles.actionButton}
                     onClick={(e) => {
@@ -235,20 +218,14 @@ export default function RelatedProducts({
             </SwiperSlide>
           ))}
         </Swiper>
-
-        {/* Navigation Buttons */}
         <button className={styles.prevButton} aria-label="Previous">
           <i className="fa-solid fa-chevron-left"></i>
         </button>
         <button className={styles.nextButton} aria-label="Next">
           <i className="fa-solid fa-chevron-right"></i>
         </button>
-
-        {/* Pagination */}
         <div className={styles.pagination}></div>
       </div>
-
-      {/* Product Modal */}
       <ProductModal
         product={selectedProduct}
         isOpen={isModalOpen}

@@ -27,7 +27,8 @@ export default function ProductActions({
     <div className="actionButtons flex flex-col gap-4">
       <div className="quantitySelector flex items-center gap-3">
         <span className="quantityLabel text-sm font-medium text-gray-700">
-          Quantity:
+          {" "}
+          Quantity:{" "}
         </span>
         <div className="quantityControls flex items-center border border-gray-300 rounded-md">
           <button
@@ -55,7 +56,6 @@ export default function ProductActions({
           </button>
         </div>
       </div>
-
       <div className="primaryButtons flex flex-col sm:flex-row gap-3">
         <button
           onClick={onAddToCart}
@@ -76,7 +76,6 @@ export default function ProductActions({
             "Out of Stock"
           )}
         </button>
-
         <button
           onClick={onWishlistToggle}
           className={`wishlistButton flex-1 border py-3 rounded-md font-medium transition cursor-pointer ${
@@ -93,7 +92,6 @@ export default function ProductActions({
           {isInWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
         </button>
       </div>
-
       {isInCart && (
         <div className="secondaryButtons flex gap-3">
           <button
