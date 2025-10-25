@@ -110,13 +110,13 @@ export default function RevenueTable() {
 
           <button
             onClick={exportOrdersToCSV}
-            className="bg-green-600 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-green-700 transition-all duration-200"
+            className="bg-[var(--color-success)] text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-[var(--color-primary-hover)] transition-all duration-200"
           >
-            Export CSV
+            <i className="fa-solid fa-file-csv mr-2"></i> Export CSV
           </button>
           <button
             onClick={exportOrdersToPDF}
-            className="bg-red-600 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-red-700 transition-all duration-200"
+            className="bg-[var(--color-error)] text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-red-700 transition-all duration-200"
           >
             Export PDF
           </button>

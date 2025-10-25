@@ -20,7 +20,6 @@ import Login from "./Pages/Login/Login";
 import Register from "./Pages/Register/Register";
 import ForgetPassword from "./Pages/ForgetPassword/ForgetPassword";
 import Checkout from "./Pages/Checkout/Checkout";
-
 import { store } from "./Store/store";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import ContactUs from "./Pages/Contact/ContactUs";

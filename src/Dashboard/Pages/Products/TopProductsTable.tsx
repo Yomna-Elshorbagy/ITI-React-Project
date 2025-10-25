@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
 import { getAllOrders } from "../../Apis/OrderApis";
 
 interface ProductStats {
@@ -9,62 +10,49 @@ interface ProductStats {
 }
 
 const TopProductsTable: React.FC = () => {
-  const [topProducts, setTopProducts] = useState<ProductStats[]>([]);
-  const [loading, setLoading] = useState(true);
+  const {
+    data: topProducts = [],
+    isLoading,
+    isError,
+    error,
+  } = useQuery<ProductStats[], Error>({
+    queryKey: ["topProducts"],
+    queryFn: async () => {
+      const { data: orders } = await getAllOrders(1, 1000);
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        setLoading(true);
-        const { data: orders } = await getAllOrders(1, 1000);
+      const productMap = new Map<string, ProductStats>();
 
-        const productMap = new Map<string, ProductStats>();
+      for (const order of orders) {
+        if (order.products && Array.isArray(order.products)) {
+          for (const p of order.products) {
+            const name = p.title || "Unknown";
+            const price = Number(p.price) || 0;
+            const qty = Number(p.quantity) || 0;
 
-        for (const order of orders) {
-          if (order.products && Array.isArray(order.products)) {
-            for (const p of order.products) {
-              const name = p.title || "Unknown";
-              const price = Number(p.price) || 0;
-              const qty = Number(p.quantity) || 0;
-
-              if (!productMap.has(name)) {
-                productMap.set(name, {
-                  name,
-                  price,
-                  salesCount: qty,
-                  totalRevenue: qty * price,
-                });
-              } else {
-                const existing = productMap.get(name)!;
-                existing.salesCount += qty;
-                existing.totalRevenue += qty * price;
-              }
+            if (!productMap.has(name)) {
+              productMap.set(name, {
+                name,
+                price,
+                salesCount: qty,
+                totalRevenue: qty * price,
+              });
+            } else {
+              const existing = productMap.get(name)!;
+              existing.salesCount += qty;
+              existing.totalRevenue += qty * price;
             }
           }
         }
-
-        const sorted = Array.from(productMap.values())
-          .sort((a, b) => b.salesCount - a.salesCount)
-          .slice(0, 5);
-
-        setTopProducts(sorted);
-      } catch (err) {
-        console.error("Error fetching top products:", err);
-      } finally {
-        setLoading(false);
       }
-    };
 
-    fetchOrders();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="text-center py-6 text-gray-500 dark:text-gray-400 animate-pulse">
-        Loading top selling products...
-      </div>
-    );
-  }
+      // Sort by sales count and take top 5
+      return Array.from(productMap.values())
+        .sort((a, b) => b.salesCount - a.salesCount)
+        .slice(0, 5);
+    },
+    staleTime: 1000 * 60 * 5, // cache for 5 minutes
+    refetchOnWindowFocus: true, // refetch when window gains focus
+  });
 
   const maxSales = Math.max(...topProducts.map((p) => p.salesCount), 1);
 
@@ -73,6 +61,22 @@ const TopProductsTable: React.FC = () => {
     if (percentage >= 40) return "bg-yellow-500";
     return "bg-red-500";
   };
+
+  if (isLoading) {
+    return (
+      <div className="text-center py-6 text-gray-500 dark:text-gray-400 animate-pulse">
+        Loading top selling products...
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="text-center py-6 text-red-500">
+        Error loading products: {error.message}
+      </div>
+    );
+  }
 
   return (
     <div className="bg-[var(--color-surface)] rounded-xl border border-[var(--color-border)] p-6 mt-8 shadow-lg transition-all duration-300 hover:shadow-xl">

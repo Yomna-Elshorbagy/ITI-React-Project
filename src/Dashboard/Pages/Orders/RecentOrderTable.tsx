@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
 import { getAllOrders } from "../../Apis/OrderApis";
 import type { IOrder } from "../../DashBordInterfaces/OrderInterfaces";
 
 const RecentOrdersTable: React.FC = () => {
-  const [orders, setOrders] = useState<IOrder[]>([]);
-  const [loading, setLoading] = useState(true);
+  const {
+    data: orders = [],
+    isLoading,
+    isError,
+    error,
+  } = useQuery<IOrder[], Error>({
+    queryKey: ["recentOrders"],
+    queryFn: async () => {
+      const { data } = await getAllOrders(1, 9);
+      return data.slice(-9).reverse();
+    },
+    staleTime: 1000 * 60 * 5, 
+    // refetchOnWindowFocus: true, 
+  });
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const { data } = await getAllOrders(1, 9);
-        setOrders(data.slice(-9).reverse()); // latest 9 orders
-      } catch (err) {
-        console.error("Error loading orders:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchOrders();
-  }, []);
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case "pending":
@@ -35,10 +35,18 @@ const RecentOrdersTable: React.FC = () => {
     }
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="text-center py-6 text-gray-500 dark:text-gray-400 animate-pulse">
         Loading recent orders...
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="text-center py-6 text-red-500">
+        Error loading orders: {error.message}
       </div>
     );
   }

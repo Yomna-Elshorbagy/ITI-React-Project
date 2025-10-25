@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
 import { getAllOrders } from "../../Apis/OrderApis";
 
 interface StatusSummary {
@@ -8,45 +9,44 @@ interface StatusSummary {
 }
 
 const OrderStatusTable: React.FC = () => {
-  const [data, setData] = useState<StatusSummary[]>([]);
-  const [total, setTotal] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const {
+    data: summaryData,
+    isLoading,
+    isError,
+    error,
+  } = useQuery<StatusSummary[], Error>({
+    queryKey: ["orderStatusSummary"],
+    queryFn: async () => {
+      const { data: orders } = await getAllOrders(1, 1000);
+      const totalOrders = orders.length;
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        setLoading(true);
-        const { data: orders } = await getAllOrders(1, 1000);
-        const totalOrders = orders.length;
-        setTotal(totalOrders);
+      const statusCount = orders.reduce<Record<string, number>>((acc, order) => {
+        const key = order.status?.toLowerCase() || "pending";
+        acc[key] = (acc[key] || 0) + 1;
+        return acc;
+      }, {});
 
-        const statusCount = orders.reduce<Record<string, number>>(
-          (acc, order) => {
-            const key = order.status?.toLowerCase() || "pending";
-            acc[key] = (acc[key] || 0) + 1;
-            return acc;
-          },
-          {}
-        );
+      const summary = Object.entries(statusCount).map(([status, count]) => ({
+        status: status.charAt(0).toUpperCase() + status.slice(1),
+        count,
+        percentage: ((count / totalOrders) * 100).toFixed(1),
+      }));
 
-        const summary = Object.entries(statusCount).map(([status, count]) => ({
-          status: status.charAt(0).toUpperCase() + status.slice(1),
-          count,
-          percentage: ((count / totalOrders) * 100).toFixed(1),
-        }));
+      return summary;
+    },
+    staleTime: 1000 * 60 * 10,
+    // refetchOnWindowFocus: true,
+  });
 
-        setData(summary);
-      } catch (err) {
-        console.error("Error loading order summary:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const total = summaryData?.reduce((sum, s) => sum + s.count, 0) || 0;
 
-    fetchOrders();
-  }, []);
+  const getColor = (percentage: number) => {
+    if (percentage >= 70) return "bg-green-500";
+    if (percentage >= 30) return "bg-yellow-500";
+    return "bg-red-500";
+  };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="text-center py-6 text-gray-500 dark:text-gray-400 animate-pulse">
         Loading order summary...
@@ -54,11 +54,13 @@ const OrderStatusTable: React.FC = () => {
     );
   }
 
-  const getColor = (percentage: number) => {
-    if (percentage >= 70) return "bg-green-500";
-    if (percentage >= 30) return "bg-yellow-500";
-    return "bg-red-500";
-  };
+  if (isError) {
+    return (
+      <div className="text-center py-6 text-red-500">
+        Error loading order summary: {error.message}
+      </div>
+    );
+  }
 
   return (
     <div className="bg-[var(--color-surface)] rounded-xl border border-[var(--color-border)] p-6 mt-8 shadow-lg transition-all duration-300 hover:shadow-xl">
@@ -76,7 +78,7 @@ const OrderStatusTable: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((row, idx) => {
+            {summaryData?.map((row, idx) => {
               const percentNum = parseFloat(row.percentage);
               return (
                 <tr

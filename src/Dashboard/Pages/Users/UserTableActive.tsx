@@ -37,7 +37,6 @@ const UserStatusOverview: React.FC = () => {
 
       return allData;
     },
-    staleTime: 1000 * 60 * 10, // cache for 10 minutes
   });
 
   const finalLoading = loading || isLoading;
