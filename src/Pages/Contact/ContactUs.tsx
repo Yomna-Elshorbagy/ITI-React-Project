@@ -61,7 +61,7 @@ export default function ContactUs() {
   };
 
   return (
-    <section className=" bg-[ #F7E7CE] dark:bg-[var(--color-blue)]/85 transition-colors duration-500 py-16 px-6 sm:px-10 lg:px-20"> {/*dark:bg-gray-900 #fdfaf5ff  #F7E7CE #F6E7D7 #FAF9F7 #fdfaf5ff*/}
+    <section className="bg-[#f5f0e9] dark:bg-[var(--color-blue)]/85 transition-colors duration-500 py-16 px-6 sm:px-10 lg:px-20"> {/*dark:bg-gray-900 #fdfaf5ff bg-[ #F7E7CE]  #F7E7CE #F6E7D7 #FAF9F7 #fdfaf5ff*/}
       <div className="max-w-6xl mx-auto text-center mb-12">
         <h1 className="text-[var(--color-header)] font-['Playfair_Display'] uppercase tracking-widest font-semibold text-lg md:text-2xl mb-4">
           Get in Touch                {/*<span className="text-[var(--color-primary)] text-4xl font-bold text-gray-800  "> */}
@@ -167,7 +167,7 @@ export default function ContactUs() {
               className={`w-full py-3 font-medium rounded-md transition duration-300 dark:text-[#F4EDE1] ${
                 isPending
                   ? "bg-[var(--color-blue)] cursor-not-allowed"
-                  : "bg-[#C49A53] hover:bg-[var(--color-blue)] text-[var(--color-bg)]" //hover:opacity-90
+                  : "bg-[#bf9650] hover:bg-[#cfa257] text-[var(--color-bg)]" //hover:opacity-90
               }`}
             >
               {isPending ? "Sending..." : "Send Message"}

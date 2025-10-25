@@ -154,15 +154,15 @@ export default function ForgetPassword() {
   return (
     <div className="flex min-h-screen">
       {/* Left Side */}
-      <div className="w-full md:w-1/2 bg-[var(--colo-text)] flex flex-col items-center justify-center py-16">
+      <div className="w-full md:w-1/2 bg-[#f5f0e9] flex flex-col items-center justify-center py-16">
         <div className="w-full px-4 sm:w-3/4 lg:w-2/3">
-          <h1 className="text-2xl mb-2">Forget Password</h1>
-          <p className="text-gray-600 mb-5">
+          <h1 className="text-2xl mb-2 font-['Playfair_Display'] text-[var(--wood-400)]">Forget Password</h1>
+          <p className="text-gray-600 mb-5 font-['Playfair_Display']">
             Please finish these steps to reset your password
           </p>
 
           {/* Custom Stepper */}
-          <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center justify-between mb-5 font-['Playfair_Display'] text-grey-600">
             {["Send Code", "Verify Code", "Change Password"].map(
               (title, index) => (
                 <div key={index} className="flex-1 flex flex-col items-center">
@@ -201,7 +201,7 @@ export default function ForgetPassword() {
             {step === 0 && (
               <form onSubmit={handleEmailSubmit(sendCode)}>
                 <div className="mb-4">
-                  <label className="block mb-1">E-mail</label>
+                  <label className="block mb-1 font-['Playfair_Display']">E-mail</label>
                   <input
                     type="text"
                     {...registerEmail("email")}
@@ -215,7 +215,7 @@ export default function ForgetPassword() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="bg-[var(--wood-400)] text-white px-4 py-2 rounded cursor-pointer"
+                  className="bg-[var(--wood-400)] text-white px-4 py-2 rounded cursor-pointer font-['Playfair_Display']"
                 >
                   {loading ? "Sending..." : "Send Code"}
                 </button>
@@ -226,7 +226,7 @@ export default function ForgetPassword() {
             {step === 1 && (
               <div>
                 <div className="mb-4 text-center">
-                  <label className="block mb-2 font-medium text-gray-700">
+                  <label className="block mb-2 font-medium text-gray-700 font-['Playfair_Display']">
                     Enter the 6-digit OTP sent to your email
                   </label>
 
@@ -285,7 +285,7 @@ export default function ForgetPassword() {
                     Back
                   </button>
                   <button
-                    className="bg-[var(--wood-400)] text-white px-4 py-2 rounded cursor-pointer"
+                    className="bg-[var(--wood-400)] text-white px-4 py-2 rounded cursor-pointer font-['Playfair_Display']"
                     onClick={verifyCode}
                   >
                     Verify Code
@@ -299,7 +299,7 @@ export default function ForgetPassword() {
               <>
                 <form onSubmit={handlePasswordSubmit(resetPassword)}>
                   <div className="mb-4">
-                    <label>New Password</label>
+                    <label className=" font-['Playfair_Display']">New Password</label>
                     <div className="relative">
                       <input
                         type={isPasswordVisible ? "text" : "password"}
@@ -320,7 +320,7 @@ export default function ForgetPassword() {
                     )}
                   </div>
 
-                  <div className="mb-4">
+                  <div className="mb-4 font-['Playfair_Display']">
                     <label>Confirm Password</label>
                     <input
                       type={isPasswordVisible ? "text" : "password"}
@@ -337,7 +337,7 @@ export default function ForgetPassword() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="bg-[var(--wood-400)] text-white px-4 py-2 rounded cursor-pointer"
+                    className="bg-[var(--wood-400)] text-white px-4 py-2 rounded cursor-pointer font-['Playfair_Display']"
                   >
                     {loading ? "Resetting..." : "Reset Password"}
                   </button>

@@ -127,7 +127,7 @@ export default function Register() {
     <>
       <section className="register">
         <div className="flex min-h-screen">
-          <div className="relative w-full md:w-1/2 bg-[#C49A53]/40 min-h-screen flex justify-center items-center">
+          <div className="relative w-full md:w-1/2 bg-[#f5f0e9] min-h-screen flex justify-center items-center">
             <button
               onClick={() => navigate("/")}
               className="absolute top-6 left-6 bg-white shadow-md rounded-full p-3 hover:bg-amber-50 hover:scale-105 transition duration-200"

@@ -126,7 +126,7 @@ export default function Register() {
     <section className="register">
       <div className="flex min-h-screen">
         {/* Left Side - Form */}
-        <div className="relative w-full md:w-1/2  bg-[#C49A53]/40  max-h-screen overflow-y-auto py-5 flex items-start dark:bg-gray-900 pb-5 dark:text-white">   {/*bg-[var(--colo-text)] */}
+        <div className="relative w-full md:w-1/2  bg-[#f5f0e9]  max-h-screen overflow-y-auto py-5 flex items-start dark:bg-gray-900 pb-5 dark:text-white">   {/*bg-[var(--colo-text)] */}
           <button
             onClick={() => navigate("/")}
             className="absolute top-6 left-6 bg-white shadow-md rounded-full p-3 hover:bg-amber-50 hover:scale-105 transition duration-200"

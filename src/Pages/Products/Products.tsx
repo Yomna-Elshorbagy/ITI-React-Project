@@ -5,6 +5,7 @@ import ProductCard from "../../Components/ProductCard/ProductCard";
 import AccessoriesBanner from "../../Components/AccessoriesBanner/AccessoriesBanner";
 import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch } from "../../Store/store";
 import {
   addToWishlist,
   removeFromWishlist,
@@ -139,7 +140,8 @@ const Products: React.FC = () => {
     discountFilter,
   ]);
 
-  const dispatch = useDispatch();
+ // const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>()
   const wishlist = useSelector((state: any) => state.wishlist.items);
   const [showModal, setShowModal] = useState(false);
 

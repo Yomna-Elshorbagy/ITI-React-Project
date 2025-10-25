@@ -24,10 +24,11 @@ import type { WishlistItem } from "../../Types/Wishlist";
 export default function WishlistModal({ open, onClose }: WishlistModalProps) {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const [addingToCart, setAddingToCart] = useState(false);
+  //const [addingToCart, setAddingToCart] = useState(false);
+  const [addingProductId, setAddingProductId] = useState<string | null>(null);
 
-const MySwal = withReactContent(Swal);
-const [clearing, setClearing] = useState(false);
+  const MySwal = withReactContent(Swal);
+  const [clearing, setClearing] = useState(false);
 
   const { items, loading, error } = useSelector(
     (state: RootState) => state.wishlist
@@ -70,43 +71,50 @@ const [clearing, setClearing] = useState(false);
   });
 
   const handleRemove = async (id: string) => {
-    await dispatch(removeFromWishlist(id));
-    toast.success(" removed from wishlist ❌"); //(`${product.title} removed from wishlist ❌`)
+    const product = items.find((p) => p._id === id);
+
+    try {
+      await dispatch(removeFromWishlist(id)).unwrap();
+      toast.success(`${product?.title || "Item"} removed from wishlist ❌`);
+    } catch (error) {
+      console.error("Failed to remove from wishlist:", error);
+      toast.error(`Failed to remove ${product?.title || "item"} from wishlist ❌`);
+    }
   };
 
   const handleClear = async () => {
-  const result = await MySwal.fire({
-    title: "Clear Wishlist?",
-    text: "This will remove all items from your wishlist.",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Yes, clear it",
-    cancelButtonText: "Cancel",
-    confirmButtonColor: "#b9894e", 
-    cancelButtonColor: "#444",
-    background: "var(--color-surface)",
-    color: "var(--color-text)",
-    customClass: {
-      popup: "rounded-2xl shadow-lg",
-      title: "font-serif text-xl",
-      confirmButton: "px-4 py-2 font-medium rounded-md",
-      cancelButton: "px-4 py-2 font-medium rounded-md",
-    },
-  });
+    const result = await MySwal.fire({
+      title: "Clear Wishlist?",
+      text: "This will remove all items from your wishlist.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, clear it",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#b9894e",
+      cancelButtonColor: "#444",
+      background: "var(--color-surface)",
+      color: "var(--color-text)",
+      customClass: {
+        popup: "rounded-2xl shadow-lg",
+        title: "font-serif text-xl",
+        confirmButton: "px-4 py-2 font-medium rounded-md",
+        cancelButton: "px-4 py-2 font-medium rounded-md",
+      },
+    });
 
-  if (result.isConfirmed) {
-    try {
-      setClearing(true);
-      await dispatch(clearWishlist())
-     toast.success("Wishlist Cleared 🖤");
-       
-    } catch (err) {
-      toast.error("Failed to clear wishlist");
-    } finally {
-      setClearing(false);
+    if (result.isConfirmed) {
+      try {
+        setClearing(true);
+        await dispatch(clearWishlist())
+        toast.success("Wishlist Cleared 🖤");
+
+      } catch (err) {
+        toast.error("Failed to clear wishlist");
+      } finally {
+        setClearing(false);
+      }
     }
-  }
-};
+  };
 
   return (
     <Transition appear show={open} as={Fragment}>
@@ -135,23 +143,22 @@ const [clearing, setClearing] = useState(false);
           >
             <Dialog.Panel className="relative w-full max-w-3xl rounded-2xl bg-[#FAF9F7]/90 dark:bg-[#101b31ff]/80 py-6 shadow-xl">
               <div className="px-6 py-2 h-[85vh]">
-              {/* Clear All Button */}
-              <button
-              onClick={handleClear}
-              title="Clear entire wishlist"
-              disabled={clearing}
-              className={`absolute top-4 left-4 rounded-full p-2 shadow transition border-b-2 ${
-              clearing
-              ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-              : "bg-white hover:bg-black hover:text-white text-gray-600"
-              }`}
-              >
-             {clearing ? (
-             <i className="fa-solid fa-spinner fa-spin w-4 h-4"></i>
-            ) : (
-            <Trash2 className="w-4 h-4" />
-             )}
-              </button>
+                {/* Clear All Button */}
+                <button
+                  onClick={handleClear}
+                  title="Clear entire wishlist"
+                  disabled={clearing}
+                  className={`absolute top-4 left-4 rounded-full p-2 shadow transition border-b-2 ${clearing
+                      ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                      : "bg-white hover:bg-black hover:text-white text-gray-600"
+                    }`}
+                >
+                  {clearing ? (
+                    <i className="fa-solid fa-spinner fa-spin w-4 h-4"></i>
+                  ) : (
+                    <Trash2 className="w-4 h-4" />
+                  )}
+                </button>
                 {/* Close Button */}
                 <button
                   onClick={onClose}
@@ -213,42 +220,41 @@ const [clearing, setClearing] = useState(false);
                               </p>
                               <button
                                 onClick={async () => {
-                                if (product.stock > 0 && !addingToCart) {
-                                setAddingToCart(true);
-                              try {
-                                await dispatch(
-                                addProductToCart({
-                                productId: product._id,
-                                quantity: 1,
-                                })
-                               );
-                            dispatch(removeFromWishlist(product._id));
-                            toast.success("Added to cart 🛒");
-                         } catch (err) {
-                            toast.error("Failed to add to cart");
-                            console.error(err);
-                        } finally {
-                           setAddingToCart(false);
-                         }
-                       }
-                     }}
-                        disabled={product.stock <= 0 || addingToCart}
-                        className={`mt-2 w-full py-1.5 rounded-md transition font-medium flex items-center justify-center ${
-                        product.stock > 0
-                  ? "bg-[#d4a762] hover:bg-[#b9894e] text-white"
-                  : "bg-gray-400 cursor-not-allowed text-gray-100"
-                   }`}
-                    >
-                    {addingToCart ? (
-                  <>
-                <i className="fa-solid fa-spinner fa-spin mr-2"></i> Adding...
-                  </>
-               ) : product.stock > 0 ? (
-                "Add to Cart"
-                ) : (
-                 "Out of Stock"
-                  )}
-                     </button>
+                                  if ((product.stock ?? 0 )> 0 && !addingProductId) {
+                                    setAddingProductId(product._id);
+                                    try {
+                                      await dispatch(
+                                        addProductToCart({
+                                          productId: product._id,
+                                          quantity: 1,
+                                        })
+                                      ).unwrap();
+                                      dispatch(removeFromWishlist(product._id));
+                                      toast.success(`${product.title} added to cart 🛒`);
+                                    } catch (err) {
+                                      console.error(err);
+                                      toast.error(`Failed to add ${product.title} ❌`);
+                                    } finally {
+                                      setAddingProductId(null);
+                                    }
+                                  }
+                                }}
+                                disabled={(product.stock ?? 0 ) <= 0 || addingProductId === product._id}
+                                className={`mt-2 w-full py-1.5 rounded-md transition font-medium flex items-center justify-center ${(product.stock ?? 0 )> 0
+                                    ? "bg-[#d4a762] hover:bg-[#b9894e] text-white"
+                                    : "bg-gray-400 cursor-not-allowed text-gray-100"
+                                  }`}
+                              >
+                                {addingProductId === product._id ? (
+                                  <>
+                                    <i className="fa-solid fa-spinner fa-spin mr-2"></i> Adding...
+                                  </>
+                                ) : (product.stock ?? 0 ) > 0 ? (
+                                  "Add to Cart"
+                                ) : (
+                                  "Out of Stock"
+                                )}
+                              </button>
                             </div>
                           </div>
                         ))}
