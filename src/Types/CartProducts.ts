@@ -10,7 +10,5 @@ export type CartProduct = {
   };
   price: number;
   quantity: number;
-  category: null | {
-    name: string;
-  };
+  category: null | { name: string };
 };
