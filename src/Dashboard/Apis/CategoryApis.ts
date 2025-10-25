@@ -5,7 +5,7 @@ import type {
   ITrendingCategory,
 } from "../DashBordInterfaces/categryInterfaces";
 
-const BASE_URL = "http://localhost:3000/categories";
+const BASE_URL = "https://iti-react-backend.vercel.app/categories";
 const token = localStorage.getItem("accessToken");
 
 const headers = {

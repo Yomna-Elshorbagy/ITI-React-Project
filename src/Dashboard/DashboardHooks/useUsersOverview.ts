@@ -6,7 +6,7 @@ export const useUsersOverview = () => {
 
   const fetchOverview = async () => {
     const { data } = await axios.get(
-      "http://localhost:3000/user/analysis/overview",
+      "https://iti-react-backend.vercel.app/user/analysis/overview",
       {
         headers: {
           authentication: `bearer ${token}`,

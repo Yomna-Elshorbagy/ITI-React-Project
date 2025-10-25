@@ -61,7 +61,7 @@ const UserEditModal: React.FC<UserEditModalProps> = ({
 
     try {
       const { data } = await axios.put(
-        `http://localhost:3000/user/byadmin/${user._id}`,
+        `https://iti-react-backend.vercel.app/user/byadmin/${user._id}`,
         formData,
         {
           headers: {

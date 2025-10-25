@@ -5,7 +5,7 @@ import type {
   IOrderResponse,
 } from "../DashBordInterfaces/OrderInterfaces";
 
-const BASE_URL = "http://localhost:3000/order";
+const BASE_URL = "https://iti-react-backend.vercel.app/order";
 const token = localStorage.getItem("accessToken");
 
 const headers = {
