@@ -17,10 +17,10 @@ const AccessoriesBanner = () => {
       ></div>
 
       <div className="relative z-10 px-10 md:px-20 lg:px-32">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 dark:text-[var(--color-text)]">
+        <h1 className="text-4xl md:text-5xl font-bold  font-['Playfair_Display'] text-[var(--wood-400)] mb-4 dark:text-[var(--color-text)]">
           Jewelry
         </h1>
-        <p className="text-gray-700 max-w-xl leading-relaxed text-base md:text-lg dark:text-[var(--color-text-muted)]">
+        <p className="text-gray-600 max-w-xl  font-['Playfair_Display'] leading-relaxed text-base md:text-lg dark:text-[var(--color-text-muted)]">
           Discover our unique collection of accessories designed to complement
           your style. From elegant jewelry to modern fashion pieces, each item
           is crafted to bring out your individuality and confidence.

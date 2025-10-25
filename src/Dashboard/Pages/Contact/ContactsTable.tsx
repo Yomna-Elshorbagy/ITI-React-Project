@@ -30,7 +30,7 @@ const ContactTable: React.FC<ContactTableProps> = ({
   onEdit,
 }) => {
   return (
-    <div className="overflow-x-auto bg-[var(--color-surface)] rounded-xl border border-[var(--color-border)] hover:shadow-lg transition-all duration-500 ease-in-out">
+    <div className="overflow-x-auto bg-[var(--color-surface)]  rounded-xl border border-[var(--color-border)] hover:shadow-lg transition-all duration-500 ease-in-out">
       <table className="min-w-full text-sm rounded-xl overflow-hidden">
         <thead>
           <tr

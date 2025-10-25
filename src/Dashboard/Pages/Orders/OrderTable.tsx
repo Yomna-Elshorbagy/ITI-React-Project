@@ -46,7 +46,7 @@ const OrderTable: React.FC<OrderTableProps> = ({
           {orders.map((order, index) => (
             <tr
               key={order._id}
-              className={`transition-all duration-300 ease-in-out border-b border-[var(--color-border)] ${
+              className={`transition-all duration-300 dark:bg-[#588157] dark:hover:bg-[#4d7546] ease-in-out border-b border-[var(--color-border)] ${
                 index % 2 === 0
                   ? "bg-[var(--sage-400)]/60"
                   : "bg-[var(--sage-300)]/60"

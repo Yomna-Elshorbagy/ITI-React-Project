@@ -43,7 +43,7 @@ const CategoriesTable: React.FC<CategoryTableProps> = ({
           {categories.map((c, index) => (
             <tr
               key={c._id}
-              className={`transition-all duration-300 ease-in-out border-b border-[var(--color-border)] ${
+              className={`transition-all dark:bg-[#588157] dark:hover:bg-[#4d7546] duration-300 ease-in-out border-b border-[var(--color-border)] ${   //dark:bg-[#4d7546] dark:hover:bg-[#4d7546]
                 index % 2 === 0
                   ? "bg-[var(--sage-400)]/60"
                   : "bg-[var(--sage-300)]/60"
