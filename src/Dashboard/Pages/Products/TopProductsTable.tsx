@@ -50,8 +50,6 @@ const TopProductsTable: React.FC = () => {
         .sort((a, b) => b.salesCount - a.salesCount)
         .slice(0, 5);
     },
-    staleTime: 1000 * 60 * 5, // cache for 5 minutes
-    refetchOnWindowFocus: true, // refetch when window gains focus
   });
 
   const maxSales = Math.max(...topProducts.map((p) => p.salesCount), 1);

@@ -8,11 +8,13 @@ import TopProductsTable from "../Products/TopProductsTable";
 import RecentOrdersTable from "../Orders/RecentOrderTable";
 import UserStatusOverview from "../Users/UserTableActive";
 import RevenueTable from "./RevenueData";
+import CategoryDistributionTable from "./CategoryDistributedTable";
+import RevenueByCategoryTable from "./RevenueByCategoryTable";
 
 export default function Reports() {
   const printRef = useRef<HTMLDivElement>(null);
 
-  // handle Printing
+  //  handle Printing
   const handlePrint = useReactToPrint({
     contentRef: printRef,
     documentTitle: "Business Reports",
@@ -39,42 +41,65 @@ export default function Reports() {
     `,
   });
 
-  // ==> 1- handle CSV Export
+  // handle CSV Export
   const handleExportCSV = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      if (!token) {
+      if (!token)
         throw new Error("Authentication token missing. Please log in again.");
-      }
 
       const headers = { authentication: `bearer ${token}` };
 
-      const [ordersRes, usersRes, topProductsRes, revenueRes] =
-        await Promise.all([
-          fetch("https://iti-react-backend.vercel.app/order?page=1&size=100", {
+      // ==>1- fetch all needed data
+      const [
+        ordersRes,
+        usersRes,
+        topProductsRes,
+        revenueRes,
+        revenueByCategoryRes,
+        categoryStatsRes,
+      ] = await Promise.all([
+        fetch("https://iti-react-backend.vercel.app/order?page=1&size=100", {
+          headers,
+        }),
+        fetch(
+          "https://iti-react-backend.vercel.app/user/allUsers?page=1&size=100",
+          { headers }
+        ),
+        fetch("https://iti-react-backend.vercel.app/order?page=1&size=100", {
+          headers,
+        }),
+        fetch("https://iti-react-backend.vercel.app/order/revenue", {
+          headers,
+        }),
+        fetch("https://iti-react-backend.vercel.app/categories/getRevenues", {
+          headers,
+        }),
+        fetch(
+          "https://iti-react-backend.vercel.app/categories/analytics/stats",
+          {
             headers,
-          }),
-          fetch(
-            "https://iti-react-backend.vercel.app/user/allUsers?page=1&size=100",
-            { headers }
-          ),
-          fetch("https://iti-react-backend.vercel.app/order?page=1&size=100", {
-            headers,
-          }),
-          fetch("https://iti-react-backend.vercel.app/order/revenue", {
-            headers,
-          }),
-        ]);
+          }
+        ),
+      ]);
 
-      const [ordersData, usersData, topProductsData, revenueData] =
-        await Promise.all([
-          ordersRes.json(),
-          usersRes.json(),
-          topProductsRes.json(),
-          revenueRes.json(),
-        ]);
+      const [
+        ordersData,
+        usersData,
+        topProductsData,
+        revenueData,
+        revenueByCategoryData,
+        categoryStatsData,
+      ] = await Promise.all([
+        ordersRes.json(),
+        usersRes.json(),
+        topProductsRes.json(),
+        revenueRes.json(),
+        revenueByCategoryRes.json(),
+        categoryStatsRes.json(),
+      ]);
 
-      // ==> 2- data normalization
+      // ==> 2- Normalize data
       const orders = Array.isArray(ordersData?.data)
         ? ordersData.data.map((o: any) => ({
             ID: o._id,
@@ -112,24 +137,39 @@ export default function Reports() {
             TotalRevenue: r.totalRevenue,
           }))
         : [];
+      const revenueByCategory = Array.isArray(revenueByCategoryData)
+        ? revenueByCategoryData.map((r: any) => ({
+            Category: r.category,
+            TotalRevenue: r.totalRevenue,
+          }))
+        : [];
 
-      // ==> 3- Validation
-      if (
-        ![orders, users, topProducts, revenues].some((arr) => arr.length > 0)
-      ) {
-        throw new Error("No valid data found for export.");
-      }
+      const categoryStats = Array.isArray(
+        categoryStatsData?.productsPerCategory
+      )
+        ? categoryStatsData.productsPerCategory.map((c: any) => ({
+            Category: c.categoryName,
+            ProductCount: c.count,
+          }))
+        : [];
 
-      //==> 4- combine & Convert to CSV
-      let fullCSV = "";
-
+      // ==> 3- Combine all sections
       const sections = {
         "Order Status": orders,
         "Users Overview": users,
         "Top Products": topProducts,
         "Revenue Data": revenues,
+        "Revenue by Category": revenueByCategory,
+        "Products per Category": categoryStats,
       };
 
+      // ==> 4- Check if any data exists
+      if (!Object.values(sections).some((arr) => arr.length > 0)) {
+        throw new Error("No valid data found for export.");
+      }
+
+      // ==> 5- Build CSV text
+      let fullCSV = "";
       for (const [section, data] of Object.entries(sections)) {
         if (data.length > 0) {
           fullCSV += `\n\n### ${section} ###\n`;
@@ -137,7 +177,7 @@ export default function Reports() {
         }
       }
 
-      // ==> 5- download CSV
+      // ==> 4- Download file
       const blob = new Blob([fullCSV], { type: "text/csv;charset=utf-8;" });
       saveAs(blob, "Business_Reports.csv");
     } catch (error: any) {
@@ -166,9 +206,12 @@ export default function Reports() {
       </div>
 
       <div ref={printRef} className="p-4 space-y-6 bg-white">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <OrderStatusTable />
-          <UserStatusOverview />
+        <div className="page-break">
+          <RevenueTable />
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 page-break">
+          <RevenueByCategoryTable />
+          <CategoryDistributionTable />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 page-break">
@@ -176,8 +219,9 @@ export default function Reports() {
           <RecentOrdersTable />
         </div>
 
-        <div className="page-break">
-          <RevenueTable />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <OrderStatusTable />
+          <UserStatusOverview />
         </div>
       </div>
     </>
