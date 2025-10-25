@@ -20,7 +20,9 @@ export const getAllContacts = async (
     totalContacts: number;
   };
 }> => {
-  const { data } = await axios.get(`${BASE_URL}?page=${page}&limit=${limit}`, { headers });
+  const { data } = await axios.get(`${BASE_URL}?page=${page}&limit=${limit}`, {
+    headers,
+  });
   return {
     data: data.data,
     pagination: data.pagination,
@@ -36,21 +38,39 @@ export const createContact = async (contactData: {
   return data;
 };
 
-export const replyToContact = async (id: string, replyMessage: string): Promise<IReplyContact> => {
-  const { data } = await axios.post(`${BASE_URL}/reply/${id}`, { replyMessage }, { headers });
+export const replyToContact = async (
+  id: string,
+  replyMessage: string
+): Promise<IReplyContact> => {
+  const { data } = await axios.post(
+    `${BASE_URL}/reply/${id}`,
+    { replyMessage },
+    { headers }
+  );
   return data.data;
 };
 export const updateContact = async (
   id: string,
   updateData: Partial<IContact>
 ): Promise<IContact> => {
-  const { data } = await axios.put(`${BASE_URL}/${id}`, updateData, { headers });
+  const { data } = await axios.put(`${BASE_URL}/${id}`, updateData, {
+    headers,
+  });
   return data.data;
 };
 
-export const softDeleteContact = async (id: string): Promise<any> => {
-  const { data } = await axios.delete(`${BASE_URL}/softdelete/${id}`, { headers });
-  return data;
+export const softDeleteContact = async (
+  id: string,
+  token: string
+): Promise<any> => {
+  const { data } = await axios.put(
+    `${BASE_URL}/softdelete/${id}`,
+    {},
+    {
+      headers: { authentication: `bearer ${token}` },
+    }
+  );
+  return data.data;
 };
 export const deleteContact = async (id: string): Promise<any> => {
   const { data } = await axios.delete(`${BASE_URL}/${id}`, { headers });

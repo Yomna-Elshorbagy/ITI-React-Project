@@ -152,7 +152,7 @@ export default function ProductsPage() {
           </div>
           <input
             type="text"
-            placeholder="Search by Product ID..."
+            placeholder="🔍Search by Product ID..."
             value={searchId}
             onChange={(e) => setSearchId(e.target.value)}
             className="border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-transparent w-full focus:outline-none hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] transition-colors"
@@ -166,7 +166,7 @@ export default function ProductsPage() {
           </div>
           <input
             type="text"
-            placeholder="Search by Product Name..."
+            placeholder="🔍Search by Product Name..."
             value={searchName}
             onChange={(e) => setSearchName(e.target.value)}
             className="border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-transparent w-full focus:outline-none hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] transition-colors"
@@ -180,7 +180,7 @@ export default function ProductsPage() {
           </div>
           <input
             type="text"
-            placeholder="Search by Stock..."
+            placeholder="🔍Search by Stock..."
             value={searchStock}
             onChange={(e) => setSearchStock(e.target.value)}
             className="border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-transparent w-full focus:outline-none hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] transition-colors"

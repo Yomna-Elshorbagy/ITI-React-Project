@@ -1,11 +1,12 @@
 import React from "react";
-import { FaTrash, FaReply, FaEdit } from "react-icons/fa";
+import { FaTrash, FaReply, FaEdit, FaBan } from "react-icons/fa";
 import type { IContact } from "../../DashBordInterfaces/Contact";
 
 interface ContactTableProps {
   contacts: IContact[];
   onReply: (contact: IContact) => void;
   onDelete: (id: string) => void;
+  onSoftDelete: (id: string) => void;
   onEdit: (contact: IContact) => void;
 }
 
@@ -25,6 +26,7 @@ const ContactTable: React.FC<ContactTableProps> = ({
   contacts,
   onReply,
   onDelete,
+  onSoftDelete,
   onEdit,
 }) => {
   return (
@@ -111,6 +113,14 @@ const ContactTable: React.FC<ContactTableProps> = ({
                   onClick={() => onDelete(contact._id)}
                 >
                   <FaTrash />
+                </button>
+                <button
+                  className="p-2 rounded-md text-white transition-all duration-300 transform hover:scale-110"
+                  style={{ backgroundColor: "var(--color-text-muted)" }}
+                  title="Block User"
+                  onClick={() => onSoftDelete(contact._id)}
+                >
+                  <FaBan />
                 </button>
               </td>
             </tr>

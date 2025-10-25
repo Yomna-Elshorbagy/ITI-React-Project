@@ -129,7 +129,7 @@ const UsersPage: React.FC = () => {
           <FaIdBadge className="text-gray-500 shrink-0" />
           <input
             type="text"
-            placeholder="Search by ID..."
+            placeholder="🔍Search by ID..."
             value={searchId}
             onChange={(e) => setSearchId(e.target.value)}
             className="border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-transparent w-full focus:outline-none hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] transition-colors"
@@ -140,7 +140,7 @@ const UsersPage: React.FC = () => {
           <FaUser className="text-gray-500 shrink-0" />
           <input
             type="text"
-            placeholder="Search by Name..."
+            placeholder="🔍Search by Name..."
             value={searchName}
             onChange={(e) => setSearchName(e.target.value)}
             className="border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-transparent w-full focus:outline-none hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] transition-colors"
@@ -151,7 +151,7 @@ const UsersPage: React.FC = () => {
           <FaEnvelope className="text-gray-500 shrink-0" />
           <input
             type="text"
-            placeholder="Search by Email..."
+            placeholder="🔍Search by Email..."
             value={searchEmail}
             onChange={(e) => setSearchEmail(e.target.value)}
             className="border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-transparent w-full focus:outline-none hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] transition-colors"
@@ -162,7 +162,7 @@ const UsersPage: React.FC = () => {
           <FaPhone className="text-gray-500 shrink-0" />
           <input
             type="text"
-            placeholder="Search by Phone..."
+            placeholder="🔍Search by Phone..."
             value={searchPhone}
             onChange={(e) => setSearchPhone(e.target.value)}
             className="border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-transparent w-full focus:outline-none hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] transition-colors"

@@ -142,7 +142,7 @@ const Orders: React.FC = () => {
             </div>
             <input
               type="text"
-              placeholder="Search by Order ID..."
+              placeholder="🔍Search by Order ID..."
               value={searchId}
               onChange={(e) => setSearchId(e.target.value)}
               className="border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-transparent w-full focus:outline-none hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] transition-colors"
@@ -155,7 +155,7 @@ const Orders: React.FC = () => {
             </div>
             <input
               type="text"
-              placeholder="Search by User Name..."
+              placeholder="🔍Search by User Name..."
               value={searchUser}
               onChange={(e) => setSearchUser(e.target.value)}
               className="border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-transparent w-full focus:outline-none hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] transition-colors"

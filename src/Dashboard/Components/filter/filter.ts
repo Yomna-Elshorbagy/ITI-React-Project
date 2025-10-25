@@ -1,3 +1,4 @@
+import type { ContactFilters, IContact } from "../../DashBordInterfaces/Contact";
 import type { ICoupon } from "../../DashBordInterfaces/CouponInterface";
 import type { IOrder } from "../../DashBordInterfaces/OrderInterfaces";
 import type { IUser } from "../../DashBordInterfaces/userInterfaces";
@@ -131,4 +132,27 @@ export const filterOrders = (
       }
       return true;
     });
+};
+
+export const filterContacts = (
+  contacts: IContact[],
+  { searchId, searchEmail, searchName, status }: ContactFilters
+): any[] => {
+  return contacts
+    ?.filter((c) =>
+      searchId ? c._id?.toLowerCase().includes(searchId.toLowerCase()) : true
+    )
+    ?.filter((c) =>
+      searchEmail
+        ? c.email?.toLowerCase().includes(searchEmail.toLowerCase())
+        : true
+    )
+    ?.filter((c) =>
+      searchName
+        ? c.fullName?.toLowerCase().includes(searchName.toLowerCase())
+        : true
+    )
+    ?.filter((c) =>
+      status ? c.status?.toLowerCase() === status.toLowerCase() : true
+    );
 };

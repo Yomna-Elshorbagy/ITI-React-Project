@@ -129,7 +129,7 @@ export default function DisplayCategories() {
           </div>
           <input
             type="text"
-            placeholder="Search by ID..."
+            placeholder="🔍Search by ID..."
             value={searchId}
             onChange={(e) => setSearchId(e.target.value)}
             className="border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-transparent w-full 
@@ -144,7 +144,7 @@ export default function DisplayCategories() {
           </div>
           <input
             type="text"
-            placeholder="Search by Name..."
+            placeholder="🔍Search by Name..."
             value={searchName}
             onChange={(e) => setSearchName(e.target.value)}
             className="border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-transparent w-full 

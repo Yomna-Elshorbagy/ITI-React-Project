@@ -56,11 +56,14 @@ const Navbar: React.FC = () => {
   }, []);
   const handleExport = async () => {
     try {
-      const response = await fetch("https://iti-react-backend.vercel.app/products/export", {
-        headers: {
-          authentication: `bearer ${localStorage.getItem("accessToken")}`,
-        },
-      });
+      const response = await fetch(
+        "https://iti-react-backend.vercel.app/products/export",
+        {
+          headers: {
+            authentication: `bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
       if (!response.ok) throw new Error("Failed to export products");
 
       const blob = await response.blob();
@@ -84,14 +87,17 @@ const Navbar: React.FC = () => {
       try {
         const json = JSON.parse(event.target?.result as string);
 
-        const response = await fetch("https://iti-react-backend.vercel.app/products/import", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            authentication: `bearer ${localStorage.getItem("accessToken")}`,
-          },
-          body: JSON.stringify(json),
-        });
+        const response = await fetch(
+          "https://iti-react-backend.vercel.app/products/import",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              authentication: `bearer ${localStorage.getItem("accessToken")}`,
+            },
+            body: JSON.stringify(json),
+          }
+        );
 
         const result = await response.json();
         alert(result.message || "Import completed");
@@ -117,7 +123,7 @@ const Navbar: React.FC = () => {
         </h1>
 
         <div className="flex items-center flex-wrap gap-3">
-            <OrderNotificationBell />
+          <OrderNotificationBell />
 
           <button
             className="p-2 hover:bg-[var(--color-accent)] rounded-lg transition"
@@ -149,10 +155,6 @@ const Navbar: React.FC = () => {
               className="hidden"
             />
           </label>
-
-          <button className="flex items-center gap-1 px-4 py-2 bg-[var(--color-success)] text-white rounded-lg hover:bg-[var(--color-primary-hover)] transition">
-            <Plus size={16} /> Add Seller
-          </button>
         </div>
       </header>
 

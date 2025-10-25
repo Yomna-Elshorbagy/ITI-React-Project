@@ -3,6 +3,7 @@ export interface IContact {
   fullName: string;
   email: string;
   message: string;
+  status: string;
   replyStatus?: string | null;
   replyMessage?: string | null;
   repliedAt?: string | null;
@@ -17,4 +18,11 @@ export interface IReplyContact {
   message: string;
   reply: string;
   repliedAt: string;
+}
+
+export interface ContactFilters {
+  searchId?: string;
+  searchEmail?: string;
+  searchName?: string;
+  status?: string;
 }
