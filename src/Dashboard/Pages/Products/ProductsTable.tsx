@@ -1,11 +1,12 @@
 import React from "react";
-import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
+import { FaEye, FaEdit, FaTrash, FaBan } from "react-icons/fa";
 import type { IProduct } from "../../DashBordInterfaces/ProductsInterfaces";
 
 interface ProductTableProps {
   products: IProduct[];
   onView: (product: IProduct) => void;
   onEdit: (product: IProduct) => void;
+  onSoftDelete: (id: string) => void;
   onDelete: (id: string) => void;
 }
 
@@ -13,6 +14,7 @@ const ProductTable: React.FC<ProductTableProps> = ({
   products,
   onView,
   onEdit,
+  onSoftDelete,
   onDelete,
 }) => {
   return (
@@ -99,6 +101,14 @@ const ProductTable: React.FC<ProductTableProps> = ({
                   onClick={() => onDelete(p._id)}
                 >
                   <FaTrash />
+                </button>
+                <button
+                  className="p-2 rounded-md text-white transition-all duration-300 transform hover:scale-110"
+                  style={{ backgroundColor: "var(--color-text-muted)" }}
+                  title="Block User"
+                  onClick={() => onSoftDelete(p._id)}
+                >
+                  <FaBan />
                 </button>
               </td>
             </tr>

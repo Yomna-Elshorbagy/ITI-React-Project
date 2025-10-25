@@ -77,6 +77,10 @@ export const deleteCategory = async (id: string): Promise<any> => {
   return data;
 };
 
+export const softDeleteCategories = async (id: string, token: string): Promise<any> => {
+  const { data } = await axios.put(`${BASE_URL}/soft/${id}`, { headers });
+  return data;
+};
 export const getProductsByCategory = async (id: string): Promise<any> => {
   const { data } = await axios.get(`${BASE_URL}/${id}/products`, { headers });
   return data.data;

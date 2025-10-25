@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { softDeleteOrder, updateOrderStatus } from "../../Apis/OrderApis";
+import { hardDeleteOrder, softDeleteOrder, updateOrderStatus } from "../../Apis/OrderApis";
 import { useOrders } from "../../DashboardHooks/Orders/useOrders";
 import OrderModal from "./OrderModel";
 import OrderTable from "./OrderTable";
@@ -42,6 +42,31 @@ const Orders: React.FC = () => {
     setEditModalOpen(true);
   };
 
+  const handleSoftDelete = async (id: string) => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) return toast.error("Unauthorized");
+
+    const result = await MySwal.fire({
+      title: "Soft delete this order?",
+      text: "The order will be marked as deleted but not removed permanently.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, soft delete",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#fbbf24",
+      cancelButtonColor: "#a3b18a",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await softDeleteOrder(id, token);
+        toast.success("Order soft deleted successfully");
+        refetch();
+      } catch {
+        toast.error("Failed to soft delete user");
+      }
+    }
+  };
   const handleDelete = async (id: string) => {
     const result = await MySwal.fire({
       title: "Delete this order?",
@@ -56,7 +81,7 @@ const Orders: React.FC = () => {
 
     if (result.isConfirmed) {
       try {
-        await softDeleteOrder(id);
+        await hardDeleteOrder(id);
         toast.success("Order deleted successfully 🗑️");
         refetch();
       } catch {
@@ -193,6 +218,7 @@ const Orders: React.FC = () => {
         onView={handleView}
         onEdit={handleEdit}
         onDelete={handleDelete}
+        onSoftDelete={handleSoftDelete}
         onUpdateStatus={handleStatusUpdate}
       />
 
