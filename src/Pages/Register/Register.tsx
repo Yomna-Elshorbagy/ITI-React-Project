@@ -126,7 +126,7 @@ export default function Register() {
     <section className="register">
       <div className="flex min-h-screen">
         {/* Left Side - Form */}
-        <div className="relative w-full md:w-1/2 bg-[var(--colo-text)] max-h-screen overflow-y-auto py-5 flex items-start dark:bg-gray-900 pb-5 dark:text-white">
+        <div className="relative w-full md:w-1/2  bg-[#C49A53]/40  max-h-screen overflow-y-auto py-5 flex items-start dark:bg-gray-900 pb-5 dark:text-white">   {/*bg-[var(--colo-text)] */}
           <button
             onClick={() => navigate("/")}
             className="absolute top-6 left-6 bg-white shadow-md rounded-full p-3 hover:bg-amber-50 hover:scale-105 transition duration-200"
@@ -135,12 +135,12 @@ export default function Register() {
             <i className="fa-solid fa-arrow-left text-[#8B5E35] text-lg"></i>
           </button>
           <div className="w-full px-5 md:px-0 md:w-[75%] mx-auto h-ful">
-            <h1 className="text-[1.75rem] sm:text-[2rem] text-[#090f41] dark:text-white animate-pulse text-center">
+            <h1 className="text-[1.75rem] font-['Playfair_Display'] text-[var(--wood-400)] sm:text-[2rem] text-[#090f41] dark:text-white animate-pulse text-center">
               Sign Up
             </h1>
-            <p className="text-gray-500 dark:text-gray-400 mb-5 text-center">
-              Welcome in KAYAN family! Create your account to start shopping.
-            </p>
+          <p className="font-['Playfair_Display'] tracking-widest mt-3 text-gray-500 dark:text-gray-400 mb-5 text-center">
+              Welcome in KAYAN family!   
+            </p>   {/*text-gray-600 */}   
 
             <form onSubmit={handleSubmit(onSubmit)} className="text-[#090f41]">
               {/* API Success & Error Alerts */}
@@ -158,7 +158,7 @@ export default function Register() {
 
               {/* username */}
               <div className="flex flex-col gap-2 mb-5">
-                <label className="text-[1.125rem] dark:text-white">
+                <label className="text-[1.125rem] text-gray-600 dark:text-white font-['Playfair_Display']">
                   User Name
                 </label>
                 <div className="relative">
@@ -179,7 +179,7 @@ export default function Register() {
 
               {/* email */}
               <div className="flex flex-col gap-2 mb-5">
-                <label className="text-[1.125rem] dark:text-white">
+                <label className="text-[1.125rem] text-gray-600 dark:text-white font-['Playfair_Display']">
                   E-mail
                 </label>
                 <div className="relative">
@@ -200,7 +200,7 @@ export default function Register() {
 
               {/* password */}
               <div className="flex flex-col gap-2 mb-5">
-                <label className="text-[1.125rem] dark:text-white">
+                <label className="text-[1.125rem] text-gray-600 dark:text-white font-['Playfair_Display']">
                   Password
                 </label>
                 <div className="relative">
@@ -227,7 +227,7 @@ export default function Register() {
 
               {/* confirm password */}
               <div className="flex flex-col gap-2 mb-5">
-                <label className="text-[1.125rem] dark:text-white">
+                <label className="text-[1.125rem] text-gray-600 dark:text-white font-['Playfair_Display']">
                   Confirm Password
                 </label>
                 <div className="relative">
@@ -248,7 +248,7 @@ export default function Register() {
 
               {/* phone */}
               <div className="flex flex-col gap-2 mb-5">
-                <label className="text-[1.125rem] dark:text-white">Phone</label>
+                <label className="text-[1.125rem] text-gray-600 dark:text-white font-['Playfair_Display']">Phone</label>
                 <div className="relative">
                   <i className="fa-solid fa-mobile absolute left-3 top-1/2 -translate-y-1/2 text-[#8B5E35] animate-[var(--animate-bounce-slow)]"></i>
                   <input
@@ -266,7 +266,7 @@ export default function Register() {
               </div>
               {/* recovery email */}
               <div className="flex flex-col gap-2 mb-5">
-                <label className="text-[1.125rem] dark:text-white">
+                <label className="text-[1.125rem] text-gray-600 dark:text-white font-['Playfair_Display']">
                   Recovery Email
                 </label>
                 <div className="relative">
@@ -287,11 +287,11 @@ export default function Register() {
 
               {/* gender */}
               <div className="flex flex-col gap-2 mb-5">
-                <label className="text-[1.125rem] dark:text-white">
+                <label className="text-[1.125rem] text-gray-600 dark:text-white font-['Playfair_Display']">
                   Gender
                 </label>
                 <div className="flex items-center gap-6">
-                  <label className="flex items-center gap-2 text-[1.125rem] dark:text-white">
+                  <label className="flex text-gray-600 items-center gap-2 text-[1.125rem] font-['Playfair_Display'] dark:text-white">
                     <input
                       type="radio"
                       value="male"
@@ -301,12 +301,12 @@ export default function Register() {
                     Male
                   </label>
 
-                  <label className="flex items-center gap-2 text-[1.125rem] dark:text-white">
+                  <label className="flex text-gray-600 items-center gap-2 text-[1.125rem] font-['Playfair_Display'] dark:text-white">
                     <input
                       type="radio"
                       value="female"
                       {...register("gender")}
-                      className="appearance-none w-5 h-5 border-2 border-[#8B5E35] rounded-full checked:bg-[#8B5E35] checked:border-[#8B5E35] transition-colors duration-200"
+                      className="appearance-none  w-5 h-5 border-2 border-[#8B5E35] rounded-full checked:bg-[#8B5E35] checked:border-[#8B5E35] transition-colors duration-200"
                     />
                     Female
                   </label>
@@ -321,7 +321,7 @@ export default function Register() {
               <button
                 type="submit"
                 disabled={isLoading}
-                  className="bg-[var(--wood-400)] hover:bg-[var(--wood-500)] active:scale-95 transition-transform duration-200 text-white font-semibold py-3 rounded-lg shadow-lg hover:shadow-amber-200/30 disabled:opacity-60 disabled:cursor-not-allowed w-full"
+                  className="hover:bg-[#C49A53]/90 bg-[var(--wood-400)] font-['Playfair_Display'] active:scale-95 transition-transform duration-200 text-white font-semibold py-3 rounded-lg shadow-lg hover:shadow-amber-200/30 disabled:opacity-60 disabled:cursor-not-allowed w-full" //hover:bg-[var(--wood-500)] 
               >
                 {isLoading ? (
                   <i className="fa-solid fa-spinner fa-spin"></i>

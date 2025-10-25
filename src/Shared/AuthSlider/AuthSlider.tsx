@@ -3,11 +3,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 
 // Import images
-//import auth1 from "../../assets/images/auth-slider2.jpeg";
-import auth1 from "../../assets/images/trial2.jpeg";
+import auth1 from "../../assets/images/5th.jpeg";
+//import auth1 from "../../assets/images/trial2.jpeg";
 //import auth2 from "../../assets/images/auth-slider3.jpeg";
-import auth2 from "../../assets/images/trial5.jpeg";
-import auth3 from "../../assets/images/trial4.jpeg";
+import auth2 from "../../assets/images/trial4.jpeg";
+import auth3 from "../../assets/images/4th.jpeg";
 import auth4 from "../../assets/images/video.mp4";
 
 // Import Swiper styles
@@ -27,19 +27,21 @@ const AuthSlider: React.FC = () => {
       pagination={{ clickable: true }}
       className="w-full h-screen"
     >
-      {/* --- Slide 1 --- */}
+      
+
+       {/* --- Slide 4 --- */}
       <SwiperSlide>
         <div className="relative">
           <img
-            src={auth1}
-            alt="Slider 1"
+            src={auth3}
+            alt="Slider 3"
             className="w-full h-screen object-cover"
           />
           <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 text-white w-[90%]">
             <div className="text-center">
-              <h2 className="text-[2rem] font-bold font-['Playfair_Display'] mb-2 text-[#f5f3e79]/80">Welcome to KAYAN</h2>
-              <p className="text-[1.25rem] font-['Playfair_Display'] text-[#f5f3e79]">
-                Discover the Timeless Beauty of Handcrafted jewelry 
+              <h2 className="text-[2rem] font-bold mb-2 font-['Playfair_Display']">Welcome to KAYAN</h2>
+              <p className="text-[1.25rem] font-['Playfair_Display'] text-[#f5f3e79] ">
+                Discover the latest trends, express your unique style.
               </p>
             </div>
           </div>
@@ -95,24 +97,26 @@ const AuthSlider: React.FC = () => {
         </div>
       </SwiperSlide>
 
-      {/* --- Slide 4 --- */}
-      <SwiperSlide>
+      {/* --- Slide 1 --- */}
+     <SwiperSlide>
         <div className="relative">
           <img
-            src={auth3}
-            alt="Slider 3"
+            src={auth1}
+            alt="Slider 1"
             className="w-full h-screen object-cover"
           />
           <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 text-white w-[90%]">
             <div className="text-center">
-              <h2 className="text-[2rem] font-bold mb-2 font-['Playfair_Display']">Welcome to KAYAN</h2>
+              <h2 className="text-[2rem] font-bold font-['Playfair_Display'] mb-2 ">Welcome to KAYAN</h2>
               <p className="text-[1.25rem] font-['Playfair_Display'] text-[#f5f3e79] ">
-                Discover the latest trends, express your unique style.
+                Discover the Timeless Beauty of Handcrafted jewelry 
               </p>
             </div>
           </div>
         </div>
       </SwiperSlide>
+
+     
     </Swiper>
   );
 };
