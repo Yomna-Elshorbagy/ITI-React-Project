@@ -174,14 +174,14 @@ const Products: React.FC = () => {
   return (
     <>
       <AccessoriesBanner />
-
+      {/* 
       {showModal && (
         <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50">
           <div className="bg-[#2e5339]/90 font-serif text-[#d4a762] px-6 py-3 rounded-full shadow-lg text-sm font-medium animate-bounce">
             Added to wishlist!
           </div>
         </div>
-      )}
+      )}*/}
 
       <div className="max-w-7xl mx-auto px-4 py-10 relative">
         {/* Sidebar Burger Button - Mobile */}
@@ -293,7 +293,7 @@ const Products: React.FC = () => {
 
 export default Products;
 
-// ✅ Filters Sidebar Component
+//  Filters Sidebar Component
 type FiltersProps = {
   categories: string[];
   selectedCategory: string;

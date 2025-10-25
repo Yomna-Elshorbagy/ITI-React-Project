@@ -4,6 +4,7 @@ export type WishlistItem = {
   price?: number;
   imageCover?: { secure_url: string };
   [key: string]: unknown;
+  stock: number;
 };
 
 export interface WishlistState {
