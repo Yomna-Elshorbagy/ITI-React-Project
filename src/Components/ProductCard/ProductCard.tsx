@@ -136,7 +136,7 @@ const ProductCard: React.FC<Props> = ({
             ))}
           </div>
         )}
-        <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
           <button
             onClick={(e) => {
               e.stopPropagation();
