@@ -81,7 +81,7 @@ export default function Register() {
         //===> 2- show SweetAlert and redirect after 3s
         MySwal.fire({
           title: "🎉 Account Created!",
-          text: "Redirecting to login in 3 seconds...",
+          text: "Check your mail Redirecting to login ...",
           icon: "success",
           confirmButtonText: "Go to Login",
           confirmButtonColor: "#8B5E35",

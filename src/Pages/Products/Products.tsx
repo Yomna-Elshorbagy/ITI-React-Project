@@ -141,7 +141,6 @@ const Products: React.FC = () => {
     discountFilter,
   ]);
 
-  // const dispatch = useDispatch();
   const dispatch = useDispatch<AppDispatch>();
   const wishlist = useSelector((state: any) => state.wishlist.items);
   const [showModal, setShowModal] = useState(false);
@@ -181,14 +180,6 @@ const Products: React.FC = () => {
         description="Browse our wide range of products — from fashion to tech — only at Kayan."
       />
       <AccessoriesBanner />
-      {/* 
-      {showModal && (
-        <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50">
-          <div className="bg-[#2e5339]/90 font-serif text-[#d4a762] px-6 py-3 rounded-full shadow-lg text-sm font-medium animate-bounce">
-            Added to wishlist!
-          </div>
-        </div>
-      )}*/}
 
       <div className="max-w-7xl mx-auto px-4 py-10 relative">
         {/* Sidebar Burger Button - Mobile */}
@@ -276,20 +267,55 @@ const Products: React.FC = () => {
                 No products found.
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {filtered.map((p) => (
-                  <ProductCard
-                    key={p._id}
-                    product={p}
-                    onAddToCart={handleAddToCart}
-                    onAddToWishlist={handleAddToWishlist}
-                    onRemoveFromWishlist={handleRemoveFromWishlist}
-                    isInWishlist={wishlist.some(
-                      (item: any) => item._id === p._id
-                    )}
-                  />
-                ))}
-              </div>
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {filtered.map((p) => (
+                    <ProductCard
+                      key={p._id}
+                      product={p}
+                      onAddToCart={handleAddToCart}
+                      onAddToWishlist={handleAddToWishlist}
+                      onRemoveFromWishlist={handleRemoveFromWishlist}
+                      isInWishlist={wishlist.some(
+                        (item: any) => item._id === p._id
+                      )}
+                    />
+                  ))}
+                </div>
+
+                {/* ✅ Pagination Controls */}
+                <div className="mt-10 flex items-center justify-center gap-4">
+                  <button
+                    onClick={() => setPage((old) => Math.max(1, old - 1))}
+                    disabled={page === 1 || isFetching}
+                    className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300
+                      ${
+                        page === 1 || isFetching
+                          ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                          : "bg-white border border-gray-300 hover:bg-[#4f6f52] hover:text-white shadow-sm"
+                      }`}
+                  >
+                    ‹ Prev
+                  </button>
+
+                  <span className="px-4 py-2 rounded-full bg-[#4f6f52] text-white font-semibold shadow">
+                    {page}
+                  </span>
+
+                  <button
+                    onClick={() => setPage((old) => old + 1)}
+                    disabled={products.length < size || isFetching}
+                    className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300
+                      ${
+                        products.length < size || isFetching
+                          ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                          : "bg-white border border-gray-300 hover:bg-[#4f6f52] hover:text-white shadow-sm"
+                      }`}
+                  >
+                    Next ›
+                  </button>
+                </div>
+              </>
             )}
           </section>
         </div>
