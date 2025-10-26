@@ -3,6 +3,8 @@ import Testimonials from "../../Components/Testimonials/Testimonials";
 import AboutQr from "../../Components/AboutQr/AboutQr";
 import AboutAcess from "../../Components/AboutAccess/AboutAcess";
 import SEO from "../../Components/SEO/SEO";
+import SignaturePiecesSection from "../../Components/AboutSignature/AboutSignature";
+import EssenceOfKayan from "../../Components/AboutEssence/AboutEssence";
 
 const About: React.FC = () => {
   const fullText =
@@ -62,7 +64,8 @@ const About: React.FC = () => {
       </section>
       <AboutAcess />
       <AboutQr />
-      <Testimonials />
+      <SignaturePiecesSection />
+      <EssenceOfKayan />
     </>
   );
 };

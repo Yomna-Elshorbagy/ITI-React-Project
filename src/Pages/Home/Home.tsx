@@ -6,6 +6,7 @@ import Testimonials from "../../Components/Testimonials/Testimonials";
 import InstagramGallery from "../../Components/InstagramGallery/InstagramGallery";
 import LowestPriceSection from "../../Components/LowestPrice/LowestPriceSection";
 import SEO from "../../Components/SEO/SEO";
+import CraftsmanshipSection from "../../Components/HomeCraft/Craft";
 const Home: React.FC = () => {
   return (
     <>
@@ -14,7 +15,7 @@ const Home: React.FC = () => {
         description="Welcome to Kayan — your go-to store for fashion, electronics, and exclusive deals."
       />{" "}
       <Slider /> <CategorySlider /> <PromoBanner /> <InstagramGallery />{" "}
-      <LowestPriceSection /> <Testimonials />{" "}
+      <LowestPriceSection /> <Testimonials /> <CraftsmanshipSection />
     </>
   );
 };

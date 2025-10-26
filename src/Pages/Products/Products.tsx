@@ -283,7 +283,7 @@ const Products: React.FC = () => {
                   ))}
                 </div>
 
-                {/* ✅ Pagination Controls */}
+                {/* Pagination Controls */}
                 <div className="mt-10 flex items-center justify-center gap-4">
                   <button
                     onClick={() => setPage((old) => Math.max(1, old - 1))}
