@@ -7,6 +7,7 @@ import { useUserProfile } from "../../Hooks/useUserProfile";
 import OrderTracking from "../../Components/UserOrder/OrderTracking";
 import LoginActivityTab from "../../Components/ActivityLog/ActivityLog";
 import SEO from "../../Components/SEO/SEO";
+import NotificationBell from "../../Components/NotificationBell/NotificationBell";
 export default function UserProfile() {
   const [activeTab, setActiveTab] = useState("Personal Information");
   const {
@@ -46,14 +47,20 @@ export default function UserProfile() {
       />
 
       {/* Header */}
-      <div className="text-center mb-10">
-        <h2 className="text-3xl font-serif text-gray-800 dark:text-gray-100">
-          My Account
-        </h2>
-        <p className="text-gray-500 dark:text-gray-400 mt-2">
-          Home /{" "}
-          <span className="text-gray-800 dark:text-gray-200">My Account</span>
-        </p>
+      <div className="relative mb-10 flex flex-col items-center sm:flex-row sm:justify-center sm:gap-6 text-center sm:text-left">
+        <div>
+          <h2 className="text-3xl font-serif text-gray-800 dark:text-gray-100">
+            My Account
+          </h2>
+          <p className="text-gray-500 dark:text-gray-400 mt-2">
+            Home /{" "}
+            <span className="text-gray-800 dark:text-gray-200">My Account</span>
+          </p>
+        </div>
+
+        <div className="mt-4 sm:mt-0 sm:absolute sm:right-60 sm:top-0">
+          <NotificationBell />
+        </div>
       </div>
 
       <div className="max-w-5xl mx-auto bg-white dark:bg-gray-800 shadow rounded-2xl p-8 flex flex-col md:flex-row gap-8 transition-colors duration-300">

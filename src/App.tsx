@@ -53,7 +53,14 @@ const router = createBrowserRouter([
     children: [
       { path: "", element: <Home /> },
       { path: "home", element: <Home /> },
-      { path: "checkout", element: <Checkout /> },
+      {
+        path: "checkout",
+        element: (
+          <ProtectedRoutes>
+            <Checkout />{" "}
+          </ProtectedRoutes>
+        ),
+      },
       { path: "products", element: <Products /> },
       {
         path: "cart",

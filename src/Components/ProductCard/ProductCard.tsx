@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "../../Hooks/reduxHooks";
 import { addProductToCart } from "../../Store/Slices/CartSlice";
 import { toast } from "react-hot-toast";
 import { jwtDecode } from "jwt-decode";
+import Swal from "sweetalert2";
 
 interface DecodedToken {
   id: string;
@@ -43,6 +44,7 @@ export const getUserRole = (): string | null => {
     return null;
   }
 };
+
 const ProductCard: React.FC<Props> = ({
   product,
   onAddToCart,
@@ -55,7 +57,36 @@ const ProductCard: React.FC<Props> = ({
     setInWishlist(isInWishlist);
   }, [isInWishlist]);
 
-  const handleWishlistClick = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const cartItems = useAppSelector((state) => state.cart.products);
+  const role = getUserRole();
+  const isAdmin = role === "admin";
+  const token = useAppSelector((state) => state.auth.token);
+
+  const showLoginAlert = async () => {
+    const result = await Swal.fire({
+      title: "You're not logged in!",
+      text: "Please login to continue shopping or add to wishlist.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Go to Login",
+      cancelButtonText: "Continue Shopping",
+      confirmButtonColor: "#a3b18a",
+      cancelButtonColor: "#6b7280",
+    });
+
+    if (result.isConfirmed) {
+      navigate("/login");
+    }
+  };
+
+  const handleWishlistClick = async () => {
+    if (!token) {
+      await showLoginAlert();
+      return;
+    }
+
     if (inWishlist) {
       setInWishlist(false);
       if (onRemoveFromWishlist) onRemoveFromWishlist(product._id);
@@ -70,7 +101,6 @@ const ProductCard: React.FC<Props> = ({
   };
 
   const [hovered, setHovered] = useState(false);
-  const navigate = useNavigate();
   const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><rect fill='%23f3f4f6' width='100%' height='100%'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%239ca3af' font-size='20' font-family='Arial, Helvetica, sans-serif'>No Image</text></svg>`;
   const fallback = `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
   const imgSrc = product.imageCover?.secure_url || fallback;
@@ -79,10 +109,6 @@ const ProductCard: React.FC<Props> = ({
   const hasDiscount =
     product.finalPrice !== undefined && product.finalPrice < originalPrice;
   const [activeImg, setActiveImg] = useState(imgSrc);
-  const dispatch = useAppDispatch();
-  const cartItems = useAppSelector((state) => state.cart.products);
-  const role = getUserRole();
-  const isAdmin = role === "admin";
 
   const isOutOfStock =
     typeof product.stock === "number"
@@ -90,6 +116,11 @@ const ProductCard: React.FC<Props> = ({
       : product.inStock === false;
 
   const handleAddToCartInternal = async () => {
+    if (!token) {
+      await showLoginAlert();
+      return;
+    }
+
     if (isOutOfStock) {
       toast.error("Out of stock ❌");
       return;
