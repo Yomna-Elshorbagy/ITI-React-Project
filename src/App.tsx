@@ -12,6 +12,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import KayanChatbot from "./Components/Chatbot/Chatbot";
 import AdminProtectedRoute from "./Shared/ProtectedRoutes/AdminProtectedRoutes";
 import ProtectedRoutes from "./Shared/ProtectedRoutes/ProtectedRoutes";
+import ProductReviewsPage from "./Dashboard/Pages/Reviews/ProductReviews";
 
 const Layout = lazy(() => import("./Components/Layout/layout"));
 const Home = lazy(() => import("./Pages/Home/Home"));
@@ -109,6 +110,7 @@ const router = createBrowserRouter([
       { path: "categories", element: <DashCategories /> },
       { path: "coupons", element: <Coupons /> },
       { path: "emails", element: <ContactsPage /> },
+      { path: "reviews", element: <ProductReviewsPage /> },
       { path: "reports", element: <Reports /> },
     ],
   },

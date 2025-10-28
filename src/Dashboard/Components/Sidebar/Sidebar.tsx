@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import {
   FaHome,
   FaBox,
@@ -51,6 +51,12 @@ export default function Sidebar() {
     { to: "/dashboard/coupons", icon: <FaTicketAlt />, label: "Coupons" },
     { to: "/dashboard/orders", icon: <FaClipboardList />, label: "Orders" },
     { to: "/dashboard/emails", icon: <FaEnvelopeOpenText />, label: "Support" },
+    {
+      to: "/dashboard/reviews",
+      icon: <FaEnvelopeOpenText />,
+      label: "reviews",
+    },
+
     { to: "/dashboard/reports", icon: <FaChartBar />, label: "Reports" },
   ];
 
@@ -80,9 +86,7 @@ export default function Sidebar() {
           </div>
 
           {!collapsed && user && (
-            <div
-              className="w-full max-w-full box-border bg-gradient-to-r from-[var(--sage-600)] to-[var(--sage-700)] rounded-xl p-4 mb-6 text-white shadow-lg"
-            >
+            <div className="w-full max-w-full box-border bg-gradient-to-r from-[var(--sage-600)] to-[var(--sage-700)] rounded-xl p-4 mb-6 text-white shadow-lg">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
                   <FaUsers className="text-white text-lg" />

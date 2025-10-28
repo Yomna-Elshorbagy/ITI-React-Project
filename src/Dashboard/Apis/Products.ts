@@ -5,7 +5,7 @@ import type {
   IRelatedProduct,
 } from "../DashBordInterfaces/ProductsInterfaces";
 
-const BASE_URL = "https://iti-react-backend.vercel.app/products";
+const BASE_URL = "http://localhost:3000/products";
 const token = localStorage.getItem("accessToken");
 
 const headers = {

@@ -13,7 +13,7 @@ import { addProduct } from "../../Apis/Products";
 import { getAllCategories } from "../../Apis/CategoryApis";
 import type { IProduct } from "../../DashBordInterfaces/ProductsInterfaces";
 
-// ✅ Validation schema for new product
+// Validation schema for new product
 const addProductSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().min(3, "Description must be at least 3 characters"),
