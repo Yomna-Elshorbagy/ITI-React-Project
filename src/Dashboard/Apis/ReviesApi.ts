@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { IReview } from "../DashBordInterfaces/ReviewsInterfaces";
 
-const BASE_URL = "http://localhost:3000/reviews";
+const BASE_URL = "https://iti-react-backend.vercel.app/reviews";
 const token = localStorage.getItem("accessToken");
 
 const headers = {
