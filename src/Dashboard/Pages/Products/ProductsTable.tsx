@@ -17,6 +17,14 @@ const ProductTable: React.FC<ProductTableProps> = ({
   onSoftDelete,
   onDelete,
 }) => {
+  const getStockStatus = (stock: number) => {
+    if (stock === 0)
+      return <span className="text-red-500 font-semibold">Out of Stock</span>;
+    if (stock <= 5)
+      return <span className="text-yellow-500 font-semibold">Low Stock</span>;
+    return <span className="text-green-500 font-semibold">Available</span>;
+  };
+
   return (
     <div className="overflow-x-auto bg-[var(--color-surface)] rounded-xl elevate-soft border border-[var(--color-border)] transition-all duration-500 ease-in-out hover:shadow-lg">
       <table className="min-w-full text-sm rounded-xl overflow-hidden">
@@ -26,15 +34,20 @@ const ProductTable: React.FC<ProductTableProps> = ({
             style={{ backgroundColor: "var(--color-primary)" }}
           >
             <th className="py-3 px-4 text-left font-semibold">Image</th>
-            <th className="py-3 px-4 text-left font-semibold">Name</th>
+            <th className="py-3 px-4 text-left font-semibold">ID</th>
+            <th className="py-3 px-4 text-left font-semibold w-[180px]">
+              Name
+            </th>
             <th className="py-3 px-4 text-left font-semibold">Price</th>
             <th className="py-3 px-4 text-left font-semibold">Discount</th>
             <th className="py-3 px-4 text-left font-semibold">Stock</th>
+            <th className="py-3 px-4 text-left font-semibold">Status</th>
             <th className="py-3 px-4 text-left font-semibold">Category</th>
             <th className="py-3 px-4 text-left font-semibold">Seller</th>
             <th className="py-3 px-4 text-center font-semibold">Actions</th>
           </tr>
         </thead>
+
         <tbody>
           {products.map((p, index) => (
             <tr
@@ -53,7 +66,12 @@ const ProductTable: React.FC<ProductTableProps> = ({
                 />
               </td>
 
-              <td className="py-3 px-4 font-medium text-[var(--color-text)]">
+              <td className="py-3 px-4">#{p._id.slice(-4)}</td>
+
+              <td
+                className="py-3 px-4 font-medium text-[var(--color-text)] max-w-[180px] truncate"
+                title={p.title}
+              >
                 {p.title}
               </td>
 
@@ -68,6 +86,8 @@ const ProductTable: React.FC<ProductTableProps> = ({
               <td className="py-3 px-4 text-[var(--color-text-muted)]">
                 {p.stock}
               </td>
+
+              <td className="py-3 px-4">{getStockStatus(p.stock)}</td>
 
               <td className="py-3 px-4 text-[var(--color-primary)] font-semibold">
                 {p.category?.name || "N/A"}
@@ -86,6 +106,7 @@ const ProductTable: React.FC<ProductTableProps> = ({
                 >
                   <FaEye />
                 </button>
+
                 <button
                   className="p-2 rounded-md text-white transition-all duration-300 transform hover:scale-110"
                   style={{ backgroundColor: "var(--color-primary-hover)" }}
@@ -94,6 +115,7 @@ const ProductTable: React.FC<ProductTableProps> = ({
                 >
                   <FaEdit />
                 </button>
+
                 <button
                   className="p-2 rounded-md text-white transition-all duration-300 transform hover:scale-110"
                   style={{ backgroundColor: "var(--color-error)" }}
@@ -102,10 +124,11 @@ const ProductTable: React.FC<ProductTableProps> = ({
                 >
                   <FaTrash />
                 </button>
+
                 <button
                   className="p-2 rounded-md text-white transition-all duration-300 transform hover:scale-110"
                   style={{ backgroundColor: "var(--color-text-muted)" }}
-                  title="Block User"
+                  title="Block Product"
                   onClick={() => onSoftDelete(p._id)}
                 >
                   <FaBan />

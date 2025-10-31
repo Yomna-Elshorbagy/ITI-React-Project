@@ -7,8 +7,28 @@ import {
   FaUser,
   FaCommentDots,
 } from "react-icons/fa";
+import { z } from "zod";
 import type { IContact } from "../../DashBordInterfaces/Contact";
 import { updateContact } from "../../Apis/Contact";
+
+const contactSchema = z.object({
+  fullName: z.string().min(3, "Full name must be at least 3 characters long"),
+  email: z.string().email("Invalid email format"),
+  replyStatus: z
+    .string()
+    .nonempty("Status is required")
+    .refine(
+      (val) => ["pending", "inProgress", "replied"].includes(val),
+      "Invalid status"
+    ),
+  replyMessage: z
+    .string()
+    .optional()
+    .refine(
+      (val) => !val || val.length >= 3,
+      "Reply message must be at least 3 characters if provided"
+    ),
+});
 
 interface ContactEditModalProps {
   contact: IContact | null;
@@ -30,6 +50,8 @@ const ContactEditModal: React.FC<ContactEditModalProps> = ({
     replyStatus: "",
     replyMessage: "",
   });
+
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
 
   useEffect(() => {
     if (contact) {
@@ -54,10 +76,20 @@ const ContactEditModal: React.FC<ContactEditModalProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setValidationErrors([]);
+
+    const validation = contactSchema.safeParse(formData);
+
+    if (!validation.success) {
+      const errors = validation.error.issues.map((err) => err.message);
+      setValidationErrors(errors);
+      return;
+    }
+
     if (!contact?._id) return;
 
     try {
-      const data = await updateContact(contact._id, formData);
+      await updateContact(contact._id, formData);
       Swal.fire("Success", "Contact updated successfully!", "success");
       onUpdated();
       onClose();
@@ -84,6 +116,16 @@ const ContactEditModal: React.FC<ContactEditModalProps> = ({
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
+          {validationErrors.length > 0 && (
+            <div className="bg-red-100 text-red-700 border border-red-400 px-4 py-3 rounded-md">
+              <ul className="list-disc pl-5 space-y-1">
+                {validationErrors.map((msg, i) => (
+                  <li key={i}>{msg}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           <div className="border border-[var(--color-border)] rounded-lg p-4 bg-[var(--color-surface)] space-y-3">
             <div>
               <label className="block text-sm font-medium flex items-center gap-2">
@@ -116,8 +158,8 @@ const ContactEditModal: React.FC<ContactEditModalProps> = ({
               <textarea
                 name="message"
                 value={formData.message}
-                onChange={handleChange}
-                className="w-full border p-2 rounded-md bg-transparent h-24 resize-none"
+                readOnly
+                className="w-full border p-2 rounded-md bg-gray-100 text-gray-700 h-24 resize-none cursor-not-allowed"
               />
             </div>
 
@@ -131,7 +173,7 @@ const ContactEditModal: React.FC<ContactEditModalProps> = ({
               >
                 <option value="">Select status</option>
                 <option value="pending">Pending</option>
-                <option value="in progress">In Progress</option>
+                <option value="inProgress">In Progress</option>
                 <option value="replied">Replied</option>
               </select>
             </div>

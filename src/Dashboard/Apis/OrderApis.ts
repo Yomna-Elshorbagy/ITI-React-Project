@@ -108,6 +108,17 @@ export const getOrdersDistribution = async () => {
   const { data } = await axios.get(`${BASE_URL}/orderDistrbuted`, { headers });
   return data.data;
 };
+export const getUserOrderCounts = async (): Promise<any[]> => {
+  const { data } = await axios.get(
+    "https://iti-react-backend.vercel.app/order/order-count",
+    {
+      headers: {
+        authentication: `bearer ${localStorage.getItem("accessToken")}`,
+      },
+    }
+  );
+  return data.data;
+};
 
 export const exportOrdersToCSV = async (): Promise<void> => {
   const response = await axios.get(`${BASE_URL}/exportcsv`, {

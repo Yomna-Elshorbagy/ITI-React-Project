@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from "react";
 import UserModal from "./UserModel";
 import UserTable from "./UsersTable";
-import { useUsers } from "../../DashboardHooks/useUseres";
+import { useUsers } from "../../DashboardHooks/Users/useUseres";
 import type { IUser } from "../../DashBordInterfaces/userInterfaces";
 import UserEditModal from "./UserEditModel";
 import Swal from "sweetalert2";
@@ -16,6 +16,7 @@ import {
   FaPhone,
   FaCircle,
 } from "react-icons/fa";
+import { useUserOrderCounts } from "../../DashboardHooks/Orders/useOrders";
 
 const MySwal = withReactContent(Swal);
 
@@ -23,6 +24,7 @@ const UsersPage: React.FC = () => {
   const { users, page, pagesCount, setPage, loading, fetchUsers } = useUsers();
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
   const [activeModal, setActiveModal] = useState<"view" | "edit" | null>(null);
+  const { data: orderCounts, isLoading: loadingCounts } = useUserOrderCounts();
 
   const [searchId, setSearchId] = useState("");
   const [searchName, setSearchName] = useState("");
@@ -101,15 +103,30 @@ const UsersPage: React.FC = () => {
     console.log("Block user:", id);
   };
 
+  const usersWithOrders = useMemo(() => {
+    if (!users || !orderCounts) return users;
+
+    return users.map((user) => {
+      const userOrder = orderCounts.find(
+        (u) => u.userId === user._id || u.user?._id === user._id
+      );
+      return {
+        ...user,
+        orderCount: userOrder ? userOrder.totalOrders : 0,
+      };
+    });
+  }, [users, orderCounts]);
+
   const filteredUsers = useMemo(() => {
-    return filterUsers(users, {
+    const base = usersWithOrders || [];
+    return filterUsers(base, {
       searchId,
       searchName,
       searchEmail,
       searchPhone,
       status,
     });
-  }, [users, searchId, searchName, searchEmail, searchPhone, status]);
+  }, [usersWithOrders, searchId, searchName, searchEmail, searchPhone, status]);
 
   return (
     <div
@@ -180,7 +197,6 @@ const UsersPage: React.FC = () => {
           >
             <option value="All">All</option>
             <option value="pending">Pending</option>{" "}
-            <option value="blocked">blocked</option>{" "}
             <option value="verified">verified</option>
           </select>
         </div>
@@ -204,7 +220,7 @@ const UsersPage: React.FC = () => {
       ) : (
         <>
           <UserTable
-            users={filteredUsers}
+            users={filteredUsers.length ? filteredUsers : usersWithOrders}
             onView={handleView}
             onEdit={handleEdit}
             onSoftDelete={handleSoftDelete}

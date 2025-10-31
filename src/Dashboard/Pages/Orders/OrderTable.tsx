@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  FaEye,
-  FaEdit,
-  FaTrash,
-  FaBan,
-  FaSyncAlt,
-} from "react-icons/fa";
+import { FaEye, FaEdit, FaTrash, FaBan, FaSyncAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { updateOrderStatus } from "../../Apis/OrderApis";
@@ -36,7 +30,11 @@ const OrderTable: React.FC<OrderTableProps> = ({
       toast.success("Status updated successfully");
       if (onUpdateStatus) onUpdateStatus(selectedOrderId, newStatus);
     } catch (err: any) {
-      Swal.fire("Error", err.response?.data?.message || "Failed to update status", "error");
+      Swal.fire(
+        "Error",
+        err.response?.data?.message || "Failed to update status",
+        "error"
+      );
     }
   };
 
@@ -66,6 +64,7 @@ const OrderTable: React.FC<OrderTableProps> = ({
               className="text-white uppercase tracking-wide"
               style={{ backgroundColor: "var(--color-primary)" }}
             >
+              <th className="py-3 px-4 text-left font-semibold">ID</th>
               <th className="py-3 px-4 text-left font-semibold">Customer</th>
               <th className="py-3 px-4 text-left font-semibold">Phone</th>
               <th className="py-3 px-4 text-left font-semibold">Payment</th>
@@ -85,6 +84,7 @@ const OrderTable: React.FC<OrderTableProps> = ({
                     : "bg-[var(--sage-300)]/60"
                 } hover:bg-[var(--color-border)]/70 hover:scale-[1.01] hover:shadow-md`}
               >
+                <td className="py-3 px-4">#{order._id.slice(-4)}</td>
                 <td className="py-3 px-4 font-medium text-[var(--color-text)]">
                   {order.fullName || "Unknown"}
                 </td>

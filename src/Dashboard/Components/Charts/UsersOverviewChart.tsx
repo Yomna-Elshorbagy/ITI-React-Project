@@ -6,7 +6,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { useUsersOverview } from "../../DashboardHooks/useUsersOverview";
+import { useUsersOverview } from "../../DashboardHooks/Users/useUsersOverview";
 
 export default function UsersOverviewChart() {
   const { data, loading } = useUsersOverview();

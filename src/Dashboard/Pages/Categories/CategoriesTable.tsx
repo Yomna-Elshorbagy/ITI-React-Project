@@ -31,6 +31,7 @@ const CategoriesTable: React.FC<CategoryTableProps> = ({
             style={{ backgroundColor: "var(--color-primary)" }}
           >
             <th className="py-3 px-4 text-left font-semibold">Image</th>
+            <th className="py-3 px-4 text-left font-semibold">ID</th>
             <th className="py-3 px-4 font-semibold">Name</th>
             <th className="py-3 px-4 font-semibold ">No. Products</th>
             <th className="py-3 px-4  font-semibold">Updated At</th>
@@ -43,7 +44,7 @@ const CategoriesTable: React.FC<CategoryTableProps> = ({
           {categories.map((c, index) => (
             <tr
               key={c._id}
-              className={`transition-all dark:bg-[#588157] dark:hover:bg-[#4d7546] duration-300 ease-in-out border-b border-[var(--color-border)] ${   //dark:bg-[#4d7546] dark:hover:bg-[#4d7546]
+              className={`transition-all dark:bg-[#588157] dark:hover:bg-[#4d7546] duration-300 ease-in-out border-b border-[var(--color-border)] ${
                 index % 2 === 0
                   ? "bg-[var(--sage-400)]/60"
                   : "bg-[var(--sage-300)]/60"
@@ -56,6 +57,8 @@ const CategoriesTable: React.FC<CategoryTableProps> = ({
                   className="w-14 h-14 object-cover rounded-md border border-gray-300"
                 />
               </td>
+
+              <td className="py-3 px-4">#{c._id.slice(-4)}</td>
 
               <td className="py-3 px-4 font-medium text-[var(--color-text)] text-center">
                 {c.name}

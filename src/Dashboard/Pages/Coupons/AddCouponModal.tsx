@@ -17,7 +17,10 @@ interface AddCouponModalProps {
 }
 
 const couponSchema = z.object({
-  code: z.string().length(6, "Code must be exactly 6 characters long"),
+  code: z
+    .string()
+    .max(10, "Code must be at most 10 characters long")
+    .nonempty("Code is required"),
   type: z.string().nonempty("Type is required"),
   discount: z.coerce
     .number()
@@ -52,14 +55,13 @@ const AddCouponModal: React.FC<AddCouponModalProps> = ({
     e.preventDefault();
     setValidationErrors([]);
 
-const validation = couponSchema.safeParse(formData);
+    const validation = couponSchema.safeParse(formData);
 
-if (!validation.success) {
-  const errorMessages = validation.error.issues.map((err) => err.message);
-  setValidationErrors(errorMessages);
-  return;
-}
-
+    if (!validation.success) {
+      const errorMessages = validation.error.issues.map((err) => err.message);
+      setValidationErrors(errorMessages);
+      return;
+    }
 
     try {
       setLoading(true);

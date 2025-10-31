@@ -7,14 +7,14 @@ import {
   Legend,
   CartesianGrid,
 } from "recharts";
-import { useDemographics } from "../../DashboardHooks/useDemographics";
+import { useDemographics } from "../../DashboardHooks/Users/useDemographics";
 
 export default function DemographicsChart() {
   const { data, loading } = useDemographics();
 
   if (loading) return <p>Loading...</p>;
   if (!data) return <p>No demographic data</p>;
-console.log(data);
+  console.log(data);
 
   const gender = data.data.gender ?? {};
   const roles = data.data.roles ?? {};

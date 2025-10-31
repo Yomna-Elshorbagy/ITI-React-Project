@@ -10,6 +10,7 @@ import {
   FaTags,
   FaTicketAlt,
   FaEnvelopeOpenText,
+  FaStar,
 } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import logo from "../../../assets/images/KAYAN logo.png";
@@ -53,8 +54,8 @@ export default function Sidebar() {
     { to: "/dashboard/emails", icon: <FaEnvelopeOpenText />, label: "Support" },
     {
       to: "/dashboard/reviews",
-      icon: <FaEnvelopeOpenText />,
-      label: "reviews",
+      icon: <FaStar />,
+      label: "Reviews",
     },
 
     { to: "/dashboard/reports", icon: <FaChartBar />, label: "Reports" },

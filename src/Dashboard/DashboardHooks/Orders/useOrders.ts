@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { getAllOrders } from "../../Apis/OrderApis";
+import { getAllOrders, getUserOrderCounts } from "../../Apis/OrderApis";
 import type { IOrder } from "../../DashBordInterfaces/OrderInterfaces";
 
 export const useOrders = () => {
@@ -29,4 +29,13 @@ export const useOrders = () => {
     setPage,
     refetch,
   };
+};
+
+export const useUserOrderCounts = () => {
+  const { data, isLoading, isError, refetch } = useQuery({
+    queryKey: ["userOrderCounts"],
+    queryFn: getUserOrderCounts,
+  });
+
+  return { data, isLoading, isError, refetch };
 };

@@ -37,6 +37,7 @@ const ContactTable: React.FC<ContactTableProps> = ({
             className="text-white uppercase tracking-wide"
             style={{ backgroundColor: "var(--color-primary)" }}
           >
+            <th className="py-3 px-4 text-left font-semibold">ID</th>
             <th className="py-3 px-4 text-left font-semibold">Full Name</th>
             <th className="py-3 px-4 text-left font-semibold">Email</th>
             <th className="py-3 px-4 text-left font-semibold">Message</th>
@@ -59,6 +60,7 @@ const ContactTable: React.FC<ContactTableProps> = ({
                   : "bg-[var(--sage-300)]/60"
               } hover:bg-[var(--color-border)]/80 hover:scale-[1.01] hover:shadow-md`}
             >
+              <td className="py-3 px-4">#{contact._id.slice(-4)}</td>
               <td className="py-3 px-4 font-medium text-[var(--color-text)]">
                 {contact.fullName}
               </td>

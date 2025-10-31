@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import axios from "axios";
-import type { IUser } from "../DashBordInterfaces/userInterfaces";
+import type { IUser } from "../../DashBordInterfaces/userInterfaces";
 
 const getAllUsers = async (page: number, size: number = 5) => {
   const token = localStorage.getItem("accessToken");
@@ -17,7 +17,8 @@ const getAllUsers = async (page: number, size: number = 5) => {
   );
 
   const filteredUsers: IUser[] = (res.data.data || []).filter(
-    (u: IUser) => u.role?.toLowerCase() === "user"
+    (u: IUser) =>
+      u.role?.toLowerCase() === "admin" || u.role?.toLowerCase() === "user"
   );
 
   return {

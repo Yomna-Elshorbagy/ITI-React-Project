@@ -2,7 +2,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import type { IUser } from "../../DashBordInterfaces/userInterfaces";
-import { useUsers } from "../../DashboardHooks/useUseres";
+import { useUsers } from "../../DashboardHooks/Users/useUseres";
 
 const UserStatusOverview: React.FC = () => {
   const { fetchUsers, loading } = useUsers();

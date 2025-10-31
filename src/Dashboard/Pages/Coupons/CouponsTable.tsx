@@ -24,6 +24,7 @@ const CouponsTable: React.FC<CouponsTableProps> = ({
             className="text-white uppercase tracking-wide"
             style={{ backgroundColor: "var(--color-primary)" }}
           >
+            <th className="py-3 px-4 text-left font-semibold">ID</th>
             <th className="py-3 px-4 text-left font-semibold">Code</th>
             <th className="py-3 px-4 text-left font-semibold">Type</th>
             <th className="py-3 px-4 text-left font-semibold">Discount (%)</th>
@@ -44,6 +45,8 @@ const CouponsTable: React.FC<CouponsTableProps> = ({
                     : "bg-[var(--sage-300)]/60"
                 } hover:bg-[var(--color-border)]/80 hover:scale-[1.01] hover:shadow-md`}
               >
+                <td className="py-3 px-4">#{coupon._id.slice(-4)}</td>
+
                 <td className="py-3 px-4 font-medium text-[var(--color-text)]">
                   {coupon.code}
                 </td>
@@ -52,8 +55,12 @@ const CouponsTable: React.FC<CouponsTableProps> = ({
                   {coupon.type}
                 </td>
 
-                <td className="py-3 px-4 text-red-500 font-semibold">
-                  {coupon.discount}%
+                <td className="py-3 px-4 text-[var(--color-text-muted)] font-semibold">
+                  {coupon.type === "percentage" ? (
+                    <span className="text-green-600">{coupon.discount}%</span>
+                  ) : (
+                    <span className="text-red-600">${coupon.discount}</span>
+                  )}
                 </td>
 
                 <td className="py-3 px-4 text-[var(--color-text-muted)]">

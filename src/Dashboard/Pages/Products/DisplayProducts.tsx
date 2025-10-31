@@ -11,6 +11,7 @@ import { deleteProduct, softDeleteProducts } from "../../Apis/Products";
 import AddProductModal from "./AddProducts";
 import { FaTag, FaBoxOpen, FaHashtag } from "react-icons/fa";
 import { filterProducts } from "../../Components/filter/filter";
+
 const MySwal = withReactContent(Swal);
 
 export default function ProductsPage() {
@@ -21,6 +22,7 @@ export default function ProductsPage() {
   const [searchName, setSearchName] = useState<string>("");
   const [searchId, setSearchId] = useState<string>("");
   const [searchStock, setSearchStock] = useState<string>("");
+  const [status, setStatus] = useState<string>("");
 
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [editOpen, setEditOpen] = useState(false);
@@ -56,6 +58,7 @@ export default function ProductsPage() {
     }
   };
 
+  // === SOFT DELETE handler
   const handleSoftDelete = async (id: string) => {
     const token = localStorage.getItem("accessToken");
     if (!token) return toast.error("Unauthorized");
@@ -74,13 +77,14 @@ export default function ProductsPage() {
     if (result.isConfirmed) {
       try {
         await softDeleteProducts(id, token);
-        toast.success("product soft deleted successfully");
+        toast.success("Product soft deleted successfully");
         refetch();
       } catch {
         toast.error("Failed to soft delete product");
       }
     }
   };
+
   const handleView = (product: any) => {
     setSelectedProduct(product);
     setViewOpen(true);
@@ -91,16 +95,25 @@ export default function ProductsPage() {
     setEditOpen(true);
   };
 
-  const filteredProducts = useMemo(
-    () =>
-      filterProducts(products, {
-        category,
-        searchId,
-        searchName,
-        searchStock,
-      }),
-    [products, category, searchId, searchName, searchStock]
-  );
+  const filteredProducts = useMemo(() => {
+    let filtered = filterProducts(products, {
+      category,
+      searchId,
+      searchName,
+      searchStock,
+    });
+
+    if (status) {
+      filtered = filtered.filter((p) => {
+        if (status === "out") return p.stock === 0;
+        if (status === "low") return p.stock > 0 && p.stock <= 5;
+        if (status === "available") return p.stock > 5;
+        return true;
+      });
+    }
+
+    return filtered;
+  }, [products, category, searchId, searchName, searchStock, status]);
 
   if (loading) return <LoaderPage />;
 
@@ -123,10 +136,10 @@ export default function ProductsPage() {
       </div>
 
       {/* === Filter Bar === */}
-      <div className="w-full flex flex-wrap items-center gap-4 mb-6 bg-[var(--color-surface)] p-4 rounded-lg border border-[var(--color-border)] shadow-sm">
+      <div className="w-full flex items-center justify-between gap-3 mb-6 bg-[var(--color-surface)] p-4 rounded-lg border border-[var(--color-border)] shadow-sm overflow-x-auto">
         {/* Category */}
-        <div className="flex items-center gap-2 flex-1 min-w-[220px]">
-          <label className="font-medium text-gray-700 dark:text-gray-200">
+        <div className="flex items-center gap-2 min-w-[180px]">
+          <label className="font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
             Category:
           </label>
           <select
@@ -134,7 +147,7 @@ export default function ProductsPage() {
             onChange={(e) =>
               setCategory(e.target.value === "All" ? "" : e.target.value)
             }
-            className="border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-transparent w-full focus:outline-none hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] transition-colors"
+            className="border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-transparent focus:outline-none hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] transition-colors w-[150px]"
           >
             <option value="All">All</option>
             <option value="bracelets">bracelets</option>
@@ -145,62 +158,74 @@ export default function ProductsPage() {
           </select>
         </div>
 
+        {/* Status */}
+        <div className="flex items-center gap-2 min-w-[180px]">
+          <label className="font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
+            Status:
+          </label>
+          <select
+            value={status || "All"}
+            onChange={(e) =>
+              setStatus(e.target.value === "All" ? "" : e.target.value)
+            }
+            className="border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-transparent focus:outline-none hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] transition-colors w-[150px]"
+          >
+            <option value="All">All</option>
+            <option value="available">Available</option>
+            <option value="low">Low Stock</option>
+            <option value="out">Out of Stock</option>
+          </select>
+        </div>
+
         {/* ID */}
-        <div className="flex items-center gap-2 flex-1 min-w-[220px]">
-          <div className="p-2 border border-gray-300 dark:border-gray-700 rounded-md flex items-center justify-center bg-[var(--color-surface)]">
-            <FaHashtag className="text-gray-500" />
-          </div>
+        <div className="flex items-center gap-2 min-w-[180px]">
+          <FaHashtag className="text-gray-500" />
           <input
             type="text"
-            placeholder="🔍Search by Product ID..."
+            placeholder="🔍ID..."
             value={searchId}
             onChange={(e) => setSearchId(e.target.value)}
-            className="border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-transparent w-full focus:outline-none hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] transition-colors"
+            className="border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-transparent w-[140px] focus:outline-none hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] transition-colors"
           />
         </div>
 
         {/* Name */}
-        <div className="flex items-center gap-2 flex-1 min-w-[220px]">
-          <div className="p-2 border border-gray-300 dark:border-gray-700 rounded-md flex items-center justify-center bg-[var(--color-surface)]">
-            <FaTag className="text-gray-500" />
-          </div>
+        <div className="flex items-center gap-2 min-w-[180px]">
+          <FaTag className="text-gray-500" />
           <input
             type="text"
-            placeholder="🔍Search by Product Name..."
+            placeholder="🔍Name..."
             value={searchName}
             onChange={(e) => setSearchName(e.target.value)}
-            className="border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-transparent w-full focus:outline-none hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] transition-colors"
+            className="border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-transparent w-[140px] focus:outline-none hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] transition-colors"
           />
         </div>
 
         {/* Stock */}
-        <div className="flex items-center gap-2 flex-1 min-w-[220px]">
-          <div className="p-2 border border-gray-300 dark:border-gray-700 rounded-md flex items-center justify-center bg-[var(--color-surface)]">
-            <FaBoxOpen className="text-gray-500" />
-          </div>
+        <div className="flex items-center gap-2 min-w-[180px]">
+          <FaBoxOpen className="text-gray-500" />
           <input
             type="text"
-            placeholder="🔍Search by Stock..."
+            placeholder="🔍Stock..."
             value={searchStock}
             onChange={(e) => setSearchStock(e.target.value)}
-            className="border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-transparent w-full focus:outline-none hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] transition-colors"
+            className="border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-transparent w-[140px] focus:outline-none hover:border-[var(--color-primary)] focus:border-[var(--color-primary)] transition-colors"
           />
         </div>
 
         {/* Reset Button */}
-        <div className="flex justify-end flex-1 min-w-[150px]">
-          <button
-            onClick={() => {
-              setCategory("");
-              setSearchId("");
-              setSearchName("");
-              setSearchStock("");
-            }}
-            className="px-4 py-2 bg-[var(--color-primary)] text-white rounded-md text-sm font-medium shadow hover:bg-[var(--color-primary-hover)] transition-colors w-full sm:w-auto"
-          >
-            Reset
-          </button>
-        </div>
+        <button
+          onClick={() => {
+            setCategory("");
+            setSearchId("");
+            setSearchName("");
+            setSearchStock("");
+            setStatus("");
+          }}
+          className="px-4 py-2 bg-[var(--color-primary)] text-white rounded-md text-sm font-medium shadow hover:bg-[var(--color-primary-hover)] transition-colors whitespace-nowrap"
+        >
+          Reset
+        </button>
       </div>
 
       <ProductTable
@@ -210,6 +235,8 @@ export default function ProductsPage() {
         onSoftDelete={handleSoftDelete}
         onDelete={handleDelete}
       />
+
+      {/* Pagination */}
       <div className="flex justify-center items-center gap-2 mt-6">
         <button
           onClick={() => setPage(page - 1)}
@@ -230,6 +257,7 @@ export default function ProductsPage() {
         </button>
       </div>
 
+      {/* Modals */}
       <AddProductModal
         open={addOpen}
         onClose={() => setAddOpen(false)}

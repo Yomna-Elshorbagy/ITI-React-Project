@@ -6,7 +6,7 @@ import {
   Tooltip,
   CartesianGrid,
 } from "recharts";
-import { useDeletedUsersAnalysis } from "../../DashboardHooks/useDeletedUsersAnalysis";
+import { useDeletedUsersAnalysis } from "../../DashboardHooks/Users/useDeletedUsersAnalysis";
 
 export default function DeletedUsersChart() {
   const { data, loading } = useDeletedUsersAnalysis();

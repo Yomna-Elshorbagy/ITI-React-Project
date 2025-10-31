@@ -2,7 +2,6 @@ import React from "react";
 import { FaEye, FaEdit, FaTrash, FaBan } from "react-icons/fa";
 import type { UserTableProps } from "../../DashBordInterfaces/userInterfaces";
 
-
 const UserTable: React.FC<UserTableProps> = ({
   users,
   onView,
@@ -18,10 +17,12 @@ const UserTable: React.FC<UserTableProps> = ({
             className="text-white uppercase tracking-wide"
             style={{ backgroundColor: "var(--color-primary)" }}
           >
+            <th className="py-3 px-4 text-left font-semibold">IMAGE</th>
             <th className="py-3 px-4 text-left font-semibold">ID</th>
             <th className="py-3 px-4 text-left font-semibold">NAME</th>
             <th className="py-3 px-4 text-left font-semibold">EMAIL</th>
             <th className="py-3 px-4 text-left font-semibold">PHONE</th>
+            <th className="py-3 px-4 text-left font-semibold">ORDERS</th>
             <th className="py-3 px-4 text-left font-semibold">ROLE</th>
             <th className="py-3 px-4 text-center font-semibold">ACTION</th>
           </tr>
@@ -36,7 +37,15 @@ const UserTable: React.FC<UserTableProps> = ({
                   : "bg-[var(--sage-300)]/60"
               } hover:bg-[var(--color-border)]/80 hover:scale-[1.01] hover:shadow-md`}
             >
-              <td className="py-3 px-4">{u._id.slice(-4)}</td>
+              <td className="py-3 px-4">
+                <img
+                  src={u.image?.secure_url || "/default-avatar.png"}
+                  alt={u.userName}
+                  className="w-10 h-10 rounded-full object-cover border border-[var(--color-border)]"
+                />
+              </td>
+
+              <td className="py-3 px-4">#{u._id.slice(-4)}</td>
               <td className="py-3 px-4 font-medium text-[var(--color-text)]">
                 {u.userName}
               </td>
@@ -46,6 +55,10 @@ const UserTable: React.FC<UserTableProps> = ({
               <td className="py-3 px-4 text-[var(--color-text-muted)]">
                 {u.mobileNumber}
               </td>
+              <td className="py-3 px-4 text-[var(--color-text-muted)]">
+                {u.orderCount ?? 0}
+              </td>
+
               <td className="py-3 px-4 text-[var(--color-primary)] font-semibold">
                 {u.role}
               </td>

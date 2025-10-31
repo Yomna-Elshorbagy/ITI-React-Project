@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { getDemographics } from "../Apis/UserAnalysis";
-import type { Demographics } from "../DashBordInterfaces/userAnalysis";
+import { getDemographics } from "../../Apis/UserAnalysis";
+import type { Demographics } from "../../DashBordInterfaces/userAnalysis";
 
 export const useDemographics = () => {
   const { data, isLoading, isError, refetch } = useQuery<

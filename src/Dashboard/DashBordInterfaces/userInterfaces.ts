@@ -7,6 +7,11 @@ export interface IUser {
   status: string;
   createdAt: string;
   updatedAt: string;
+  image?: {
+    public_id: string;
+    secure_url: string;
+  };
+  orderCount?: number;
 }
 
 export interface IUseUsers {
