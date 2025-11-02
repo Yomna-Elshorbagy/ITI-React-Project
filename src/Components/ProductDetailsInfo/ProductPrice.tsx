@@ -1,4 +1,3 @@
-import React from "react";
 import type { Product } from "../../Types/Prooduct";
 
 export default function ProductPrice({ product }: { product: Product }) {
