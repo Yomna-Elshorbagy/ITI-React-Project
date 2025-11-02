@@ -4,7 +4,6 @@ import { MessageCircle, Send, X } from "lucide-react";
 
 export default function KayanChatbot() {
   const token = localStorage.getItem("accessToken");
-  if (!token) return null;
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     {
@@ -13,9 +12,18 @@ export default function KayanChatbot() {
     },
   ]);
   const [step, setStep] = useState(1);
-  const [answers, setAnswers] = useState({});
+  interface Answers {
+    purpose?: string;
+    recipient?: string;
+    type?: string;
+    metal?: string;
+    style?: string;
+  }
+  const [answers, setAnswers] = useState<Answers>({});
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+
+  if (!token) return null;
 
   const handleSend = () => {
     if (!input.trim()) return;
