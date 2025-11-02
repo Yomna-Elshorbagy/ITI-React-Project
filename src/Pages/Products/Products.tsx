@@ -12,17 +12,7 @@ import {
 } from "../../Store/Slices/WishlistSlice";
 import { Filter, X } from "lucide-react";
 import SEO from "../../Components/SEO/SEO";
-
-type Product = {
-  _id: string;
-  title: string;
-  description?: string;
-  imageCover?: { secure_url: string };
-  finalPrice?: number;
-  price?: number;
-  category?: { name?: string };
-  inStock?: boolean;
-};
+import type { Product } from "../../Types/Prooduct";
 
 const PAGE_SIZE = 12;
 
@@ -62,7 +52,6 @@ const Products: React.FC = () => {
   } = useQuery({
     queryKey: ["products", page, size],
     queryFn: () => fetchProducts(page, size),
-    keepPreviousData: true,
     staleTime: 1000 * 60 * 2,
   });
 
@@ -97,9 +86,9 @@ const Products: React.FC = () => {
     }
 
     if (stockFilter === "in") {
-      list = list.filter((p) => p.inStock !== false);
+      list = list.filter((p) => p.stock == 0);
     } else if (stockFilter === "out") {
-      list = list.filter((p) => p.inStock === false);
+      list = list.filter((p) => p.stock > 0);
     }
 
     list = list.filter((p) => (p.price ?? 0) <= priceRange);
