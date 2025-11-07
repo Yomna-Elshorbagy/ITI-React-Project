@@ -24,7 +24,7 @@ export default function DemographicsChart() {
     value,
   }));
 
-  const roleData = Object.entries(roles).map(([name, value]) => ({
+  Object.entries(roles).map(([name, value]) => ({
     name,
     value,
   }));

@@ -6,6 +6,8 @@ import EditCouponModal from "./EditCouponModal";
 interface CouponsTableProps {
   coupons: ICoupon[];
   onDelete: (id: string) => void;
+  loading: boolean;
+  onEdit: (coupon: ICoupon) => void;
   onRefresh: () => void;
 }
 
@@ -45,7 +47,7 @@ const CouponsTable: React.FC<CouponsTableProps> = ({
                     : "bg-[var(--sage-300)]/60"
                 } hover:bg-[var(--color-border)]/80 hover:scale-[1.01] hover:shadow-md`}
               >
-                <td className="py-3 px-4">#{coupon._id.slice(-4)}</td>
+                <td className="py-3 px-4">#{coupon._id?.slice(-4)}</td>
 
                 <td className="py-3 px-4 font-medium text-[var(--color-text)]">
                   {coupon.code}
@@ -85,7 +87,7 @@ const CouponsTable: React.FC<CouponsTableProps> = ({
                     className="p-2 rounded-md text-white transition-all duration-300 transform hover:scale-110"
                     style={{ backgroundColor: "var(--color-error)" }}
                     title="Delete Coupon"
-                    onClick={() => onDelete(coupon._id)}
+                    onClick={() => coupon._id && onDelete(coupon._id)}
                   >
                     <FaTrash />
                   </button>

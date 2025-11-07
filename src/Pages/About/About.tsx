@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Testimonials from "../../Components/Testimonials/Testimonials";
 import AboutQr from "../../Components/AboutQr/AboutQr";
 import AboutAcess from "../../Components/AboutAccess/AboutAcess";
 import SEO from "../../Components/SEO/SEO";

@@ -11,6 +11,7 @@ import { deleteProduct, softDeleteProducts } from "../../Apis/Products";
 import AddProductModal from "./AddProducts";
 import { FaTag, FaBoxOpen, FaHashtag } from "react-icons/fa";
 import { filterProducts } from "../../Components/filter/filter";
+import type { IProduct } from "../../DashBordInterfaces/ProductsInterfaces";
 
 const MySwal = withReactContent(Swal);
 
@@ -229,7 +230,7 @@ export default function ProductsPage() {
       </div>
 
       <ProductTable
-        products={filteredProducts}
+        products={filteredProducts as IProduct[]}
         onView={handleView}
         onEdit={handleEdit}
         onSoftDelete={handleSoftDelete}

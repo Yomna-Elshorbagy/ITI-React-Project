@@ -1,4 +1,3 @@
-import React from "react";
 import SEO from "../../Components/SEO/SEO";
 
 export default function Category() {

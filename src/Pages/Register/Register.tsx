@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import AuthSlider from "../../Shared/AuthSlider/AuthSlider";
@@ -53,12 +53,11 @@ export default function Register() {
     }, "Passwords must match");
 
   type RegisterFormData = z.infer<typeof registerSchema>;
-  const { register, handleSubmit, formState, watch } =
+  const { register, handleSubmit, formState } =
     useForm<RegisterFormData>({
       resolver: zodResolver(registerSchema),
       mode: "onSubmit",
     });
-  const password = watch("password");
 
   const onSubmit: SubmitHandler<RegisterFormData> = async (
     data: RegisterFormData

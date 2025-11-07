@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import SEO from "../../Components/SEO/SEO";
 
 const MySwal = withReactContent(Swal);
 
+interface ContactFormData {
+  fullName: string;
+  email: string;
+  message: string;
+}
 export default function ContactUs() {
   const [formData, setFormData] = useState({
     fullName: "",
@@ -15,7 +20,7 @@ export default function ContactUs() {
     message: "",
   });
 
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending } = useMutation<any, AxiosError, ContactFormData>({
     mutationFn: async (data) => {
       const res = await axios.post(
         `https://iti-react-backend.vercel.app/contact`,
@@ -33,7 +38,7 @@ export default function ContactUs() {
       });
       setFormData({ fullName: "", email: "", message: "" });
     },
-    onError: (error) => {
+    onError: (error: AxiosError<any>) => {
       MySwal.fire({
         icon: "error",
         title: "Oops!",
@@ -122,7 +127,7 @@ export default function ContactUs() {
               title="Kayan Location — Makram Ebeid, Nasr City"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3382.0!2d31.3446!3d30.0683!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145840e3547c9c0f%3A0x0!2sMakram%20Ebeid%2C%20Nasr%20City%2C%20Cairo!5e0!3m2!1sen!2seg!4v1699999999999"
               className="w-full h-75 rounded-xl border-0"
-              allowFullScreen=""
+              allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             />

@@ -67,7 +67,7 @@ export function useAddReview() {
         throw err;
       }
     },
-    onSuccess: (data, variables) => {
+    onSuccess: (_, variables) => {
       // Invalidate and refetch reviews for this product
       queryClient.invalidateQueries({
         queryKey: ["reviews", variables.productId],
@@ -103,7 +103,7 @@ export function useDeleteReview() {
         throw err;
       }
     },
-    onSuccess: (data, variables) => {
+    onSuccess: (_, variables) => {
       // Invalidate and refetch reviews for this product
       queryClient.invalidateQueries({
         queryKey: ["reviews", variables.productId],

@@ -11,7 +11,7 @@ export const orderStatus = {
   REFUNDED: "refund",
 };
 
-export default function OrderTracking(): JSX.Element {
+const OrderTracking: React.FC = () =>  {
   const [orderId, setOrderId] = useState<string>("");
   const [searchId, setSearchId] = useState<string>("");
   const { data: order, isLoading, isError } = useOrderTracking(searchId);
@@ -171,3 +171,5 @@ export default function OrderTracking(): JSX.Element {
     </div>
   );
 }
+
+export default  OrderTracking;

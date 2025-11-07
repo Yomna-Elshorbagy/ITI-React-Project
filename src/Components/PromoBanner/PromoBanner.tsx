@@ -1,5 +1,4 @@
 import React from "react";
-import ShopNowBtn from "../ShopNowBtn/ShopNowBtn";
 import { useNavigate } from "react-router-dom";
 
 const PromoBanner: React.FC = () => {

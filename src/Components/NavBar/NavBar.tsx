@@ -1,23 +1,6 @@
-import {
-  FaHeart,
-  FaShoppingBag,
-  FaUser,
-  FaSignOutAlt,
-  FaSignInAlt,
-  FaUserPlus,
-} from "react-icons/fa";
-import {
-  Heart,
-  ShoppingBag,
-  User,
-  LogOut,
-  LogIn,
-  UserPlus,
-  Moon,
-  Sun,
-} from "lucide-react";
+import { FaUser, FaSignInAlt } from "react-icons/fa";
+import { Heart, ShoppingBag, LogOut, UserPlus } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../../assets/react.svg";
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../Hooks/reduxHooks";
 import { clearUserToken } from "../../Store/Slices/AuthSlice";
@@ -65,8 +48,9 @@ export default function NavBar() {
   };
 
   return (
-    <header className="sticky top-0 z-50  bg-[#E8DFD3]/80 dark:bg-[#14213d]/70 dark:glass-dark"> {/*dark:bg-gray-900/70 */}
+    <header className="sticky top-0 z-50  bg-[#E8DFD3]/80 dark:bg-[#14213d]/70 dark:glass-dark">
       {" "}
+      {/*dark:bg-gray-900/70 */}{" "}
       {/*border-b border-[color:var(--color-border)] backdrop-blur  glass  bg-[color:var(--color-surface)]/80 */}
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         <Link to="/" className="flex items-center md:ml-15 ">
@@ -81,8 +65,8 @@ export default function NavBar() {
           </span> */}
           {/*</div> */}
         </Link>
-          
-       <nav className="hidden md:flex text-[var(--color-blue)] items-center space-x-10 font-[Libre-Franklin] tracking-[0.12rem] text-[1.1rem] uppercase dark:text-gray-100 dark:hover:text-gray-100 md:justify-center lg:absolute lg:left-1/2 lg:-translate-x-1/2"> 
+
+        <nav className="hidden md:flex text-[var(--color-blue)] items-center space-x-10 font-[Libre-Franklin] tracking-[0.12rem] text-[1.1rem] uppercase dark:text-gray-100 dark:hover:text-gray-100 md:justify-center lg:absolute lg:left-1/2 lg:-translate-x-1/2">
           <Link
             to="/"
             className="relative group hover:text-[var(--color-blue)] dark:text-gray-100 dark:hover:text-gray-100 transition duration-200"
@@ -136,7 +120,8 @@ export default function NavBar() {
                 className="relative"
                 title="Wishlist"
               >
-                <Heart className="cursor-pointer transition hover:text-[color:var(--color-header)] " /> {/* hover:text-[color:var(--color-iconHover)] */}
+                <Heart className="cursor-pointer transition hover:text-[color:var(--color-header)] " />{" "}
+                {/* hover:text-[color:var(--color-iconHover)] */}
                 {items.length > 0 && (
                   <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold px-[6px] py-[1px] rounded-full">
                     {items.length}
@@ -145,7 +130,8 @@ export default function NavBar() {
               </button>
 
               <Link to="/cart" className="relative">
-                <ShoppingBag className="cursor-pointer hover:text-[color:var(--color-header)] transition" /> {/*hover:text-[color:var(--color-iconHover)] */}
+                <ShoppingBag className="cursor-pointer hover:text-[color:var(--color-header)] transition" />{" "}
+                {/*hover:text-[color:var(--color-iconHover)] */}
                 <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold px-[6px] py-[1px] rounded-full">
                   {noOfCartProducts}
                 </span>
@@ -181,14 +167,13 @@ export default function NavBar() {
                     Login
                   </span>
                 </Link>
-
                 <Link
                   to="/register"
-                  className="text-[color:var(--color-primary)] hover:text-[color:var(--color-iconHover)] transition flex items-center gap-1"
+                  className="group relative flex items-center text-[color:var(--color-primary)] hover:text-[color:var(--color-iconHover)] transition gap-1"
                   title="Register"
                 >
                   <UserPlus className="text-2xl" />
-                  <span className="absolute left-8 opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300 text-sm whitespace-nowrap">
+                  <span className="absolute left-8 opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300 text-sm whitespace-nowrap pointer-events-none">
                     Register
                   </span>
                 </Link>

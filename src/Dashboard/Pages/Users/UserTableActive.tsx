@@ -5,7 +5,7 @@ import type { IUser } from "../../DashBordInterfaces/userInterfaces";
 import { useUsers } from "../../DashboardHooks/Users/useUseres";
 
 const UserStatusOverview: React.FC = () => {
-  const { fetchUsers, loading } = useUsers();
+  const { loading } = useUsers();
 
   const { data: allUsers = [], isLoading } = useQuery<IUser[]>({
     queryKey: ["users-status"],
@@ -58,7 +58,7 @@ const UserStatusOverview: React.FC = () => {
   const getPercent = (count: number) =>
     total ? ((count / total) * 100).toFixed(1) : "0";
 
-  const getColor = (status: string) => {
+  (status: string) => {
     switch (status) {
       case "verified":
         return "bg-green-500 text-white";

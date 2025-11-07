@@ -31,7 +31,7 @@ const UserEditModal: React.FC<UserEditModalProps> = ({
     newPassword: "",
     confirmPassword: "",
   });
-  const [originalData, setOriginalData] = useState<any>(null);
+  const [ setOriginalData] = useState<any>(null);
 
   useEffect(() => {
     if (user) {

@@ -23,7 +23,7 @@ const ProductReviewsPage: React.FC = () => {
   });
 
   // ==> fetch reviews for the active product
-  const { reviews, loading, contactUser, productInfo, refetch } =
+  const { reviews, loading, contactUser, productInfo } =
     useProductReviews(activeProduct?._id || "");
 
   const handleSelectProduct = async (productIdOrName: string) => {

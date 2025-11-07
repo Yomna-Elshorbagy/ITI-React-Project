@@ -18,7 +18,6 @@ const Coupons: React.FC = () => {
     page,
     totalPages,
     setPage,
-    search,
     setSearch,
     refetch,
   } = useCoupons();
@@ -155,6 +154,7 @@ const Coupons: React.FC = () => {
         loading={loading}
         onEdit={setEditingCoupon}
         onDelete={handleDelete}
+        onRefresh={refetch}
       />
 
       {/* === pagination Controls === */}

@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../Hooks/reduxHooks";
 import {
-  getUserCart,
   updateCartQuantity,
   deleteCartItem,
   clearCartApi,

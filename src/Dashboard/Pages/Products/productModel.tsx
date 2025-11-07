@@ -4,7 +4,6 @@ import {
   FaUser,
   FaImage,
   FaInfoCircle,
-  FaDollarSign,
   FaBoxOpen,
 } from "react-icons/fa";
 import type { IProduct } from "../../DashBordInterfaces/ProductsInterfaces";

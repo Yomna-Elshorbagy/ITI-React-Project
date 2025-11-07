@@ -5,7 +5,6 @@ import {
   Sun,
   FileDown,
   FileUp,
-  Plus,
   DollarSign,
   ShoppingCart,
   Package,

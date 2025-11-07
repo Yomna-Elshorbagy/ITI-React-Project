@@ -1,4 +1,3 @@
-import React from "react";
 import accessoriesBg from "../../assets/images/accBanner.webp";
 
 const AccessoriesBanner = () => {

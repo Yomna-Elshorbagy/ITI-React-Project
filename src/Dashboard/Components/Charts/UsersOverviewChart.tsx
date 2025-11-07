@@ -52,7 +52,7 @@ export default function UsersOverviewChart() {
             outerRadius="70%"
             label
           >
-            {chartData.map((entry, i) => (
+            {chartData.map((_, i) => (
               <Cell key={`cell-${i}`} fill={COLORS[i % COLORS.length]} />
             ))}
           </Pie>

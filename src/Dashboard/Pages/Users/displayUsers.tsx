@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import UserModal from "./UserModel";
 import UserTable from "./UsersTable";
 import { useUsers } from "../../DashboardHooks/Users/useUseres";
@@ -21,10 +21,10 @@ import { useUserOrderCounts } from "../../DashboardHooks/Orders/useOrders";
 const MySwal = withReactContent(Swal);
 
 const UsersPage: React.FC = () => {
-  const { users, page, pagesCount, setPage, loading, fetchUsers } = useUsers();
+  const { users, page, pagesCount, setPage, loading, refetch } = useUsers();
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
   const [activeModal, setActiveModal] = useState<"view" | "edit" | null>(null);
-  const { data: orderCounts, isLoading: loadingCounts } = useUserOrderCounts();
+  const { data: orderCounts } = useUserOrderCounts();
 
   const [searchId, setSearchId] = useState("");
   const [searchName, setSearchName] = useState("");
@@ -66,7 +66,7 @@ const UsersPage: React.FC = () => {
       try {
         await softDeleteUser(id, token);
         toast.success("User soft deleted successfully");
-        fetchUsers();
+        refetch();
       } catch {
         toast.error("Failed to soft delete user");
       }
@@ -92,7 +92,7 @@ const UsersPage: React.FC = () => {
       try {
         await hardDeleteUser(id, token);
         toast.success("User permanently deleted");
-        fetchUsers();
+        refetch();
       } catch {
         toast.error("Failed to permanently delete user");
       }
@@ -261,7 +261,7 @@ const UsersPage: React.FC = () => {
             user={selectedUser}
             isOpen={activeModal === "edit"}
             onClose={handleCloseModal}
-            onUpdated={fetchUsers}
+            onUpdated={refetch}
           />
         </>
       )}
