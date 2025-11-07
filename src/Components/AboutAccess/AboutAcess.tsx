@@ -1,4 +1,5 @@
 import ShopNowBtn from "../ShopNowBtn/ShopNowBtn";
+import accessoryImg from "../../assets/images/abbout.jpeg";
 
 export default function AboutAcess() {
   return (
@@ -30,8 +31,8 @@ export default function AboutAcess() {
         <div className="flex-1 flex justify-center">
           <div className="relative group w-full max-w-[380px] sm:max-w-[450px] rounded-2xl overflow-hidden shadow-xl transition-all duration-500 hover:shadow-2xl hover:scale-105">
             <img
-              // src={accessoryImg}
-              src="src/assets/images/abbout.jpeg"
+              src={accessoryImg}
+              // src="src/assets/images/abbout.jpeg"
               alt="Elegant Jewelry Accessories"
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />

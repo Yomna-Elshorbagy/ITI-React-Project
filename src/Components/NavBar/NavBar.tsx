@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "../../Hooks/reduxHooks";
 import { clearUserToken } from "../../Store/Slices/AuthSlice";
 import WishlistModal from "../WishlistModal/WishlistModal";
 import { fetchWishlist } from "../../Store/Slices/WishlistSlice";
+import kayanLogo from "../../assets/images/KAYAN logo.png";
 
 export default function NavBar() {
   const [darkMode, setDarkMode] = useState(false);
@@ -50,13 +51,13 @@ export default function NavBar() {
   return (
     <header className="sticky top-0 z-50  bg-[#E8DFD3]/80 dark:bg-[#14213d]/70 dark:glass-dark">
       {" "}
-      {/*dark:bg-gray-900/70 */}{" "}
       {/*border-b border-[color:var(--color-border)] backdrop-blur  glass  bg-[color:var(--color-surface)]/80 */}
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         <Link to="/" className="flex items-center md:ml-15 ">
           {/*<div className="h-1 w-40"> */}
           <img
-            src="src/assets/images/KAYAN logo.png"
+            // src="src/assets/images/KAYAN logo.png"
+            src={kayanLogo}
             alt="Jewelry Logo"
             className="h-full w-17 drop-shadow-sm"
           />

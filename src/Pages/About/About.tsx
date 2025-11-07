@@ -4,6 +4,7 @@ import AboutAcess from "../../Components/AboutAccess/AboutAcess";
 import SEO from "../../Components/SEO/SEO";
 import SignaturePiecesSection from "../../Components/AboutSignature/AboutSignature";
 import EssenceOfKayan from "../../Components/AboutEssence/AboutEssence";
+import backgroundVideo from "../../assets/videos/van cleef background.mp4";
 
 const About: React.FC = () => {
   const fullText =
@@ -36,7 +37,7 @@ const About: React.FC = () => {
         {/* Background Video */}
         <video
           className="absolute top-0 left-0 w-full h-full object-cover"
-          src="src/assets/videos/van cleef background.mp4"
+          src={backgroundVideo}
           autoPlay
           loop
           muted

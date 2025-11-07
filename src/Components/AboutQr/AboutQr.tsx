@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import type { QrResponse } from "../../Types/QrResponse";
+import aboutQrImg from "../../assets/images/aboutqr.png";
 
 export default function AboutQr() {
   const [qrCode, setQrCode] = useState<string | null>(null);
@@ -25,8 +26,8 @@ export default function AboutQr() {
       <div className="flex-1 flex justify-center">
         <div className="relative group w-100 h-100 rounded-2xl overflow-hidden shadow-xl transition-all duration-500 hover:shadow-2xl hover:scale-105">
           <img
-            src="src/assets/images/aboutqr.png"
-            // src={img1}
+            // src="src/assets/images/aboutqr.png"
+            src={aboutQrImg}
             alt="Accessories Display"
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           />

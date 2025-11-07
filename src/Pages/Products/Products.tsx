@@ -86,9 +86,9 @@ const Products: React.FC = () => {
     }
 
     if (stockFilter === "in") {
-      list = list.filter((p) => p.stock == 0);
-    } else if (stockFilter === "out") {
       list = list.filter((p) => p.stock > 0);
+    } else if (stockFilter === "out") {
+      list = list.filter((p) => p.stock === 0);
     }
 
     list = list.filter((p) => (p.price ?? 0) <= priceRange);
