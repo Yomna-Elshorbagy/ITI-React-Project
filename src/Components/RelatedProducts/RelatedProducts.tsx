@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
@@ -13,6 +13,7 @@ import {
 import { toast } from "react-hot-toast";
 import ProductModal from "../Modal/ProductModal";
 import styles from "./RelatedProducts.module.css";
+import axios from "axios";
 
 interface RelatedProductsProps {
   relatedProducts: RelatedProduct[];
@@ -27,10 +28,77 @@ export default function RelatedProducts({
   const [selectedProduct, setSelectedProduct] = useState<RelatedProduct | null>(
     null
   );
+  const token = localStorage.getItem("accessToken");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useAppDispatch();
   const [isAddingToWishlist, setIsAddingToWishlist] = useState(false);
   const wishlistItems = useAppSelector((s) => s.wishlist.items);
+
+  //////////////////==> start subscribe drop price
+  const [subscribedProducts, setSubscribedProducts] = useState<string[]>([]);
+  const [loadingSubs, setLoadingSubs] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUserSubscriptions = async () => {
+      if (!token) return;
+
+      try {
+        const res = await axios.get(
+          "https://iti-react-backend.vercel.app/get-subscribed-prices",
+          {
+            headers: { authentication: `bearer ${token}` },
+          }
+        );
+        if (Array.isArray(res.data.subscribedProductIds)) {
+          setSubscribedProducts(res.data.subscribedProductIds);
+        }
+      } catch (error) {
+        console.error("Failed to fetch subscriptions:", error);
+      }
+    };
+
+    fetchUserSubscriptions();
+  }, [token]);
+
+  const handleToggleSubscription = async (
+    productId: string,
+    e: React.MouseEvent
+  ) => {
+    e.stopPropagation();
+    const isSubscribed = subscribedProducts.includes(productId);
+    setLoadingSubs(productId);
+
+    try {
+      if (isSubscribed) {
+        await axios.delete(
+          `https://iti-react-backend.vercel.app/products/unsubscribe-price/${productId}`,
+          {
+            headers: { authentication: `bearer ${token}` },
+          }
+        );
+        setSubscribedProducts((prev) => prev.filter((id) => id !== productId));
+        toast.success("Unsubscribed from price drop alerts");
+      } else {
+        await axios.post(
+          `https://iti-react-backend.vercel.app/products/subscribe-price/${productId}`,
+          {},
+          {
+            headers: { authentication: `bearer ${token}` },
+          }
+        );
+        setSubscribedProducts((prev) => [...prev, productId]);
+        toast.success("Subscribed to price drop alerts 🔔");
+      }
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data?.message || "Failed to update subscription"
+      );
+    } finally {
+      setLoadingSubs(null);
+    }
+  };
+
+  //////////////////==> end subscribe drop price
 
   const handleProductClick = (productId: string) => {
     navigate(`/productDetails/${productId}`);
@@ -134,89 +202,106 @@ export default function RelatedProducts({
           }}
           className={styles.swiper}
         >
-          {relatedProducts.map((product: RelatedProduct) => (
-            <SwiperSlide key={product._id}>
-              <div
-                className={styles.productCard}
-                onClick={() => handleProductClick(product._id)}
-              >
-                <div className={styles.imageContainer}>
-                  <img
-                    src={product.imageCover.secure_url}
-                    alt={product.title}
-                    className={styles.productImage}
-                    loading="lazy"
-                  />
-                  {product.discount > 0 && (
-                    <div className={styles.discountBadge}>
-                      <span className={styles.discountText}>
-                        -{product.discount}%
-                      </span>
+          {relatedProducts.map((product: RelatedProduct) => {
+            const isSubscribed = subscribedProducts.includes(product._id);
+            return (
+              <SwiperSlide key={product._id}>
+                <div
+                  className={styles.productCard}
+                  onClick={() => handleProductClick(product._id)}
+                >
+                  <div className={styles.imageContainer}>
+                    <img
+                      src={product.imageCover.secure_url}
+                      alt={product.title}
+                      className={styles.productImage}
+                      loading="lazy"
+                    />
+                    {product.discount > 0 && (
+                      <div className={styles.discountBadge}>
+                        <span className={styles.discountText}>
+                          -{product.discount}%
+                        </span>
+                      </div>
+                    )}
+                    <div className={styles.quickActions}>
+                      <button
+                        className={`${styles.quickActionBtn} cursor-pointer ${
+                          wishlistItems.some((w) => w._id === product._id)
+                            ? "!bg-red-50 !text-red-600"
+                            : ""
+                        }`}
+                        onClick={(e) => handleAddToWishlist(product._id, e)}
+                        title="Add to Wishlist"
+                      >
+                        {isAddingToWishlist ? (
+                          <i className="fa-solid fa-spinner fa-spin"></i>
+                        ) : (
+                          <i
+                            className={`fa-solid fa-heart ${
+                              wishlistItems.some((w) => w._id === product._id)
+                                ? "text-red-500"
+                                : ""
+                            }`}
+                          ></i>
+                        )}
+                      </button>
+                      <button
+                        className={`${styles.quickActionBtn} cursor-pointer`}
+                        onClick={(e) => handleQuickView(product, e)}
+                        title="Quick View"
+                      >
+                        <i className="fa-solid fa-eye"></i>
+                      </button>
                     </div>
-                  )}
-                  <div className={styles.quickActions}>
+                  </div>
+                  <div className={styles.content}>
+                    <h3 className={styles.productTitle}>{product.title}</h3>
+                    <div className={styles.priceSection}>
+                      <div className={styles.priceContainer}>
+                        <span className={styles.currentPrice}>
+                          ${product.finalPrice}
+                        </span>
+                        {product.discount > 0 && (
+                          <span className={styles.originalPrice}>
+                            ${product.price}
+                          </span>
+                        )}
+                      </div>
+                      <div className={styles.stockInfo}>
+                        <i className="fa-solid fa-check-circle text-green-500"></i>
+                        <span>In Stock ({product.stock})</span>
+                      </div>
+                    </div>
+
                     <button
-                      className={`${styles.quickActionBtn} cursor-pointer ${
-                        wishlistItems.some((w) => w._id === product._id)
-                          ? "!bg-red-50 !text-red-600"
-                          : ""
+                      className={`${styles.actionButton} ${
+                        isSubscribed ? "!bg-red-700 hover:!bg-red-800" : ""
                       }`}
-                      onClick={(e) => handleAddToWishlist(product._id, e)}
-                      title="Add to Wishlist"
+                      onClick={(e) => handleToggleSubscription(product._id, e)}
                     >
-                      {isAddingToWishlist ? (
+                      {loadingSubs === product._id ? (
                         <i className="fa-solid fa-spinner fa-spin"></i>
                       ) : (
-                        <i
-                          className={`fa-solid fa-heart ${
-                            wishlistItems.some((w) => w._id === product._id)
-                              ? "text-red-500"
-                              : ""
-                          }`}
-                        ></i>
+                        <>
+                          <i
+                            className={`fa-solid ${
+                              isSubscribed ? "fa-bell-slash" : "fa-bell"
+                            }`}
+                          ></i>
+                          <span>
+                            {isSubscribed
+                              ? "Unsubscribe to Price Drop"
+                              : "Subscribe to Price Drop"}
+                          </span>
+                        </>
                       )}
-                    </button>
-                    <button
-                      className={`${styles.quickActionBtn} cursor-pointer`}
-                      onClick={(e) => handleQuickView(product, e)}
-                      title="Quick View"
-                    >
-                      <i className="fa-solid fa-eye"></i>
                     </button>
                   </div>
                 </div>
-                <div className={styles.content}>
-                  <h3 className={styles.productTitle}>{product.title}</h3>
-                  <div className={styles.priceSection}>
-                    <div className={styles.priceContainer}>
-                      <span className={styles.currentPrice}>
-                        ${product.finalPrice}
-                      </span>
-                      {product.discount > 0 && (
-                        <span className={styles.originalPrice}>
-                          ${product.price}
-                        </span>
-                      )}
-                    </div>
-                    <div className={styles.stockInfo}>
-                      <i className="fa-solid fa-check-circle text-green-500"></i>
-                      <span>In Stock ({product.stock})</span>
-                    </div>
-                  </div>
-                  <button
-                    className={styles.actionButton}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleProductClick(product._id);
-                    }}
-                  >
-                    <i className="fa-solid fa-shopping-cart"></i>
-                    <span>View Product</span>
-                  </button>
-                </div>
-              </div>
-            </SwiperSlide>
-          ))}
+              </SwiperSlide>
+            );
+          })}
         </Swiper>
         <button className={styles.prevButton} aria-label="Previous">
           <i className="fa-solid fa-chevron-left"></i>
