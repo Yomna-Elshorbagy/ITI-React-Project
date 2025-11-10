@@ -1,5 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import flower from "../../assets/images/flowerr.png";
+import promo from "../../assets/images/promo.jpeg";
 
 const PromoBanner: React.FC = () => {
   const navigate = useNavigate();
@@ -8,19 +10,19 @@ const PromoBanner: React.FC = () => {
       {/* Top ribbon */}
       <div className="bg-[#14213d] text-white text-sm md:text-base py-2 md:py-4 flex justify-center items-center md-gap-12 gap-8"> {/*bg-[#1F5958]  bg-[#1a2a40] bg[#2b3a67] */}
         <img
-          src="src/assets/images/flowerr.png"
+          src={flower}
           alt="flower"
           className="w-4 h-4"
         />
         <span className="text-lg md:text-xl font-['Playfair_Display'] dark:text-[var(--color-darkText)]">Upto 25% Off All Jewelry</span>
         <img
-          src="src/assets/images/flowerr.png"
+          src={flower}
           alt="flower"
           className="w-4 h-4"
         />
         <span className="text-lg md:text-xl font-['Playfair_Display'] dark:text-[var(--color-darkText)] ">Shop Your Favorites!</span>
         <img
-          src="src/assets/images/flowerr.png"
+          src={flower}
           alt="flower"
           className="w-4 h-4"
         />
@@ -32,7 +34,7 @@ const PromoBanner: React.FC = () => {
         <div className="w-full md:w-1/2 flex justify-center">
           <img
           // src="src/assets/images/2ed section home page.jpg"
-            src= "src/assets/images/promo.jpeg"
+            src= {promo}
             alt="Jewelry Promo"
             className="w-full md:w-[85%] h-auto object-cover"
           />
@@ -73,19 +75,19 @@ const PromoBanner: React.FC = () => {
       {/* Bottom ribbon */}
       <div className="bg-[#14213d] text-white text-sm md:text-base py-2 md:py-4 flex justify-center items-center md-gap-12 gap-8">
         <img
-          src="src/assets/images/flowerr.png"
+          src={flower}
           alt="flower"
           className="w-4 h-4"
         />
         <span className="text-lg md:text-xl font-['Playfair_Display'] dark:text-[var(--color-darkText)]">Upto 25% Off All Jewelry</span>
         <img
-          src="src/assets/images/flowerr.png"
+          src={flower}
           alt="flower"
           className="w-4 h-4"
         />
         <span className="text-lg md:text-xl font-['Playfair_Display'] dark:text-[var(--color-darkText)]">Shop Your Favorites!</span>
         <img
-          src="src/assets/images/flowerr.png"
+          src={flower}
           alt="flower"
           className="w-4 h-4"
         />

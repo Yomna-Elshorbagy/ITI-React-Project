@@ -9,32 +9,32 @@ import UsersOverviewChart from "../../Components/Charts/UsersOverviewChart";
 
 const Overview: React.FC = () => {
   return (
-    <div className="flex flex-col space-y-10">
-      <div className="grid grid-cols-3 gap-6">
-        <div className="flex flex-col items-center justify-center bg-[var(--color-surface)] rounded-2xl p-6 elevate-soft h-[280px]">
+    <div className="flex flex-col space-y-10 p-4 md:p-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="flex flex-col items-center justify-center bg-[var(--color-surface)] rounded-2xl p-6 elevate-soft h-[260px] sm:h-[280px]">
           <UsersOverviewChart />
         </div>
 
-        <div className="flex flex-col items-center justify-center bg-[var(--color-surface)] rounded-2xl p-6 elevate-soft h-[280px]">
+        <div className="flex flex-col items-center justify-center bg-[var(--color-surface)] rounded-2xl p-6 elevate-soft h-[260px] sm:h-[280px]">
           <DeletedUsersChart />
         </div>
 
-        <div className="flex flex-col items-center justify-center bg-[var(--color-surface)] rounded-2xl p-6 elevate-soft h-[280px]">
+        <div className="flex flex-col items-center justify-center bg-[var(--color-surface)] rounded-2xl p-6 elevate-soft h-[260px] sm:h-[280px]">
           <DemographicsChart />
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <CategoryProductDistributionChart />
         <RevenueByCategoryChart />
       </div>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <TopSellingProductsChart />
         <OrdersDistributionChart />
       </div>
 
-      <div>
+      <div className="bg-[var(--color-surface)] rounded-2xl p-6 elevate-soft">
         <TotalIncomeAnalysis />
       </div>
     </div>
