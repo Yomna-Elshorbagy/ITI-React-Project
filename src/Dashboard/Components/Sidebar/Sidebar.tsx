@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   FaHome,
   FaBox,
@@ -11,12 +11,18 @@ import {
   FaTicketAlt,
   FaEnvelopeOpenText,
   FaStar,
+  FaSignOutAlt,
 } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../../assets/images/KAYAN logo.png";
-import { useNavigate } from "react-router-dom";
-import { FaSignOutAlt } from "react-icons/fa";
 import { jwtDecode } from "jwt-decode";
+
+interface DecodedToken {
+  email?: string;
+  role?: string;
+  exp?: number;
+  iat?: number;
+}
 
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
@@ -25,11 +31,11 @@ export default function Sidebar() {
     null
   );
 
-  useState(() => {
+  useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (token) {
       try {
-        const decoded: any = jwtDecode(token);
+        const decoded = jwtDecode<DecodedToken>(token);
         setUser({
           email: decoded.email,
           role: decoded.role || "admin",
@@ -38,7 +44,8 @@ export default function Sidebar() {
         console.error("Invalid token:", err);
       }
     }
-  });
+  }, []);
+
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     navigate("/login");
@@ -52,12 +59,7 @@ export default function Sidebar() {
     { to: "/dashboard/coupons", icon: <FaTicketAlt />, label: "Coupons" },
     { to: "/dashboard/orders", icon: <FaClipboardList />, label: "Orders" },
     { to: "/dashboard/emails", icon: <FaEnvelopeOpenText />, label: "Support" },
-    {
-      to: "/dashboard/reviews",
-      icon: <FaStar />,
-      label: "Reviews",
-    },
-
+    { to: "/dashboard/reviews", icon: <FaStar />, label: "Reviews" },
     { to: "/dashboard/reports", icon: <FaChartBar />, label: "Reports" },
   ];
 
@@ -68,40 +70,38 @@ export default function Sidebar() {
       min-h-screen p-4 flex flex-col justify-between transition-all duration-300`}
     >
       <div>
-        <div>
-          <div className="flex items-center justify-between mb-4">
-            <img
-              src={logo}
-              alt="Kayan Logo"
-              className={`transition-all duration-300 ${
-                collapsed ? "w-15 h-13 mx-auto" : "w-35 mx-auto"
-              }`}
-            />
+        <div className="flex items-center justify-between mb-4">
+          <img
+            src={logo}
+            alt="Kayan Logo"
+            className={`transition-all duration-300 ${
+              collapsed ? "w-15 h-13 mx-auto" : "w-35 mx-auto"
+            }`}
+          />
 
-            <button
-              onClick={() => setCollapsed(!collapsed)}
-              className="text-[var(--mist-300)] hover:text-[var(--mist-100)] transition-all duration-300"
-            >
-              {collapsed ? <FaChevronRight /> : <FaChevronLeft />}
-            </button>
-          </div>
-
-          {!collapsed && user && (
-            <div className="w-full max-w-full box-border bg-gradient-to-r from-[var(--sage-600)] to-[var(--sage-700)] rounded-xl p-4 mb-6 text-white shadow-lg">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                  <FaUsers className="text-white text-lg" />
-                </div>
-                <div className="overflow-hidden">
-                  <h4 className="font-semibold truncate">{user.role}</h4>
-                  <p className="text-sm text-gray-200 truncate">{user.email}</p>
-                </div>
-              </div>
-            </div>
-          )}
+          <button
+            onClick={() => setCollapsed(!collapsed)}
+            className="text-[var(--mist-300)] hover:text-[var(--mist-100)] transition-all duration-300"
+          >
+            {collapsed ? <FaChevronRight /> : <FaChevronLeft />}
+          </button>
         </div>
 
-        {/* navigation Links */}
+        {!collapsed && user && (
+          <div className="w-full bg-gradient-to-r from-[var(--sage-600)] to-[var(--sage-700)] rounded-xl p-4 mb-6 text-white shadow-lg">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                <FaUsers className="text-white text-lg" />
+              </div>
+              <div className="overflow-hidden">
+                <h4 className="font-semibold truncate">{user.role}</h4>
+                <p className="text-sm text-gray-200 truncate">{user.email}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Navigation Links */}
         <ul className="space-y-2">
           {links.map((link) => (
             <li key={link.to}>
@@ -117,7 +117,6 @@ export default function Sidebar() {
                   ].join(" ")
                 }
               >
-                {/* icon */}
                 <span
                   className={`text-xl transition-transform duration-300 group-hover:scale-110 ${
                     collapsed ? "mx-auto" : ""
@@ -126,21 +125,18 @@ export default function Sidebar() {
                   {link.icon}
                 </span>
 
-                {/* Label */}
                 {!collapsed && (
                   <span className="font-medium tracking-wide whitespace-nowrap">
                     {link.label}
                   </span>
                 )}
 
-                {/* border animation */}
-                <span
-                  className={`absolute left-0 top-0 h-full w-1 rounded-r-md transition-all duration-300 group-hover:bg-[var(--color-primary)]`}
-                ></span>
+                <span className="absolute left-0 top-0 h-full w-1 rounded-r-md transition-all duration-300 group-hover:bg-[var(--color-primary)]"></span>
               </NavLink>
             </li>
           ))}
         </ul>
+
         <button
           onClick={handleLogout}
           className={`flex items-center gap-3 px-4 py-2 rounded-lg mt-6 w-full text-left bg-gradient-to-r from-[var(--sage-700)] to-[var(--sage-600)]

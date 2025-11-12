@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import AuthSlider from "../../Shared/AuthSlider/AuthSlider";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Swal from "sweetalert2";
@@ -12,6 +12,7 @@ import { useAppDispatch } from "../../Hooks/reduxHooks";
 import { insertUserToken } from "../../Store/Slices/AuthSlice";
 import { jwtDecode } from "jwt-decode";
 import SEO from "../../Components/SEO/SEO";
+import type { DecodedToken } from "../../Types/DecodedToken";
 
 const MySwal = withReactContent(Swal);
 
@@ -29,7 +30,7 @@ export default function Register() {
     email: z.string().nonempty("Email is Required").email("Invalid email"),
     password: z
       .string()
-      .nonempty("password is Required")
+      .nonempty("Password is Required")
       .regex(
         passPattern,
         "Password must start with uppercase and be 6-20 chars"
@@ -54,20 +55,20 @@ export default function Register() {
           },
         }
       );
-
       return res.data;
     },
-    onSuccess: (data) => {
-      if (data?.message === "logIn Successfully") {
+
+    onSuccess: (data: { message: string; accessToken: string }) => {
+      if (data.message === "logIn Successfully") {
         dispatch(insertUserToken(data.accessToken));
 
         let username = "User";
         let role = "user";
+
         try {
-          const decoded: any = jwtDecode(data.accessToken);
+          const decoded = jwtDecode<DecodedToken>(data.accessToken);
           username = decoded?.name || "User";
           role = decoded?.role || "user";
-          console.log("Decoded token:", decoded);
         } catch (error) {
           console.error("Error decoding token:", error);
         }
@@ -102,8 +103,7 @@ export default function Register() {
       }
     },
 
-    onError: (error: any) => {
-      console.error(error);
+    onError: (error: AxiosError<{ message?: string }>) => {
       setIsLoading(false);
       const errorMsg =
         error.response?.data?.message || "Network or server error.";
@@ -117,7 +117,7 @@ export default function Register() {
     },
   });
 
-  const onSubmit: SubmitHandler<RegisterFormData> = async (formData) => {
+  const onSubmit: SubmitHandler<RegisterFormData> = (formData) => {
     setIsLoading(true);
     setAPIError("");
     setSuccess("");
@@ -143,9 +143,7 @@ export default function Register() {
             </button>
 
             <div className="w-full px-5 md:w-[75%] max-w-md">
-              <h1 className="text-[1.75rem] sm:text-[2rem] font-['Playfair_Display'] text-[var(--wood-400)] animate-pulse  text-center mb-6">
-                {" "}
-                {/*text-[#090f41] */}
+              <h1 className="text-[1.75rem] sm:text-[2rem] font-['Playfair_Display'] text-[var(--wood-400)] animate-pulse text-center mb-6">
                 Log in
               </h1>
 
@@ -170,7 +168,7 @@ export default function Register() {
                     E-mail
                   </label>
                   <div className="relative">
-                    <i className="fa-solid fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-[#8B5E35] animate-[var(--animate-bounce-slow)]"></i>
+                    <i className="fa-solid fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-[#8B5E35]"></i>
                     <input
                       type="email"
                       placeholder="E-mail"
@@ -190,11 +188,11 @@ export default function Register() {
                     Password
                   </label>
                   <div className="relative">
-                    <i className="fa-solid fa-lock absolute left-3 top-1/2 -translate-y-1/2 text-[#8B5E35] animate-[var(--animate-bounce-slow)]"></i>
+                    <i className="fa-solid fa-lock absolute left-3 top-1/2 -translate-y-1/2 text-[#8B5E35]"></i>
                     <input
                       type={isPasswordVisible ? "text" : "password"}
                       placeholder="xxxxxxxxxxxx"
-                      className="w-full pl-10 py-3 border border-gray-300 rounded focus:border-[var(--wood-400)] focus:ring-2 focus:ring-[var(--wood-200)]  ocus:outline-none transition-all duration-200"
+                      className="w-full pl-10 py-3 border border-gray-300 rounded focus:border-[var(--wood-400)] focus:ring-2 focus:ring-[var(--wood-200)] transition-all duration-200"
                       {...register("password")}
                     />
                     <i
@@ -216,7 +214,7 @@ export default function Register() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="hover:bg-[#C49A53]/90  bg-[var(--wood-400)] font-['Playfair_Display'] active:scale-95 transition-transform duration-200 text-[#fdfaf5ff] font-semibold py-3 rounded-lg shadow-lg hover:shadow-amber-200/30 disabled:opacity-60 disabled:cursor-not-allowed w-full"
+                  className="hover:bg-[#C49A53]/90 bg-[var(--wood-400)] font-['Playfair_Display'] active:scale-95 transition-transform duration-200 text-[#fdfaf5ff] font-semibold py-3 rounded-lg shadow-lg hover:shadow-amber-200/30 disabled:opacity-60 disabled:cursor-not-allowed w-full"
                 >
                   {isLoading ? (
                     <i className="fa-solid fa-spinner fa-spin"></i>
@@ -226,13 +224,13 @@ export default function Register() {
                 </button>
               </form>
 
-              <p className="mt-5 text-center text-gray-500 ">
+              <p className="mt-5 text-center text-gray-500">
                 Create new account?{" "}
                 <Link to="/register" className="underline text-[#8B5E35]">
                   Sign up
                 </Link>
               </p>
-              <p className=" text-center text-gray-500">
+              <p className="text-center text-gray-500">
                 Forget Password{" "}
                 <Link to="/forgetPass" className="underline text-[#8B5E35]">
                   forget password
