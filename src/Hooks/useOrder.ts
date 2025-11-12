@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAppSelector } from "./reduxHooks";
-import type { CreateOrderInput, Order } from "../Types/Order";
+import type { CreateOrderInput, Order } from "../Types";
 
 export function useCreateOrder() {
   const { token } = useAppSelector((s) => s.auth);

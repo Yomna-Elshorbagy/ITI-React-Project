@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import type { Order } from "../Types/Order";
+import type { Order } from "../Types";
 
 export const useOrderTracking = (orderId: string) => {
   const token = localStorage.getItem("accessToken");

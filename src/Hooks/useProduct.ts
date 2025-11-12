@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import type { Product } from "../Types/Prooduct";
+import type { Product } from "../Types";
 
 type UseProductResult = {
   data: Product | undefined;
@@ -9,7 +9,12 @@ type UseProductResult = {
 };
 
 export function useProduct(productId: string | undefined): UseProductResult {
-  const query = useQuery<Product, unknown, Product, [string, string | undefined]>({
+  const query = useQuery<
+    Product,
+    unknown,
+    Product,
+    [string, string | undefined]
+  >({
     queryKey: ["productDetails", productId],
     queryFn: async () => {
       try {
@@ -32,5 +37,3 @@ export function useProduct(productId: string | undefined): UseProductResult {
     error: query.error,
   };
 }
-
-
