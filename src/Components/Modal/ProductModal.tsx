@@ -91,8 +91,16 @@ export default function ProductModal({
             leaveTo="scale-95 opacity-0"
           >
             <DialogPanel className="relative w-full max-w-2xl bg-[var(--color-surface)] rounded-2xl shadow-xl border border-[var(--color-border)]">
-              <div className="flex flex-col md:flex-row">
-                {/* صورة المنتج */}
+              <div className="flex flex-col md:flex-row relative">
+                {/* Close Button - Moved to top-right corner */}
+                <button
+                  onClick={onClose}
+                  className="absolute -top-10 right-0 text-2xl text-white hover:text-gray-300 z-10 md:top-2 md:right-2 md:text-gray-700 md:hover:text-gray-900 dark:md:text-gray-300 dark:md:hover:text-white"
+                >
+                  ×
+                </button>
+                
+                {/* Product Image */}
                 <div className="relative md:w-1/2">
                   <img
                     src={product.imageCover.secure_url}
@@ -108,13 +116,6 @@ export default function ProductModal({
 
                 {/* التفاصيل */}
                 <div className="md:w-1/2 p-6">
-                  <button
-                    onClick={onClose}
-                    className="absolute top-4 right-4 text-[var(--color-text-muted)] hover:text-[var(--color-text)] text-2xl transition-colors"
-                  >
-                    ×
-                  </button>
-
                   <DialogTitle className="text-2xl font-bold text-[var(--color-text)] mb-2">
                     {product.title}
                   </DialogTitle>
@@ -145,11 +146,11 @@ export default function ProductModal({
                     </div>
                   </div>
 
-                  <div className="space-y-3">
+                  <div className="flex flex-col sm:flex-row gap-3 mt-4">
                     <button
                       onClick={handleAddToWishlist}
                       disabled={isAddingToWishlist}
-                      className={`w-full py-3 rounded-lg font-medium transition-colors disabled:opacity-50 border border-[var(--color-border)] ${
+                      className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors ${
                         inWishlist
                           ? "bg-red-50 text-red-600 hover:bg-red-100"
                           : "bg-[var(--color-accent)] hover:bg-[var(--color-secondary)] text-[var(--color-text)]"
@@ -171,7 +172,7 @@ export default function ProductModal({
                       onClick={handleAddToCart}
                       disabled={isAddingToCart || isOutOfStock}
                       title={isOutOfStock ? "Out of Stock" : "Add to Cart"}
-                      className={`w-full text-white py-3 rounded-lg font-medium transition-colors disabled:opacity-50 ${
+                      className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 text-white rounded-lg font-medium transition-colors disabled:opacity-50 ${
                         isOutOfStock
                           ? "bg-gray-400 cursor-not-allowed"
                           : "bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)]"
