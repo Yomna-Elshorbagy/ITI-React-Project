@@ -17,7 +17,7 @@ const InstagramGallery: React.FC = () => {
     img2,
     img3,
     img4,
-    centerImg, 
+    centerImg,
     img5,
     img6,
     img7,
@@ -42,7 +42,7 @@ const InstagramGallery: React.FC = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <h2 className="text-[var(--color-header)] uppercase tracking-widest font-semibold text-lg md:text-2xl font-['Playfair_Display'] font-medium mb-8">
+          <h2 className="text-[var(--color-header)] uppercase tracking-widest text-lg md:text-2xl font-['Playfair_Display'] font-medium mb-8">
             Follow Us On Instagram
           </h2>
         </a>
@@ -63,7 +63,11 @@ const InstagramGallery: React.FC = () => {
                   loading="lazy"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1.5, delay: i * 0.4, ease: "easeOut" }}
+                  transition={{
+                    duration: 1.5,
+                    delay: i * 0.4,
+                    ease: "easeOut",
+                  }}
                   viewport={{ once: true }}
                 />
               ))}
@@ -84,7 +88,10 @@ const InstagramGallery: React.FC = () => {
 
         <div className="flex flex-col gap-4">
           {rightChunks.map((row, rowIndex) => (
-            <div key={rowIndex} className="flex gap-4 items-center justify-start">
+            <div
+              key={rowIndex}
+              className="flex gap-4 items-center justify-start"
+            >
               {row.map((img, i) => (
                 <motion.img
                   key={i}

@@ -1,4 +1,6 @@
-export type CartProduct = {
+import type { Image } from './Common';
+
+export interface CartProduct {
   _id: string;
   productId: null | {
     _id: string;
@@ -6,9 +8,12 @@ export type CartProduct = {
     price: number;
     stock?: number;
     finalPrice?: number;
-    imageCover?: { secure_url: string };
+    imageCover?: Image;
   };
   price: number;
   quantity: number;
-  category: null | { name: string };
-};
+  category: null | { 
+    name: string;
+    _id?: string;
+  };
+}
