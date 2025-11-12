@@ -1,7 +1,16 @@
-import { Dialog, Transition } from "@headlessui/react";
+import {
+  Dialog,
+  DialogBackdrop,
+  DialogPanel,
+  DialogTitle,
+  Transition,
+} from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../Hooks/reduxHooks";
-import { addToWishlist, removeFromWishlist } from "../../Store/Slices/WishlistSlice";
+import {
+  addToWishlist,
+  removeFromWishlist,
+} from "../../Store/Slices/WishlistSlice";
 import { addProductToCart } from "../../Store/Slices/CartSlice";
 import { toast } from "react-hot-toast";
 import type { RelatedProduct } from "../../Types/RelatedProduct";
@@ -36,7 +45,7 @@ export default function ProductModal({
         await dispatch(addToWishlist(product._id)).unwrap();
         toast.success("Added to wishlist ❤️");
       }
-    } catch (error) {
+    } catch {
       toast.error("Failed to update wishlist");
     } finally {
       setIsAddingToWishlist(false);
@@ -54,7 +63,7 @@ export default function ProductModal({
         addProductToCart({ productId: product._id, quantity: 1 })
       ).unwrap();
       toast.success("Added to cart 🛒");
-    } catch (error) {
+    } catch {
       toast.error("Failed to add to cart");
     } finally {
       setIsAddingToCart(false);
@@ -62,23 +71,18 @@ export default function ProductModal({
   };
 
   return (
-    <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={onClose}>
-        <Transition.Child
-          as={Fragment}
-          enter="ease-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
-        </Transition.Child>
+    <Transition show={isOpen} as={Fragment}>
+      <Dialog className="relative z-50" onClose={onClose}>
+        {/* الخلفية (Backdrop) */}
+        <DialogBackdrop
+          transition
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300"
+        />
 
+        {/* المحتوى */}
         <div className="fixed inset-0 flex items-center justify-center p-4">
-          <Transition.Child
-            as={Fragment}
+          <Transition
+            show={isOpen}
             enter="ease-out duration-300"
             enterFrom="scale-95 opacity-0"
             enterTo="scale-100 opacity-100"
@@ -86,10 +90,10 @@ export default function ProductModal({
             leaveFrom="scale-100 opacity-100"
             leaveTo="scale-95 opacity-0"
           >
-            <Dialog.Panel className="relative w-full max-w-2xl bg-[var(--color-surface)] dark:bg-[var(--color-surface)] rounded-2xl shadow-xl border border-[var(--color-border)]">
+            <DialogPanel className="relative w-full max-w-2xl bg-[var(--color-surface)] rounded-2xl shadow-xl border border-[var(--color-border)]">
               <div className="flex flex-col md:flex-row">
-                {/* Image Section */}
-                <div className="md:w-1/2">
+                {/* صورة المنتج */}
+                <div className="relative md:w-1/2">
                   <img
                     src={product.imageCover.secure_url}
                     alt={product.title}
@@ -102,7 +106,7 @@ export default function ProductModal({
                   )}
                 </div>
 
-                {/* Content Section */}
+                {/* التفاصيل */}
                 <div className="md:w-1/2 p-6">
                   <button
                     onClick={onClose}
@@ -111,9 +115,9 @@ export default function ProductModal({
                     ×
                   </button>
 
-                  <Dialog.Title className="text-2xl font-bold text-[var(--color-text)] mb-2">
+                  <DialogTitle className="text-2xl font-bold text-[var(--color-text)] mb-2">
                     {product.title}
-                  </Dialog.Title>
+                  </DialogTitle>
 
                   <div className="mb-4">
                     <div className="flex items-center gap-2 mb-2">
@@ -154,7 +158,11 @@ export default function ProductModal({
                       {isAddingToWishlist ? (
                         <i className="fa-solid fa-spinner fa-spin mr-2"></i>
                       ) : (
-                        <i className={`fa-solid fa-heart mr-2 ${inWishlist ? "text-red-500" : ""}`}></i>
+                        <i
+                          className={`fa-solid fa-heart mr-2 ${
+                            inWishlist ? "text-red-500" : ""
+                          }`}
+                        ></i>
                       )}
                       {inWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
                     </button>
@@ -179,8 +187,8 @@ export default function ProductModal({
                   </div>
                 </div>
               </div>
-            </Dialog.Panel>
-          </Transition.Child>
+            </DialogPanel>
+          </Transition>
         </div>
       </Dialog>
     </Transition>
