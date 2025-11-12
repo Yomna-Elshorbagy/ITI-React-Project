@@ -1,35 +1,11 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { FaFeatherAlt, FaGem, FaHeart, FaInfinity } from "react-icons/fa";
+import MilestoneCard from "./MilestoneCard";
+import { useMilestones } from "./useMilestones";
 
-const milestones = [
-  {
-    year: "2019",
-    icon: <FaFeatherAlt />,
-    title: "The Beginning",
-    desc: "KAYAN was born from a dream — to craft pieces that whisper timeless elegance and tell stories of individuality.",
-  },
-  {
-    year: "2021",
-    icon: <FaGem />,
-    title: "The Golden Era",
-    desc: "Our artisans mastered the fusion of classic craftsmanship with modern precision — creating our signature brilliance.",
-  },
-  {
-    year: "2023",
-    icon: <FaHeart />,
-    title: "Hearts Connected",
-    desc: "Every collection became a bond between the maker and the wearer — jewelry designed to hold emotion, not just shine.",
-  },
-  {
-    year: "2025",
-    icon: <FaInfinity />,
-    title: "Beyond Time",
-    desc: "KAYAN continues to redefine modern luxury — merging innovation, sustainability, and artistry for the generations ahead.",
-  },
-];
+const AboutEssence: React.FC = () => {
+  const { milestones } = useMilestones();
 
-const EssenceOfKayan: React.FC = () => {
   return (
     <section
       className="
@@ -74,41 +50,8 @@ const EssenceOfKayan: React.FC = () => {
         </motion.p>
 
         <div className="relative border-l-4 border-[#d4a762] dark:border-[#b38745] ml-4 md:ml-0 md:border-none">
-          {milestones.map((step, index) => (
-            <motion.div
-              key={index}
-              className="relative flex md:items-center md:justify-between flex-col md:flex-row mb-16"
-              initial={{ opacity: 0, y: 80 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: index * 0.2 }}
-            >
-              <div className="flex items-center md:justify-center gap-3 md:gap-4 md:w-1/3">
-                <div
-                  className="
-                    text-[#d4a762] dark:text-[#cfa14b]
-                    text-3xl md:text-4xl bg-white/40 dark:bg-[#1e1e20]/60
-                    p-3 rounded-full shadow-inner backdrop-blur-sm
-                  "
-                >
-                  {step.icon}
-                </div>
-                <motion.h3
-                  className="font-['Cinzel'] text-xl md:text-2xl text-[#14213d] dark:text-white"
-                  whileHover={{ color: "#d4a762" }}
-                >
-                  {step.year}
-                </motion.h3>
-              </div>
-
-              <div className="md:w-2/3 mt-6 md:mt-0">
-                <h4 className="font-['Cinzel'] text-lg md:text-xl text-[#14213d] dark:text-[#f0e8da] mb-2">
-                  {step.title}
-                </h4>
-                <p className="text-gray-700 dark:text-gray-300 font-['Playfair_Display'] leading-relaxed">
-                  {step.desc}
-                </p>
-              </div>
-            </motion.div>
+          {milestones.map((milestone, index) => (
+            <MilestoneCard key={index} milestone={milestone} index={index} />
           ))}
         </div>
       </div>
@@ -116,4 +59,4 @@ const EssenceOfKayan: React.FC = () => {
   );
 };
 
-export default EssenceOfKayan;
+export default AboutEssence;
