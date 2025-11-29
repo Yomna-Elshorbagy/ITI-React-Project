@@ -70,10 +70,7 @@ export default function Cart() {
     );
   }
 
-  // const handleUpdateQuantity = (id: any, quantity: number) => {
-  //   if (quantity > 0) dispatch(updateCartQuantity({ id, newCount: quantity }));
-  // };
-
+  
   const totalPages = Math.ceil(products.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -82,7 +79,7 @@ export default function Cart() {
   const handlePageChange = (page: number) => {
     if (page < 1 || page > totalPages) return;
     setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: "smooth" }); // optional UX improvement
+    window.scrollTo({ top: 0, behavior: "smooth" }); 
   };
   const handleUpdateQuantity = (id: any, newQuantity: number) => {
     const product = products.find((p) => p.productId?._id === id);

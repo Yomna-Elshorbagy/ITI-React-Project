@@ -9,6 +9,7 @@ import {
   FaPhone,
   FaLock,
 } from "react-icons/fa";
+import { baseURL } from "../../../Constants/BaseUrls";
 
 interface UserEditModalProps {
   user: any | null;
@@ -31,7 +32,7 @@ const UserEditModal: React.FC<UserEditModalProps> = ({
     newPassword: "",
     confirmPassword: "",
   });
-  const [ setOriginalData] = useState<any>(null);
+  const [_originalData, setOriginalData] = useState<any>(null);
 
   useEffect(() => {
     if (user) {
@@ -61,7 +62,7 @@ const UserEditModal: React.FC<UserEditModalProps> = ({
 
     try {
       const { data } = await axios.put(
-        `https://iti-react-backend.vercel.app/user/byadmin/${user._id}`,
+        `${baseURL}/user/byadmin/${user._id}`,
         formData,
         {
           headers: {

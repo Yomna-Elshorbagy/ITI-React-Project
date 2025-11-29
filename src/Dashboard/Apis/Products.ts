@@ -4,8 +4,9 @@ import type {
   IProductStats,
   IRelatedProduct,
 } from "../DashBordInterfaces/ProductsInterfaces";
+import { baseURL } from "../../Constants/BaseUrls";
 
-const BASE_URL = "https://iti-react-backend.vercel.app/products";
+const BASE_URL = `${baseURL}/products`;
 const token = localStorage.getItem("accessToken");
 
 const headers = {

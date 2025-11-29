@@ -3,6 +3,7 @@ import { FaBell, FaClock, FaDesktop, FaTruck } from "react-icons/fa";
 import axios from "axios";
 import type { LoginActivity } from "../../Types/LoginActivity";
 import type { IOrder } from "../../Dashboard/DashBordInterfaces/OrderInterfaces";
+import { baseURL } from "../../Constants/BaseUrls";
 
 export default function NotificationBell() {
   const [activity, setActivity] = useState<LoginActivity[]>([]);
@@ -15,7 +16,7 @@ export default function NotificationBell() {
 
   useEffect(() => {
     axios
-      .get("https://iti-react-backend.vercel.app/auth/activity?page=1&size=5", {
+      .get(`${baseURL}/auth/activity?page=1&size=5`, {
         headers: { authentication: `bearer ${token}` },
       })
       .then((res) => {
@@ -34,7 +35,7 @@ export default function NotificationBell() {
     const fetchOrders = async () => {
       try {
         const { data } = await axios.get(
-          "https://iti-react-backend.vercel.app/order/",
+          `${baseURL}/order/`,
           { headers: { authentication: `bearer ${token}` } }
         );
 

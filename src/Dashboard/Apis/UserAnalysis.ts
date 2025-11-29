@@ -4,12 +4,13 @@ import {
   type DeletedUsersAnalysis,
   type Demographics,
 } from "../DashBordInterfaces/userAnalysis";
+import { baseURL } from "../../Constants/BaseUrls";
 
 const token = localStorage.getItem("accessToken");
 
 export const getUsersOverview = async (): Promise<UsersOverview> => {
   const { data } = await axios.get(
-    "https://iti-react-backend.vercel.app/user/analysis/overview",
+    `${baseURL}/user/analysis/overview`,
     {
       headers: {
         authentication: `bearer ${token}`,
@@ -23,7 +24,7 @@ export const getUsersOverview = async (): Promise<UsersOverview> => {
 export const getDeletedUsersAnalysis =
   async (): Promise<DeletedUsersAnalysis> => {
     const { data } = await axios.get(
-      "https://iti-react-backend.vercel.app/user/analysis/deleted",
+      `${baseURL}/user/analysis/deleted`,
       {
         headers: {
           authentication: `bearer ${token}`,
@@ -38,7 +39,7 @@ export const getDeletedUsersAnalysis =
 
 export const getDemographics = async (): Promise<Demographics> => {
   const { data } = await axios.get(
-    "https://iti-react-backend.vercel.app/user/analysis/demographics",
+    `${baseURL}/user/analysis/demographics`,
     {
       headers: {
         authentication: `bearer ${token}`,
@@ -49,7 +50,7 @@ export const getDemographics = async (): Promise<Demographics> => {
   return data;
 };
 
-const BASE_URL = "https://iti-react-backend.vercel.app/user";
+const BASE_URL = `${baseURL}/user`;
 
 export const hardDeleteUser = async (id: string, token: string) => {
   const res = await axios.delete(`${BASE_URL}/delete/${id}`, {

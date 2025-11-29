@@ -10,6 +10,7 @@ import AuthSlider from "../../Shared/AuthSlider/AuthSlider";
 import { useAppDispatch } from "../../Hooks/reduxHooks";
 import { insertUserToken } from "../../Store/Slices/AuthSlice";
 import SEO from "../../Components/SEO/SEO";
+import { baseURL } from "../../Constants/BaseUrls";
 
 const MySwal = withReactContent(Swal);
 
@@ -65,7 +66,7 @@ export default function ForgetPassword() {
     setLoading(true);
 
     try {
-      await axios.put("https://iti-react-backend.vercel.app/auth/forgetPass", {
+      await axios.put(`${baseURL}/auth/forgetPass`, {
         email: data.email,
       });
       setOtp("");
@@ -117,7 +118,7 @@ export default function ForgetPassword() {
     setLoading(true);
     try {
       const response = await axios.put(
-        "https://iti-react-backend.vercel.app/auth/changePass",
+        `${baseURL}/auth/changePass`,
         {
           email,
           otp,

@@ -10,6 +10,7 @@ import UserStatusOverview from "../Users/UserTableActive";
 import RevenueTable from "./RevenueData";
 import CategoryDistributionTable from "./CategoryDistributedTable";
 import RevenueByCategoryTable from "./RevenueByCategoryTable";
+import { baseURL } from "../../../Constants/BaseUrls";
 
 export default function Reports() {
   const printRef = useRef<HTMLDivElement>(null);
@@ -59,24 +60,24 @@ export default function Reports() {
         revenueByCategoryRes,
         categoryStatsRes,
       ] = await Promise.all([
-        fetch("https://iti-react-backend.vercel.app/order?page=1&size=100", {
+        fetch(`${baseURL}/order?page=1&size=100`, {
           headers,
         }),
         fetch(
-          "https://iti-react-backend.vercel.app/user/allUsers?page=1&size=100",
+          `${baseURL}/user/allUsers?page=1&size=100`,
           { headers }
         ),
-        fetch("https://iti-react-backend.vercel.app/order?page=1&size=100", {
+        fetch(`${baseURL}/order?page=1&size=100`, {
           headers,
         }),
-        fetch("https://iti-react-backend.vercel.app/order/revenue", {
+        fetch(`${baseURL}/order/revenue`, {
           headers,
         }),
-        fetch("https://iti-react-backend.vercel.app/categories/getRevenues", {
+        fetch(`${baseURL}/categories/getRevenues`, {
           headers,
         }),
         fetch(
-          "https://iti-react-backend.vercel.app/categories/analytics/stats",
+          `${baseURL}/categories/analytics/stats`,
           {
             headers,
           }

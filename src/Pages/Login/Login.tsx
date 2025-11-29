@@ -13,6 +13,7 @@ import { insertUserToken } from "../../Store/Slices/AuthSlice";
 import { jwtDecode } from "jwt-decode";
 import SEO from "../../Components/SEO/SEO";
 import type { DecodedToken } from "../../Types/DecodedToken";
+import { baseURL } from "../../Constants/BaseUrls";
 
 const MySwal = withReactContent(Swal);
 
@@ -46,7 +47,7 @@ export default function Register() {
   const { mutate: login } = useMutation({
     mutationFn: async (data: RegisterFormData) => {
       const res = await axios.post(
-        "https://iti-react-backend.vercel.app/auth/login",
+        `${baseURL}/auth/login`,
         data,
         {
           headers: {

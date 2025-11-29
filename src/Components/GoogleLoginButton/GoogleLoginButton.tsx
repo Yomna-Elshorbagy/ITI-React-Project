@@ -6,6 +6,7 @@ import { useAppDispatch } from "../../Hooks/reduxHooks";
 import { insertUserToken } from "../../Store/Slices/AuthSlice";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { baseURL } from "../../Constants/BaseUrls";
 
 const MySwal = withReactContent(Swal);
 
@@ -14,7 +15,7 @@ export default function GoogleLoginButton() {
   const dispatch = useAppDispatch();
 
   const api = axios.create({
-    baseURL: "https://iti-react-backend.vercel.app/auth",
+    baseURL: `${baseURL}/auth`,
   });
 
   api.interceptors.request.use((config) => {

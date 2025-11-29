@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import type { Product } from "../Types/Prooduct";
+import { baseURL } from "../Constants/BaseUrls";
 
 type UseProductResult = {
   data: Product | undefined;
@@ -14,9 +15,8 @@ export function useProduct(productId: string | undefined): UseProductResult {
     queryFn: async () => {
       try {
         const response = await axios.get(
-          `https://iti-react-backend.vercel.app/products/${productId}`
+          `${baseURL}/products/${productId}`
         );
-        console.log("[API] GET product details", response.data);
         return (response.data as { message: string; data: Product }).data;
       } catch (err) {
         console.error("[API] product details error", err);

@@ -7,6 +7,7 @@ import type {
   AddReviewResponse,
   DeleteReviewResponse,
 } from "../Types/Review";
+import { baseURL } from "../Constants/BaseUrls";
 
 // Hook to get reviews for a product
 export function useReviews(productId: string | undefined) {
@@ -17,17 +18,17 @@ export function useReviews(productId: string | undefined) {
     queryFn: async () => {
       try {
         const response = await axios.get(
-          `https://iti-react-backend.vercel.app/reviews/productReviews/${productId}`,
+          `${baseURL}/reviews/productReviews/${productId}`,
           {
             headers: {
               authentication: `bearer ${token}`,
             },
           }
         );
-        console.log("[API] GET reviews", response.data);
+        console.log("GET reviews", response.data);
         return (response.data as ReviewsResponse).data;
       } catch (err) {
-        console.error("[API] reviews error", err);
+        console.error("reviews error", err);
         throw err;
       }
     },
@@ -48,7 +49,7 @@ export function useAddReview() {
     mutationFn: async ({ productId, comment, rate }) => {
       try {
         const response = await axios.post(
-          `https://iti-react-backend.vercel.app/reviews/addReview`,
+          `${baseURL}/reviews/addReview`,
           {
             comment,
             rate,
@@ -60,15 +61,14 @@ export function useAddReview() {
             },
           }
         );
-        console.log("[API] POST review", response.data);
+        console.log("POST review", response.data);
         return response.data as AddReviewResponse;
       } catch (err) {
-        console.error("[API] add review error", err);
+        console.error(" add review error", err);
         throw err;
       }
     },
     onSuccess: (_, variables) => {
-      // Invalidate and refetch reviews for this product
       queryClient.invalidateQueries({
         queryKey: ["reviews", variables.productId],
       });
@@ -89,7 +89,7 @@ export function useDeleteReview() {
     mutationFn: async ({ reviewId }) => {
       try {
         const response = await axios.delete(
-          `https://iti-react-backend.vercel.app/reviews/${reviewId}`,
+          `${baseURL}/reviews/${reviewId}`,
           {
             headers: {
               authentication: `bearer ${token}`,

@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import SEO from "../../Components/SEO/SEO";
+import { baseURL } from "../../Constants/BaseUrls";
 
 const MySwal = withReactContent(Swal);
 
@@ -67,7 +68,7 @@ export default function Register() {
     setSuccess("");
     try {
       const res = await axios.post(
-        "https://iti-react-backend.vercel.app/auth/signup",
+        `${baseURL}/auth/signup`,
         data
       );
 
@@ -135,7 +136,6 @@ export default function Register() {
         {/* Left Side - Form */}
         <div className="relative w-full md:w-1/2  bg-[#f5f0e9]  max-h-screen overflow-y-auto py-5 flex items-start dark:bg-gray-900 pb-5 dark:text-white">
           {" "}
-          {/*bg-[var(--colo-text)] */}
           <button
             onClick={() => navigate("/")}
             className="absolute top-6 left-6 bg-white shadow-md rounded-full p-3 hover:bg-amber-50 hover:scale-105 transition duration-200"
@@ -150,7 +150,6 @@ export default function Register() {
             <p className="font-['Playfair_Display'] tracking-widest mt-3 text-gray-500 dark:text-gray-400 mb-5 text-center">
               Welcome in KAYAN family!
             </p>{" "}
-            {/*text-gray-600 */}
             <form onSubmit={handleSubmit(onSubmit)} className="text-[#090f41]">
               {/* API Success & Error Alerts */}
               {apiError && (

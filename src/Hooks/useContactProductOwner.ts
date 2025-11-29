@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
+import { baseURL } from "../Constants/BaseUrls";
 
 type ContactResponse = {
   message: string;
@@ -22,7 +23,7 @@ export function useContactProductOwner() {
     mutationFn: async (productId: string) => {
       const token = localStorage.getItem("accessToken");
       const response = await axios.get(
-        `https://iti-react-backend.vercel.app/products/contact/${productId}`,
+        `h${baseURL}/products/contact/${productId}`,
         {
           headers: { authentication: `bearer ${token}` },
         }

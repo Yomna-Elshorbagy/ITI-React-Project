@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import type { RelatedProduct, RelatedProductsResponse } from "../Types/RelatedProduct";
+import { baseURL } from "../Constants/BaseUrls";
 
 type UseRelatedResult = {
   data: RelatedProduct[] | undefined;
@@ -21,12 +22,11 @@ export function useRelatedProducts(
     queryFn: async () => {
       try {
         const response = await axios.get(
-          `https://iti-react-backend.vercel.app/products/related/${productId}`
+          `${baseURL}/products/related/${productId}`
         );
-        console.log("[API] GET related products", response.data);
         return (response.data as RelatedProductsResponse).relatedProducts;
       } catch (err) {
-        console.error("[API] related products error", err);
+        console.error("related products error", err);
         // Return empty array instead of throwing error
         return [];
       }

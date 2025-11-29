@@ -2,8 +2,9 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import type { RootState } from "../store";
 import type { WishlistItem, WishlistState } from "../../Types/Wishlist";
+import { baseURL } from "../../Constants/BaseUrls";
 
-const API_BASE = "https://iti-react-backend.vercel.app";
+const API_BASE = `${baseURL}`;
 
 const initialState: WishlistState = {
   items: [],

@@ -14,6 +14,7 @@ import { toast } from "react-hot-toast";
 import ProductModal from "../Modal/ProductModal";
 import styles from "./RelatedProducts.module.css";
 import axios from "axios";
+import { baseURL } from "../../Constants/BaseUrls";
 
 interface RelatedProductsProps {
   relatedProducts: RelatedProduct[];
@@ -44,7 +45,7 @@ export default function RelatedProducts({
 
       try {
         const res = await axios.get(
-          "https://iti-react-backend.vercel.app/get-subscribed-prices",
+          `${baseURL}/get-subscribed-prices`,
           {
             headers: { authentication: `bearer ${token}` },
           }
@@ -71,7 +72,7 @@ export default function RelatedProducts({
     try {
       if (isSubscribed) {
         await axios.delete(
-          `https://iti-react-backend.vercel.app/products/unsubscribe-price/${productId}`,
+          `${baseURL}/products/unsubscribe-price/${productId}`,
           {
             headers: { authentication: `bearer ${token}` },
           }
@@ -80,7 +81,7 @@ export default function RelatedProducts({
         toast.success("Unsubscribed from price drop alerts");
       } else {
         await axios.post(
-          `https://iti-react-backend.vercel.app/products/subscribe-price/${productId}`,
+          `${baseURL}/products/subscribe-price/${productId}`,
           {},
           {
             headers: { authentication: `bearer ${token}` },

@@ -9,6 +9,7 @@ import {
   FaPhone,
   FaClock,
 } from "react-icons/fa";
+import { baseURL } from "../../Constants/BaseUrls";
 
 export default function UserOrders() {
   const token = localStorage.getItem("accessToken");
@@ -18,7 +19,7 @@ export default function UserOrders() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["userOrders"],
     queryFn: async () => {
-      const res = await axios.get("https://iti-react-backend.vercel.app/order", {
+      const res = await axios.get(`${baseURL}/order`, {
         headers: { authentication: `bearer ${token}` },
       });
       return res.data.data;

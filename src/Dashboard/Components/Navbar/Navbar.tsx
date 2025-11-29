@@ -15,6 +15,7 @@ import { getAllOrders } from "../../Apis/OrderApis";
 import type { IProduct } from "../../DashBordInterfaces/ProductsInterfaces";
 import type { IOrder } from "../../DashBordInterfaces/OrderInterfaces";
 import OrderNotificationBell from "../../Pages/Orders/AdminNotify";
+import { baseURL } from "../../../Constants/BaseUrls";
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ const Navbar: React.FC = () => {
   const handleExport = async () => {
     try {
       const response = await fetch(
-        "https://iti-react-backend.vercel.app/products/export",
+        `${baseURL}/products/export`,
         {
           headers: {
             authentication: `bearer ${localStorage.getItem("accessToken")}`,
@@ -87,7 +88,7 @@ const Navbar: React.FC = () => {
         const json = JSON.parse(event.target?.result as string);
 
         const response = await fetch(
-          "https://iti-react-backend.vercel.app/products/import",
+          `${baseURL}/products/import`,
           {
             method: "POST",
             headers: {

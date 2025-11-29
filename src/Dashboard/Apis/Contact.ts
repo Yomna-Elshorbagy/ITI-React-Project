@@ -1,7 +1,8 @@
 import axios from "axios";
 import type { IContact, IReplyContact } from "../DashBordInterfaces/Contact";
+import { baseURL } from "../../Constants/BaseUrls";
 
-const BASE_URL = "https://iti-react-backend.vercel.app/contact";
+const BASE_URL = `${baseURL}/contact`;
 const token = localStorage.getItem("accessToken");
 
 const headers = {

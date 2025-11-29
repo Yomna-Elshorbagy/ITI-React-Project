@@ -55,9 +55,7 @@ const About: React.FC = () => {
 
             <p className="font-['Playfair_Display']  text-[#14213d]/80  leading-relaxed whitespace-pre-wrap">
               {" "}
-              {/*text-[#0B1D39] font-semibold text-gray-800 font-medium  leading-relaxed font-semibold whitespace-pre-wrap */}
               {displayedText}
-              {/*<span className="animate-pulse text-[#0B1D39]">|</span> */}
             </p>
           </div>
         </div>

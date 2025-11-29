@@ -9,12 +9,13 @@ import "slick-carousel/slick/slick-theme.css";
 import type { AppDispatch } from "../../Store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { addToWishlist, removeFromWishlist } from "../../Store/Slices/WishlistSlice";
+import { baseURL } from "../../Constants/BaseUrls";
 
 
 const fetchLowestPriceProducts = async () => {
   try {
     const res = await axios.get(
-      "https://iti-react-backend.vercel.app/products/getproducts?sort=finalPrice&size=8&page=1"
+      `${baseURL}/products/getproducts?sort=finalPrice&size=8&page=1`
     );
     return res.data?.data || [];
   } catch (error) {
@@ -23,7 +24,7 @@ const fetchLowestPriceProducts = async () => {
   }
 };
 
-// 🧠 Custom Arrow Components
+//  Custom Arrow Components
 const NextArrow = ({ onClick }: any) => (
   <div
     onClick={onClick}

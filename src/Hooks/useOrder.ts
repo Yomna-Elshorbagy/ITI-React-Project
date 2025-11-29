@@ -2,6 +2,7 @@ import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAppSelector } from "./reduxHooks";
 import type { CreateOrderInput, Order } from "../Types/Order";
+import { baseURL } from "../Constants/BaseUrls";
 
 export function useCreateOrder() {
   const { token } = useAppSelector((s) => s.auth);
@@ -14,7 +15,7 @@ export function useCreateOrder() {
   >({
     mutationFn: async (body: CreateOrderInput) => {
       const res = await axios.post(
-        "https://iti-react-backend.vercel.app/order",
+        `${baseURL}/order`,
         body,
         {
           headers: { authentication: `bearer ${token}` },
@@ -36,7 +37,7 @@ export function useUserOrders() {
     queryKey: ["userOrders"],
     queryFn: async () => {
       const res = await axios.get(
-        "https://iti-react-backend.vercel.app/order",
+        `${baseURL}/order`,
         {
           headers: { authentication: `bearer ${token}` },
         }

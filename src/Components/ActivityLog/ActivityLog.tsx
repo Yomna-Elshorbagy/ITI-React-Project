@@ -8,6 +8,7 @@ import {
   FaSignInAlt,
 } from "react-icons/fa";
 import type { LoginActivity } from "../../Types/LoginActivity";
+import { baseURL } from "../../Constants/BaseUrls";
 
 export default function LoginActivityTab() {
   const [activity, setActivity] = useState<LoginActivity[]>([]);
@@ -19,7 +20,7 @@ export default function LoginActivityTab() {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`https://iti-react-backend.vercel.app/auth/activity?page=${page}&size=5`, {
+      .get(`${baseURL}/auth/activity?page=${page}&size=5`, {
         headers: { authentication: `bearer ${token}` },
       })
       .then((res) => {

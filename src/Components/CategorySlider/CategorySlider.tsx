@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import LoaderPage from "../../Shared/LoaderPage/LoaderPage";
 import type { Category } from "../../Types/Category";
 import { useNavigate } from "react-router-dom";
+import { baseURL } from "../../Constants/BaseUrls";
 
 export default function CategorySlider() {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ export default function CategorySlider() {
   };
   const getAllCategories = async (): Promise<Category[]> => {
     const { data } = await axios.get(
-      "https://iti-react-backend.vercel.app/categories"
+      `${baseURL}/categories`
     );
     return data.data;
   };
