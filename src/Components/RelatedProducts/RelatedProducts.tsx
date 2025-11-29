@@ -14,11 +14,29 @@ import { toast } from "react-hot-toast";
 import ProductModal from "../Modal/ProductModal";
 import styles from "./RelatedProducts.module.css";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+import { baseURL } from "../../Constants/BaseUrls";
 
 interface RelatedProductsProps {
   relatedProducts: RelatedProduct[];
   isLoading: boolean;
 }
+
+interface DecodedToken {
+  id: string;
+  role?: string;
+}
+
+const getUserRole = (): string | null => {
+  try {
+    const token = localStorage.getItem("accessToken");
+    if (!token) return null;
+    const decoded = jwtDecode<DecodedToken>(token);
+    return decoded.role || null;
+  } catch {
+    return null;
+  }
+};
 
 export default function RelatedProducts({
   relatedProducts,
@@ -34,6 +52,9 @@ export default function RelatedProducts({
   const [isAddingToWishlist, setIsAddingToWishlist] = useState(false);
   const wishlistItems = useAppSelector((s) => s.wishlist.items);
 
+  const role = getUserRole();
+  const isAdmin = role === "admin";
+
   //////////////////==> start subscribe drop price
   const [subscribedProducts, setSubscribedProducts] = useState<string[]>([]);
   const [loadingSubs, setLoadingSubs] = useState<string | null>(null);
@@ -43,12 +64,9 @@ export default function RelatedProducts({
       if (!token) return;
 
       try {
-        const res = await axios.get(
-          "https://iti-react-backend.vercel.app/get-subscribed-prices",
-          {
-            headers: { authentication: `bearer ${token}` },
-          }
-        );
+        const res = await axios.get(`${baseURL}/get-subscribed-prices`, {
+          headers: { authentication: `bearer ${token}` },
+        });
         if (Array.isArray(res.data.subscribedProductIds)) {
           setSubscribedProducts(res.data.subscribedProductIds);
         }
@@ -71,7 +89,7 @@ export default function RelatedProducts({
     try {
       if (isSubscribed) {
         await axios.delete(
-          `https://iti-react-backend.vercel.app/products/unsubscribe-price/${productId}`,
+          `${baseURL}/products/unsubscribe-price/${productId}`,
           {
             headers: { authentication: `bearer ${token}` },
           }
@@ -80,7 +98,7 @@ export default function RelatedProducts({
         toast.success("Unsubscribed from price drop alerts");
       } else {
         await axios.post(
-          `https://iti-react-backend.vercel.app/products/subscribe-price/${productId}`,
+          `${baseURL}/products/subscribe-price/${productId}`,
           {},
           {
             headers: { authentication: `bearer ${token}` },
@@ -109,6 +127,12 @@ export default function RelatedProducts({
     e: React.MouseEvent
   ) => {
     e.stopPropagation();
+
+    if (isAdmin) {
+      toast.error("Admins cannot use wishlist ❌");
+      return;
+    }
+
     const exists = wishlistItems.some((w) => w._id === productId);
     setIsAddingToWishlist(true);
     try {
@@ -226,13 +250,25 @@ export default function RelatedProducts({
                     )}
                     <div className={styles.quickActions}>
                       <button
-                        className={`${styles.quickActionBtn} cursor-pointer ${
+                        className={`${styles.quickActionBtn} ${
+                          isAdmin
+                            ? "opacity-50 cursor-not-allowed"
+                            : "cursor-pointer"
+                        } ${
                           wishlistItems.some((w) => w._id === product._id)
                             ? "!bg-red-50 !text-red-600"
                             : ""
                         }`}
-                        onClick={(e) => handleAddToWishlist(product._id, e)}
-                        title="Add to Wishlist"
+                        onClick={(e) => {
+                          if (isAdmin) return;
+                          handleAddToWishlist(product._id, e);
+                        }}
+                        disabled={isAdmin}
+                        title={
+                          isAdmin
+                            ? "Admins cannot use wishlist"
+                            : "Add to Wishlist"
+                        }
                       >
                         {isAddingToWishlist ? (
                           <i className="fa-solid fa-spinner fa-spin"></i>
@@ -246,6 +282,7 @@ export default function RelatedProducts({
                           ></i>
                         )}
                       </button>
+
                       <button
                         className={`${styles.quickActionBtn} cursor-pointer`}
                         onClick={(e) => handleQuickView(product, e)}

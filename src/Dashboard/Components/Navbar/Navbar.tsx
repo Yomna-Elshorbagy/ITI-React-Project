@@ -15,6 +15,7 @@ import { getAllOrders } from "../../Apis/OrderApis";
 import type { IProduct } from "../../DashBordInterfaces/ProductsInterfaces";
 import type { IOrder } from "../../DashBordInterfaces/OrderInterfaces";
 import OrderNotificationBell from "../../Pages/Orders/AdminNotify";
+import { baseURL } from "../../../Constants/BaseUrls";
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
@@ -55,14 +56,11 @@ const Navbar: React.FC = () => {
   }, []);
   const handleExport = async () => {
     try {
-      const response = await fetch(
-        "https://iti-react-backend.vercel.app/products/export",
-        {
-          headers: {
-            authentication: `bearer ${localStorage.getItem("accessToken")}`,
-          },
-        }
-      );
+      const response = await fetch(`${baseURL}/products/export`, {
+        headers: {
+          authentication: `bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
       if (!response.ok) throw new Error("Failed to export products");
 
       const blob = await response.blob();
@@ -86,17 +84,14 @@ const Navbar: React.FC = () => {
       try {
         const json = JSON.parse(event.target?.result as string);
 
-        const response = await fetch(
-          "https://iti-react-backend.vercel.app/products/import",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              authentication: `bearer ${localStorage.getItem("accessToken")}`,
-            },
-            body: JSON.stringify(json),
-          }
-        );
+        const response = await fetch(`${baseURL}/products/import`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            authentication: `bearer ${localStorage.getItem("accessToken")}`,
+          },
+          body: JSON.stringify(json),
+        });
 
         const result = await response.json();
         alert(result.message || "Import completed");

@@ -3,6 +3,7 @@ import { FaBell, FaClock, FaDesktop, FaTruck } from "react-icons/fa";
 import axios from "axios";
 import type { LoginActivity } from "../../Types/LoginActivity";
 import type { IOrder } from "../../Dashboard/DashBordInterfaces/OrderInterfaces";
+import { baseURL } from "../../Constants/BaseUrls";
 
 export default function NotificationBell() {
   const [activity, setActivity] = useState<LoginActivity[]>([]);
@@ -15,7 +16,7 @@ export default function NotificationBell() {
 
   useEffect(() => {
     axios
-      .get("https://iti-react-backend.vercel.app/auth/activity?page=1&size=5", {
+      .get(`${baseURL}/auth/activity?page=1&size=5`, {
         headers: { authentication: `bearer ${token}` },
       })
       .then((res) => {
@@ -33,14 +34,15 @@ export default function NotificationBell() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const { data } = await axios.get(
-          "https://iti-react-backend.vercel.app/order/",
-          { headers: { authentication: `bearer ${token}` } }
-        );
+        const { data } = await axios.get(`${baseURL}/order/`, {
+          headers: { authentication: `bearer ${token}` },
+        });
 
         const orders: IOrder[] = data.data || [];
         const stored = localStorage.getItem("ordersStatus");
-        const prevData: Record<string, string> = stored ? JSON.parse(stored) : {};
+        const prevData: Record<string, string> = stored
+          ? JSON.parse(stored)
+          : {};
 
         // ===> detect changed orders
         const changedOrders = orders
@@ -81,8 +83,7 @@ export default function NotificationBell() {
     }
   };
 
-  const hasNotifications =
-    activity.length > 0 || orderUpdates.length > 0;
+  const hasNotifications = activity.length > 0 || orderUpdates.length > 0;
 
   return (
     <div className="relative inline-block text-left">

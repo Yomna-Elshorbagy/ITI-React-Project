@@ -12,6 +12,7 @@ import { useAppDispatch } from "../../Hooks/reduxHooks";
 import { insertUserToken } from "../../Store/Slices/AuthSlice";
 import { jwtDecode } from "jwt-decode";
 import SEO from "../../Components/SEO/SEO";
+import { baseURL } from "../../Constants/BaseUrls";
 
 const MySwal = withReactContent(Swal);
 
@@ -44,16 +45,12 @@ export default function Register() {
 
   const { mutate: login } = useMutation({
     mutationFn: async (data: RegisterFormData) => {
-      const res = await axios.post(
-        "https://iti-react-backend.vercel.app/auth/login",
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "x-client-user-agent": navigator.userAgent,
-          },
-        }
-      );
+      const res = await axios.post(`${baseURL}/auth/login`, data, {
+        headers: {
+          "Content-Type": "application/json",
+          "x-client-user-agent": navigator.userAgent,
+        },
+      });
 
       return res.data;
     },

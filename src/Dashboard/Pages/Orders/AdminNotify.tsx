@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { Bell } from "lucide-react";
+import { baseURL } from "../../../Constants/BaseUrls";
 
 const OrderNotificationBell: React.FC = () => {
   const [orders, setOrders] = useState<any[]>([]);
@@ -17,15 +18,12 @@ const OrderNotificationBell: React.FC = () => {
         setLoading(true);
         setError(null);
         const token = localStorage.getItem("accessToken");
-        if (!token) return; 
+        if (!token) return;
 
-        const res = await axios.get(
-          "https://iti-react-backend.vercel.app/order/allorders",
-          {
-            headers: { authentication: `bearer ${token}` }, 
-            timeout: 10000, 
-          }
-        );
+        const res = await axios.get(`${baseURL}/order/allorders`, {
+          headers: { authentication: `bearer ${token}` },
+          timeout: 10000,
+        });
 
         const data = Array.isArray(res.data?.data) ? res.data.data : [];
 

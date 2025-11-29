@@ -4,6 +4,7 @@ import axios from "axios";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { baseURL } from "../Constants/BaseUrls";
 
 const MySwal = withReactContent(Swal);
 
@@ -27,7 +28,7 @@ export function useUserProfile() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["userProfile"],
     queryFn: async () => {
-      const res = await axios.get("https://iti-react-backend.vercel.app/user/profile", {
+      const res = await axios.get(`${baseURL}/user/profile`, {
         headers: { authentication: `bearer ${token}` },
       });
       return res.data.data;
@@ -77,16 +78,12 @@ export function useUserProfile() {
       });
       if (imageFile) formDataToSend.append("image", imageFile);
 
-      const res = await axios.put(
-        "https://iti-react-backend.vercel.app/user",
-        formDataToSend,
-        {
-          headers: {
-            authentication: `bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const res = await axios.put(`${baseURL}/user`, formDataToSend, {
+        headers: {
+          authentication: `bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
       return res.data;
     },
     onSuccess: () => {

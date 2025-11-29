@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import type { QrResponse } from "../../Types/QrResponse";
 import aboutQrImg from "../../assets/images/aboutqr.png";
+import { baseURL } from "../../Constants/BaseUrls";
 
 export default function AboutQr() {
   const [qrCode, setQrCode] = useState<string | null>(null);
@@ -9,9 +10,7 @@ export default function AboutQr() {
   useEffect(() => {
     const fetchQr = async () => {
       try {
-        const res = await axios.get<QrResponse>(
-          "https://iti-react-backend.vercel.app/qr/generate"
-        );
+        const res = await axios.get<QrResponse>(`${baseURL}/qr/generate`);
         setQrCode(res.data.qrCode);
       } catch (err) {
         console.error("Error fetching QR code:", err);

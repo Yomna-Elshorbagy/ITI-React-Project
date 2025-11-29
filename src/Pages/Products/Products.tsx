@@ -13,12 +13,13 @@ import {
 import { Filter, X } from "lucide-react";
 import SEO from "../../Components/SEO/SEO";
 import type { Product } from "../../Types/Prooduct";
+import { baseURL } from "../../Constants/BaseUrls";
 
 const PAGE_SIZE = 12;
 
 const fetchProducts = async (page: number, size: number) => {
   const res = await axios.get(
-    `https://iti-react-backend.vercel.app/products/getproducts?page=${page}&size=${size}`
+    `${baseURL}/products/getproducts?page=${page}&size=${size}`
   );
   return (res.data?.data || []) as Product[];
 };
@@ -132,7 +133,7 @@ const Products: React.FC = () => {
 
   const dispatch = useDispatch<AppDispatch>();
   const wishlist = useSelector((state: any) => state.wishlist.items);
-  const [showModal, setShowModal] = useState(false);
+  const [_showModal, setShowModal] = useState(false);
 
   const handleAddToCart = (id: string) => console.log("Add to cart:", id);
 

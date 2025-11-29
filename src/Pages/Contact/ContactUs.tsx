@@ -5,6 +5,7 @@ import axios, { AxiosError } from "axios";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import SEO from "../../Components/SEO/SEO";
+import { baseURL } from "../../Constants/BaseUrls";
 
 const MySwal = withReactContent(Swal);
 
@@ -22,10 +23,7 @@ export default function ContactUs() {
 
   const { mutate, isPending } = useMutation<any, AxiosError, ContactFormData>({
     mutationFn: async (data) => {
-      const res = await axios.post(
-        `https://iti-react-backend.vercel.app/contact`,
-        data
-      );
+      const res = await axios.post(`${baseURL}/contact`, data);
       return res.data;
     },
     onSuccess: (data) => {

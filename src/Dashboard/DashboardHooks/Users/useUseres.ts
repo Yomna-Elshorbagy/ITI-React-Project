@@ -2,12 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import axios from "axios";
 import type { IUser } from "../../DashBordInterfaces/userInterfaces";
+import { baseURL } from "../../../Constants/BaseUrls";
 
 const getAllUsers = async (page: number, size: number = 5) => {
   const token = localStorage.getItem("accessToken");
 
   const res = await axios.get(
-    `https://iti-react-backend.vercel.app/user/allUsers?page=${page}&size=${size}`,
+    `${baseURL}/user/allUsers?page=${page}&size=${size}`,
     {
       headers: {
         authentication: `bearer ${token}`,

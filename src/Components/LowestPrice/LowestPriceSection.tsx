@@ -8,13 +8,16 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import type { AppDispatch } from "../../Store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { addToWishlist, removeFromWishlist } from "../../Store/Slices/WishlistSlice";
-
+import {
+  addToWishlist,
+  removeFromWishlist,
+} from "../../Store/Slices/WishlistSlice";
+import { baseURL } from "../../Constants/BaseUrls";
 
 const fetchLowestPriceProducts = async () => {
   try {
     const res = await axios.get(
-      "https://iti-react-backend.vercel.app/products/getproducts?sort=finalPrice&size=8&page=1"
+      `${baseURL}/products/getproducts?sort=finalPrice&size=8&page=1`
     );
     return res.data?.data || [];
   } catch (error) {
@@ -23,7 +26,6 @@ const fetchLowestPriceProducts = async () => {
   }
 };
 
-// 🧠 Custom Arrow Components
 const NextArrow = ({ onClick }: any) => (
   <div
     onClick={onClick}
@@ -43,18 +45,18 @@ const PrevArrow = ({ onClick }: any) => (
 );
 
 export default function LowestPriceSection() {
-  const { data = [], isLoading, isError } = useQuery({
+  const {
+    data = [],
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["lowestPriceProducts"],
     queryFn: fetchLowestPriceProducts,
   });
 
-  //wishlist addded
+  //==> wishlist added
   const dispatch = useDispatch<AppDispatch>();
   const wishlist = useSelector((state: any) => state.wishlist.items);
-  //const [showModal, setShowModal] = useState(false);
-
-  //const handleAddToCart = (id: string) => console.log("Add to cart:", id);
-
   const handleAddToWishlist = async (id: string) => {
     await dispatch(addToWishlist(id));
   };
@@ -62,8 +64,6 @@ export default function LowestPriceSection() {
   const handleRemoveFromWishlist = async (id: string) => {
     await dispatch(removeFromWishlist(id));
   };
-
-
 
   if (isLoading) return <LoaderPage />;
   if (isError)
@@ -103,11 +103,11 @@ export default function LowestPriceSection() {
   return (
     <section className="py-[padding:var(--global-padding)] px-3 relative">
       <div className="text-center mb-8">
-        {/*<h2 className="text-2xl font-bold text-gray-800">
-          Lowest Price Products
-        </h2>*/}
-
-        <p className="font-['Playfair_Display'] text-[var(--color-header)] uppercase tracking-widest font-semibold text-lg md:text-2xl mt-2"> Grab Our best deals!</p>  {/*text-gray-500 */}
+        <p className="font-['Playfair_Display'] text-[var(--color-header)] uppercase tracking-widest font-semibold text-lg md:text-2xl mt-2">
+          {" "}
+          Grab Our best deals!
+        </p>{" "}
+        {/*text-gray-500 */}
       </div>
 
       <div className="relative w-[75%] m-auto">
@@ -121,7 +121,7 @@ export default function LowestPriceSection() {
                 onRemoveFromWishlist={handleRemoveFromWishlist}
                 isInWishlist={wishlist.some(
                   (item: any) => item._id === product._id
-                 )}
+                )}
               />
             </div>
           ))}

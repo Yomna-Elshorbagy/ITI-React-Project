@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import type { IUser } from "../../DashBordInterfaces/userInterfaces";
 import { useUsers } from "../../DashboardHooks/Users/useUseres";
+import { baseURL } from "../../../Constants/BaseUrls";
 
 const UserStatusOverview: React.FC = () => {
   const { loading } = useUsers();
@@ -17,7 +18,7 @@ const UserStatusOverview: React.FC = () => {
 
       do {
         const res = await axios.get(
-          `https://iti-react-backend.vercel.app/user/allUsers?page=${page}&size=10`,
+          `${baseURL}/user/allUsers?page=${page}&size=10`,
           {
             headers: {
               authentication: `bearer ${token}`,

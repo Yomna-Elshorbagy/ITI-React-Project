@@ -1,7 +1,8 @@
 import axios from "axios";
 import type { ICoupon } from "../DashBordInterfaces/CouponInterface";
+import { baseURL } from "../../Constants/BaseUrls";
 
-const BASE_URL = "https://iti-react-backend.vercel.app/coupons";
+const BASE_URL = `${baseURL}/coupons`;
 const token = localStorage.getItem("accessToken");
 
 const headers = {
@@ -38,7 +39,9 @@ export const getCouponById = async (id: string): Promise<ICoupon> => {
 };
 
 export const addCoupon = async (couponData: ICoupon): Promise<ICoupon> => {
-  const { data } = await axios.post(`${BASE_URL}/addCoupon`, couponData, { headers });
+  const { data } = await axios.post(`${BASE_URL}/addCoupon`, couponData, {
+    headers,
+  });
   return data.data;
 };
 
@@ -46,7 +49,9 @@ export const updateCoupon = async (
   id: string,
   couponData: ICoupon
 ): Promise<ICoupon> => {
-  const { data } = await axios.put(`${BASE_URL}/${id}`, couponData, { headers });
+  const { data } = await axios.put(`${BASE_URL}/${id}`, couponData, {
+    headers,
+  });
   return data.data;
 };
 

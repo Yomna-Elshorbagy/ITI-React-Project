@@ -4,8 +4,9 @@ import type {
   IOrder,
   IOrderResponse,
 } from "../DashBordInterfaces/OrderInterfaces";
+import { baseURL } from "../../Constants/BaseUrls";
 
-const BASE_URL = "https://iti-react-backend.vercel.app/order";
+const BASE_URL = `${baseURL}/order`;
 const token = localStorage.getItem("accessToken");
 
 const headers = {
@@ -109,14 +110,11 @@ export const getOrdersDistribution = async () => {
   return data.data;
 };
 export const getUserOrderCounts = async (): Promise<any[]> => {
-  const { data } = await axios.get(
-    "https://iti-react-backend.vercel.app/order/order-count",
-    {
-      headers: {
-        authentication: `bearer ${localStorage.getItem("accessToken")}`,
-      },
-    }
-  );
+  const { data } = await axios.get(`${baseURL}/order/order-count`, {
+    headers: {
+      authentication: `bearer ${localStorage.getItem("accessToken")}`,
+    },
+  });
   return data.data;
 };
 
