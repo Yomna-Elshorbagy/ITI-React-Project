@@ -1,22 +1,15 @@
-export type WishlistItem = {
+import type { BaseState, Image } from './Common';
+
+export interface WishlistItem {
   _id: string;
   title?: string;
   price?: number;
-  imageCover?: { secure_url: string };
-  [key: string]: unknown;
+  imageCover?: Image;
   stock?: number;
-};
-
-export interface WishlistState {
-  items: WishlistItem[];
-  loading: boolean;
-  error: string | null;
-  fetched: boolean;
-  justFetched: boolean;
+  [key: string]: unknown;
 }
 
-export interface Wishlist {
-  items: WishlistItem[];
-  loading: boolean;
-  error: string | null;
+export interface WishlistState extends BaseState<WishlistItem> {
+  fetched: boolean;
+  justFetched: boolean;
 }

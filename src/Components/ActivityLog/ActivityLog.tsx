@@ -23,6 +23,12 @@ export default function LoginActivityTab() {
       .get(`${baseURL}/auth/activity?page=${page}&size=5`, {
         headers: { authentication: `bearer ${token}` },
       })
+      .get(
+        `https://iti-react-backend.vercel.app/auth/activity?page=${page}&size=5`,
+        {
+          headers: { authentication: `bearer ${token}` },
+        }
+      )
       .then((res) => {
         setActivity(res.data.data);
         setTotalPages(res.data.meta?.totalPages || 1);

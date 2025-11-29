@@ -1,4 +1,5 @@
 import type { WishlistItem } from "./Wishlist";
+import type { BaseState } from "./Common";
 
 export interface WishlistModalProps {
   open: boolean;
@@ -6,13 +7,4 @@ export interface WishlistModalProps {
   onAddToCart?: (id: string) => void;
 }
 
-export interface PaginationState {
-  currentPage: number;
-  itemsPerPage: number;
-}
-
-export interface WishlistStateFromStore {
-  items: WishlistItem[];
-  loading: boolean;
-  error: string | null;
-}
+export interface WishlistStateFromStore extends BaseState<WishlistItem> {}
