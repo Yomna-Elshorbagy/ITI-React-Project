@@ -1,73 +1,161 @@
-# React + TypeScript + Vite
+# Kayan Jewelry – Frontend (Vite + React + TypeScript)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern **E-commerce frontend application** for **Kayan Jewelry**, built using **Vite**, **React 19**, **TypeScript**, **Redux Toolkit**, **React Query**, and **Tailwind CSS**. The project follows a scalable folder structure suitable for large production-ready applications, including a full **Admin Dashboard** and **Customer-facing UI**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Tech Stack
 
-## React Compiler
+- **Vite** – Fast build tool
+- **React 19** + **TypeScript**
+- **Redux Toolkit** – Global state management
+- **React Query (TanStack)** – Server state & caching
+- **React Router DOM v7** – Routing
+- **Tailwind CSS** + **Flowbite** – Styling
+- **Axios** – API communication
+- **Zod** – Schema validation
+- **Framer Motion** – Animations
+- **Recharts** – Charts & analytics
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 📁 Project Structure
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```text
+src/
+│
+├── assets/              # Images, icons, fonts
+├── Apis/                # API services
+│
+├── Components/          # Shared reusable UI components
+│
+├── Constants/           # App-wide constants (roles, enums, configs)
+│
+├── Dashboard/           # Admin dashboard module
+│   ├── Apis/            # Dashboard API services
+│   ├── Components/      # Dashboard-specific components
+│   │   ├── Charts/
+│   │   ├── filter/
+│   │   ├── Navbar/
+│   │   └── Sidebar/
+│   ├── DashboardHooks/  # Custom hooks per dashboard feature
+│   ├── DashBordInterfaces/
+│   ├── Pages/
+│   └── Dashboard.tsx
+│
+├── Hooks/               # Global reusable hooks
+│
+├── Pages/               # Client-side pages (Home, Shop, Cart, etc.)
+│
+├── Shared/              # Shared layout, guards, helpers
+│
+├── Store/               # Redux store configuration
+│   ├── Slices/
+│   │   ├── AuthSlice.ts
+│   │   ├── CartSlice.ts
+│   │   └── WishlistSlice.ts
+│   └── store.ts
+│
+├── Types/               # Global TypeScript types
+│
+├── App.tsx
+├── main.tsx
+└── index.css
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 📦 Package Scripts
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev       # Start development server
+npm run build     # Build for production
+npm run preview   # Preview production build
+npm run lint      # Run ESLint
 ```
+
+---
+
+## 🔌 API Integration
+
+- API communication is handled using **Axios**
+- APIs are grouped by feature (Products, Orders, Coupons, etc.)
+- Dashboard APIs are isolated under:
+
+```text
+src/Dashboard/Apis/
+```
+
+- Server state management is handled with **React Query**
+
+---
+
+## 🔐 Authentication & Authorization
+
+- JWT-based authentication
+- Auth state managed via **Redux Toolkit**
+- Role-based routing (Admin / User)
+- Protected routes handled in `Shared` module
+
+---
+
+## 🎨 Styling
+
+- **Tailwind CSS v4** for utility-first styling
+- **Flowbite & Flowbite-React** for UI components
+- Fully responsive design
+
+---
+
+## 📊 Dashboard Features
+
+- Products management
+- Categories management
+- Orders tracking
+- Coupons system
+- Reviews moderation
+- Users management
+- Analytics & charts
+
+---
+
+## ⚙️ Environment Variables
+
+Create a `.env` file in the root:
+
+```env
+VITE_API_BASE_URL=https://api.example.com
+VITE_GOOGLE_CLIENT_ID=your_google_client_id
+```
+
+---
+
+## 🧪 Linting
+
+- ESLint configured for React + TypeScript
+- Hooks & refresh rules enabled
+
+---
+
+## 📌 Notes
+
+- Built to integrate with **Kayan Jewelry Backend API**
+- Follows clean architecture & feature-based separation
+- Optimized for scalability and maintainability
+
+---
+
+## 👩‍💻 Author
+
+- **Yomna Mohamed**  
+Frontend & Backend Developer
+- **Mostafa Amr**   
+Frontend Developer
+- **Marihan taha**   
+Frontend Developer
+---
+
+## 📄 License
+
+This project is private and intended for internal or commercial use.
+
