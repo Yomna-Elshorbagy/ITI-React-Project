@@ -20,7 +20,7 @@ export default function LoginActivityTab() {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`${baseURL}/auth/activity?page=${page}&size=5`, {
+      .get(`${baseURL}/auth/activity?page=${page}&size=8`, {
         headers: { authentication: `bearer ${token}` },
       })
       .then((res) => {

@@ -151,7 +151,7 @@ export default function ContactUs() {
                 value={formData.fullName}
                 onChange={handleChange}
                 placeholder="Enter your name"
-                className="w-full px-4 py-3 rounded-md border border-gray-300 border-gray-400 bg-white dark:bg-[#F4EDE1] text-gray-800 dark:text-white focus:ring-2 focus:ring-[var(--color-primary)] outline-none transition"
+                className="w-full px-4 py-3 rounded-md border border-gray-300 border-gray-400 bg-white dark:bg-[#F4EDE1] text-gray-800 dark:text-white focus:ring-2 focus:ring-[#cfa257] outline-none transition"
               />
             </div>
 
@@ -165,7 +165,7 @@ export default function ContactUs() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Enter your email"
-                className="w-full px-4 py-3 rounded-md border border-gray-300 border-gray-400 bg-white dark:bg-[#F4EDE1]  text-gray-800 dark:text-white focus:ring-2 focus:ring-[var(--color-primary)] outline-none transition"
+                className="w-full px-4 py-3 rounded-md border border-gray-300 border-gray-400 bg-white dark:bg-[#F4EDE1]  text-gray-800 dark:text-white focus:ring-2 focus:ring-[#cfa257] outline-none transition"
               />
             </div>
 
@@ -179,7 +179,7 @@ export default function ContactUs() {
                 onChange={handleChange}
                 placeholder="Type your message..."
                 rows={5}
-                className="w-full px-4 py-3 rounded-md border border-gray-300 border-gray-400  bg-white dark:bg-[#F4EDE1]  text-gray-800 dark:text-white focus:ring-2 focus:ring-[var(--color-primary)] outline-none transition"
+                className="w-full px-4 py-3 rounded-md border border-gray-300 border-gray-400  bg-white dark:bg-[#F4EDE1]  text-gray-800 dark:text-white focus:ring-2 focus:ring-[#cfa257] outline-none transition"
               ></textarea>
             </div>
 

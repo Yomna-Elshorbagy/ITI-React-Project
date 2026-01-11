@@ -96,7 +96,6 @@ export function useDeleteReview() {
             },
           }
         );
-        console.log("[API] DELETE review", response.data);
         return response.data;
       } catch (err) {
         console.error("[API] delete review error", err);

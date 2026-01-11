@@ -1,4 +1,6 @@
 import React, { useEffect, useState, type ChangeEvent } from "react";
+import Swal from "sweetalert2";
+
 import {
   Home,
   Moon,
@@ -56,14 +58,11 @@ const Navbar: React.FC = () => {
   }, []);
   const handleExport = async () => {
     try {
-      const response = await fetch(
-        `${baseURL}/products/export`,
-        {
-          headers: {
-            authentication: `bearer ${localStorage.getItem("accessToken")}`,
-          },
-        }
-      );
+      const response = await fetch(`${baseURL}/products/export`, {
+        headers: {
+          authentication: `bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
       if (!response.ok) throw new Error("Failed to export products");
 
       const blob = await response.blob();
@@ -83,28 +82,41 @@ const Navbar: React.FC = () => {
     if (!file) return;
 
     const reader = new FileReader();
+
     reader.onload = async (event) => {
       try {
         const json = JSON.parse(event.target?.result as string);
 
-        const response = await fetch(
-          `${baseURL}/products/import`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              authentication: `bearer ${localStorage.getItem("accessToken")}`,
-            },
-            body: JSON.stringify(json),
-          }
-        );
+        const response = await fetch(`${baseURL}/products/import`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            authentication: `bearer ${localStorage.getItem("accessToken")}`,
+          },
+          body: JSON.stringify(json),
+        });
 
         const result = await response.json();
-        alert(result.message || "Import completed");
+
+        Swal.fire({
+          icon: "success",
+          title: "Import Completed",
+          text: result.message || "Products imported successfully",
+          confirmButtonColor: "#3085d6",
+        });
       } catch (err) {
-        alert("Invalid file format or import failed");
+        Swal.fire({
+          icon: "error",
+          title: "Import Failed",
+          text: "Invalid file format or import failed",
+          confirmButtonColor: "#d33",
+        });
       }
+
+      // 🔥 Fix: allow selecting the same file again
+      e.target.value = "";
     };
+
     reader.readAsText(file);
   };
 

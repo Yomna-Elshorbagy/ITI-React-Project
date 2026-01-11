@@ -14,8 +14,9 @@ import { Filter, X } from "lucide-react";
 import SEO from "../../Components/SEO/SEO";
 import type { Product } from "../../Types/Prooduct";
 import { baseURL } from "../../Constants/BaseUrls";
+import { useCategories } from "../../Dashboard/DashboardHooks/Categories/useCategories";
 
-const PAGE_SIZE = 12;
+const PAGE_SIZE = 20;
 
 const fetchProducts = async (page: number, size: number) => {
   const res = await axios.get(
@@ -39,6 +40,7 @@ const Products: React.FC = () => {
   const [maxPrice, setMaxPrice] = useState<number>(0);
   const [priceRange, setPriceRange] = useState<number>(0);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { categories: apiCategories, loading: catLoading } = useCategories();
 
   React.useEffect(() => {
     const cat = searchParams.get("category");
@@ -65,12 +67,15 @@ const Products: React.FC = () => {
   }, [products]);
 
   const categories = useMemo(() => {
-    const names = products
-      .map((p) => p.category?.name)
-      .filter((n): n is string => !!n)
-      .map((n) => n.charAt(0).toUpperCase() + n.slice(1));
-    return ["All", ...Array.from(new Set(names))];
-  }, [products]);
+    if (catLoading) return ["All"];
+
+    return [
+      "All",
+      ...apiCategories.map(
+        (c) => c.name.charAt(0).toUpperCase() + c.name.slice(1)
+      ),
+    ];
+  }, [apiCategories, catLoading]);
 
   const filtered = useMemo(() => {
     let list = [...products];

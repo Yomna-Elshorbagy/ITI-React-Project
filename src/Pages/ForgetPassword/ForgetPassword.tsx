@@ -338,7 +338,7 @@ export default function ForgetPassword() {
                     <input
                       type={isPasswordVisible ? "text" : "password"}
                       {...registerPassword("rePassword")}
-                      className="w-full border rounded px-3 py-2"
+                      className="w-full border rounded px-3 py-2 focus:border-[var(--wood-400)]  focus:ring-2 focus:ring-[var(--wood-200)] focus:outline-none transition-all duration-200"
                     />
                     {passwordErrors.rePassword && (
                       <p className="text-red-500">
@@ -350,7 +350,7 @@ export default function ForgetPassword() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="bg-[var(--wood-400)] text-white px-4 py-2 rounded cursor-pointer font-['Playfair_Display']"
+                    className="bg-[var(--wood-400)] text-white px-4 py-2 rounded cursor-pointer font-['Playfair_Display']  "
                   >
                     {loading ? "Resetting..." : "Reset Password"}
                   </button>
