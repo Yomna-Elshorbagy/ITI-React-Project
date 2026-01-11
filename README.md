@@ -64,6 +64,16 @@ src/
 ```
 
 ---
+## 🔑 Demo Accounts (Testing)
+
+- These accounts are provided for testing and demo purposes only.
+
+| Role         | Email                                                         | Password  |
+| ------------ | -------------------------------------------------------       | --------- |
+| **Admin**    | [yumnamohamed30@gmail.com](mailto:yumnamohamed30@gmail.com)   | Yomna123 |
+| **user**     | [yomnaelshorbage@gmail.com](mailto:yomnaelshorbage@gmail.com) | Yomna123  |
+
+---
 
 ## 📦 Package Scripts
 
